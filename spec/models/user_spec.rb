@@ -40,5 +40,6 @@ describe User, type: :model do
 
   context 'callbacks' do
     it { expect(user).to callback(:downcase_reqd_attrs).before(:save) }
+    it { expect(user).to callback(:generate_confirmation_instructions).before(:create) }
   end
 end

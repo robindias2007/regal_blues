@@ -21,6 +21,7 @@ class User < ApplicationRecord
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'please provide valid email' }
 
   before_save :downcase_reqd_attrs
+  before_create :generate_confirmation_instructions
 
   private
 
@@ -28,5 +29,10 @@ class User < ApplicationRecord
     self.email = email.strip.downcase
     self.username = username.strip.downcase
     self.mobile_number = mobile_number.strip.downcase
+  end
+
+  def generate_confirmation_instructions
+    self.confirmation_token = SecureRandom.hex(10)
+    self.confirmation_sent_at = Time.now.getlocal
   end
 end
