@@ -23,6 +23,18 @@ class User < ApplicationRecord
   before_save :downcase_reqd_attrs
   before_create :generate_confirmation_instructions
 
+  protected
+
+  def valid_confirmation_token?
+    (confirmation_sent_at + 30.days) > Time.now.getlocal
+  end
+
+  def mark_as_confirmed!
+    self.confirmation_token = nil
+    self.confirmed_at = Time.now.getlocal
+    save
+  end
+
   private
 
   def downcase_reqd_attrs
