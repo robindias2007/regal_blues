@@ -7,7 +7,7 @@ describe User, type: :model do
 
   let(:user) { create :user }
 
-  describe 'ActiveModel validations' do
+  context 'ActiveModel validations' do
     # Presence Validations
     it { expect(user).to validate_presence_of(:full_name) }
     it { expect(user).to validate_presence_of(:email) }
@@ -29,12 +29,16 @@ describe User, type: :model do
     it { expect(user).not_to allow_value('Abc@ Asd').for(:full_name) }
   end
 
-  describe 'ActiveRecord databases' do
+  context 'ActiveRecord databases' do
     it { expect(user).to have_db_column(:email).of_type(:string).with_options(null: false) }
     it { expect(user).to have_db_column(:full_name).of_type(:string).with_options(null: false) }
     it { expect(user).to have_db_column(:username).of_type(:string).with_options(null: false) }
     it { expect(user).to have_db_column(:mobile_number).of_type(:string).with_options(null: false) }
     it { expect(user).to have_db_column(:gender).of_type(:string).with_options(null: false) }
     it { expect(user).to have_db_column(:avatar).of_type(:string) }
+  end
+
+  context 'callbacks' do
+    it { expect(user).to callback(:downcase_reqd_attrs).before(:save) }
   end
 end

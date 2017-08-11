@@ -19,4 +19,14 @@ class User < ApplicationRecord
                         format: { with: /\A[a-zA-Z. ]*\z/, message: 'please use only English alphabets' }
 
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'please provide valid email' }
+
+  before_save :downcase_reqd_attrs
+
+  private
+
+  def downcase_reqd_attrs
+    self.email = email.strip.downcase
+    self.username = username.strip.downcase
+    self.mobile_number = mobile_number.strip.downcase
+  end
 end
