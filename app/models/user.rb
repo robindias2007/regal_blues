@@ -28,8 +28,6 @@ class User < ApplicationRecord
     confirmed_at.present?
   end
 
-  protected
-
   def valid_confirmation_token?
     (confirmation_sent_at + 30.days) > Time.now.getlocal
   end
