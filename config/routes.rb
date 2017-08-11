@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       scope module: :users do
         post 'sign-up', to: 'registrations#create'
         get 'confirm/:token', to: 'registrations#confirm'
+        post 'resend-confirmation-token', to: 'registrations#resend_confirmation'
       end
     end
   end

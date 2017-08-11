@@ -3,27 +3,27 @@
 class V1::Users::RegistrationsController < ApplicationController
   def create
     user = User.new(user_params)
-    if user.save
-      render json: { message: 'User created successfully' }, status: 200
-    else
-      render json: { errors: user.errors.full_messages }, status: 400
-    end
+    formatted_message(user.save, 'User created successfully', user.errors.full_messages)
   end
 
   def confirm
     token = params[:token]
     user = User.find_by(confirmation_token: token)
-    if user && user.valid_confirmation_token?
+    formatted_message(user && user.valid_confirmation_token?, 'User confirmed successfully', 'Invalid Token') do
       user.mark_as_confirmed!
-      render json: { message: 'User confirmed successfully' }, status: 200
-    else
-      render json: { errors: 'Invalid Token' }, status: 404
+    end
+  end
+
+  def resend_confirmation
+    user = User.find_by(email: params[:email])
+    formatted_message(user, 'Confirmation instructions resent successfully', 'User not found or invalid email') do
+      user.send(:send_confirmation_email)
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar)
+    params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar)
   end
 end
