@@ -2,5 +2,10 @@
 
 Rails.application.routes.draw do
   root 'home#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  constraints subdomain: 'api.user' do
+    scope module: :v1, defaults: { format: :json } do
+      scope module: :user do
+      end
+    end
+  end
 end
