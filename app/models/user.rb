@@ -22,6 +22,7 @@ class User < ApplicationRecord
 
   before_save :downcase_reqd_attrs
   before_create :generate_confirmation_instructions
+  after_create :send_confirmation_email
 
   def confirmed?
     confirmed_at.present?
@@ -50,5 +51,9 @@ class User < ApplicationRecord
   def generate_confirmation_instructions
     self.confirmation_token = SecureRandom.hex(10)
     self.confirmation_sent_at = Time.now.getlocal
+  end
+
+  def send_confirmation_email
+    RegistrationsMailer.confirmation(self).deliver
   end
 end

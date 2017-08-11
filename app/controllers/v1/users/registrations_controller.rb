@@ -11,7 +11,7 @@ class V1::Users::RegistrationsController < ApplicationController
   end
 
   def confirm
-    token = request.headers['Confirmation-Token']
+    token = params[:token]
     user = User.find_by(confirmation_token: token)
     if user && user.valid_confirmation_token?
       user.mark_as_confirmed!

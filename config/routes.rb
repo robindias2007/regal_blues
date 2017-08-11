@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: RouteConstraints.new(version: 1, default: true), defaults: { format: :json } do
       scope module: :users do
         post 'sign-up', to: 'registrations#create'
-        get 'users/confirm', to: 'registrations#confirm'
+        get 'users/confirm/:token', to: 'registrations#confirm'
       end
     end
   end
