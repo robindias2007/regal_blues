@@ -23,6 +23,10 @@ class User < ApplicationRecord
   before_save :downcase_reqd_attrs
   before_create :generate_confirmation_instructions
 
+  def confirmed?
+    confirmed_at.present?
+  end
+
   protected
 
   def valid_confirmation_token?
