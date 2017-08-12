@@ -10,4 +10,9 @@ class RegistrationsMailer < ApplicationMailer
     @token = user.confirmation_token
     mail to: user.email, subject: 'Thank you for signing up. Please confirm to continue! | Regal Blues'
   end
+
+  def password(user)
+    @token = user.reset_password_token
+    mail to: user.email, subject: 'Password reset instructions | Regal Blues'
+  end
 end

@@ -42,6 +42,22 @@ class User < ApplicationRecord
     save
   end
 
+  def valid_reset_password_token?
+    (reset_password_token_sent_at + 6.hours) > Time.now.getlocal
+  end
+
+  def update_reset_details
+    self.reset_password_token = nil
+    self.reset_password_at = Time.now.getlocal
+    save
+  end
+
+  def send_reset_password_instructions
+    self.reset_password_token = SecureRandom.hex(10)
+    self.reset_password_token_sent_at = Time.now.getlocal
+    RegistrationsMailer.password_reset(self).deliver
+  end
+
   private
 
   def downcase_reqd_attrs
