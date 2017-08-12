@@ -30,6 +30,11 @@ class User < ApplicationRecord
     find_by(['lower(email) = :value OR lower(username) = :value', { value: login.downcase }])
   end
 
+  def self.create_with_omniauth(info)
+    create(full_name: info['name'], email: info['email'], gender: info['gender'], mobile_number: info['mobile_number'],
+      avatar: info['avatar'], password: friendly_password)
+  end
+
   def confirmed?
     confirmed_at.present?
   end
