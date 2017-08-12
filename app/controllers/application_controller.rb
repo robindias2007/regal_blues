@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
     render json: { errors: 'Unauthorized' }, status: 401 unless logged_in?
   end
 
-  def formatted_message(condition, success, failure)
+  def formatted_response_if(condition, success, failure)
     if condition
       yield if block_given?
       render json: { message: success[0] }, status: success[1]
