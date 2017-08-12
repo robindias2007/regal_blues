@@ -24,6 +24,10 @@ class User < ApplicationRecord
   before_create :generate_confirmation_instructions
   after_create :send_confirmation_email
 
+  def self.find_for_auth(login)
+    find_by(['lower(email) = :value OR lower(username) = :value', { value: login.downcase }])
+  end
+
   def confirmed?
     confirmed_at.present?
   end

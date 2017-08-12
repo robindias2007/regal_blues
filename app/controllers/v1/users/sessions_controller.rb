@@ -4,7 +4,7 @@ class V1::Users::SessionsController < ApplicationController
   skip_before_action :authenticate, only: :create
 
   def create
-    user = User.find_by(email: auth_params[:email])
+    user = User.find_for_auth(auth_params[:login])
     if user.authenticate(auth_params[:password])
       jwt = Auth.issue(user: user.id)
       render json: { jwt: jwt }, status: 200
@@ -16,6 +16,6 @@ class V1::Users::SessionsController < ApplicationController
   private
 
   def auth_params
-    params.permit(:email, :password)
+    params.permit(:login, :password)
   end
 end
