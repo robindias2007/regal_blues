@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         post 'sign-up', to: 'registrations#create'
         get 'confirm/:token', to: 'registrations#confirm'
         post 'resend-confirmation-token', to: 'registrations#resend_confirmation'
+        post 'login', to: 'sessions#create'
       end
     end
   end
