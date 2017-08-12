@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class V1::Users::RegistrationsController < ApplicationController
-  skip_before_action :authenticate
+  skip_before_action :authenticate, only: %i[create confirm resend_confirmation
+                                             send_reset_password_instructions reset_password]
 
   def create
     user = User.new(user_params)
@@ -25,9 +26,39 @@ class V1::Users::RegistrationsController < ApplicationController
     end
   end
 
+  def send_reset_password_instructions
+    user = User.find_for_auth(reset_password_params[:login])
+    formatted_response_if(user,
+      ['Reset password instructions sent successfully', 200], ['User not found or invalid email/username', 404]) do
+      user.send(:send_reset_password_instructions)
+    end
+  end
+
+  def reset_password
+    token = params[:token]
+    user = User.find_by(reset_password_token: token)
+    if user && user.valid_reset_password_token?
+      user.update_reset_details!
+      jwt = Auth.issue(user: user.id)
+      render json: { message: 'Valid password reset token', jwt: jwt }, status: 200
+    else
+      render json: { errors: 'Invalid token' }, status: 404
+    end
+  end
+
+  def update_password
+    return unless current_user
+    current_user.update(password: params[:password])
+    render json: { message: 'Password Updated' }, status: 200
+  end
+
   private
 
   def user_params
     params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar)
+  end
+
+  def reset_password_params
+    params.permit(:login)
   end
 end

@@ -43,6 +43,53 @@ describe V1::Users::RegistrationsController, type: :controller do
     end
   end
 
+  describe 'POST #send_reset_password_instructions' do
+    let(:user) { create :user }
+
+    it 'returns http success if user exists' do
+      post :send_reset_password_instructions, params: { login: user.email }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http resource not found if user does not exists' do
+      post :send_reset_password_instructions, params: { login: Faker::Internet.email }
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'POST #reset_password' do
+    let!(:user) { create :user }
+
+    it 'returns http success if user exists' do
+      post :send_reset_password_instructions, params: { login: user.email }
+      user.reload
+      get :reset_password, params: { token: user.reset_password_token }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http resource not found if user does not exists' do
+      get :reset_password, params: { token: SecureRandom.hex(10) }
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'POST #update_password' do
+    let!(:user) { create :user }
+
+    it 'returns http success if user exists' do
+      jwt = Auth.issue(user: user.id)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :update_password, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      post :update_password, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 401
+    end
+  end
+
   private
 
   def valid_user_params(user)

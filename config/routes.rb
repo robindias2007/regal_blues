@@ -8,9 +8,10 @@ Rails.application.routes.draw do
         post 'sign-up', to: 'registrations#create'
         get 'confirm/:token', to: 'registrations#confirm'
         post 'resend-confirmation-token', to: 'registrations#resend_confirmation'
+        post 'send-reset-password-instructions', to: 'registrations#send_reset_password_instructions'
+        get 'reset-password/:token', to: 'registrations#reset_password'
+        post 'update-password', to: 'registrations#update_password'
         post 'login', to: 'sessions#create'
-        post 'send-reset-password-instructions', to: 'sessions#send_reset_password_instructions'
-        get '/reset-password/:token', to: 'sessions#reset_password'
       end
     end
   end
