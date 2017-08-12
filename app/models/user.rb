@@ -3,6 +3,8 @@
 class User < ApplicationRecord
   has_secure_password
 
+  has_many :user_identities
+
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true
   validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }
   validates :mobile_number, uniqueness: true, allow_nil: true, length: { in: 11..13 }
