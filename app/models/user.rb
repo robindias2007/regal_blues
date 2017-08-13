@@ -30,15 +30,14 @@ class User < ApplicationRecord
     find_by(['lower(email) = :value OR lower(username) = :value', { value: login.downcase }])
   end
 
-  def self.create_with_omniauth(info)
-    user = find_or_create_by(uid: info['uid'], provider: info['provider'])
-    user.full_name = info['name']
-    user.email = info['email']
-    user.mobile_number = info['mobile_number']
-    user.gender = info['gender']
-    user.avatar = info['avatar']
-    user.password = friendly_password
+  def self.create_with_facebook(info)
+    user = new
+    user_attributes_for_fb(user, info)
     user.save
+    identity = user.user_identities.new
+    identity.uid = info['id']
+    identity.provider = 'facebook'
+    identity.save
     user
   end
 
@@ -93,5 +92,18 @@ class User < ApplicationRecord
   def friendly_password(length = 20)
     rlength = (length * 3) / 4
     SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
+  end
+
+  # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400
+  # using a background job
+  def user_attributes_for_fb(user, info)
+    email = info['email'].nil? ? info['id'] + '@amidos.com' : info['email']
+    user.full_name = info['name']
+    user.email = email
+    user.mobile_number = info['mobile_number']
+    user.gender = info['gender']
+    user.avatar = info['cover']['source']
+    user.password = friendly_password
+    user.username = SecureRandom.hex(4)
   end
 end
