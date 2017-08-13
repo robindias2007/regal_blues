@@ -15,7 +15,6 @@ Rails.application.routes.draw do
 
         # Authentication
         post 'login', to: 'sessions#create'
-        match 'auth/facebook/callback', to: 'sessions#facebook', via: %i[get post]
       end
     end
   end
