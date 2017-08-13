@@ -25,6 +25,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 gem 'omniauth-facebook'
 
+# REST Client
+gem 'httparty'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

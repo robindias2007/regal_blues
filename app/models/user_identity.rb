@@ -12,11 +12,4 @@ class UserIdentity < ApplicationRecord
   def self.create_with_omniauth(auth)
     create(uid: auth['uid'], provider: auth['provider'])
   end
-
-  private
-
-  def friendly_password(length = 20)
-    rlength = (length * 3) / 4
-    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
-  end
 end

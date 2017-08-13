@@ -31,8 +31,15 @@ class User < ApplicationRecord
   end
 
   def self.create_with_omniauth(info)
-    create(full_name: info['name'], email: info['email'], gender: info['gender'], mobile_number: info['mobile_number'],
-      avatar: info['avatar'], password: friendly_password)
+    user = find_or_create_by(uid: info['uid'], provider: info['provider'])
+    user.full_name = info['name']
+    user.email = info['email']
+    user.mobile_number = info['mobile_number']
+    user.gender = info['gender']
+    user.avatar = info['avatar']
+    user.password = friendly_password
+    user.save
+    user
   end
 
   def confirmed?
@@ -81,5 +88,10 @@ class User < ApplicationRecord
 
   def send_confirmation_email
     RegistrationsMailer.confirmation(self).deliver
+  end
+
+  def friendly_password(length = 20)
+    rlength = (length * 3) / 4
+    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
   end
 end
