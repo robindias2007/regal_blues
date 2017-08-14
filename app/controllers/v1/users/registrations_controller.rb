@@ -7,7 +7,7 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
   def create
     user = User.new(user_params)
     if user.save
-      render json: { message: 'User created successfully' }, status: 200
+      render json: { message: 'User created successfully' }, status: 201
     else
       render json: { errors: user.errors.full_messages }, status: 400
     end
@@ -51,7 +51,7 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
   end
 
   def update_password
-    return unless current_user
+    return no_user_present unless current_user
     current_user.update(password: params[:password])
     render json: { message: 'Password Updated' }, status: 200
   end
@@ -67,7 +67,7 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
       current_user.update(verified: true)
       render json: { message: 'Mobile number verified' }, status: 200
     else
-      render json: { errors: 'Wrong OTP' }, status: 401
+      render json: { errors: 'Wrong OTP' }, status: 400
     end
   end
 
@@ -83,5 +83,9 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
 
   def verify_otp_params
     params.require(:otp)
+  end
+
+  def no_user_present
+    render json: { errors: 'No user authenticated' }, status: 400
   end
 end
