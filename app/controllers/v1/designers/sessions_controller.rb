@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class V1::Designers::SessionsController < ApplicationController
+class V1::Designers::SessionsController < V1::Designers::BaseController
   skip_before_action :authenticate
 
   def create
@@ -16,5 +16,10 @@ class V1::Designers::SessionsController < ApplicationController
 
   def auth_params
     params.permit(:login, :password)
+  end
+
+  def issue_jwt(designer)
+    jwt = Auth.issue(designer: designer.id)
+    render json: { jwt: jwt }, status: 200
   end
 end
