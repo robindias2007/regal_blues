@@ -64,6 +64,7 @@ class V1::Users::RegistrationsController < ApplicationController
     sent_otp = Redis.current.get(current_user.id)
     received_otp = verify_otp_params[:otp]
     if sent_otp == received_otp
+      current_user.update(verified: true)
       render json: { message: 'Mobile number verified' }, status: 200
     else
       render json: { errors: 'Wrong OTP' }, status: 401
