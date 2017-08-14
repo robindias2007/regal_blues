@@ -5,7 +5,7 @@
 require 'httparty'
 
 module Omniauth
-  class Facebook
+  class FacebookAuth
     include HTTParty
 
     # The base uri for facebook graph API
