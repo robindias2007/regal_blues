@@ -29,6 +29,9 @@ gem 'signet'
 # REST Client
 gem 'httparty'
 
+# Messaging Service
+gem 'twilio-ruby'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
