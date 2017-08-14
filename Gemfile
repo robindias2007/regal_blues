@@ -22,7 +22,9 @@ gem 'puma', '~> 3.7'
 # Authentication
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+gem 'google-api-client'
 gem 'jwt'
+gem 'signet'
 
 # REST Client
 gem 'httparty'
