@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170814192236) do
     t.datetime "confirmation_sent_at"
     t.datetime "confirmed_at"
     t.string "reset_password_token"
-    t.datetime "reset_password_token_set_at"
+    t.datetime "reset_password_token_sent_at"
     t.datetime "reset_password_at"
     t.boolean "verified", default: false, null: false
     t.datetime "created_at", null: false

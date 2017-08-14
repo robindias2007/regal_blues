@@ -13,7 +13,7 @@ class CreateDesigners < ActiveRecord::Migration[5.1]
       t.datetime :confirmation_sent_at
       t.datetime :confirmed_at
       t.string :reset_password_token
-      t.datetime :reset_password_token_set_at
+      t.datetime :reset_password_token_sent_at
       t.datetime :reset_password_at
       t.boolean :verified, null: false, default: false
 

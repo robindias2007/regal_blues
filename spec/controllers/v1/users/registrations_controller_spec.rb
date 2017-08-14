@@ -20,7 +20,7 @@ describe V1::Users::RegistrationsController, type: :controller do
 
     it 'returns http success if valid params are passed' do
       post :create, params: valid_user_params(visitor)
-      expect(response).to have_http_status 200
+      expect(response).to have_http_status 201
     end
 
     it 'returns http bad request if invalid params are passed' do
