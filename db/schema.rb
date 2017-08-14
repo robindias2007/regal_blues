@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170814192236) do
+ActiveRecord::Schema.define(version: 20170814202627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,28 @@ ActiveRecord::Schema.define(version: 20170814192236) do
   enable_extension "btree_gist"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
+
+  create_table "designer_store_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "display_name", default: "", null: false
+    t.string "registered_name", default: "", null: false
+    t.string "pincode", default: "", null: false
+    t.string "country", default: "", null: false
+    t.string "state", default: "", null: false
+    t.string "city", default: "", null: false
+    t.text "address_line_1", default: "", null: false
+    t.text "address_line_2"
+    t.string "contact_number", default: "", null: false
+    t.decimal "min_order_price", precision: 9, scale: 2, default: "0.0", null: false
+    t.integer "processing_time", default: 0, null: false
+    t.uuid "designer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_designer_store_infos_on_designer_id"
+    t.index ["display_name"], name: "index_designer_store_infos_on_display_name", unique: true
+    t.index ["min_order_price"], name: "index_designer_store_infos_on_min_order_price", using: :gin
+    t.index ["processing_time"], name: "index_designer_store_infos_on_processing_time", using: :gin
+    t.index ["registered_name"], name: "index_designer_store_infos_on_registered_name", unique: true
+  end
 
   create_table "designers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "full_name", default: "", null: false
@@ -78,5 +100,6 @@ ActiveRecord::Schema.define(version: 20170814192236) do
     t.index ["verified"], name: "index_users_on_verified", where: "verified"
   end
 
+  add_foreign_key "designer_store_infos", "designers"
   add_foreign_key "user_identities", "users"
 end
