@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   before_save :downcase_reqd_attrs
   before_create :generate_confirmation_instructions
-  after_create :send_confirmation_email
+  after_create :send_confirmation_email, :send_otp
 
   def self.find_for_auth(login)
     find_by(['lower(email) = :value OR lower(username) = :value', { value: login.downcase }])
@@ -42,7 +42,8 @@ class User < ApplicationRecord
   end
 
   def self.create_with_google(info)
-    user = new
+    user = info
+    user
   end
 
   def confirmed?
@@ -76,6 +77,17 @@ class User < ApplicationRecord
     RegistrationsMailer.password(self).deliver
   end
 
+  def friendly_password(length = 20)
+    rlength = (length * 3) / 4
+    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
+  end
+
+  def send_otp
+    otp = Array.new(6) { rand(10) }.join
+    Redis.current.set(id, otp)
+    SmsService.send_otp_to(self, otp)
+  end
+
   private
 
   def downcase_reqd_attrs
@@ -91,11 +103,6 @@ class User < ApplicationRecord
 
   def send_confirmation_email
     RegistrationsMailer.confirmation(self).deliver
-  end
-
-  def friendly_password(length = 20)
-    rlength = (length * 3) / 4
-    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
   end
 
   # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400

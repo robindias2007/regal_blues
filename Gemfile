@@ -17,7 +17,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
+gem 'redis', '~> 3.0'
 
 # Authentication
 # Use ActiveModel has_secure_password

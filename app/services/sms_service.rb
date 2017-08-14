@@ -22,4 +22,12 @@ class SmsService
   def self.msg_body(otp)
     "Your OTP is #{otp}"
   end
+
+  def self.send_otp_to(user, otp)
+    if user.mobile_number.first(3) == '+91'
+      send_msg91_otp_to(user, otp)
+    else
+      send_twilio_otp_to(user, otp)
+    end
+  end
 end

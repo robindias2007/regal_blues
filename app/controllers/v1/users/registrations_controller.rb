@@ -6,7 +6,11 @@ class V1::Users::RegistrationsController < ApplicationController
 
   def create
     user = User.new(user_params)
-    formatted_response_if(user.save, ['User created successfully', 200], [user.errors.full_messages, 400])
+    if user.save
+      render json: { message: 'User created successfully' }, status: 200
+    else
+      render json: { errors: user.errors.full_messages }, status: 400
+    end
   end
 
   def confirm
@@ -52,6 +56,20 @@ class V1::Users::RegistrationsController < ApplicationController
     render json: { message: 'Password Updated' }, status: 200
   end
 
+  def resend_otp
+    current_user.send_otp
+  end
+
+  def verify_otp
+    sent_otp = Redis.current.get(current_user.id)
+    received_otp = verify_otp_params[:otp]
+    if sent_otp == received_otp
+      render json: { message: 'Mobile number verified' }, status: 200
+    else
+      render json: { errors: 'Wrong OTP' }, status: 401
+    end
+  end
+
   private
 
   def user_params
@@ -60,5 +78,9 @@ class V1::Users::RegistrationsController < ApplicationController
 
   def reset_password_params
     params.permit(:login)
+  end
+
+  def verify_otp_params
+    params.require(:otp)
   end
 end

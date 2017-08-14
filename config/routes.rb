@@ -12,6 +12,8 @@ Rails.application.routes.draw do
         post 'send-reset-password-instructions', to: 'registrations#send_reset_password_instructions'
         get 'reset-password/:token', to: 'registrations#reset_password'
         post 'update-password', to: 'registrations#update_password'
+        get 'resend-otp', to: 'registrations#resend_otp'
+        post 'verify-otp', to: 'registrations#verify_otp'
 
         # Authentication
         post 'login', to: 'sessions#create'
