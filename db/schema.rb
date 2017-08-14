@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170812164955) do
+ActiveRecord::Schema.define(version: 20170814191639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,11 +45,13 @@ ActiveRecord::Schema.define(version: 20170812164955) do
     t.datetime "reset_password_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["mobile_number"], name: "index_users_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["verified"], name: "index_users_on_verified", where: "verified"
   end
 
   add_foreign_key "user_identities", "users"
