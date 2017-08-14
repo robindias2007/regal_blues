@@ -41,6 +41,10 @@ class User < ApplicationRecord
     user
   end
 
+  def self.create_with_google(info)
+    user = new
+  end
+
   def confirmed?
     confirmed_at.present?
   end

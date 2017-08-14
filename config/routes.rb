@@ -15,7 +15,8 @@ Rails.application.routes.draw do
 
         # Authentication
         post 'login', to: 'sessions#create'
-        post 'auth/facebook', to: 'sessions#facebook'
+        match 'auth/facebook', to: 'sessions#facebook', via: %i[get post]
+        match 'auth/google', to: 'sessions#google', via: %i[get post]
       end
     end
   end
