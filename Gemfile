@@ -65,6 +65,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'fakeredis', require: 'fakeredis/rspec'
   gem 'shoulda-callback-matchers'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false

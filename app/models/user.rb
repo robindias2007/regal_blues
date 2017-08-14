@@ -83,6 +83,7 @@ class User < ApplicationRecord
   end
 
   def send_otp
+    return if Rails.env.test?
     otp = Array.new(6) { rand(10) }.join
     Redis.current.set(id, otp)
     SmsService.send_otp_to(self, otp)
@@ -102,6 +103,7 @@ class User < ApplicationRecord
   end
 
   def send_confirmation_email
+    return if Rails.env.test?
     RegistrationsMailer.confirmation(self).deliver
   end
 

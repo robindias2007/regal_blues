@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'google/apis/plus_v1'
-require 'signet/oauth_2/client'
-
-class V1::Users::SessionsController < ApplicationController
+class V1::Users::SessionsController < V1::Users::BaseController
   skip_before_action :authenticate
 
   def create

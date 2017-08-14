@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class V1::Users::RegistrationsController < ApplicationController
+class V1::Users::RegistrationsController < V1::Users::BaseController
   skip_before_action :authenticate, only: %i[create confirm resend_confirmation
                                              send_reset_password_instructions reset_password]
 
