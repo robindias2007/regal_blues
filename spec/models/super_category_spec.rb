@@ -15,6 +15,10 @@ describe SuperCategory, type: :model do
     it { expect(super_category).to validate_uniqueness_of(:name).case_insensitive }
   end
 
+  context 'ActiveRecord Associations' do
+    it { expect(super_category).to have_many(:categories) }
+  end
+
   context 'ActiveRecord databases' do
     it { expect(super_category).to have_db_column(:name).of_type(:string).with_options(null: false) }
     it { expect(super_category).to have_db_column(:image).of_type(:string).with_options(null: false) }

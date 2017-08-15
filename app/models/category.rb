@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class SuperCategory < ApplicationRecord
-  has_many :categories
+class Category < ApplicationRecord
+  belongs_to :super_category
 
   validates :name, :image, presence: true
   validates :name, uniqueness: { case_sensitive: false }

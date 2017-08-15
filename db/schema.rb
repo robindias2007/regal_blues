@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815052329) do
+ActiveRecord::Schema.define(version: 20170815052907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,16 @@ ActiveRecord::Schema.define(version: 20170815052329) do
   enable_extension "btree_gist"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
+
+  create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "image", default: "", null: false
+    t.uuid "super_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["super_category_id"], name: "index_categories_on_super_category_id"
+  end
 
   create_table "designer_finance_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "bank_name", default: "", null: false
@@ -134,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170815052329) do
     t.index ["verified"], name: "index_users_on_verified", where: "verified"
   end
 
+  add_foreign_key "categories", "super_categories"
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
   add_foreign_key "user_identities", "users"
