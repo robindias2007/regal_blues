@@ -27,6 +27,11 @@ describe Designer, type: :model do
     it { expect(designer).not_to allow_value('Abc@ Asd').for(:full_name) }
   end
 
+  context 'ActiveRecord Associations' do
+    it { expect(designer).to have_one(:designer_store_info) }
+    it { expect(designer).to have_one(:designer_finance_info) }
+  end
+
   context 'ActiveRecord databases' do
     it { expect(designer).to have_db_column(:email).of_type(:string).with_options(null: false) }
     it { expect(designer).to have_db_column(:full_name).of_type(:string).with_options(null: false) }

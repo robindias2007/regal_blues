@@ -33,6 +33,10 @@ describe DesignerStoreInfo, type: :model do
     it { expect(info).not_to allow_value('8 weeks').for(:processing_time) }
   end
 
+  context 'ActiveRecord Associations' do
+    it { expect(info).to belong_to(:designer) }
+  end
+
   context 'ActiveRecord databases' do
     it { expect(info).to have_db_column(:display_name).of_type(:string).with_options(null: false) }
     it { expect(info).to have_db_column(:registered_name).of_type(:string).with_options(null: false) }

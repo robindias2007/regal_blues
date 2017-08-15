@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170814202627) do
+ActiveRecord::Schema.define(version: 20170815044701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,32 @@ ActiveRecord::Schema.define(version: 20170814202627) do
   enable_extension "btree_gist"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
+
+  create_table "designer_finance_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "bank_name", default: "", null: false
+    t.string "bank_branch", default: "", null: false
+    t.string "ifsc_code", default: "", null: false
+    t.string "account_number", default: "", null: false
+    t.string "blank_cheque_proof", default: "", null: false
+    t.string "personal_pan_number", default: "", null: false
+    t.string "personal_pan_number_proof", default: "", null: false
+    t.string "business_pan_number", default: "", null: false
+    t.string "business_pan_number_proof", default: "", null: false
+    t.string "tin_number", default: "", null: false
+    t.string "tin_number_proof", default: "", null: false
+    t.string "gstin_number", default: "", null: false
+    t.string "gstin_number_proof", default: "", null: false
+    t.string "business_address_proof", default: "", null: false
+    t.uuid "designer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_number"], name: "index_designer_finance_infos_on_account_number", unique: true
+    t.index ["business_pan_number"], name: "index_designer_finance_infos_on_business_pan_number", unique: true
+    t.index ["designer_id"], name: "index_designer_finance_infos_on_designer_id"
+    t.index ["gstin_number"], name: "index_designer_finance_infos_on_gstin_number", unique: true
+    t.index ["personal_pan_number"], name: "index_designer_finance_infos_on_personal_pan_number", unique: true
+    t.index ["tin_number"], name: "index_designer_finance_infos_on_tin_number", unique: true
+  end
 
   create_table "designer_store_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "display_name", default: "", null: false
@@ -100,6 +126,7 @@ ActiveRecord::Schema.define(version: 20170814202627) do
     t.index ["verified"], name: "index_users_on_verified", where: "verified"
   end
 
+  add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
   add_foreign_key "user_identities", "users"
 end
