@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815044701) do
+ActiveRecord::Schema.define(version: 20170815052329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,14 @@ ActiveRecord::Schema.define(version: 20170815044701) do
     t.index ["email"], name: "index_designers_on_email", unique: true
     t.index ["mobile_number"], name: "index_designers_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_designers_on_reset_password_token", unique: true
+  end
+
+  create_table "super_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "image", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_super_categories_on_name", unique: true
   end
 
   create_table "user_identities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
