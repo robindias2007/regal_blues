@@ -21,3 +21,5 @@ coverage
 config/secrets.yml.key
 
 jwt_rsa_private.pem
+
+dump.rdb
