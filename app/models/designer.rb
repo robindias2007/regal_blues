@@ -5,6 +5,7 @@ class Designer < ApplicationRecord
 
   has_one :designer_store_info
   has_one :designer_finance_info
+  has_many :designer_categorizations
 
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }

@@ -17,6 +17,7 @@ describe SubCategory, type: :model do
 
   context 'ActiveRecord Associations' do
     it { expect(sub_category).to belong_to(:category) }
+    it { expect(sub_category).to have_many(:designer_categorizations) }
   end
 
   context 'ActiveRecord databases' do
