@@ -58,12 +58,10 @@ describe V1::Designers::RegistrationsController, type: :controller do
   end
 
   describe 'POST #reset_password' do
-    let!(:designer) { create :designer }
-
     it 'returns http success if designer exists' do
-      post :send_reset_password_instructions, params: { login: designer.email }
-      designer.reload
-      get :reset_password, params: { token: designer.reset_password_token }
+      token = SecureRandom.hex(10)
+      create :designer, reset_password_token: token, reset_password_token_sent_at: DateTime.now.getlocal
+      get :reset_password, params: { token: token }
       expect(response).to have_http_status 200
     end
 

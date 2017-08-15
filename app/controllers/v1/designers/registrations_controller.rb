@@ -4,10 +4,13 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   skip_before_action :authenticate, only: %i[create confirm resend_confirmation
                                              send_reset_password_instructions reset_password]
 
+  before_action :verify_current_designer, only: %i[update_password resend_otp verify_otp]
+
   def create
     designer = Designer.new(designer_params)
     if designer.save
-      render json: { message: 'Designer created successfully' }, status: 201
+      jwt = Auth.issue(designer: designer.id)
+      render json: { message: 'Designer created successfully', jwt: jwt }, status: 201
     else
       render json: { errors: designer.errors.full_messages }, status: 400
     end
@@ -23,7 +26,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def resend_confirmation
-    designer = Designer.find_by(email: params[:email])
+    designer = Designer.find_for_auth(resend_confirmation_params[:email])
     formatted_response_if(designer,
       ['Confirmation instructions resent successfully', 200], ['Designer not found or invalid email', 404]) do
       designer.send(:send_confirmation_email)
@@ -46,12 +49,11 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
       jwt = Auth.issue(designer: designer.id)
       render json: { message: 'Valid password reset token', jwt: jwt }, status: 200
     else
-      render json: { errors: 'Invalid token' }, status: 404
+      render json: { errors: 'Designer not found or invalid token' }, status: 404
     end
   end
 
   def update_password
-    return no_designer_present unless current_designer
     current_designer.update(password: params[:password])
     render json: { message: 'Password Updated' }, status: 200
   end
@@ -77,6 +79,10 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar)
   end
 
+  def resend_confirmation_params
+    params.permit(:email)
+  end
+
   def reset_password_params
     params.permit(:login)
   end
@@ -87,5 +93,9 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
 
   def no_designer_present
     render json: { errors: 'No designer authenticated' }, status: 400
+  end
+
+  def verify_current_designer
+    return no_designer_present unless current_designer
   end
 end

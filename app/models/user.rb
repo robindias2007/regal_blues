@@ -21,13 +21,14 @@ class User < ApplicationRecord
                         format: { with: /\A[a-zA-Z. ]*\z/, message: 'please use only English alphabets' }
 
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'please provide valid email' }
+  validates :password, length: { in: 8..128 }, presence: true, allow_nil: false
 
   before_save :downcase_reqd_attrs
   before_create :generate_confirmation_instructions
   after_create :send_confirmation_email, :send_otp
 
   def self.find_for_auth(login)
-    find_by(['lower(email) = :value OR lower(username) = :value', { value: login.downcase }])
+    find_by(['lower(email) = :value OR lower(username) = :value', { value: login&.downcase }])
   end
 
   def self.create_with_facebook(info)

@@ -58,12 +58,10 @@ describe V1::Users::RegistrationsController, type: :controller do
   end
 
   describe 'POST #reset_password' do
-    let!(:user) { create :user }
-
     it 'returns http success if user exists' do
-      post :send_reset_password_instructions, params: { login: user.email }
-      user.reload
-      get :reset_password, params: { token: user.reset_password_token }
+      token = SecureRandom.hex(10)
+      create :user, reset_password_token: token, reset_password_token_sent_at: DateTime.now.getlocal
+      get :reset_password, params: { token: token }
       expect(response).to have_http_status 200
     end
 
