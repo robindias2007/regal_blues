@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815052907) do
+ActiveRecord::Schema.define(version: 20170815053831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,16 @@ ActiveRecord::Schema.define(version: 20170815052907) do
     t.index ["reset_password_token"], name: "index_designers_on_reset_password_token", unique: true
   end
 
+  create_table "sub_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "image", default: "", null: false
+    t.uuid "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_sub_categories_on_category_id"
+    t.index ["name"], name: "index_sub_categories_on_name", unique: true
+  end
+
   create_table "super_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "image", default: "", null: false
@@ -147,5 +157,6 @@ ActiveRecord::Schema.define(version: 20170815052907) do
   add_foreign_key "categories", "super_categories"
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
+  add_foreign_key "sub_categories", "categories"
   add_foreign_key "user_identities", "users"
 end

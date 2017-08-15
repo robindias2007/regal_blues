@@ -17,6 +17,7 @@ describe Category, type: :model do
 
   context 'ActiveRecord Associations' do
     it { expect(category).to belong_to(:super_category) }
+    it { expect(category).to have_many(:sub_categories) }
   end
 
   context 'ActiveRecord databases' do
