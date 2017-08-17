@@ -31,6 +31,11 @@ describe Product, type: :model do
     it { expect(product).to have_db_column(:active).of_type(:boolean).with_options(null: false) }
   end
 
+  context 'ActiveRecord Associations' do
+    it { expect(product).to belong_to(:designer_categorization) }
+    it { expect(product).to have_many(:product_images) }
+  end
+
   context 'callbacks' do
     it { expect(product).to callback(:generate_sku).before(:save) }
   end
