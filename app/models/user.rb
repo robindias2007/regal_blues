@@ -72,7 +72,7 @@ class User < ApplicationRecord
   end
 
   def send_reset_password_instructions
-    self.reset_password_token = SecureRandom.hex(10)
+    self.reset_password_token = SecureRandom.urlsafe_base64(15)
     self.reset_password_token_sent_at = Time.now.getlocal
     save
     RegistrationsMailer.password(self).deliver
@@ -99,7 +99,7 @@ class User < ApplicationRecord
   end
 
   def generate_confirmation_instructions
-    self.confirmation_token = SecureRandom.hex(10)
+    self.confirmation_token = SecureRandom.urlsafe_base64(15)
     self.confirmation_sent_at = Time.now.getlocal
   end
 

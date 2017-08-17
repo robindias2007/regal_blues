@@ -71,6 +71,15 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     end
   end
 
+  def update_store_info
+    store_info = current_designer.designer_store_info.new(store_info_params)
+    if store_info.save
+      render json: { message: 'Store info successfully updated' }, status: 201
+    else
+      render json: { errors: 'Something went wrong' }, status: 400
+    end
+  end
+
   private
 
   def designer_params
@@ -87,5 +96,10 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
 
   def verify_otp_params
     params.require(:otp)
+  end
+
+  def store_info_params
+    params.require(:data).permit(:display_name, :registered_name, :pincode, :country, :state, :city, :address_line_1,
+      :address_line_2, :contact_number, :min_order_price, :processing_time)
   end
 end

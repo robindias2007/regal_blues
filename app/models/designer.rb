@@ -49,7 +49,7 @@ class Designer < ApplicationRecord
   end
 
   def send_reset_password_instructions
-    self.reset_password_token = SecureRandom.hex(10)
+    self.reset_password_token = SecureRandom.urlsafe_base64(15)
     self.reset_password_token_sent_at = Time.now.getlocal
     save
     RegistrationsMailer.password(self).deliver
@@ -75,7 +75,7 @@ class Designer < ApplicationRecord
   end
 
   def generate_confirmation_instructions
-    self.confirmation_token = SecureRandom.hex(10)
+    self.confirmation_token = SecureRandom.urlsafe_base64(15)
     self.confirmation_sent_at = Time.now.getlocal
   end
 
@@ -91,7 +91,7 @@ class Designer < ApplicationRecord
 
   def generate_pin_token
     loop do
-      token = SecureRandom.hex(2)
+      token = SecureRandom.hex(2).tr('lIO0', 'sxyz').upcase
       break token unless Designer.find_by(pin: token)
     end
   end
