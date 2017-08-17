@@ -17,5 +17,12 @@ describe Auth do
       decoded_value = JWT.decode(token, described_class.rsa_public, true, algorithm: described_class::ALGORITHM).first
       expect(decoded_value).to eq described_class.decode(token)
     end
+
+    it 'raises error if valid jwt token is not sent' do
+      expect do
+        JWT.decode('token.token.token', described_class.rsa_public, true,
+          algorithm: described_class::ALGORITHM).first
+      end.to raise_error(JWT::DecodeError)
+    end
   end
 end
