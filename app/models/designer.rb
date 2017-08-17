@@ -17,7 +17,7 @@ class Designer < ApplicationRecord
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'please provide valid email' }
 
   before_save :downcase_reqd_attrs
-  before_create :generate_confirmation_instructions
+  before_create :generate_confirmation_instructions, :generate_pin
   after_create :send_confirmation_email, :send_otp
 
   def self.find_for_auth(login)
@@ -82,5 +82,17 @@ class Designer < ApplicationRecord
   def send_confirmation_email
     return if Rails.env.test?
     RegistrationsMailer.confirmation(self).deliver
+  end
+
+  def generate_pin
+    return if pin.present?
+    self.pin = generate_pin_token
+  end
+
+  def generate_pin_token
+    loop do
+      token = SecureRandom.hex(2)
+      break token unless Designer.find_by(pin: token)
+    end
   end
 end
