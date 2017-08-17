@@ -34,6 +34,7 @@ describe Product, type: :model do
   context 'ActiveRecord Associations' do
     it { expect(product).to belong_to(:designer_categorization) }
     it { expect(product).to have_many(:product_images) }
+    it { expect(product).to have_one(:product_info) }
   end
 
   context 'callbacks' do

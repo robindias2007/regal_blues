@@ -2,6 +2,7 @@
 
 class Product < ApplicationRecord
   belongs_to :designer_categorization
+  has_one :product_info
   has_many :product_images
 
   validates :name, :description, :selling_price, :active, presence: true
