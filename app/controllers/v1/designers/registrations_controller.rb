@@ -64,8 +64,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
 
   def verify_otp
     sent_otp = Redis.current.get(current_designer.id)
-    received_otp = verify_otp_params[:otp]
-    if sent_otp == received_otp
+    if sent_otp == verify_otp_params
       current_designer.update(verified: true)
       render json: { message: 'Mobile number verified' }, status: 200
     else
@@ -92,7 +91,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def no_designer_present
-    render json: { errors: 'No designer authenticated' }, status: 400
+    render json: { errors: 'No designer found' }, status: 404
   end
 
   def verify_current_designer

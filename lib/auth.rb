@@ -11,6 +11,9 @@ class Auth
 
   def self.decode(token)
     JWT.decode(token, rsa_public, true, algorithm: ALGORITHM).first
+  rescue => e
+    Rails.logger.fatal e
+    raise
   end
 
   def self.rsa_private

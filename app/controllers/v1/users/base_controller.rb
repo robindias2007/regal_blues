@@ -3,6 +3,10 @@
 class V1::Users::BaseController < ApplicationController
   before_action :authenticate
 
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: { errors: 'Resource not found' }, status: 404
+  end
+
   def logged_in?
     current_user.present?
   end

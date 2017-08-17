@@ -86,6 +86,70 @@ describe V1::Users::RegistrationsController, type: :controller do
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
       expect(response).to have_http_status 401
     end
+
+    it 'returns http not found if current user does not exists' do
+      jwt = Auth.issue(user: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :update_password, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'GET #resend_otp' do
+    let!(:user) { create :user }
+
+    it 'returns http success if user exists' do
+      jwt = Auth.issue(user: user.id)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      get :resend_otp
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      get :resend_otp
+      expect(response).to have_http_status 401
+    end
+
+    it 'returns http not found if current user does not exists' do
+      jwt = Auth.issue(user: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      get :resend_otp
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'POST #verify_otp' do
+    let(:user) { create :user }
+
+    it 'returns http success if user exists and OTP is valid' do
+      Redis.current.set(user.id, '123456')
+      request.headers.merge! headers(user)
+      post :verify_otp, params:  { otp: Redis.current.get(user.id) }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http bad request if user exists and OTP is invalid' do
+      Redis.current.set(user.id, '123456')
+      request.headers.merge! headers(user)
+      post :verify_otp, params:  { otp: '654321' }
+      expect(response).to have_http_status 400
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      post :verify_otp, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 401
+    end
+
+    it 'returns http not found if current user does not exists' do
+      jwt = Auth.issue(user: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :verify_otp, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 404
+    end
   end
 
   private
@@ -107,5 +171,10 @@ describe V1::Users::RegistrationsController, type: :controller do
       password: user.password,
       username: user.username
     }
+  end
+
+  def headers(user)
+    jwt = Auth.issue(user: user.id)
+    { Authorization: "Bearer #{jwt}" }
   end
 end
