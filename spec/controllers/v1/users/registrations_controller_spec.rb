@@ -75,9 +75,7 @@ describe V1::Users::RegistrationsController, type: :controller do
     let!(:user) { create :user }
 
     it 'returns http success if user exists' do
-      jwt = Auth.issue(user: user.id)
-      headers = { Authorization: "Bearer #{jwt}" }
-      request.headers.merge! headers
+      request.headers.merge! headers(user)
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
       expect(response).to have_http_status 200
     end

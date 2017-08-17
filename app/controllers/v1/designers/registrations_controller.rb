@@ -60,6 +60,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
 
   def resend_otp
     current_designer.send_otp
+    render json: { message: 'OTP resent successfully' }, status: 200
   end
 
   def verify_otp

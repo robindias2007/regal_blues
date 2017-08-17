@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: { errors: 'Resource not found' }, status: 404
+  end
+
   def formatted_response_if(condition, success, failure)
     if condition
       yield if block_given?

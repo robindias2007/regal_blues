@@ -86,6 +86,68 @@ describe V1::Designers::RegistrationsController, type: :controller do
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
       expect(response).to have_http_status 401
     end
+
+    it 'returns http not found if current designer does not exists' do
+      jwt = Auth.issue(designer: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :update_password, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'GET #resend_otp' do
+    let!(:designer) { create :designer }
+
+    it 'returns http success if designer exists' do
+      request.headers.merge! headers(designer)
+      get :resend_otp
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      get :resend_otp
+      expect(response).to have_http_status 401
+    end
+
+    it 'returns http not found if current designer does not exists' do
+      jwt = Auth.issue(designer: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      get :resend_otp
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'POST #verify_otp' do
+    let(:designer) { create :designer }
+
+    it 'returns http success if designer exists and OTP is valid' do
+      Redis.current.set(designer.id, '123456')
+      request.headers.merge! headers(designer)
+      post :verify_otp, params:  { otp: Redis.current.get(designer.id) }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http bad request if designer exists and OTP is invalid' do
+      Redis.current.set(designer.id, '123456')
+      request.headers.merge! headers(designer)
+      post :verify_otp, params:  { otp: '654321' }
+      expect(response).to have_http_status 400
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      post :verify_otp, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 401
+    end
+
+    it 'returns http not found if current designer does not exists' do
+      jwt = Auth.issue(designer: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :verify_otp, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 404
+    end
   end
 
   private
@@ -105,5 +167,10 @@ describe V1::Designers::RegistrationsController, type: :controller do
       email:    designer.email,
       password: designer.password
     }
+  end
+
+  def headers(designer)
+    jwt = Auth.issue(designer: designer.id)
+    { Authorization: "Bearer #{jwt}" }
   end
 end
