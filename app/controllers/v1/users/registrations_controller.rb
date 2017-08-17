@@ -3,7 +3,6 @@
 class V1::Users::RegistrationsController < V1::Users::BaseController
   skip_before_action :authenticate, only: %i[create confirm resend_confirmation
                                              send_reset_password_instructions reset_password]
-  before_action :verify_current_user, only: %i[update_password resend_otp verify_otp]
 
   def create
     user = User.new(user_params)
@@ -83,13 +82,5 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
 
   def verify_otp_params
     params.require(:otp)
-  end
-
-  def no_user_present
-    render json: { errors: 'No user found' }, status: 404
-  end
-
-  def verify_current_user
-    return no_user_present unless current_user
   end
 end

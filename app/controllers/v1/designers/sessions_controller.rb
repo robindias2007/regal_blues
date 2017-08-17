@@ -5,7 +5,6 @@ class V1::Designers::SessionsController < V1::Designers::BaseController
 
   def create
     designer = Designer.find_for_auth(auth_params[:login])
-    return no_designer_present unless designer
     if designer.authenticate(auth_params[:password])
       issue_jwt(designer)
     else
@@ -22,9 +21,5 @@ class V1::Designers::SessionsController < V1::Designers::BaseController
   def issue_jwt(designer)
     jwt = Auth.issue(designer: designer.id)
     render json: { jwt: jwt }, status: 200
-  end
-
-  def no_designer_present
-    render json: { errors: 'Designer not found' }, status: 404
   end
 end

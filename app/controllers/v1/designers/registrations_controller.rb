@@ -4,8 +4,6 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   skip_before_action :authenticate, only: %i[create confirm resend_confirmation
                                              send_reset_password_instructions reset_password]
 
-  before_action :verify_current_designer, only: %i[update_password resend_otp verify_otp]
-
   def create
     designer = Designer.new(designer_params)
     if designer.save
@@ -89,13 +87,5 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
 
   def verify_otp_params
     params.require(:otp)
-  end
-
-  def no_designer_present
-    render json: { errors: 'No designer found' }, status: 404
-  end
-
-  def verify_current_designer
-    return no_designer_present unless current_designer
   end
 end
