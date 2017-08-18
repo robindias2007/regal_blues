@@ -26,10 +26,18 @@ describe SmsService do
   end
 
   context '.send_otp_to' do
-    it 'sends the otp uses appropriate service based on country code' do
+    it 'sends the otp uses appropriate service based on country code(Rest of the world)' do
+      user = create(:user, mobile_number: '+918850594105')
       allow(described_class).to receive(:send_msg91_otp_to)
       described_class.send_otp_to(user, '112233')
       expect(described_class).to have_received(:send_msg91_otp_to).with(user, '112233')
+    end
+
+    it 'sends the otp uses appropriate service based on country code(US)' do
+      user = create(:user, mobile_number: '+182850594105')
+      allow(described_class).to receive(:send_twilio_otp_to)
+      described_class.send_otp_to(user, '112233')
+      expect(described_class).to have_received(:send_twilio_otp_to).with(user, '112233')
     end
   end
 end
