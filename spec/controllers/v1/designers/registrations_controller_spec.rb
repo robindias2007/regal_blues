@@ -111,7 +111,7 @@ describe V1::Designers::RegistrationsController, type: :controller do
 
     it 'returns http bad request if params are not valid' do
       request.headers.merge! headers(designer)
-      post :update_password, params:  { mobile_number: 'asd' }
+      post :update_mobile_number, params:  { mobile_number: 'asd' }
       expect(response).to have_http_status 400
     end
 

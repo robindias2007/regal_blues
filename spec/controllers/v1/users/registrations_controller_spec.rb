@@ -80,6 +80,12 @@ describe V1::Users::RegistrationsController, type: :controller do
       expect(response).to have_http_status 200
     end
 
+    it 'returns http bad request if params are not valid' do
+      request.headers.merge! headers(user)
+      post :update_password, params:  { password: 'asd' }
+      expect(response).to have_http_status 400
+    end
+
     it 'returns http unauthorized if authorization header does not exists' do
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
       expect(response).to have_http_status 401
@@ -90,6 +96,35 @@ describe V1::Users::RegistrationsController, type: :controller do
       headers = { Authorization: "Bearer #{jwt}" }
       request.headers.merge! headers
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'POST #update_mobile_number' do
+    let!(:user) { create :user }
+
+    it 'returns http success if user exists' do
+      request.headers.merge! headers(user)
+      post :update_mobile_number, params:  { mobile_number: ('+' + [1, 49, 91].sample.to_s + Faker::Number.number(10)) }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http bad request if params are not valid' do
+      request.headers.merge! headers(user)
+      post :update_mobile_number, params:  { mobile_number: 'asd' }
+      expect(response).to have_http_status 400
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      post :update_mobile_number, params:  { mobile_number: ('+' + [1, 49, 91].sample.to_s + Faker::Number.number(10)) }
+      expect(response).to have_http_status 401
+    end
+
+    it 'returns http not found if current user does not exists' do
+      jwt = Auth.issue(user: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :update_mobile_number, params:  { mobile_number: ('+' + [1, 49, 91].sample.to_s + Faker::Number.number(10)) }
       expect(response).to have_http_status 404
     end
   end

@@ -21,7 +21,7 @@ class User < ApplicationRecord
                         format: { with: /\A[a-zA-Z. ]*\z/, message: 'please use only English alphabets' }
 
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'please provide valid email' }
-  validates :password, length: { in: 8..128 }, presence: true, allow_nil: false
+  validates :password, length: { minimum: 8 }, if: -> { password.present? }
 
   before_save :downcase_reqd_attrs
   before_create :generate_confirmation_instructions

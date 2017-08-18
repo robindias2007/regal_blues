@@ -51,8 +51,19 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
   end
 
   def update_password
-    current_user.update(password: params[:password])
-    render json: { message: 'Password Updated' }, status: 200
+    if current_user && current_user.update(password: params[:password])
+      render json: { message: 'Password Updated' }, status: 200
+    else
+      render json: { errors: 'Something went wrong' }, status: 400
+    end
+  end
+
+  def update_mobile_number
+    if current_user && current_user.update(mobile_number: params[:mobile_number])
+      render json: { message: 'Mobile number Updated' }, status: 200
+    else
+      render json: { errors: 'Something went wrong' }, status: 400
+    end
   end
 
   def resend_otp
