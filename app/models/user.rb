@@ -104,7 +104,6 @@ class User < ApplicationRecord
   end
 
   def send_confirmation_email
-    return if Rails.env.test?
     RegistrationsMailer.confirmation(self).deliver
   end
 
