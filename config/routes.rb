@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         get 'resend-otp', to: 'registrations#resend_otp'
         post 'verify-otp', to: 'registrations#verify_otp'
         post 'update-store-info', to: 'registrations#update_store_info'
+        post 'update-finance-info', to: 'registrations#update_finance_info'
 
         # Authentication
         post 'login', to: 'sessions#create'
