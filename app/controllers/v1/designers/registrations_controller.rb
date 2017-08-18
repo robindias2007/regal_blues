@@ -72,7 +72,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def update_store_info
-    store_info = current_designer.designer_store_info.new(store_info_params)
+    store_info = current_designer.build_designer_store_info(store_info_params)
     if store_info.save
       render json: { message: 'Store info successfully updated' }, status: 201
     else
@@ -81,7 +81,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def update_finance_info
-    finance_info = current_designer.designer_finance_info.new(finance_info_params)
+    finance_info = current_designer.build_designer_finance_info(finance_info_params)
     if finance_info.save
       render json: { message: 'Store info successfully updated' }, status: 201
     else

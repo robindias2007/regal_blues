@@ -150,6 +150,24 @@ describe V1::Designers::RegistrationsController, type: :controller do
     end
   end
 
+  describe 'POST #update_store_info' do
+    let(:designer) { create :designer }
+
+    before do
+      request.headers.merge! headers(designer)
+    end
+
+    it 'returns http created if designer exists and valid store params are passed' do
+      post :update_store_info, params: valid_store_info_params
+      expect(response).to have_http_status 201
+    end
+
+    it 'returns http bad request if invalid params are passed' do
+      post :create, params: invalid_store_info_params
+      expect(response).to have_http_status 400
+    end
+  end
+
   private
 
   def valid_designer_params(designer)
@@ -172,5 +190,37 @@ describe V1::Designers::RegistrationsController, type: :controller do
   def headers(designer)
     jwt = Auth.issue(designer: designer.id)
     { Authorization: "Bearer #{jwt}" }
+  end
+
+  def valid_store_info_params
+    info = build :designer_store_info
+    {
+      data: {
+        display_name:    info.display_name,
+        registered_name: info.registered_name,
+        pincode:         info.pincode,
+        country:         info.country,
+        state:           info.state,
+        city:            info.city,
+        address_line_1:  info.address_line_1,
+        contact_number:  info.contact_number,
+        min_order_price: info.min_order_price,
+        processing_time: info.processing_time
+      }
+    }
+  end
+
+  def invalid_store_info_params
+    info = build :designer_store_info
+    {
+      data: {
+        display_name:    info.display_name,
+        registered_name: info.registered_name,
+        pincode:         info.pincode,
+        country:         info.country,
+        state:           info.state,
+        city:            info.city
+      }
+    }
   end
 end
