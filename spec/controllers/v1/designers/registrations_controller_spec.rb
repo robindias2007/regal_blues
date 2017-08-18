@@ -163,7 +163,25 @@ describe V1::Designers::RegistrationsController, type: :controller do
     end
 
     it 'returns http bad request if invalid params are passed' do
-      post :create, params: invalid_store_info_params
+      post :update_finance_info, params: invalid_store_info_params
+      expect(response).to have_http_status 400
+    end
+  end
+
+  describe 'POST #update_finance_info' do
+    let(:designer) { create :designer }
+
+    before do
+      request.headers.merge! headers(designer)
+    end
+
+    it 'returns http created if designer exists and valid finance params are passed' do
+      post :update_finance_info, params: valid_finance_info_params
+      expect(response).to have_http_status 201
+    end
+
+    it 'returns http bad request if invalid params are passed' do
+      post :update_finance_info, params: invalid_finance_info_params
       expect(response).to have_http_status 400
     end
   end
@@ -220,6 +238,41 @@ describe V1::Designers::RegistrationsController, type: :controller do
         country:         info.country,
         state:           info.state,
         city:            info.city
+      }
+    }
+  end
+
+  def valid_finance_info_params
+    info = build :designer_finance_info
+    {
+      data: {
+        bank_name:                 info.bank_name,
+        ifsc_code:                 info.ifsc_code,
+        bank_branch:               info.bank_branch,
+        account_number:            info.account_number,
+        personal_pan_number:       info.personal_pan_number,
+        business_pan_number:       info.business_pan_number,
+        tin_number:                info.tin_number,
+        gstin_number:              info.gstin_number,
+        blank_cheque_proof:        info.blank_cheque_proof,
+        personal_pan_number_proof: info.personal_pan_number_proof,
+        business_pan_number_proof: info.business_pan_number_proof,
+        tin_number_proof:          info.tin_number_proof,
+        gstin_number_proof:        info.gstin_number_proof,
+        business_address_proof:    info.business_address_proof
+      }
+    }
+  end
+
+  def invalid_finance_info_params
+    info = build :designer_finance_info
+    {
+      data: {
+        bank_name:           info.bank_name,
+        ifsc_code:           info.ifsc_code,
+        bank_branch:         info.bank_branch,
+        account_number:      info.account_number,
+        personal_pan_number: info.personal_pan_number
       }
     }
   end
