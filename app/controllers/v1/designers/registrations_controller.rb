@@ -52,8 +52,19 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def update_password
-    current_designer.update(password: params[:password])
-    render json: { message: 'Password Updated' }, status: 200
+    if current_designer && current_designer.update(password: params[:password])
+      render json: { message: 'Password Updated' }, status: 200
+    else
+      render json: { errors: 'Something went wrong' }, status: 400
+    end
+  end
+
+  def update_mobile_number
+    if current_designer && current_designer.update(mobile_number: params[:mobile_number])
+      render json: { message: 'Mobile number Updated' }, status: 200
+    else
+      render json: { errors: 'Something went wrong' }, status: 400
+    end
   end
 
   def resend_otp

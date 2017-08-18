@@ -75,11 +75,15 @@ describe V1::Designers::RegistrationsController, type: :controller do
     let!(:designer) { create :designer }
 
     it 'returns http success if designer exists' do
-      jwt = Auth.issue(designer: designer.id)
-      headers = { Authorization: "Bearer #{jwt}" }
-      request.headers.merge! headers
+      request.headers.merge! headers(designer)
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
       expect(response).to have_http_status 200
+    end
+
+    it 'returns http bad request if params are not valid' do
+      request.headers.merge! headers(designer)
+      post :update_password, params:  { password: 'asd' }
+      expect(response).to have_http_status 400
     end
 
     it 'returns http unauthorized if authorization header does not exists' do
@@ -92,6 +96,35 @@ describe V1::Designers::RegistrationsController, type: :controller do
       headers = { Authorization: "Bearer #{jwt}" }
       request.headers.merge! headers
       post :update_password, params:  { password: Faker::Internet.password(10, 20) }
+      expect(response).to have_http_status 404
+    end
+  end
+
+  describe 'POST #update_mobile_number' do
+    let!(:designer) { create :designer }
+
+    it 'returns http success if designer exists' do
+      request.headers.merge! headers(designer)
+      post :update_mobile_number, params:  { mobile_number: ('+' + [1, 49, 91].sample.to_s + Faker::Number.number(10)) }
+      expect(response).to have_http_status 200
+    end
+
+    it 'returns http bad request if params are not valid' do
+      request.headers.merge! headers(designer)
+      post :update_password, params:  { mobile_number: 'asd' }
+      expect(response).to have_http_status 400
+    end
+
+    it 'returns http unauthorized if authorization header does not exists' do
+      post :update_mobile_number, params:  { mobile_number: ('+' + [1, 49, 91].sample.to_s + Faker::Number.number(10)) }
+      expect(response).to have_http_status 401
+    end
+
+    it 'returns http not found if current designer does not exists' do
+      jwt = Auth.issue(designer: 100_000)
+      headers = { Authorization: "Bearer #{jwt}" }
+      request.headers.merge! headers
+      post :update_mobile_number, params:  { mobile_number: ('+' + [1, 49, 91].sample.to_s + Faker::Number.number(10)) }
       expect(response).to have_http_status 404
     end
   end

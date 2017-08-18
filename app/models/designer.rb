@@ -10,7 +10,7 @@ class Designer < ApplicationRecord
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }
   validates :mobile_number, uniqueness: true, allow_nil: true, length: { in: 11..13 }
-  validates :password, length: { in: 8..128 }, presence: true, allow_nil: false
+  validates :password, length: { minimum: 8 }, if: -> { password.present? }
 
   validates :full_name, length: { in: 4..60 },
                         format: { with: /\A[a-zA-Z. ]*\z/, message: 'please use only English alphabets' }
