@@ -43,4 +43,17 @@ describe Designer, type: :model do
     it { expect(designer).to have_db_column(:available).of_type(:boolean) }
     it { expect(designer).to have_db_column(:verified).of_type(:boolean) }
   end
+
+  describe 'public instance methods' do
+    context 'responds to its methods' do
+      it { expect(designer).to respond_to(:confirmed_at?) }
+    end
+
+    context 'executes methods correctly' do
+      it '#confirmed? tells if a designer is confirmed or not' do
+        user = create :user
+        expect(user.confirmed?).to eq false
+      end
+    end
+  end
 end
