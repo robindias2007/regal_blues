@@ -9,7 +9,7 @@ class V1::Designers::BaseController < ApplicationController
 
   def current_designer
     return unless auth_present?
-    designer = Designer.find(auth['designer'])
+    designer = Designer.find(auth['resource'])
     @current_designer ||= designer if designer
   end
 

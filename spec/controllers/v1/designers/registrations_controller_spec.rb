@@ -239,7 +239,7 @@ describe V1::Designers::RegistrationsController, type: :controller do
   end
 
   def headers(designer)
-    jwt = Auth.issue(designer: designer.id)
+    jwt = Auth.issue(resource: designer.id)
     { Authorization: "Bearer #{jwt}" }
   end
 

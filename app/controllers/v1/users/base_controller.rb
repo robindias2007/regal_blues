@@ -9,7 +9,7 @@ class V1::Users::BaseController < ApplicationController
 
   def current_user
     return unless auth_present?
-    user = User.find(auth['user'])
+    user = User.find(auth['resource'])
     @current_user ||= user if user
   end
 
