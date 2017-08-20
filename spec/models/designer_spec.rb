@@ -47,12 +47,18 @@ describe Designer, type: :model do
   describe 'public instance methods' do
     context 'responds to its methods' do
       it { expect(designer).to respond_to(:confirmed_at?) }
+      it { expect(designer).to respond_to(:friendly_password) }
     end
 
     context 'executes methods correctly' do
       it '#confirmed? tells if a designer is confirmed or not' do
         user = create :user
         expect(user.confirmed?).to eq false
+      end
+
+      it '#friendly_password creates a password using SecureRandom' do
+        user = create :user
+        expect(user.friendly_password.length).to be 20
       end
     end
   end
