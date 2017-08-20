@@ -1,16 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::SessionsController < V1::Users::BaseController
-  skip_before_action :authenticate
-
-  def create
-    user = User.find_for_auth(auth_params[:login])
-    if user.authenticate(auth_params[:password])
-      issue_jwt(user)
-    else
-      render json: { errors: 'Unauthorized' }, status: 401
-    end
-  end
+  include Sessionable
 
   def facebook
     info = Omniauth::FacebookAuth.authenticate(fb_auth_param[:code])
@@ -25,10 +16,6 @@ class V1::Users::SessionsController < V1::Users::BaseController
   end
 
   private
-
-  def auth_params
-    params.permit(:login, :password)
-  end
 
   def fb_auth_param
     params.permit(:code)
@@ -58,10 +45,5 @@ class V1::Users::SessionsController < V1::Users::BaseController
     else
       find_user_and_issue_jwt_for identity
     end
-  end
-
-  def issue_jwt(user)
-    jwt = Auth.issue(user: user.id)
-    render json: { jwt: jwt }, status: 200
   end
 end
