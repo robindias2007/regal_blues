@@ -20,9 +20,29 @@ describe V1::Users::RequestsController, type: :controller do
       post :create, params: invalid_request_params
       expect(response).to have_http_status 401
     end
+  end
 
-    describe 'GET #index' do
-      it 'returns a list of requests of a particular user'
+  describe 'GET #index' do
+    let(:user) { create :user }
+    let!(:request_item) { create :request, user: user }
+    let(:another_request_item) { create :request }
+
+    it 'returns a list of requests of a particular user' do
+      request.headers.merge! headers(user)
+      get :index
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      request.headers.merge! headers(user)
+      get :index
+      expect(response.body).to include request_item.name
+    end
+
+    it 'does not list requests of other users' do
+      request.headers.merge! headers(user)
+      get :index
+      expect(response.body).not_to include another_request_item.name
     end
   end
 

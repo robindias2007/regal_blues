@@ -10,6 +10,11 @@ class V1::Users::RequestsController < V1::Users::BaseController
     end
   end
 
+  def index
+    requests = current_user.requests.order(created_at: :desc).limit(20)
+    render json: { requests: requests }
+  end
+
   private
 
   def request_params
