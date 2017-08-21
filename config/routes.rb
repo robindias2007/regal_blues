@@ -20,6 +20,9 @@ Rails.application.routes.draw do
         post 'login', to: 'sessions#create'
         match 'auth/facebook', to: 'sessions#facebook', via: %i[get post]
         match 'auth/google', to: 'sessions#google', via: %i[get post]
+
+        # Requests
+        resources :requests, only: %i[index create show]
       end
     end
   end
