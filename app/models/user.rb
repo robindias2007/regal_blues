@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :user_identities
+  has_many :requests
 
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true
   validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }

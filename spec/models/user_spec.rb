@@ -38,6 +38,11 @@ describe User, type: :model do
     it { expect(user).to have_db_column(:avatar).of_type(:string) }
   end
 
+  context 'ActiveRecord Associations' do
+    it { expect(user).to have_many(:user_identities) }
+    it { expect(user).to have_many(:requests) }
+  end
+
   context 'callbacks' do
     it { expect(user).to callback(:downcase_reqd_attrs).before(:save) }
     it { expect(user).to callback(:generate_confirmation_instructions).before(:create) }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817104858) do
+ActiveRecord::Schema.define(version: 20170821073035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,22 @@ ActiveRecord::Schema.define(version: 20170817104858) do
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
+  create_table "requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "size", default: "", null: false
+    t.decimal "min_budget", precision: 9, scale: 2, default: "0.0", null: false
+    t.decimal "max_budget", precision: 9, scale: 2, default: "0.0", null: false
+    t.integer "timeline", default: 0, null: false
+    t.text "description"
+    t.uuid "user_id"
+    t.uuid "sub_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_requests_on_name", using: :gist
+    t.index ["sub_category_id"], name: "index_requests_on_sub_category_id"
+    t.index ["user_id"], name: "index_requests_on_user_id"
+  end
+
   create_table "sub_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "image", default: "", null: false
@@ -217,6 +233,8 @@ ActiveRecord::Schema.define(version: 20170817104858) do
   add_foreign_key "product_images", "products"
   add_foreign_key "product_infos", "products"
   add_foreign_key "products", "designer_categorizations"
+  add_foreign_key "requests", "sub_categories"
+  add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"
   add_foreign_key "user_identities", "users"
 end
