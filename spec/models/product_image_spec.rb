@@ -9,6 +9,6 @@ describe ProductImage, type: :model do
 
   context 'ActiveRecord Associations' do
     it { expect(product_image).to belong_to(:product) }
-    it { expect(product_image).to have_one(:image) }
+    it { expect(product_image).to have_many(:images) }
   end
 end

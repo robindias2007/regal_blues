@@ -8,5 +8,8 @@ FactoryGirl.define do
     trait :product do
       association :imageable, factory: :product_image
     end
+    trait :request do
+      association :imageable, factory: :request_image
+    end
   end
 end

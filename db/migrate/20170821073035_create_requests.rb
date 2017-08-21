@@ -12,6 +12,6 @@ class CreateRequests < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :requests, :name, using: :gist
+    add_index :requests, :name, using: :gin
   end
 end

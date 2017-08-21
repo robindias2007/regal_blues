@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821073035) do
+ActiveRecord::Schema.define(version: 20170821081024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "btree_gin"
-  enable_extension "btree_gist"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
 
@@ -114,7 +113,7 @@ ActiveRecord::Schema.define(version: 20170821073035) do
     t.string "image", default: "", null: false
     t.integer "height", null: false
     t.integer "width", null: false
-    t.string "imageable_type", default: "", null: false
+    t.string "imageable_type", null: false
     t.uuid "imageable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -156,6 +155,13 @@ ActiveRecord::Schema.define(version: 20170821073035) do
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
+  create_table "request_images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "request_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_request_images_on_request_id"
+  end
+
   create_table "requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "size", default: "", null: false
@@ -167,7 +173,7 @@ ActiveRecord::Schema.define(version: 20170821073035) do
     t.uuid "sub_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_requests_on_name", using: :gist
+    t.index ["name"], name: "index_requests_on_name", using: :gin
     t.index ["sub_category_id"], name: "index_requests_on_sub_category_id"
     t.index ["user_id"], name: "index_requests_on_user_id"
   end
@@ -233,6 +239,7 @@ ActiveRecord::Schema.define(version: 20170821073035) do
   add_foreign_key "product_images", "products"
   add_foreign_key "product_infos", "products"
   add_foreign_key "products", "designer_categorizations"
+  add_foreign_key "request_images", "requests"
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"
