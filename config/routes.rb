@@ -21,6 +21,9 @@ Rails.application.routes.draw do
         match 'auth/facebook', to: 'sessions#facebook', via: %i[get post]
         match 'auth/google', to: 'sessions#google', via: %i[get post]
 
+        # Sub Categories
+        resources :sub_categories, only: :index, path: 'sub-categories'
+
         # Requests
         resources :requests, only: %i[index create show]
       end
