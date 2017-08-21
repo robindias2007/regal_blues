@@ -24,6 +24,9 @@ Rails.application.routes.draw do
         # Sub Categories
         resources :sub_categories, only: :index, path: 'sub-categories'
 
+        # Designers
+        resources :designers, only: :index
+
         # Requests
         resources :requests, only: %i[index create show]
       end
