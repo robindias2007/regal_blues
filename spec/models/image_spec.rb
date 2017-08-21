@@ -2,10 +2,10 @@
 
 describe Image, type: :model do
   it 'has a valid factory' do
-    expect(create(:image, :product)).to be_valid
+    expect(create(:image)).to be_valid
   end
 
-  let(:image) { create(:image, :product) }
+  let(:image) { create(:image) }
 
   context 'ActiveModel validations' do
     # Presence Validations
@@ -21,8 +21,8 @@ describe Image, type: :model do
     it { expect(image).to have_db_column(:image).of_type(:string).with_options(null: false) }
     it { expect(image).to have_db_column(:width).of_type(:integer).with_options(null: false) }
     it { expect(image).to have_db_column(:height).of_type(:integer).with_options(null: false) }
-    it { expect(image).to have_db_column(:imageable_type).of_type(:string).with_options(null: false) }
-    it { expect(image).to have_db_column(:imageable_id).of_type(:uuid).with_options(null: false) }
+    it { expect(image).to have_db_column(:imageable_type).of_type(:string) }
+    it { expect(image).to have_db_column(:imageable_id).of_type(:uuid) }
   end
 
   context 'ActiveRecord Associations' do

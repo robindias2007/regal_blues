@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821081024) do
+ActiveRecord::Schema.define(version: 20170821073035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,20 +111,13 @@ ActiveRecord::Schema.define(version: 20170821081024) do
 
   create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "image", default: "", null: false
-    t.integer "height", null: false
-    t.integer "width", null: false
-    t.string "imageable_type", null: false
-    t.uuid "imageable_id", null: false
+    t.integer "height", default: 0, null: false
+    t.integer "width", default: 0, null: false
+    t.string "imageable_type"
+    t.uuid "imageable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
-  end
-
-  create_table "product_images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "product_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_product_images_on_product_id"
   end
 
   create_table "product_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -153,13 +146,6 @@ ActiveRecord::Schema.define(version: 20170821081024) do
     t.index ["name"], name: "index_products_on_name", unique: true
     t.index ["selling_price"], name: "index_products_on_selling_price", unique: true
     t.index ["sku"], name: "index_products_on_sku", unique: true
-  end
-
-  create_table "request_images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "request_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["request_id"], name: "index_request_images_on_request_id"
   end
 
   create_table "requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -236,10 +222,8 @@ ActiveRecord::Schema.define(version: 20170821081024) do
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
-  add_foreign_key "product_images", "products"
   add_foreign_key "product_infos", "products"
   add_foreign_key "products", "designer_categorizations"
-  add_foreign_key "request_images", "requests"
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"

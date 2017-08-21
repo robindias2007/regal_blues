@@ -82,13 +82,14 @@ describe V1::Users::RequestsController, type: :controller do
     sc = create :sub_category
     {
       request: {
-        name:            Faker::Commerce.product_name,
-        size:            %w[xs-s s-m m-l l-xl xl-xxl].sample,
-        min_budget:      min,
-        max_budget:      min + 100,
-        timeline:        Faker::Number.between(1, 10),
-        description:     Faker::Lorem.paragraph,
-        sub_category_id: sc.id
+        name:              Faker::Commerce.product_name,
+        size:              %w[xs-s s-m m-l l-xl xl-xxl].sample,
+        min_budget:        min,
+        max_budget:        min + 100,
+        timeline:          Faker::Number.between(1, 10),
+        description:       Faker::Lorem.paragraph,
+        sub_category_id:   sc.id,
+        images_attributes: [image: 'asd', width: 10, height: 10]
       }
     }
   end
