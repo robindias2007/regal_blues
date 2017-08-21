@@ -4,7 +4,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def create
     request = current_user.requests.build(request_params)
     if request.save
-      render json: { message: 'Request saved successfully' }, status: 201
+      render json: { message: 'Request saved successfully', request: request, image: request.images, des: request.request_designers }, status: 201
     else
       render json: { errors: request.errors.messages }, status: 400
     end
@@ -24,6 +24,6 @@ class V1::Users::RequestsController < V1::Users::BaseController
 
   def request_params
     params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline,
-      :description, :sub_category_id, images_attributes: %i[image])
+      :description, :sub_category_id, images_attributes: %i[image], request_designers_attributes: %i[designer_id])
   end
 end

@@ -11,4 +11,5 @@ class Request < ApplicationRecord
   validates :timeline, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :images
+  accepts_nested_attributes_for :request_designers
 end
