@@ -31,6 +31,7 @@ describe Designer, type: :model do
     it { expect(designer).to have_one(:designer_store_info) }
     it { expect(designer).to have_one(:designer_finance_info) }
     it { expect(designer).to have_many(:designer_categorizations) }
+    it { expect(designer).to have_many(:request_designers) }
   end
 
   context 'ActiveRecord databases' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821073035) do
+ActiveRecord::Schema.define(version: 20170821113337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,15 @@ ActiveRecord::Schema.define(version: 20170821073035) do
     t.index ["sku"], name: "index_products_on_sku", unique: true
   end
 
+  create_table "request_designers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "request_id"
+    t.uuid "designer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_request_designers_on_designer_id"
+    t.index ["request_id"], name: "index_request_designers_on_request_id"
+  end
+
   create_table "requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "size", default: "", null: false
@@ -224,6 +233,8 @@ ActiveRecord::Schema.define(version: 20170821073035) do
   add_foreign_key "designer_store_infos", "designers"
   add_foreign_key "product_infos", "products"
   add_foreign_key "products", "designer_categorizations"
+  add_foreign_key "request_designers", "designers"
+  add_foreign_key "request_designers", "requests"
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"

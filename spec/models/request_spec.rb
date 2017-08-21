@@ -23,6 +23,7 @@ describe Request, type: :model do
   context 'ActiveRecord Associations' do
     it { expect(request).to belong_to(:user) }
     it { expect(request).to belong_to(:sub_category) }
+    it { expect(request).to have_many(:request_designers) }
   end
 
   context 'ActiveRecord databases' do

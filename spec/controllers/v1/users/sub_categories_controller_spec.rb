@@ -5,7 +5,7 @@ describe V1::Users::SubCategoriesController, type: :controller do
     let(:user) { create :user }
 
     before do
-      create_list :sub_category, 5
+      create_list :sub_category, 2
     end
 
     it 'returns a list of requests of a particular user' do
