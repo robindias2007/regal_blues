@@ -15,6 +15,11 @@ class V1::Users::RequestsController < V1::Users::BaseController
     render json: { requests: requests }
   end
 
+  def show
+    request = current_user.requests.find(params[:id])
+    render json: { request: request }
+  end
+
   private
 
   def request_params

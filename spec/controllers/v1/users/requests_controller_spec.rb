@@ -2,7 +2,7 @@
 
 describe V1::Users::RequestsController, type: :controller do
   describe 'POST #create' do
-    let!(:user) { create :user }
+    let(:user) { create :user }
 
     it 'returns http created if valid params are passed' do
       request.headers.merge! headers(user)
@@ -42,6 +42,30 @@ describe V1::Users::RequestsController, type: :controller do
     it 'does not list requests of other users' do
       request.headers.merge! headers(user)
       get :index
+      expect(response.body).not_to include another_request_item.name
+    end
+  end
+
+  describe 'GET #show' do
+    let(:user) { create :user }
+    let(:request_item) { create :request, user: user }
+    let(:another_request_item) { create :request }
+
+    it 'returns the show page of that particular request' do
+      request.headers.merge! headers(user)
+      get :show, params: { id: request_item.id }
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      request.headers.merge! headers(user)
+      get :show, params: { id: request_item.id }
+      expect(response.body).to include request_item.name
+    end
+
+    it 'does not show the requests of other users' do
+      request.headers.merge! headers(user)
+      get :show, params: { id: another_request_item.id }
       expect(response.body).not_to include another_request_item.name
     end
   end
