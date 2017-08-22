@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include Authenticable
+  extend Enumerize
 
   has_secure_password
 
@@ -18,6 +19,8 @@ class User < ApplicationRecord
   validates :username, length: { in: 4..40 },
                        format: { with:    /\A(?!_)(?:[a-z0-9]_?)*[a-z](?:_?[a-z0-9])*(?<!_)\z/i,
                                  message: 'only alphabets, digits and underscores are allowed' }
+
+  enumerize :gender, in: %i[male female], scope: true, predicates: true
 
   def self.create_with_facebook(info)
     user = new

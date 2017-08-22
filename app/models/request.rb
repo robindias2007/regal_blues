@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Request < ApplicationRecord
+  extend Enumerize
+
   belongs_to :user
   belongs_to :sub_category
   has_many :images, as: :imageable
@@ -12,4 +14,6 @@ class Request < ApplicationRecord
 
   accepts_nested_attributes_for :images
   accepts_nested_attributes_for :request_designers
+
+  enumerize :size, in: %w[xs-s s-m m-l l-xl xl-xxl], scope: true, predicates: true
 end
