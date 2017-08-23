@@ -30,7 +30,8 @@ describe Designer, type: :model do
   context 'ActiveRecord Associations' do
     it { expect(designer).to have_one(:designer_store_info) }
     it { expect(designer).to have_one(:designer_finance_info) }
-    it { expect(designer).to have_many(:designer_categorizations) }
+    it { expect(designer).to have_many(:sub_categories).through(:designer_categorizations) }
+    it { expect(designer).to have_many(:products) }
     it { expect(designer).to have_many(:request_designers) }
   end
 

@@ -51,6 +51,9 @@ Rails.application.routes.draw do
 
         # Authentication
         post 'login', to: 'sessions#create'
+
+        # Products
+        resources :products, only: %i[index create show]
       end
     end
   end

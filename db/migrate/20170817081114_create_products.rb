@@ -7,7 +7,8 @@ class CreateProducts < ActiveRecord::Migration[5.1]
       t.string :sku,            null: false, default: ''
       t.boolean :active,        null: false, default: true
 
-      t.references :designer_categorization, type: :uuid, index: true, foreign_key: true
+      t.references :sub_category, type: :uuid, index: true, foreign_key: true
+      t.references :designer, type: :uuid, index: true, foreign_key: true
 
       t.timestamps
     end

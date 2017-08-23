@@ -10,6 +10,5 @@ describe DesignerCategorization, type: :model do
   context 'ActiveRecord Associations' do
     it { expect(designer_categorization).to belong_to(:designer) }
     it { expect(designer_categorization).to belong_to(:sub_category) }
-    it { expect(designer_categorization).to have_many(:products) }
   end
 end

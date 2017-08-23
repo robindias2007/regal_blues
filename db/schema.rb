@@ -138,14 +138,16 @@ ActiveRecord::Schema.define(version: 20170821113337) do
     t.decimal "selling_price", precision: 12, scale: 2, default: "0.0", null: false
     t.string "sku", default: "", null: false
     t.boolean "active", default: true, null: false
-    t.uuid "designer_categorization_id"
+    t.uuid "sub_category_id"
+    t.uuid "designer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_products_on_active", where: "active"
-    t.index ["designer_categorization_id"], name: "index_products_on_designer_categorization_id"
+    t.index ["designer_id"], name: "index_products_on_designer_id"
     t.index ["name"], name: "index_products_on_name", unique: true
     t.index ["selling_price"], name: "index_products_on_selling_price", unique: true
     t.index ["sku"], name: "index_products_on_sku", unique: true
+    t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
   end
 
   create_table "request_designers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -232,7 +234,8 @@ ActiveRecord::Schema.define(version: 20170821113337) do
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
   add_foreign_key "product_infos", "products"
-  add_foreign_key "products", "designer_categorizations"
+  add_foreign_key "products", "designers"
+  add_foreign_key "products", "sub_categories"
   add_foreign_key "request_designers", "designers"
   add_foreign_key "request_designers", "requests"
   add_foreign_key "requests", "sub_categories"

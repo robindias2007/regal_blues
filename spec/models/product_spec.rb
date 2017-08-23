@@ -14,7 +14,7 @@ describe Product, type: :model do
     it { expect(product).to validate_presence_of(:selling_price) }
     it { expect(product).to validate_presence_of(:active) }
     # Uniqueness Validations
-    it { expect(product).to validate_uniqueness_of(:name).scoped_to(:designer_categorization_id) }
+    it { expect(product).to validate_uniqueness_of(:name).scoped_to(:designer_id) }
     # Length Validations
     it { expect(product).to validate_length_of(:name).is_at_least(4).is_at_most(100) }
     it { expect(product).to validate_length_of(:description).is_at_least(50).is_at_most(300) }
@@ -32,8 +32,9 @@ describe Product, type: :model do
   end
 
   context 'ActiveRecord Associations' do
-    it { expect(product).to belong_to(:designer_categorization) }
-    it { expect(product).to have_one(:product_info) }
+    it { expect(product).to belong_to(:sub_category) }
+    it { expect(product).to belong_to(:designer) }
+    it { expect(product).to have_many(:images) }
   end
 
   context 'callbacks' do
