@@ -144,8 +144,8 @@ ActiveRecord::Schema.define(version: 20170821113337) do
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_products_on_active", where: "active"
     t.index ["designer_id"], name: "index_products_on_designer_id"
-    t.index ["name"], name: "index_products_on_name", unique: true
-    t.index ["selling_price"], name: "index_products_on_selling_price", unique: true
+    t.index ["name"], name: "index_products_on_name", using: :gin
+    t.index ["selling_price"], name: "index_products_on_selling_price", using: :gin
     t.index ["sku"], name: "index_products_on_sku", unique: true
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
   end

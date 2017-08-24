@@ -11,6 +11,16 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
     end
   end
 
+  def index
+    products = current_designer.products.order(created_at: :desc).limit(20)
+    render json: { products: products }
+  end
+
+  def show
+    product = current_designer.products.find(params[:id])
+    render json: { product: product }
+  end
+
   private
 
   def product_params

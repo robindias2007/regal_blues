@@ -13,8 +13,8 @@ class CreateProducts < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     add_index :products, :sku,           unique: true
-    add_index :products, :name,          unique: :gin
-    add_index :products, :selling_price, unique: :gin
+    add_index :products, :name,          using: :gin
+    add_index :products, :selling_price, using: :gin
     add_index :products, :active,        where: :active
   end
 end

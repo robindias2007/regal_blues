@@ -22,6 +22,54 @@ describe V1::Designers::ProductsController, type: :controller do
     end
   end
 
+  describe 'GET #index' do
+    let(:designer) { create :designer }
+    let!(:product_item) { create :product, designer: designer }
+    let(:another_product_item) { create :product }
+
+    it 'returns a list of requests of a particular designer' do
+      request.headers.merge! headers(designer)
+      get :index
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      request.headers.merge! headers(designer)
+      get :index
+      expect(response.body).to include product_item.name
+    end
+
+    it 'does not list requests of other designers' do
+      request.headers.merge! headers(designer)
+      get :index
+      expect(response.body).not_to include another_product_item.name
+    end
+  end
+
+  describe 'GET #show' do
+    let(:designer) { create :designer }
+    let(:product_item) { create :product, designer: designer }
+    let(:another_product_item) { create :product }
+
+    it 'returns the show page of that particular request' do
+      request.headers.merge! headers(designer)
+      get :show, params: { id: product_item.id }
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      request.headers.merge! headers(designer)
+      get :show, params: { id: product_item.id }
+      expect(response.body).to include product_item.name
+    end
+
+    it 'does not show the requests of other designers' do
+      request.headers.merge! headers(designer)
+      get :show, params: { id: another_product_item.id }
+      expect(response.body).not_to include another_product_item.name
+    end
+  end
+
   private
 
   def headers(designer)
