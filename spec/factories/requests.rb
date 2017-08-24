@@ -6,7 +6,7 @@ FactoryGirl.define do
     name { Faker::Commerce.unique.product_name }
     size %w[xs-s s-m m-l l-xl xl-xxl].sample
     min_budget min
-    max_budget min + 10_000
+    max_budget 1.8 * min
     timeline Faker::Number.between(1, 10)
     description Faker::Lorem.paragraph
     user
