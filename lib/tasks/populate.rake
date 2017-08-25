@@ -18,7 +18,7 @@ namespace :db do
     puts 'Creating categories'
     cat = Category.find_or_create_by(name: 'Women', image: 'Image URL',
       super_category: SuperCategory.find_or_create_by(name: 'Apparels', image: 'Image URL'))
-    SubCategory.create(sub_category_with(cat))
+    SubCategory.create!(sub_category_with(cat))
   end
 
   def sub_category_with(cat)
@@ -38,8 +38,8 @@ namespace :db do
 
   def create_designers
     puts 'Creating Designers'
-    10.times do |i|
-      designer = Designer.create(designer_attrs)
+    20.times do |i|
+      designer = Designer.create!(designer_attrs)
       build_store_info_for designer
       build_finance_info_for designer
       associate_categories_for designer
@@ -95,7 +95,7 @@ namespace :db do
 
   def product_attrs(designer)
     {
-      name: Faker::Commerce.product_name, description: Faker::Lorem.paragraph,
+      name: Faker::Commerce.unique.product_name, description: Faker::Lorem.paragraph,
       selling_price: Faker::Commerce.price, designer: designer, sub_category: designer.sub_categories.sample
     }
   end
@@ -131,7 +131,8 @@ namespace :db do
     User.all.each do |user|
       puts "Creating requests for #{user.username}"
       (1..5).to_a.sample.times do
-        Request.create!(request_attrs(user))
+        req = Request.create!(request_attrs(user))
+        associate_designers_to req
       end
     end
   end
@@ -142,7 +143,16 @@ namespace :db do
     {
       name: Faker::Commerce.unique.product_name, size: size,
       min_budget: min, max_budget: 1.8 * min, timeline: Faker::Number.between(1, 10),
-      description: Faker::Lorem.paragraph, user: user, sub_category: SubCategory.all.sample
+      description: Faker::Lorem.paragraph, user: user, sub_category: SubCategory.all.sample,
+      images_attributes: [{ image: 'Image URL', width: 10, height: 10 }, { image: 'Image URL', width: 10, height: 10 }]
     }
+  end
+
+  def associate_designers_to(req)
+    (1..10).to_a.sample.times do |i|
+      designer = Designer.where.not(id: req.request_designers.pluck(:designer_id)).sample
+      puts "#{i + 1}: Associating #{designer.full_name} to a request #{req.name}"
+      req.request_designers.create!(designer: designer)
+    end
   end
 end
