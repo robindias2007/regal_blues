@@ -16,7 +16,7 @@ class Designer < ApplicationRecord
   before_create :generate_pin
 
   def notify_request(request)
-    request
+    # request
   end
 
   private

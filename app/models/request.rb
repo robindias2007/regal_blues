@@ -8,11 +8,11 @@ class Request < ApplicationRecord
   has_many :images, as: :imageable
   has_many :request_designers
 
-  validates :name, :size, :min_budget, :max_budget, :timeline, presence: true
+  validates :name, :size, :max_budget, :timeline, presence: true
   validates :name, length: { in: 4..60 }, uniqueness: { case_sensitive: false, scope: :user_id }
   validates :timeline, numericality: { only_integer: true }
-  validates :min_budget, numericality: true
-  validates :max_budget, numericality: { greater_than: :min_budget }
+  validates :min_budget, numericality: true, allow_nil: true
+  validates :max_budget, numericality: { greater_than_or_equal_to: :min_budget }
 
   accepts_nested_attributes_for :images
   accepts_nested_attributes_for :request_designers

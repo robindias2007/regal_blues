@@ -4,6 +4,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def create
     request = current_user.requests.build(request_params)
     if request.save
+      # RequestDesignerService.notify_about request
       render json: { message: 'Request saved successfully' }, status: 201
     else
       render json: { errors: request.errors.messages }, status: 400
