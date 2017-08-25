@@ -1,5 +1,3 @@
 # frozen_string_literal: true
 
-unless Rails.env.production? || Rails.env.staging?
-  Faker::Config.locale = 'en-IND'
-end
+Faker::Config.locale = 'en-IND' if Rails.env.test? || Rails.env.development?
