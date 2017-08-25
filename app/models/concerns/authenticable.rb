@@ -4,6 +4,8 @@ module Authenticable
   extend ActiveSupport::Concern
 
   included do
+    has_secure_password
+
     validates :full_name, length: { in: 4..60 },
                           format: { with: /\A[a-zA-Z. ]*\z/, message: 'please use only English alphabets' }
 

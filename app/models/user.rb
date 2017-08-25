@@ -4,8 +4,6 @@ class User < ApplicationRecord
   include Authenticable
   extend Enumerize
 
-  has_secure_password
-
   has_many :user_identities
   has_many :requests
 

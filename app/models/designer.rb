@@ -3,8 +3,6 @@
 class Designer < ApplicationRecord
   include Authenticable
 
-  has_secure_password
-
   has_one :designer_store_info
   has_one :designer_finance_info
   has_many :designer_categorizations
@@ -16,6 +14,10 @@ class Designer < ApplicationRecord
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }
 
   before_create :generate_pin
+
+  def notify_request(request)
+    request
+  end
 
   private
 
