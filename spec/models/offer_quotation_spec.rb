@@ -19,6 +19,7 @@ describe OfferQuotation, type: :model do
 
   context 'ActiveRecord Associations' do
     it { expect(offer_quotation).to belong_to(:offer) }
+    it { expect(offer_quotation).to have_many(:offer_quotation_galleries) }
   end
 
   context 'ActiveRecord Databases' do
