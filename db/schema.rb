@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170831075552) do
+ActiveRecord::Schema.define(version: 20170831101825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,15 @@ ActiveRecord::Schema.define(version: 20170831075552) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
+  end
+
+  create_table "offer_quotations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
+    t.text "description", default: "", null: false
+    t.uuid "offer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_offer_quotations_on_offer_id"
   end
 
   create_table "offers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -242,6 +251,7 @@ ActiveRecord::Schema.define(version: 20170831075552) do
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
+  add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"
   add_foreign_key "offers", "requests"
   add_foreign_key "product_infos", "products"

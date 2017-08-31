@@ -14,4 +14,14 @@ describe Offer, type: :model do
     # Uniqueness Validations
     it { expect(offer).to validate_uniqueness_of(:designer_id).case_insensitive.scoped_to(:request_id) }
   end
+
+  context 'ActiveRecord Nested Attributes' do
+    it { expect(offer).to accept_nested_attributes_for(:offer_quotations) }
+  end
+
+  context 'ActiveRecord Associations' do
+    it { expect(offer).to belong_to(:designer) }
+    it { expect(offer).to belong_to(:request) }
+    it { expect(offer).to have_many(:offer_quotations) }
+  end
 end
