@@ -10,6 +10,7 @@ namespace :db do
     create_products
     create_users
     create_requests
+    create_offers
   end
 
   private
@@ -154,5 +155,15 @@ namespace :db do
       puts "#{i + 1}: Associating #{designer.full_name} to a request #{req.name}"
       req.request_designers.create!(designer: designer)
     end
+  end
+
+  def create_offers
+    requests = RequestDesigner.all
+    count = requests.size
+    puts "Creating #{count} offers"
+    requests.sample(count / 2).each do |rd|
+      Offer.create!(designer_id: rd.designer_id, request_id: rd.request_id)
+    end
+    puts 'Offers created'
   end
 end
