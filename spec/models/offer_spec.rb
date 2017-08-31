@@ -23,5 +23,6 @@ describe Offer, type: :model do
     it { expect(offer).to belong_to(:designer) }
     it { expect(offer).to belong_to(:request) }
     it { expect(offer).to have_many(:offer_quotations) }
+    it { expect(offer).to have_one(:offer_measurement) }
   end
 end
