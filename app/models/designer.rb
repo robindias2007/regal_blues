@@ -9,6 +9,7 @@ class Designer < ApplicationRecord
   has_many :sub_categories, through: :designer_categorizations
   has_many :products
   has_many :request_designers
+  has_many :offers
 
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }
