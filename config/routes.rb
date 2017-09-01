@@ -60,6 +60,9 @@ Rails.application.routes.draw do
       # Designer Categories
       resources :designer_categorizations, only: :index, path: 'designer-categories'
 
+      # Designer Requests
+      resources :requests, only: %i[index show]
+
       # Offers
       resources :offers, only: %i[index create show]
     end
