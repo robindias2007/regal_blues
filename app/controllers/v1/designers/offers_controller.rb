@@ -10,6 +10,16 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     end
   end
 
+  def index
+    offers = current_designer.offers.order(created_at: :desc).limit(20)
+    render json: { offers: offers }
+  end
+
+  def show
+    offer = current_designer.offers.find(params[:id])
+    render json: { offer: offer }
+  end
+
   private
 
   def offer_params

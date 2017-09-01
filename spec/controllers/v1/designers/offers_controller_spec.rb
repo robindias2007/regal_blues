@@ -22,6 +22,65 @@ describe V1::Designers::OffersController, type: :controller do
     end
   end
 
+  describe 'GET #index' do
+    let(:designer) { create :designer }
+    let(:offer) { create :offer, designer: designer }
+    let(:offer_quotation) { create :offer_quotation, offer: offer }
+    let(:offer_quotation_gallery) { create :offer_quotation_gallery, offer_quotation: offer_quotation }
+    let(:oqg_image) { create :image, imageable: offer_quotation_gallery }
+    let(:offer_measurement) { create :offer_measurement, offer: offer }
+
+    let(:another_offer) { create :offer, designer: create(:designer) }
+
+    it 'returns a list of requests of a particular designer' do
+      request.headers.merge! headers(designer)
+      get :index
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      _filler = [oqg_image, offer_measurement, another_offer]
+      request.headers.merge! headers(designer)
+      get :index
+      expect(response.body).to include offer.id
+    end
+
+    it 'does not list requests of other designers' do
+      request.headers.merge! headers(designer)
+      get :index
+      expect(response.body).not_to include another_offer.id
+    end
+  end
+
+  describe 'GET #show' do
+    let(:designer) { create :designer }
+    let(:offer) { create :offer, designer: designer }
+    let(:offer_quotation) { create :offer_quotation, offer: offer }
+    let(:offer_quotation_gallery) { create :offer_quotation_gallery, offer_quotation: offer_quotation }
+    let(:oqg_image) { create :image, imageable: offer_quotation_gallery }
+    let(:offer_measurement) { create :offer_measurement, offer: offer }
+
+    let(:another_offer) { create :offer, designer: create(:designer) }
+
+    it 'returns the show page of that particular request' do
+      request.headers.merge! headers(designer)
+      get :show, params: { id: offer.id }
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      request.headers.merge! headers(designer)
+      get :show, params: { id: offer.id }
+      expect(response.body).to include offer.id
+    end
+
+    it 'does not show the requests of other designers' do
+      request.headers.merge! headers(designer)
+      get :show, params: { id: another_offer.id }
+      expect(response.body).not_to include another_offer.id
+    end
+  end
+
   private
 
   def headers(designer)
