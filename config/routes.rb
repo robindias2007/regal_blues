@@ -30,6 +30,9 @@ Rails.application.routes.draw do
 
       # Requests
       resources :requests, only: %i[index create show]
+
+      # Offers
+      resources :offers, only: %i[index show]
     end
   end
   # end

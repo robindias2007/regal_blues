@@ -17,6 +17,14 @@ class Offer < ApplicationRecord
   accepts_nested_attributes_for :offer_quotations
   accepts_nested_attributes_for :offer_measurements
 
+  def self.find_for_user(user)
+    joins(:request).where(requests: { user: user })
+  end
+
+  def self.find_for_user_and_request(user, request_id)
+    joins(:request).where(requests: { user: user, id: request_id })
+  end
+
   private
 
   def max_number_of_quotations

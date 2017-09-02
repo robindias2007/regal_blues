@@ -18,4 +18,8 @@ class Request < ApplicationRecord
   accepts_nested_attributes_for :request_designers
 
   enumerize :size, in: %w[xs-s s-m m-l l-xl xl-xxl], scope: true, predicates: true
+
+  def self.find_for(designer)
+    joins(:request_designers).where(request_designers: { designer: designer }).order(created_at: :desc)
+  end
 end
