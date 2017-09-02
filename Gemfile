@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+ruby '2.4.1'
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -40,6 +41,9 @@ gem 'rack-cors'
 
 # Enumerization
 gem 'enumerize'
+
+# Serializer
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'bundler-audit'
