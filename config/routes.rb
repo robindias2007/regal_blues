@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+Rails.application.routes.default_url_options = {
+    host: 'custumise.com'
+}
+
 Rails.application.routes.draw do
   root 'home#index'
   # namespace 'api.user' do
