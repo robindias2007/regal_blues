@@ -12,13 +12,13 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
   end
 
   def index
-    products = current_designer.products.order(created_at: :desc).limit(20)
-    render json: { products: products }
+    products = current_designer.products.includes(:images).order(created_at: :desc).limit(20)
+    render json: products, include: %i[sub_category images], each_serializer: ProductIndexSerializer
   end
 
   def show
     product = current_designer.products.find(params[:id])
-    render json: { product: product }
+    render json: product, include: %i[images sub_category product_info]
   end
 
   private
