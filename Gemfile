@@ -46,6 +46,7 @@ gem 'enumerize'
 gem 'active_model_serializers'
 
 group :development, :test do
+  gem 'bullet'
   gem 'bundler-audit'
   gem 'factory_girl_rails'
   gem 'faker'
@@ -62,7 +63,6 @@ group :development do
   gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'bullet'
   gem 'foreman'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
