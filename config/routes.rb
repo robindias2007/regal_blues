@@ -26,6 +26,9 @@ Rails.application.routes.draw do
       match 'auth/facebook', to: 'sessions#facebook', via: %i[get post]
       match 'auth/google', to: 'sessions#google', via: %i[get post]
 
+      # Home Controller
+      get 'home/mobile', to: 'home#mobile'
+
       # Sub Categories
       resources :sub_categories, only: :index, path: 'sub-categories'
 

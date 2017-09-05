@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'active_model_serializers'
 describe V1::Designers::ProductsController, type: :controller do
   describe 'POST #create' do
     let(:designer) { create :designer }

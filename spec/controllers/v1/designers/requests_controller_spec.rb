@@ -50,11 +50,11 @@ describe V1::Designers::RequestsController, type: :controller do
       expect(response.body).not_to include random_request_designer.request.name
     end
 
-    it 'returns 403 for the requests of other designers' do
+    it 'returns 404 resource not found for the requests of other designers' do
       _ = random_request_designer
       request.headers.merge! headers(designer)
       get :show, params: { id: random_request_designer.request.id }
-      expect(response).to have_http_status 403
+      expect(response).to have_http_status 404
     end
   end
 
