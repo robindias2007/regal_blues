@@ -17,7 +17,7 @@ module BaseHelpers
     end
 
     def authenticate
-      render json: { errors: 'Unauthorized' }, status: 401 unless logged_in?
+      render json: { errors: ['Unauthorized'] }, status: 401 unless logged_in?
     end
 
     private

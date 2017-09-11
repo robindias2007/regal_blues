@@ -8,7 +8,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     if store_info.save
       render json: { message: 'Store info successfully updated' }, status: 201
     else
-      render json: { errors: 'Something went wrong' }, status: 400
+      render json: { errors: ['Something went wrong'] }, status: 400
     end
   end
 
@@ -17,7 +17,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     if finance_info.save
       render json: { message: 'Store info successfully updated' }, status: 201
     else
-      render json: { errors: 'Something went wrong' }, status: 400
+      render json: { errors: ['Something went wrong'] }, status: 400
     end
   end
 

@@ -58,7 +58,7 @@ module Registerable
       if current_resource && current_resource.update(password: params[:password])
         render json: { message: 'Password Updated' }, status: 200
       else
-        render json: { errors: 'Something went wrong' }, status: 400
+        render json: { errors: ['Something went wrong'] }, status: 400
       end
     end
 
@@ -66,7 +66,7 @@ module Registerable
       if current_resource && current_resource.update(mobile_number: params[:mobile_number])
         render json: { message: 'Mobile number Updated' }, status: 200
       else
-        render json: { errors: 'Something went wrong' }, status: 400
+        render json: { errors: ['Something went wrong'] }, status: 400
       end
     end
 
@@ -81,7 +81,7 @@ module Registerable
         current_resource.update(verified: true)
         render json: { message: 'Mobile number verified' }, status: 200
       else
-        render json: { errors: 'Wrong OTP' }, status: 400
+        render json: { errors: ['Wrong OTP'] }, status: 400
       end
     end
 
