@@ -8,7 +8,8 @@ module Sessionable
 
     def create
       resource = resource_class.find_for_auth(auth_params[:login])
-      if resource.authenticate(auth_params[:password])
+      return resource_not_found if resource.nil?
+      if resource && resource.authenticate(auth_params[:password])
         issue_jwt(resource)
       else
         render json: { errors: 'Unauthorized' }, status: 401
@@ -28,6 +29,10 @@ module Sessionable
     def issue_jwt(resource)
       jwt = Auth.issue(resource: resource.id)
       render json: { jwt: jwt }, status: 200
+    end
+
+    def resource_not_found
+      render json: { errors: 'Resource not found' }, status: 404
     end
   end
 end

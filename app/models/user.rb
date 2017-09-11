@@ -36,6 +36,21 @@ class User < ApplicationRecord
     user
   end
 
+  def live_orders?
+    # TODO: Update this
+    false
+  end
+
+  def requests_but_no_orders?
+    # requests.present? && orders.nil?
+    true
+  end
+
+  def no_requests_or_orders?
+    # requests.nil? && orders.nil?
+    false
+  end
+
   private
 
   # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400

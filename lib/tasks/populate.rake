@@ -62,7 +62,7 @@ namespace :db do
     country: Faker::Address.country, state: Faker::Address.state, city: Faker::Address.city,
     address_line_1: Faker::Address.street_address,
     contact_number: Faker::Number.number(10), min_order_price: Faker::Commerce.price,
-    processing_time: Faker::Number.number(2))
+    processing_time: Faker::Number.number(2)).save!
   end
 
   def build_finance_info_for(designer)
@@ -72,7 +72,7 @@ namespace :db do
     personal_pan_number_proof: 'Some url string', business_pan_number: Faker::Company.australian_business_number,
     business_pan_number_proof: 'Some url string', tin_number: Faker::Company.australian_business_number,
     tin_number_proof: 'Some url string', gstin_number: Faker::Company.australian_business_number,
-    gstin_number_proof: 'Some url string', business_address_proof: 'Some url string')
+    gstin_number_proof: 'Some url string', business_address_proof: 'Some url string').save!
   end
 
   def associate_categories_for(designer)

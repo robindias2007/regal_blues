@@ -43,7 +43,7 @@ gem 'rack-cors'
 gem 'enumerize'
 
 # Serializer
-gem 'active_model_serializers'
+gem 'active_model_serializers', require: true
 
 group :development, :test do
   gem 'bullet'
