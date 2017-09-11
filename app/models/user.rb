@@ -20,21 +20,21 @@ class User < ApplicationRecord
 
   enumerize :gender, in: %i[male female], scope: true, predicates: true
 
-  def self.create_with_facebook(info)
-    user = new
-    user_attributes_for_fb(user, info)
-    user.save
-    identity = user.user_identities.new
-    identity.uid = info['id']
-    identity.provider = 'facebook'
-    identity.save
-    user
-  end
-
-  def self.create_with_google(info)
-    user = info
-    user
-  end
+  # def self.create_with_facebook(info)
+  #   user = new
+  #   user_attributes_for_fb(user, info)
+  #   user.save
+  #   identity = user.user_identities.new
+  #   identity.uid = info['id']
+  #   identity.provider = 'facebook'
+  #   identity.save
+  #   user
+  # end
+  #
+  # def self.create_with_google(info)
+  #   user = info
+  #   user
+  # end
 
   def live_orders?
     # TODO: Update this
@@ -51,18 +51,18 @@ class User < ApplicationRecord
     false
   end
 
-  private
-
-  # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400
-  # using a background job
-  def user_attributes_for_fb(user, info)
-    email = info['email'].nil? ? info['id'] + '@amidos.com' : info['email']
-    user.full_name = info['name']
-    user.email = email
-    user.mobile_number = info['mobile_number']
-    user.gender = info['gender']
-    user.avatar = info['cover']['source']
-    user.password = friendly_password
-    user.username = SecureRandom.hex(4)
-  end
+  # private
+  #
+  # # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400
+  # # using a background job
+  # def user_attributes_for_fb(user, info)
+  #   email = info['email'].nil? ? info['id'] + '@amidos.com' : info['email']
+  #   user.full_name = info['name']
+  #   user.email = email
+  #   user.mobile_number = info['mobile_number']
+  #   user.gender = info['gender']
+  #   user.avatar = info['cover']['source']
+  #   user.password = friendly_password
+  #   user.username = SecureRandom.hex(4)
+  # end
 end
