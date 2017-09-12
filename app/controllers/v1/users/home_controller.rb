@@ -29,7 +29,7 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_requests
-    requests = current_user.requests.includes(:sub_category).order(created_at: :desc).limit(3)
+    requests = current_user.requests.order(created_at: :desc).limit(3)
     render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
   end
 

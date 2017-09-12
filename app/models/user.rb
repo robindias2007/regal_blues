@@ -43,12 +43,12 @@ class User < ApplicationRecord
 
   def requests_but_no_orders?
     # requests.present? && orders.nil?
-    true
+    requests.present?
   end
 
   def no_requests_or_orders?
     # requests.nil? && orders.nil?
-    false
+    requests.blank?
   end
 
   # private
