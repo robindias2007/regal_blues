@@ -13,7 +13,7 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
 
   def index
     products = current_designer.products.includes(:images, :sub_category).order(created_at: :desc).limit(20)
-    render json: products, include: %i[sub_category images], each_serializer: V1::Designers::ProductIndexSerializer
+    render json: products, each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
   end
 
   def show
@@ -31,5 +31,12 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
   def product_info_params
     params.require(:product).permit(product_info_attributes: %i[color fabric care notes work])
           .require(:product_info_attributes).first
+  end
+
+  def first_instance_of(products)
+    {
+      first_product: ActiveModelSerializers::SerializableResource.new(products.first,
+        serializer: V1::Designers::FirstProductSerializer)
+    }
   end
 end
