@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
-class V1::Designers::FirstProductSerializer < ActiveModel::Serializer
-  attributes :name, :category, :sku, :selling_price, :description, :additional_info
+class V1::Designers::ProductShowSerializer < ActiveModel::Serializer
+  attributes :name, :category, :sku, :selling_price, :description, :additional_info, :images
 
   def category
     object.sub_category.name
+  end
+
+  def images
+    object.images.map { |image| ImageSerializer.new(image) }
   end
 
   def additional_info

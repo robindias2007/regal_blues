@@ -18,7 +18,7 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
 
   def show
     product = current_designer.products.find(params[:id])
-    render json: product, include: %i[images sub_category product_info]
+    render json: product, serializer: V1::Designers::ProductShowSerializer
   end
 
   private
@@ -34,9 +34,7 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
   end
 
   def first_instance_of(products)
-    {
-      first_product: ActiveModelSerializers::SerializableResource.new(products.first,
-        serializer: V1::Designers::FirstProductSerializer)
-    }
+    ActiveModelSerializers::SerializableResource.new(products.first,
+      serializer: V1::Designers::ProductShowSerializer)
   end
 end
