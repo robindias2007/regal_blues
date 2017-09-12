@@ -3,7 +3,7 @@
 module V1
   module Users
     class TopDesignersSerializer < ActiveModel::Serializer
-      attributes :id, :name, :min_price, :categories
+      attributes :id, :name, :min_price, :categories, :cover
 
       def name
         object.designer_store_info&.display_name || 'Default Store Name'
@@ -19,6 +19,11 @@ module V1
           cats << { name: cat.name, image: cat.image, id: cat.id }
         end
         cats
+      end
+
+      def cover
+        # object.designer.designer_store_info
+        'Some Image URL'
       end
     end
   end
