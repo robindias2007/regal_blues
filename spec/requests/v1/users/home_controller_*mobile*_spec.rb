@@ -34,7 +34,6 @@ describe V1::Users::HomeController, '#mobile' do
 
       it 'responds with a list of top designers' do
         expect(response.response_code).to eq 200
-        pp JSON.parse(response.body)
       end
     end
   end
