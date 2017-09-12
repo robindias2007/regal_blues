@@ -18,6 +18,11 @@ describe Product, type: :model do
     # Length Validations
     it { expect(product).to validate_length_of(:name).is_at_least(4).is_at_most(100) }
     it { expect(product).to validate_length_of(:description).is_at_least(50).is_at_most(300) }
+    # Numericality Validations
+    it do
+      expect(product).to validate_numericality_of(:selling_price)
+        .is_greater_than_or_equal_to(product.designer.designer_store_info.min_order_price)
+    end
   end
 
   context 'ActiveRecord databases' do

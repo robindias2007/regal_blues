@@ -11,7 +11,10 @@ class Product < ApplicationRecord
                    uniqueness: { case_insensitive: false,
                                  scope:            :designer_id }
   validates :description, length: { in: 50..300 }
-  validates :selling_price, numericality: true
+  validates :selling_price, numericality: { greater_than_or_equal_to: proc { |product|
+                                                                        product&.designer&.designer_store_info
+                                                                               &.min_order_price || 5_000
+                                                                      } }
   validates :sub_category, presence: true, if: proc { |product|
                                                  DesignerCategorization.cat_ids_of_designer(product.designer_id)
                                                }
