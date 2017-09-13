@@ -65,7 +65,9 @@ Rails.application.routes.draw do
       post 'login', to: 'sessions#create'
 
       # Products
-      resources :products, only: %i[index create show]
+      resources :products, only: %i[index create show] do
+        patch :toggle_active, on: :member
+      end
 
       # Designer Categories
       resources :designer_categorizations, only: :index, path: 'designer-categories'

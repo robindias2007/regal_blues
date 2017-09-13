@@ -25,7 +25,8 @@ describe V1::Designers::ProductsController, type: :controller do
 
   describe 'GET #index' do
     let(:designer) { create :designer }
-    let!(:product_item) { create :product, designer: designer }
+    let(:product_item) { create :product, designer: designer }
+    let!(:product_info) { create :product_info, product: product_item }
     let(:another_product_item) { create :product }
 
     it 'returns a list of requests of a particular designer' do
@@ -50,6 +51,7 @@ describe V1::Designers::ProductsController, type: :controller do
   describe 'GET #show' do
     let(:designer) { create :designer }
     let(:product_item) { create :product, designer: designer }
+    let!(:product_info) { create :product_info, product: product_item }
     let(:another_product_item) { create :product }
 
     it 'returns the show page of that particular request' do
@@ -68,6 +70,17 @@ describe V1::Designers::ProductsController, type: :controller do
       request.headers.merge! headers(designer)
       get :show, params: { id: another_product_item.id }
       expect(response.body).not_to include another_product_item.name
+    end
+  end
+
+  describe 'PATCH #toggle_active' do
+    let(:designer) { create :designer }
+    let(:product_item) { create :product, designer: designer }
+
+    it 'returns http success code when the params are correct' do
+      request.headers.merge! headers(designer)
+      patch :toggle_active, params: { id: product_item.id }
+      expect(response).to have_http_status 200
     end
   end
 
