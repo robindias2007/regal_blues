@@ -45,7 +45,9 @@ gem 'enumerize'
 # Serializer
 gem 'active_model_serializers', require: true
 
+# Image Upload and Manipulation
 gem 'carrierwave'
+gem 'carrierwave-base64'
 
 group :development, :test do
   gem 'bullet'

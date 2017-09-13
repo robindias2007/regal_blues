@@ -16,7 +16,7 @@ class Designer < ApplicationRecord
 
   before_create :generate_pin
 
-  mount_uploader :avatar, AvatarUploader
+  mount_base64_uploader :avatar, AvatarUploader
 
   def notify_request(request)
     # request

@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   enumerize :gender, in: %i[male female], scope: true, predicates: true
 
-  mount_uploader :avatar, AvatarUploader
+  mount_base64_uploader :avatar, AvatarUploader
 
   # def self.create_with_facebook(info)
   #   user = new
