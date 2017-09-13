@@ -13,7 +13,11 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
 
   def index
     products = current_designer.products.includes(:images, :sub_category).order(created_at: :desc).limit(20)
-    render json: products, each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+    if products.present?
+      render json: products, each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+    else
+      render json: { message: 'No products found. Please start by creating one!' }, status: 200
+    end
   end
 
   def show
