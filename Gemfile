@@ -45,6 +45,8 @@ gem 'enumerize'
 # Serializer
 gem 'active_model_serializers', require: true
 
+gem 'carrierwave'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
