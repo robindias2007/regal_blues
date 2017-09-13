@@ -7,4 +7,6 @@ class Image < ApplicationRecord
   validates :width, :height, numericality: { only_integer: true }
 
   accepts_nested_attributes_for :imageable
+
+  mount_base64_uploader :image, ImageUploader
 end
