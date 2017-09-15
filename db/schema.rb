@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170831114422) do
+ActiveRecord::Schema.define(version: 20170914095019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "btree_gin"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
+
+  create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "country", default: "", null: false
+    t.string "pincode", default: "", null: false
+    t.text "street_address", default: "", null: false
+    t.string "nickname", default: "", null: false
+    t.string "city", default: "", null: false
+    t.string "state", default: "", null: false
+    t.string "landmark"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -263,6 +277,7 @@ ActiveRecord::Schema.define(version: 20170831114422) do
     t.index ["verified"], name: "index_users_on_verified", where: "verified"
   end
 
+  add_foreign_key "addresses", "users"
   add_foreign_key "categories", "super_categories"
   add_foreign_key "designer_categorizations", "designers"
   add_foreign_key "designer_categorizations", "sub_categories"

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe OfferQuotationGallery, type: :model do
+  let(:offer_quotation_gallery) { create :offer_quotation_gallery }
+
   it 'has a valid factory' do
     expect(create(:offer_quotation_gallery)).to be_valid
   end
-
-  let(:offer_quotation_gallery) { create :offer_quotation_gallery }
 
   context 'ActiveModel Validations' do
     # Presence Validations

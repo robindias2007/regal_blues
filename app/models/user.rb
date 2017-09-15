@@ -5,6 +5,7 @@ class User < ApplicationRecord
   extend Enumerize
 
   has_many :user_identities
+  has_many :addresses
   has_many :requests
 
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true

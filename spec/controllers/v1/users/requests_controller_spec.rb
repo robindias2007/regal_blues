@@ -90,7 +90,7 @@ describe V1::Users::RequestsController, type: :controller do
         timeline:                     Faker::Number.between(1, 10),
         description:                  Faker::Lorem.paragraph,
         sub_category_id:              sc.id,
-        images_attributes:            [image: 'asd', width: 10, height: 10],
+        images_attributes:            [image: image_data, width: 10, height: 10],
         request_designers_attributes: [designer_id: designer.id]
       } }
   end
@@ -105,5 +105,11 @@ describe V1::Users::RequestsController, type: :controller do
         max_budget: min + 100
       }
     }
+  end
+
+  def image_data
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnElEQVR42u3RAQ0AAAgDIN8'\
+  '/9K3hHFQg03Y4I0KEIEQIQoQgRAhChAgRghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghA'\
+  'hCBGCECEIQYgQhAhBiBCECEEIQoQgRAhChCBECEIQIgQhQhAiBCFCEIIQIQgRghAhCBGCECFChCBECEKEIOS7BchtK0ieNE3rAAAAAElFTkSuQmCC'
   end
 end

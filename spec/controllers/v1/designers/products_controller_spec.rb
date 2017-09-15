@@ -100,7 +100,7 @@ describe V1::Designers::ProductsController, type: :controller do
         sub_category_id:         sc.id,
         product_info_attributes: [{ color: Faker::Color.color_name,
           fabric: 'lorem', care: 'lorem', notes: 'lorem', work: 'lorem' }],
-        images_attributes:       [{ image: 'asd', width: 10, height: 10 }]
+        images_attributes:       [{ image: image_data, width: 10, height: 10 }]
       } }
   end
 
@@ -111,5 +111,11 @@ describe V1::Designers::ProductsController, type: :controller do
         images_attributes:       [image: 'asd', width: 10, height: 10],
         product_info_attributes: [fabric: 'lorem', care: 'lorem', notes: 'lorem', work: 'lorem']
       } }
+  end
+
+  def image_data
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnElEQVR42u3RAQ0AAAgDIN8'\
+  '/9K3hHFQg03Y4I0KEIEQIQoQgRAhChAgRghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghA'\
+  'hCBGCECEIQYgQhAhBiBCECEEIQoQgRAhChCBECEIQIgQhQhAiBCFCEIIQIQgRghAhCBGCECFChCBECEKEIOS7BchtK0ieNE3rAAAAAElFTkSuQmCC'
   end
 end

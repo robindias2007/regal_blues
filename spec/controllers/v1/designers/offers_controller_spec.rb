@@ -94,7 +94,7 @@ describe V1::Designers::OffersController, type: :controller do
       offer: {
         request_id: request.id, offer_quotations_attributes: [price: Faker::Commerce.price,
           description: Faker::Lorem.paragraph, offer_quotation_galleries_attributes:
-          [name: Faker::Commerce.product_name, images_attributes: [image: 'asd']]],
+          [name: Faker::Commerce.product_name, images_attributes: [image: image_data]]],
         offer_measurements_attributes: [data: {
           attributes: %w[neck shoulder waist]
           }]
@@ -112,5 +112,11 @@ describe V1::Designers::OffersController, type: :controller do
           }]
       }
     }
+  end
+
+  def image_data
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnElEQVR42u3RAQ0AAAgDIN8'\
+  '/9K3hHFQg03Y4I0KEIEQIQoQgRAhChAgRghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghA'\
+  'hCBGCECEIQYgQhAhBiBCECEEIQoQgRAhChCBECEIQIgQhQhAiBCFCEIIQIQgRghAhCBGCECFChCBECEKEIOS7BchtK0ieNE3rAAAAAElFTkSuQmCC'
   end
 end

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe User, type: :model do
+  let(:user) { create :user }
+
   it 'has a valid factory' do
     expect(create(:user)).to be_valid
   end
-
-  let(:user) { create :user }
 
   context 'ActiveModel validations' do
     # Presence Validations
@@ -41,6 +41,7 @@ describe User, type: :model do
   context 'ActiveRecord Associations' do
     it { expect(user).to have_many(:user_identities) }
     it { expect(user).to have_many(:requests) }
+    it { expect(user).to have_many(:addresses) }
   end
 
   context 'callbacks' do
