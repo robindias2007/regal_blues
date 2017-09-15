@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       resources :offers, only: %i[index show]
 
       # Shipping Addresses
-      resources :addresses, only: %i[index create show]
+      resources :addresses, only: %i[index create]
     end
   end
   # end

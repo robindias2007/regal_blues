@@ -7,7 +7,6 @@ describe V1::Users::RequestsController, type: :controller do
     it 'returns http created if valid params are passed' do
       request.headers.merge! headers(user)
       post :create, params: valid_request_params
-      pp JSON.parse response.body
       expect(response).to have_http_status 201
     end
 

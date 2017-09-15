@@ -7,7 +7,6 @@ describe V1::Users::AddressesController, type: :controller do
     it 'returns http created if valid params are passed' do
       request.headers.merge! headers(user)
       post :create, params: valid_address_params
-      pp JSON.parse response.body
       expect(response).to have_http_status 201
     end
 
@@ -20,6 +19,30 @@ describe V1::Users::AddressesController, type: :controller do
     it 'returns http unauthorized if user is not present' do
       post :create, params: invalid_address_params
       expect(response).to have_http_status 401
+    end
+  end
+
+  describe 'GET #index' do
+    let(:user) { create :user }
+    let!(:address) { create :address, user: user }
+    let(:another_address) { create :address }
+
+    it 'returns a list of addresses of a particular user' do
+      request.headers.merge! headers(user)
+      get :index
+      expect(response).to have_http_status 200
+    end
+
+    it 'matches the content' do
+      request.headers.merge! headers(user)
+      get :index
+      expect(response.body).to include address.country
+    end
+
+    it 'does not list requests of other users' do
+      request.headers.merge! headers(user)
+      get :index
+      expect(response.body).not_to include another_address.country
     end
   end
 
