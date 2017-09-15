@@ -40,6 +40,9 @@ Rails.application.routes.draw do
 
       # Offers
       resources :offers, only: %i[index show]
+
+      # Shipping Addresses
+      resources :addresses, only: %i[index create show]
     end
   end
   # end
