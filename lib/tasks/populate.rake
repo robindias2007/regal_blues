@@ -9,6 +9,7 @@ namespace :db do
     create_designers
     create_products
     create_users
+    create_addresses
     create_requests
     create_offers
   end
@@ -17,23 +18,23 @@ namespace :db do
 
   def create_all_categories
     puts 'Creating categories'
-    cat = Category.find_or_create_by(name: 'Women', image: 'Image URL',
-      super_category: SuperCategory.find_or_create_by(name: 'Apparels', image: 'Image URL'))
+    cat = Category.find_or_create_by(name: 'Women', image: image_data,
+      super_category: SuperCategory.find_or_create_by(name: 'Apparels', image: image_data))
     SubCategory.create!(sub_category_with(cat))
   end
 
   def sub_category_with(cat)
     [
-      { name: 'Saree', image: 'Image URL', category: cat },
-      { name: 'Lehenga', image: 'Image URL', category: cat },
-      { name: 'Chudidar', image: 'Image URL', category: cat },
-      { name: 'Anarkali', image: 'Image URL', category: cat },
-      { name: 'Chunri', image: 'Image URL', category: cat },
-      { name: 'Choli', image: 'Image URL', category: cat },
-      { name: 'Mekhela Sador', image: 'Image URL', category: cat },
-      { name: 'Mundum Neriyathum', image: 'Image URL', category: cat },
-      { name: 'Pattu Pavadai', image: 'Image URL', category: cat },
-      { name: 'Ghagra', image: 'Image URL', category: cat }
+      { name: 'Saree', image: image_data, category: cat },
+      { name: 'Lehenga', image: image_data, category: cat },
+      { name: 'Chudidar', image: image_data, category: cat },
+      { name: 'Anarkali', image: image_data, category: cat },
+      { name: 'Chunri', image: image_data, category: cat },
+      { name: 'Choli', image: image_data, category: cat },
+      { name: 'Mekhela Sador', image: image_data, category: cat },
+      { name: 'Mundum Neriyathum', image: image_data, category: cat },
+      { name: 'Pattu Pavadai', image: image_data, category: cat },
+      { name: 'Ghagra', image: image_data, category: cat }
     ]
   end
 
@@ -85,11 +86,9 @@ namespace :db do
     puts 'Creating products'
     Designer.all.each do |designer|
       puts "Creating products for #{designer.full_name}"
-      10.times do |i|
-        puts "Creating product #{i + 1}"
+      10.times do
         product = Product.create!(product_attrs(designer))
         create_info_for product
-        puts "Created product #{i + 1}"
       end
     end
   end
@@ -97,7 +96,7 @@ namespace :db do
   def product_attrs(designer)
     {
       name: Faker::Commerce.unique.product_name, description: Faker::Lorem.paragraph,
-      selling_price: Faker::Commerce.price, designer: designer, sub_category: designer.sub_categories.sample
+      selling_price: Faker::Commerce.price + 100, designer: designer, sub_category: designer.sub_categories.sample
     }
   end
 
@@ -128,6 +127,27 @@ namespace :db do
     }
   end
 
+  def create_addresses
+    puts 'Creating addresses for users'
+    User.all.each do |user|
+      (1..5).to_a.sample.times do
+        user.addresses.create!(address_params)
+      end
+    end
+  end
+
+  def address_params
+    {
+     country:        Faker::Address.country,
+     pincode:        Faker::Address.zip,
+     street_address: Faker::Address.secondary_address + Faker::Address.street_address,
+     landmark:       Faker::Address.community,
+     city:           Faker::Address.city,
+     state:          Faker::Address.state,
+     nickname:       %w[home work other].sample
+     }
+  end
+
   def create_requests
     User.all.each do |user|
       puts "Creating requests for #{user.username}"
@@ -145,14 +165,14 @@ namespace :db do
       name: Faker::Commerce.unique.product_name, size: size,
       min_budget: min, max_budget: 1.8 * min, timeline: Faker::Number.between(1, 10),
       description: Faker::Lorem.paragraph, user: user, sub_category: SubCategory.all.sample,
-      images_attributes: [{ image: 'Image URL', width: 10, height: 10 }, { image: 'Image URL', width: 10, height: 10 }]
+      address: user.addresses.sample,
+      images_attributes: [{ image: image_data, width: 10, height: 10 }, { image: image_data, width: 10, height: 10 }]
     }
   end
 
   def associate_designers_to(req)
-    (1..10).to_a.sample.times do |i|
+    (1..10).to_a.sample.times do
       designer = Designer.where.not(id: req.request_designers.pluck(:designer_id)).sample
-      puts "#{i + 1}: Associating #{designer.full_name} to a request #{req.name}"
       req.request_designers.create!(designer: designer)
     end
   end
@@ -165,5 +185,27 @@ namespace :db do
       Offer.create!(designer_id: rd.designer_id, request_id: rd.request_id)
     end
     puts 'Offers created'
+    create_offer_quotations
+  end
+
+  def create_offer_quotations
+    puts 'Creating Offer Quotations'
+    Offer.all.each do |offer|
+      (1..3).to_a.sample.times do
+        OfferQuotation.create!(price: Faker::Commerce.price, description: Faker::Lorem.paragraph, offer: offer)
+      end
+    end
+    puts 'Created Offer Quotations'
+    create_oq_galleries
+  end
+
+  def create_oq_galleries
+
+  end
+
+  def image_data
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnElEQVR42u3RAQ0AAAgDIN8'\
+  '/9K3hHFQg03Y4I0KEIEQIQoQgRAhChAgRghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghA'\
+  'hCBGCECEIQYgQhAhBiBCECEEIQoQgRAhChCBECEIQIgQhQhAiBCFCEIIQIQgRghAhCBGCECFChCBECEKEIOS7BchtK0ieNE3rAAAAAElFTkSuQmCC'
   end
 end

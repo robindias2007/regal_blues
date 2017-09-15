@@ -24,7 +24,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   private
 
   def request_params
-    params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline,
+    params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id,
       :description, :sub_category_id, images_attributes: %i[image], request_designers_attributes: %i[designer_id])
   end
 end

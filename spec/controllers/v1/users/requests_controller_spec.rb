@@ -6,7 +6,7 @@ describe V1::Users::RequestsController, type: :controller do
 
     it 'returns http created if valid params are passed' do
       request.headers.merge! headers(user)
-      post :create, params: valid_request_params
+      post :create, params: valid_request_params(user)
       expect(response).to have_http_status 201
     end
 
@@ -77,10 +77,11 @@ describe V1::Users::RequestsController, type: :controller do
     { Authorization: "Bearer #{jwt}" }
   end
 
-  def valid_request_params
+  def valid_request_params(user)
     min = Faker::Commerce.price
     sc = create :sub_category
     designer = create :designer
+    address = create(:address, user: user)
     { request: {
         name:                         Faker::Commerce.product_name,
         size:                         %w[xs-s s-m m-l l-xl xl-xxl].sample,
@@ -89,6 +90,7 @@ describe V1::Users::RequestsController, type: :controller do
         timeline:                     Faker::Number.between(1, 10),
         description:                  Faker::Lorem.paragraph,
         sub_category_id:              sc.id,
+        address_id:                   address.id,
         images_attributes:            [image: image_data, width: 10, height: 10],
         request_designers_attributes: [designer_id: designer.id]
       } }

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe Request, type: :model do
+  let(:request) { create :request, user: create(:user), min_budget: 0.01 }
+
   it 'has a valid factory' do
     expect(create(:request)).to be_valid
   end
-
-  let(:request) { create :request, min_budget: 0.01 }
 
   context 'ActiveModel Validations' do
     # Presence Validations
@@ -30,7 +30,10 @@ describe Request, type: :model do
   context 'ActiveRecord Associations' do
     it { expect(request).to belong_to(:user) }
     it { expect(request).to belong_to(:sub_category) }
+    it { expect(request).to belong_to(:address) }
     it { expect(request).to have_many(:request_designers) }
+    it { expect(request).to have_many(:offers) }
+    it { expect(request).to have_many(:images) }
   end
 
   context 'ActiveRecord Databases' do

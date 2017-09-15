@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914095019) do
+ActiveRecord::Schema.define(version: 20170915063956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,8 @@ ActiveRecord::Schema.define(version: 20170914095019) do
     t.uuid "sub_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "address_id"
+    t.index ["address_id"], name: "index_requests_on_address_id"
     t.index ["name"], name: "index_requests_on_name", using: :gin
     t.index ["sub_category_id"], name: "index_requests_on_sub_category_id"
     t.index ["user_id"], name: "index_requests_on_user_id"
@@ -293,6 +295,7 @@ ActiveRecord::Schema.define(version: 20170914095019) do
   add_foreign_key "products", "sub_categories"
   add_foreign_key "request_designers", "designers"
   add_foreign_key "request_designers", "requests"
+  add_foreign_key "requests", "addresses"
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"
