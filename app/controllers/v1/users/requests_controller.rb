@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class V1::Users::RequestsController < V1::Users::BaseController
+  skip_before_action :authenticate
+
   def create
     request = current_user.requests.build(request_params)
     if request.save
@@ -9,6 +11,16 @@ class V1::Users::RequestsController < V1::Users::BaseController
     else
       render json: { errors: request.errors.messages }, status: 400
     end
+  end
+
+  def categories
+    categories = SubCategory.all.order(name: :asc)
+    render json: categories, each_serializer: V1::Users::RequestSubCategorySerializer
+  end
+
+  def designers
+    designers = Designer.find_for_category(params[:category_id])
+    render json: designers, each_serializer: V1::Users::RequestDesignerSerializer
   end
 
   def index

@@ -36,7 +36,12 @@ Rails.application.routes.draw do
       resources :designers, only: :index
 
       # Requests
-      resources :requests, only: %i[index create show]
+      resources :requests, only: %i[index create show] do
+        collection do
+          get :categories
+          get 'designers/:category_id' => :designers
+        end
+      end
 
       # Offers
       resources :offers, only: %i[index show]

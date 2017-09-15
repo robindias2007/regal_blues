@@ -18,6 +18,10 @@ class Designer < ApplicationRecord
 
   mount_base64_uploader :avatar, AvatarUploader
 
+  def self.find_for_category(category_id)
+    joins(:designer_categorizations).where(designer_categorizations: { sub_category_id: category_id })
+  end
+
   def notify_request(request)
     # request
   end

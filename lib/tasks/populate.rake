@@ -200,12 +200,23 @@ namespace :db do
   end
 
   def create_oq_galleries
+    puts 'Creating Offer Quotation Galleries'
+    OfferQuotation.all.each do |oq|
+      oqg = oq.offer_quotation_galleries.build(oqg_params)
+      oqg.save
+    end
+    puts 'Created Offer Quotation Galleries'
+  end
 
+  def oqg_params
+    {
+      name:              Faker::Name.first_name,
+      images_attributes: [{ image: image_data }, { image: image_data }, { image: image_data }, { image: image_data }]
+    }
   end
 
   def image_data
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAnElEQVR42u3RAQ0AAAgDIN8'\
-  '/9K3hHFQg03Y4I0KEIEQIQoQgRAhChAgRghAhCBGCECEIEYIQhAhBiBCECEGIEIQgRAhChCBECEKEIAQhQhAiBCFCECIEIQgRghA'\
-  'hCBGCECEIQYgQhAhBiBCECEEIQoQgRAhChCBECEIQIgQhQhAiBCFCEIIQIQgRghAhCBGCECFChCBECEKEIOS7BchtK0ieNE3rAAAAAElFTkSuQmCC'
+    data = Base64.encode64(File.read(Rails.root.join('spec', 'fixtures', 'request_images', "#{rand(1..10)}.jpg")))
+    'data:image/jpeg;base64,' + data
   end
 end

@@ -25,3 +25,4 @@ jwt_rsa_private.pem
 dump.rdb
 
 public/uploads
+spec/fixtures
