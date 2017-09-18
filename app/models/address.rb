@@ -7,7 +7,18 @@ class Address < ApplicationRecord
   validates :country, :pincode, :street_address, :city, :state, :nickname, presence: true
   validates :street_address, uniqueness: { case_sensitive: false, scope: :user_id }
 
+  before_save :upcase_attrs
+
   def self.ids_for(user_id)
     where(user_id: user_id).pluck(:id)
+  end
+
+  private
+
+  def upcase_attrs
+    self.nickname = nickname.capitalize
+    self.city = city.capitalize
+    self.state = state.capitalize
+    self.country = country.capitalize
   end
 end

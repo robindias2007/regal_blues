@@ -11,8 +11,8 @@ class V1::Users::AddressesController < V1::Users::BaseController
   end
 
   def index
-    addresses = current_user.addresses.order(created_at: :desc).limit(10)
-    render json: { addresses: addresses }
+    addresses = current_user.addresses.order(nickname: :asc).limit(10)
+    render json: addresses
   end
 
   private

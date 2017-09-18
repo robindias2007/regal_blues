@@ -9,7 +9,7 @@ namespace :db do
     create_designers
     create_products
     create_users
-    create_addresses
+    create_addresses_for_users
     create_requests
     create_offers
   end
@@ -127,9 +127,9 @@ namespace :db do
     }
   end
 
-  def create_addresses
+  def create_addresses_for_users
     puts 'Creating addresses for users'
-    User.all.each do |user|
+    User.all.sample(25).each do |user|
       (1..5).to_a.sample.times do
         user.addresses.create!(address_params)
       end
