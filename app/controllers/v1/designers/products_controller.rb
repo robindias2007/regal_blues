@@ -16,7 +16,7 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
     if products.present?
       render json: products, each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
     else
-      render json: { message: 'No products found. Please start by creating one!' }, status: 200
+      render json: { message: 'No products found. Please start by creating one!' }, status: 404
     end
   end
 

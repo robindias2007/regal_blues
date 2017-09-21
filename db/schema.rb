@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915063956) do
+ActiveRecord::Schema.define(version: 20170921054828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,7 +204,9 @@ ActiveRecord::Schema.define(version: 20170915063956) do
     t.uuid "designer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "not_interested", default: false, null: false
     t.index ["designer_id"], name: "index_request_designers_on_designer_id"
+    t.index ["not_interested"], name: "index_request_designers_on_not_interested", where: "(not_interested IS FALSE)"
     t.index ["request_id"], name: "index_request_designers_on_request_id"
   end
 

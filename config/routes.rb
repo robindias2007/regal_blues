@@ -81,7 +81,9 @@ Rails.application.routes.draw do
       resources :designer_categorizations, only: :index, path: 'designer-categories'
 
       # Designer Requests
-      resources :requests, only: %i[index show]
+      resources :requests, only: %i[index show] do
+        patch :toggle_not_interested, on: :member
+      end
 
       # Offers
       resources :offers, only: %i[index create show]
