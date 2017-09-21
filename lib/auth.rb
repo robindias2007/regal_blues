@@ -10,6 +10,7 @@ class Auth
   end
 
   def self.decode(token)
+    Rails.logger.debug(JWT_TOKEN: token)
     JWT.decode(token, rsa_public, true, algorithm: ALGORITHM).first
   rescue => e
     Rails.logger.fatal e

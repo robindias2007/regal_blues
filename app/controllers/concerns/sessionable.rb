@@ -11,7 +11,7 @@ module Sessionable
       if resource && resource.authenticate(auth_params[:password])
         issue_jwt(resource)
       else
-        render json: { errors: ['Unauthorized'] }, status: 401
+        render json: { errors: ['Invalid Credentials'] }, status: 401
       end
     end
 

@@ -20,16 +20,19 @@ module Registerable
     def confirm
       token = params[:token]
       resource = resource_class.find_by(confirmation_token: token)
-      formatted_response_if(resource && resource.valid_confirmation_token?,
-        ['resource_class confirmed successfully', 200], ['Invalid Token', 404]) do
+      if resource && resource.valid_confirmation_token?
         resource.mark_as_confirmed!
+        jwt = Auth.issue(resource: resource.id)
+        render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
+      else
+        render json: { errors: 'Invalid Token' }, status: 404
       end
     end
 
     def resend_confirmation
       resource = resource_class.find_for_auth(resend_confirmation_params[:email])
       formatted_response_if(resource,
-        ['Confirmation instructions resent successfully', 200], ['resource_class not found or invalid email', 404]) do
+        ['Confirmation instructions resent successfully', 200], ['User not found', 404]) do
         resource.send(:send_confirmation_email)
       end
     end
