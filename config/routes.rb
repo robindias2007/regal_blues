@@ -48,6 +48,10 @@ Rails.application.routes.draw do
 
       # Shipping Addresses
       resources :addresses, only: %i[index create]
+
+      resources :products, only: %i[index show]
+
+      get 'explore/mobile', to: 'explore#mobile'
     end
   end
   # end
