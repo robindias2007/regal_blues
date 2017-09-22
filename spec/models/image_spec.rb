@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe Image, type: :model do
+  let(:image) { create(:image) }
+
   it 'has a valid factory' do
     expect(create(:image)).to be_valid
   end
-
-  let(:image) { create(:image) }
 
   context 'ActiveModel validations' do
     # Presence Validations

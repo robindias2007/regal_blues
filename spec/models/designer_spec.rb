@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe Designer, type: :model do
+  let(:designer) { create :designer }
+
   it 'has a valid factory' do
     expect(create(:designer)).to be_valid
   end
-
-  let(:designer) { create :designer }
 
   context 'ActiveModel validations' do
     # Presence Validations
@@ -17,7 +17,7 @@ describe Designer, type: :model do
     it { expect(designer).to validate_uniqueness_of(:email).case_insensitive }
     it { expect(designer).to validate_uniqueness_of(:mobile_number).case_insensitive }
     # Length Validations
-    it { expect(designer).to validate_length_of(:mobile_number).is_at_least(11).is_at_most(13) }
+    it { expect(designer).to validate_length_of(:mobile_number).is_at_least(10).is_at_most(13) }
     it { expect(designer).to validate_length_of(:full_name).is_at_least(4).is_at_most(60) }
     # Format Validations
     it { expect(designer).to allow_value('Ramesh Suresh').for(:full_name) }

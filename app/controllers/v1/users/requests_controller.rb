@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class V1::Users::RequestsController < V1::Users::BaseController
-  skip_before_action :authenticate
-
   def create
     request = current_user.requests.build(request_params)
     if request.save

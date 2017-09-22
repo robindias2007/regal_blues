@@ -8,6 +8,7 @@ describe V1::Designers::RequestsController, type: :controller do
 
   describe 'GET #index' do
     it 'returns a list of requests of a particular designer' do
+      _ = request_designer
       request.headers.merge! headers(designer)
       get :index
       expect(response).to have_http_status 200
