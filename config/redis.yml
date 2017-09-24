@@ -7,3 +7,6 @@ development:
 
 test:
   db: 1
+
+production:
+  url: <%= ENV['REDIS_URL'] %>
