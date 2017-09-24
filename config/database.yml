@@ -82,6 +82,4 @@ test:
 #
 production:
   <<: *default
-  database: regal_blues_production
-  username: regal_blues
-  password: <%= ENV['REGAL_BLUES_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

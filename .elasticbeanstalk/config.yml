@@ -1,0 +1,20 @@
+branch-defaults:
+  master:
+    environment: CustumiseApi-env
+environment-defaults:
+  CustumiseApi-env:
+    branch: null
+    repository: null
+global:
+  application_name: Custumise API
+  default_ec2_keyname: null
+  default_platform: arn:aws:elasticbeanstalk:ap-south-1::platform/Puma with Ruby 2.3
+    running on 64bit Amazon Linux/2.4.4
+  default_region: ap-south-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: custumise
+  sc: git
+  workspace_type: Application
