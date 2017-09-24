@@ -4,11 +4,19 @@ class V1::Users::ProductsController < V1::Users::BaseController
   skip_before_action :authenticate
 
   def index
-    products = if params[:category_id].nil?
-                 Product.all
-               else
-                 Product.where(sub_category_id: params[:category_id])
-               end.order(name: :asc).limit(30)
-    render json: products, each_serializer: V1::Users::ProductsSerializer
+    if invalid_price_params?
+      render json: { errors: ['Bad Request. Both price filters must be present'] }, status: 400
+    else
+      server = IndexService.new(params[:category_id], params[:sort], params[:price_low], params[:price_high])
+      products = server.products
+      render json: products, each_serializer: V1::Users::ProductsSerializer
+    end
+  end
+
+  private
+
+  def invalid_price_params?
+    (params[:price_low].present? && params[:price_high].nil?) ||
+      (params[:price_low].nil? && params[:price_high].present?)
   end
 end

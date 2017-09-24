@@ -88,6 +88,7 @@ namespace :db do
       puts "Creating products for #{designer.full_name}"
       10.times do
         product = Product.create!(product_attrs(designer))
+        attach_images_for product
         create_info_for product
       end
     end
@@ -98,6 +99,10 @@ namespace :db do
       name: Faker::Commerce.unique.product_name, description: Faker::Lorem.paragraph,
       selling_price: Faker::Commerce.price + 100, designer: designer, sub_category: designer.sub_categories.sample
     }
+  end
+
+  def attach_images_for(product)
+    Image.create!(image: image_data, imageable: product)
   end
 
   def create_info_for(product)
@@ -129,7 +134,7 @@ namespace :db do
 
   def create_addresses_for_users
     puts 'Creating addresses for users'
-    User.all.sample(25).each do |user|
+    User.all.each do |user|
       (1..5).to_a.sample.times do
         user.addresses.create!(address_params)
       end

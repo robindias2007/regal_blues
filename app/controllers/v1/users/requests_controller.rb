@@ -11,9 +11,14 @@ class V1::Users::RequestsController < V1::Users::BaseController
     end
   end
 
-  def categories
+  def init_data
     categories = SubCategory.all.order(name: :asc)
-    render json: categories, each_serializer: V1::Users::RequestSubCategorySerializer
+    addresses = current_user.addresses.order(nickname: :asc).limit(10)
+    json = {
+      categories: serialization_for(categories, V1::Users::RequestSubCategorySerializer),
+      addresses:  serialization_for(addresses, V1::Users::AddressSerializer)
+    }
+    render json: json
   end
 
   def designers
@@ -36,5 +41,10 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def request_params
     params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id,
       :description, :sub_category_id, images_attributes: %i[image], request_designers_attributes: %i[designer_id])
+  end
+
+  def serialization_for(list, serializer)
+    ActiveModelSerializers::SerializableResource.new(list,
+      each_serializer: serializer)
   end
 end

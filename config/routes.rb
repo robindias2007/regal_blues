@@ -38,7 +38,7 @@ Rails.application.routes.draw do
       # Requests
       resources :requests, only: %i[index create show] do
         collection do
-          get :categories
+          get :init_data, path: 'init-data'
           get 'designers/:category_id' => :designers
         end
       end

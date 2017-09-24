@@ -24,6 +24,14 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :images
   accepts_nested_attributes_for :product_info
 
+  def self.of_category(category_id)
+    where(sub_category_id: category_id)
+  end
+
+  def self.between_prices(low, high)
+    where('selling_price >= ? AND selling_price <= ?', low, high)
+  end
+
   private
 
   def generate_sku
