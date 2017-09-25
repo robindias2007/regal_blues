@@ -12,9 +12,13 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
   end
 
   def index
-    products = current_designer.products.includes(:images, :sub_category).order(created_at: :desc).limit(20)
+    products = current_designer.products.includes(:images, :sub_category).limit(20)
     if products.present?
-      render json: products, each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+      if params[:sort].present?
+        sort_products(products)
+      else
+        render_default_sorted_products(products)
+      end
     else
       render json: { message: 'No products found. Please start by creating one!' }, status: 404
     end
@@ -49,5 +53,20 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
   def first_instance_of(products)
     ActiveModelSerializers::SerializableResource.new(products.first,
       serializer: V1::Designers::ProductShowSerializer)
+  end
+
+  def sort_products(products)
+    if params[:sort] == 'price-asc'
+      render json: products.order(selling_price: :asc),
+        each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+    elsif params[:sort] == 'price-desc'
+      render json: products.order(selling_price: :desc),
+        each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+    end
+  end
+
+  def render_default_sorted_products(products)
+    render json: products.order(created_at: :desc),
+      each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
   end
 end
