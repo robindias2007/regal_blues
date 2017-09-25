@@ -47,8 +47,11 @@ gem 'active_model_serializers', require: true
 
 # Image Upload and Manipulation
 gem 'carrierwave'
-gem 'carrierwave-base64'
 gem 'carrierwave-aws'
+gem 'carrierwave-base64'
+
+# Faker / Seed Helper
+gem 'faker'
 
 group :development, :test do
   gem 'bullet'
