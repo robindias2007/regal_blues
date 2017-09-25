@@ -41,7 +41,7 @@ namespace :db do
   def create_designers
     puts 'Creating Designers'
     20.times do |i|
-      designer = Designer.create!(designer_attrs)
+      designer = Designer.create!(designer_attrs(i))
       build_store_info_for designer
       build_finance_info_for designer
       associate_categories_for designer
@@ -49,9 +49,9 @@ namespace :db do
     end
   end
 
-  def designer_attrs
+  def designer_attrs(i)
     {
-      full_name: Faker::Name.name, email: Faker::Internet.email, password: 'password',
+      full_name: names[i], email: Faker::Internet.unique.email, password: 'password',
       mobile_number: '+' + [1, 49, 91].sample.to_s + Faker::Number.number(10),
       location: Faker::LordOfTheRings.location
     }
@@ -113,21 +113,21 @@ namespace :db do
 
   def create_users
     puts 'Creating Users'
-    50.times do |i|
+    20.times do |i|
       puts "Creating User #{i + 1}"
-      user = User.create!(user_attrs)
+      user = User.create!(user_attrs(i))
       user.mark_as_confirmed!
       puts 'User created'
     end
   end
 
-  def user_attrs
+  def user_attrs(i)
     {
-      full_name:     Faker::Name.name,
+      full_name:     names[i],
       username:      Faker::Internet.user_name(Faker::Internet.user_name(4..40), '_'),
       mobile_number: '+' + [1, 49, 91].sample.to_s + Faker::Number.number(10),
       gender:        Faker::Demographic.sex.downcase,
-      email:         Faker::Internet.email,
+      email:         Faker::Internet.unique.email,
       password:      'password'
     }
   end
@@ -223,5 +223,13 @@ namespace :db do
   def image_data
     data = Base64.encode64(File.read(Rails.root.join('spec', 'fixtures', 'request_images', "#{rand(1..10)}.jpg")))
     'data:image/jpeg;base64,' + data
+  end
+
+  def names
+    ['Prasanna Jain', 'Shresth Banerjee', 'Jitender Pilla', 'Bhudev Talwar', 'Chandramohan Acharya III',
+     'Baala Kaur', 'Rajinder Rana', 'Anuja Patil', 'Dev Kocchar', 'Giriraj Prajapat',
+     'Anilabh Bandopadhyay', 'Chaaruchandra Nambeesan', 'Ekaksh Varma', 'Chapal Mishra',
+     'Balaaditya Deshpande', 'Mrs. Chandira Tandon', 'Balgopal Asan PhD', 'Ekaksh Gowda',
+     'Akshat Pothuvaal IV', 'Chandani Reddy']
   end
 end
