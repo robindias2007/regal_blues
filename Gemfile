@@ -48,6 +48,7 @@ gem 'active_model_serializers', require: true
 # Image Upload and Manipulation
 gem 'carrierwave'
 gem 'carrierwave-base64'
+gem 'carrierwave-aws'
 
 group :development, :test do
   gem 'bullet'
