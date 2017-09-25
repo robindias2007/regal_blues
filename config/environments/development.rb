@@ -33,6 +33,27 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # AWS SES
+  # config.action_mailer.smtp_settings = {
+  #   address:              'email-smtp.us-west-2.amazonaws.com',
+  #   port:                 587,
+  #   user_name:            'AKIAIUXLDQFDYA2PZRKA',
+  #   password:             'AuQLHP9zSTLPCBOcDwLhxG2eEEmm3n2CmeAwM5Bezfwt',
+  #   authentication:       :login,
+  #   enable_starttls_auto: true
+  # }
+
+  # GMAIL
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            'developer@custumise.com',
+    password:             'niwxlxvthucgnqsl',
+    authentication:       :login,
+    enable_starttls_auto: true
+  }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
