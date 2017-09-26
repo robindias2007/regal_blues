@@ -49,6 +49,8 @@ gem 'active_model_serializers', require: true
 gem 'carrierwave'
 gem 'carrierwave-aws'
 gem 'carrierwave-base64'
+gem 'mini_magick'
+gem 'rmagick'
 
 # Faker / Seed Helper
 gem 'faker'
@@ -57,7 +59,6 @@ group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
   gem 'factory_girl_rails'
-  gem 'faker'
   gem 'pry'
   gem 'pry-byebug'
   gem 'pry-rails'
