@@ -2,7 +2,7 @@
 
 class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   attributes :username, :location, :sent_on, :item_type, :project, :size, :budget, :timeline, :images,
-    :additional_description
+    :additional_description, :interested
 
   def username
     object.user.username.capitalize
@@ -37,12 +37,17 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   end
 
   def images
-    object.images.map do |image|
-      ImageSerializer.new(image)
+    # TODO: color code for images
+    object.request_images.map do |image|
+      RequestImageSerializer.new(image)
     end
   end
 
   def additional_description
     object.description
+  end
+
+  def interested
+    !RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)&.not_interested?
   end
 end

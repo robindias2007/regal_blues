@@ -6,7 +6,8 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def index
     requests = Request.find_for(current_designer).order(created_at: :desc).limit(20)
     if requests.present?
-      render json: requests, each_serializer: V1::Designers::RequestIndexSerializer, meta: first_instance_of(requests)
+      render json: requests, each_serializer: V1::Designers::RequestIndexSerializer, meta: first_instance_of(requests),
+      designer_id: current_designer.id
     else
       render json: { message: 'No requests found!' }, status: 404
     end
@@ -15,7 +16,8 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def show
     request = Request.find_for(current_designer).find(params[:id])
     render json: request, serializer: V1::Designers::RequestShowSerializer,
-      meta: { interested: !RequestDesigner.find_by(designer: current_designer, request: @request).not_interested? }
+      meta: { interested: !RequestDesigner.find_by(designer: current_designer, request: @request).not_interested? },
+      designer_id: current_designer.id
   end
 
   def toggle_not_interested

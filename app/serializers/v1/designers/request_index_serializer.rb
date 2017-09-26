@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
-  attributes :username, :sent_on, :item_type, :project, :budget, :timeline, :image
+  # TODO: sent bids/awaiting bids, user avatar
+  attributes :username, :sent_on, :item_type, :project, :budget, :timeline, :image, :offers?
 
   def username
     object.user.username.capitalize
+  end
+
+  def user_avatar
+    object.user.avatar.url
   end
 
   def sent_on
@@ -28,6 +33,10 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   end
 
   def image
-    object.images.first&.image || 'Default Image URL'
+    object.request_images.order(created_at: :desc).first&.image || 'Default Image URL'
+  end
+
+  def offers?
+    Offer.where(request: object, designer_id: @instance_options[:designer_id]).any?
   end
 end
