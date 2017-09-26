@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class V1::Designers::RequestsController < V1::Designers::BaseController
-  before_action :find_request, only: %i[show not_interested]
-
   def index
     requests = Request.find_for(current_designer).order(created_at: :desc).limit(20)
     if requests.present?
@@ -16,7 +14,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def show
     request = Request.find_for(current_designer).find(params[:id])
     render json: request, serializer: V1::Designers::RequestShowSerializer,
-      meta: { interested: !RequestDesigner.find_by(designer: current_designer, request: @request).not_interested? },
+      meta: { interested: !RequestDesigner.find_by(designer: current_designer, request: @request)&.not_interested? },
       designer_id: current_designer.id
   end
 
