@@ -24,6 +24,5 @@ class Request < ApplicationRecord
 
   def self.find_for(designer)
     joins(:request_designers).where(request_designers: { designer: designer, not_interested: false })
-                             .order(created_at: :desc)
   end
 end

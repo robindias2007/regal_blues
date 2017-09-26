@@ -13,12 +13,14 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   end
 
   def show
-    render json: @request, serializer: V1::Designers::RequestShowSerializer,
+    request = Request.find_for(current_designer).find(params[:id])
+    render json: request, serializer: V1::Designers::RequestShowSerializer,
       meta: { interested: !RequestDesigner.find_by(designer: current_designer, request: @request).not_interested? }
   end
 
   def toggle_not_interested
-    if @request.toggle(:not_interested)
+    request = RequestDesigner.find_for(params[:id], current_designer)
+    if request.toggle(:not_interested)
       render json: { message: 'Request has been successfull updated as not interested' }, status: 200
     else
       render json: { errors: @request.errors.messages }, status: 400
@@ -26,10 +28,6 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   end
 
   private
-
-  def find_request
-    @request ||= Request.find_for(current_designer).find(params[:id])
-  end
 
   def first_instance_of(requests)
     ActiveModelSerializers::SerializableResource.new(requests.first,
