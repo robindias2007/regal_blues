@@ -31,7 +31,7 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
 
   def toggle_active
     product = current_designer.products.find(params[:id])
-    if product.toggle(:active)
+    if product.safe_toggle!(:active)
       render json: { message: 'Product state successfully changed' }, status: 200
     else
       render json: { errors: ['Something went wrong'] }, status: 400

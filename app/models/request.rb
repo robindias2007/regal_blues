@@ -25,4 +25,8 @@ class Request < ApplicationRecord
   def self.find_for(designer)
     joins(:request_designers).where(request_designers: { designer: designer, not_interested: false })
   end
+
+  def safe_toggle!(attr)
+    public_send(attr) == true ? update(:"#{attr}" => false) : update(:"#{attr}" => true)
+  end
 end

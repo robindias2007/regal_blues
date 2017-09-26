@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   has_one :product_info
   has_many :images, as: :imageable
 
-  validates :name, :description, :selling_price, :active, presence: true
+  validates :name, :description, :selling_price, presence: true
   validates :name, length:     { in: 4..100 },
                    uniqueness: { case_insensitive: false,
                                  scope:            :designer_id }
@@ -30,6 +30,10 @@ class Product < ApplicationRecord
 
   def self.between_prices(low, high)
     where('selling_price >= ? AND selling_price <= ?', low, high)
+  end
+
+  def safe_toggle!(attr)
+    public_send(attr) == true ? update!(:"#{attr}" => false) : update!(:"#{attr}" => true)
   end
 
   private
