@@ -2,7 +2,6 @@
 
 class V1::Users::RequestsController < V1::Users::BaseController
   def create
-    binding.pry
     request = current_user.requests.build(request_params)
     if request.save
       # RequestDesignerService.notify_about request
