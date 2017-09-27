@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
@@ -39,7 +40,7 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   def images
     # TODO: color code for images
     object.request_images.map do |image|
-      RequestImageSerializer.new(image)
+      V1::Designers::RequestImageSerializer.new(image)
     end
   end
 
