@@ -3,8 +3,8 @@
 class RequestImage < ApplicationRecord
   belongs_to :request
 
-  validates :image, :description, presence: true
-  validates :width, :height, numericality: { only_integer: true }
+  validates :image, :serial_number, presence: true
+  validates :width, :height, :serial_number, numericality: { only_integer: true }
 
   before_validation :make_image, if: :blank_image?
 
