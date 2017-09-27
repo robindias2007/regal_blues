@@ -5,11 +5,11 @@ namespace :db do
 
   task populate: :environment do
     # Don't change the order
-    create_all_categories
-    create_designers
-    create_products
-    create_users
-    create_addresses_for_users
+    # create_all_categories
+    # create_designers
+    # create_products
+    # create_users
+    # create_addresses_for_users
     create_requests
     create_offers
   end
@@ -157,8 +157,8 @@ namespace :db do
     User.all.each do |user|
       puts "Creating requests for #{user.username}"
       (1..5).to_a.sample.times do
-        req = Request.create!(request_attrs(user))
-        associate_designers_to req
+        Request.create!(request_attrs(user))
+        # associate_designers_to req
       end
     end
   end
@@ -166,21 +166,26 @@ namespace :db do
   def request_attrs(user)
     min = Faker::Commerce.price
     size = %w[xs-s s-m m-l l-xl xl-xxl].sample
+    designers = Designer.all.sample(2)
     {
       name: Faker::Commerce.unique.product_name, size: size,
       min_budget: min, max_budget: 1.8 * min, timeline: Faker::Number.between(1, 10),
       description: Faker::Lorem.paragraph, user: user, sub_category: SubCategory.all.sample,
       address: user.addresses.sample,
-      images_attributes: [{ image: image_data, width: 10, height: 10 }, { image: image_data, width: 10, height: 10 }]
+      request_images_attributes: [
+        { image: image_data, width: 10, height: 10, serial_number: 1 },
+        { image: image_data, width: 10, height: 10, serial_number: 2 }
+      ],
+      request_designers_attributes: [{ designer_id: designers.first.id }, { designer_id: designers.second.id }]
     }
   end
 
-  def associate_designers_to(req)
-    (1..10).to_a.sample.times do
-      designer = Designer.where.not(id: req.request_designers.pluck(:designer_id)).sample
-      req.request_designers.create!(designer: designer)
-    end
-  end
+  # def associate_designers_to(req)
+  #   (1..10).to_a.sample.times do
+  #     designer = Designer.where.not(id: req.request_designers.pluck(:designer_id)).sample
+  #     req.request_designers.create!(designer: designer)
+  #   end
+  # end
 
   def create_offers
     requests = RequestDesigner.all

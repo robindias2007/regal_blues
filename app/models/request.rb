@@ -6,7 +6,7 @@ class Request < ApplicationRecord
   belongs_to :user
   belongs_to :sub_category
   belongs_to :address
-  has_many :request_images
+  has_many :request_images, dependent: :destroy
   has_many :request_designers, dependent: :destroy
   has_many :offers, dependent: :destroy
 

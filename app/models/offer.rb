@@ -7,8 +7,8 @@ class Offer < ApplicationRecord
   belongs_to :designer
   belongs_to :request
 
-  has_many :offer_measurements
-  has_many :offer_quotations
+  has_many :offer_measurements, dependent: :destroy
+  has_many :offer_quotations, dependent: :destroy
 
   validates :designer_id, uniqueness: { scope: :request_id }
   validates :designer_id, :request_id, presence: true

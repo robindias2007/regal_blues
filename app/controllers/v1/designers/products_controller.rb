@@ -57,16 +57,19 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
 
   def sort_products(products)
     if params[:sort] == 'price-asc'
-      render json: products.order(selling_price: :asc),
-        each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+      products = products.order(selling_price: :asc)
+      render json:            products,
+             each_serializer: V1::Designers::ProductIndexSerializer,
+             meta:            first_instance_of(products)
     elsif params[:sort] == 'price-desc'
-      render json: products.order(selling_price: :desc),
+      products = products.order(selling_price: :desc)
+      render json: products,
         each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
     end
   end
 
   def render_default_sorted_products(products)
     render json: products.order(created_at: :desc),
-      each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+      each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products.order(created_at: :desc))
   end
 end
