@@ -32,6 +32,11 @@ class Product < ApplicationRecord
     where('selling_price >= ? AND selling_price <= ?', low, high)
   end
 
+  def self.search_for(query)
+    where('similarity(name, ?) > 0.15', query)
+      .order("similarity(name, #{ActiveRecord::Base.connection.quote(query)}) DESC")
+  end
+
   def safe_toggle!(attr)
     public_send(attr) == true ? update!(:"#{attr}" => false) : update!(:"#{attr}" => true)
   end

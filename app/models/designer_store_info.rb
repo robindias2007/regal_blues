@@ -10,4 +10,9 @@ class DesignerStoreInfo < ApplicationRecord
 
   validates :pincode, length: { in: 5..6 }, numericality: { only_integer: true }
   validates :processing_time, numericality: { only_integer: true }
+
+  def self.search_for(query)
+    where('similarity(display_name, ?) > 0.15', query).order("similarity(display_name,
+      #{ActiveRecord::Base.connection.quote(query)}) DESC")
+  end
 end

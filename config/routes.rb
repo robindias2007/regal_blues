@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       resources :products, only: %i[index show]
 
       get 'explore/mobile', to: 'explore#mobile'
+      get 'search/:q', to: 'search#index'
     end
   end
   # end
