@@ -20,7 +20,7 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
         render_default_sorted_products(products)
       end
     else
-      render json: { message: 'No products found. Please start by creating one!' }, status: 404
+      render json: { errors: { message: 'No products found. Please start by creating one!' } }, status: 404
     end
   end
 

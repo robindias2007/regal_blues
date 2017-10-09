@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class IndexService
-  def initialize(category, sort, price_low, price_high)
+  def initialize(category, price_low, price_high)
     @category = category
-    @sort = sort
     @price_low = price_low
     @price_high = price_high
   end
