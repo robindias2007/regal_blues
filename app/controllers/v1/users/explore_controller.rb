@@ -17,17 +17,17 @@ class V1::Users::ExploreController < V1::Users::BaseController
 
   private
 
+  def serialization_for(list, serializer)
+    ActiveModelSerializers::SerializableResource.new(list,
+      each_serializer: serializer)
+  end
+
   def categories_serializer(categories)
     serialization_for(categories, V1::Users::RequestSubCategorySerializer)
   end
 
   def designers_serializer(designers)
     serialization_for(designers, V1::Users::TopDesignersSerializer)
-  end
-
-  def serialization_for(list, serializer)
-    ActiveModelSerializers::SerializableResource.new(list,
-      each_serializer: serializer)
   end
 
   def serialize_products(products)
@@ -47,14 +47,10 @@ class V1::Users::ExploreController < V1::Users::BaseController
   end
 
   def products_serializer(top_three)
-    first_cat = top_three.first.name
-    second_cat = top_three.second.name
-    last_cat = top_three.last.name
-
     {
-      first_cat  => first_category_products(top_three),
-      second_cat => second_category_products(top_three),
-      last_cat   => last_category_products(top_three)
+      1 => { category: top_three.first.name,  data: first_category_products(top_three) },
+      2 => { category: top_three.second.name, data: second_category_products(top_three) },
+      3 => { category: top_three.last.name,   data: last_category_products(top_three) }
     }
   end
 end
