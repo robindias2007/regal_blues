@@ -21,7 +21,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def toggle_not_interested
     request = RequestDesigner.find_for(params[:id], current_designer)
     if request.safe_toggle!(:not_interested)
-      render json: { message: 'Request has been successfull updated as not interested' }, status: 200
+      render json: { message: 'Request has been successfully updated as not interested' }, status: 200
     else
       render json: { errors: @request.errors.messages }, status: 400
     end
