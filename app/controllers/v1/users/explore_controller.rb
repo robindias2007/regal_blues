@@ -47,10 +47,13 @@ class V1::Users::ExploreController < V1::Users::BaseController
   end
 
   def products_serializer(top_three)
+    first = top_three.first
+    second = top_three.second
+    third = top_three.last
     {
-      1 => { category: top_three.first.name,  data: first_category_products(top_three) },
-      2 => { category: top_three.second.name, data: second_category_products(top_three) },
-      3 => { category: top_three.last.name,   data: last_category_products(top_three) }
+      1 => { category: first.name, id: first.id,  data: first_category_products(top_three) },
+      2 => { category: second.name, id: second.id, data: second_category_products(top_three) },
+      3 => { category: third.name, id: third.id,  data: last_category_products(top_three) }
     }
   end
 end

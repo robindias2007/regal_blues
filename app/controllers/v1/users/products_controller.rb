@@ -28,18 +28,24 @@ class V1::Users::ProductsController < V1::Users::BaseController
     if params[:sort].present?
       sort_products(products)
     else
-      render json:            products.order(created_at: :desc).limit(10),
-             each_serializer: V1::Users::ProductsSerializer
+      render json:            products.order(created_at: :desc),
+             each_serializer: V1::Users::ProductsSerializer, meta: max_and_min_price_of(products)
     end
   end
 
   def sort_products(products)
     products = if params[:sort] == 'price-asc'
-                 products.order(selling_price: :asc).limit(10)
+                 products.order(selling_price: :asc)
                elsif params[:sort] == 'price-desc'
-                 products.order(selling_price: :desc).limit(10)
+                 products.order(selling_price: :desc)
                end
-    render json: products, each_serializer: V1::Users::ProductsSerializer
+    render json: products, each_serializer: V1::Users::ProductsSerializer, meta: max_and_min_price_of(products)
+  end
+
+  def max_and_min_price_of(products)
+    max = products.maximum(:selling_price)
+    min = products.minimum(:selling_price)
+    { max: max, min: min }
   end
 
   def invalid_price_params?
