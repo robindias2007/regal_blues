@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009055825) do
+ActiveRecord::Schema.define(version: 20171009060202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,11 +137,11 @@ ActiveRecord::Schema.define(version: 20171009055825) do
 
   create_table "offer_measurements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}, null: false
-    t.uuid "offer_id"
+    t.uuid "offer_quotation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["data"], name: "index_offer_measurements_on_data", using: :gin
-    t.index ["offer_id"], name: "index_offer_measurements_on_offer_id"
+    t.index ["offer_quotation_id"], name: "index_offer_measurements_on_offer_quotation_id"
   end
 
   create_table "offer_quotation_galleries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -302,7 +302,7 @@ ActiveRecord::Schema.define(version: 20171009055825) do
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
-  add_foreign_key "offer_measurements", "offers"
+  add_foreign_key "offer_measurements", "offers", column: "offer_quotation_id"
   add_foreign_key "offer_quotation_galleries", "offer_quotations"
   add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"
