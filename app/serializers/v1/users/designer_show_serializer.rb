@@ -34,7 +34,8 @@ module V1
 
       def bio
         # TODO: Change this
-        object.designer_store_info&.bio || 'Not implemented'
+        # object.designer_store_info&.bio
+        'Not implemented'
       end
 
       def collection
