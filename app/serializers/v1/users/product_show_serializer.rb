@@ -14,15 +14,20 @@ class V1::Users::ProductShowSerializer < ActiveModel::Serializer
 
   def more_items
     products = Product.where(designer: object.designer).where.not(id: object.id).order('RANDOM()').limit(6)
-    products.map do |product|
-      V1::Users::ProductsSerializer.new(product)
-    end
+    map_serialized(products)
   end
 
   def similar_items
     products = Product.where(sub_category: object.sub_category).where.not(id: object.id).order('RANDOM()').limit(6)
+    map_serialized(products)
+  end
+
+  private
+
+  def map_serialized(products)
     products.map do |product|
-      V1::Users::ProductsSerializer.new(product)
+      ActiveModelSerializers::SerializableResource.new(product,
+        serializer: V1::Users::ProductsSerializer).as_json
     end
   end
 end
