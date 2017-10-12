@@ -12,5 +12,9 @@ FactoryGirl.define do
     user
     sub_category
     address
+    before(:create) do |request, _evaluator|
+      request.request_images << FactoryGirl.create(:request_image, request: request)
+      request.request_designers << FactoryGirl.create(:request_designer, request: request)
+    end
   end
 end

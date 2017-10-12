@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :offer_quotation do
-    price Faker::Commerce.price
-    description Faker::Lorem.paragraph
+    price { Faker::Commerce.price }
+    description { Faker::Lorem.paragraph }
     offer
   end
 end

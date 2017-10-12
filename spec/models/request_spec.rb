@@ -23,7 +23,7 @@ describe Request, type: :model do
   end
 
   context 'ActiveRecord Nested Attributes' do
-    it { expect(request).to accept_nested_attributes_for(:images) }
+    it { expect(request).to accept_nested_attributes_for(:request_images) }
     it { expect(request).to accept_nested_attributes_for(:request_designers) }
   end
 
@@ -33,7 +33,7 @@ describe Request, type: :model do
     it { expect(request).to belong_to(:address) }
     it { expect(request).to have_many(:request_designers) }
     it { expect(request).to have_many(:offers) }
-    it { expect(request).to have_many(:images) }
+    it { expect(request).to have_many(:request_images) }
   end
 
   context 'ActiveRecord Databases' do

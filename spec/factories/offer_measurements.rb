@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :offer_measurement do
     data { { attributes: %w[neck shoulder waist] } }
-    offer
+    offer_quotation
   end
 end

@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :product do
-    name { Faker::Commerce.product_name }
-    description Faker::Lorem.paragraph
-    selling_price Faker::Commerce.price + 100_000
+    name Faker::Commerce.product_name
+    description { Faker::Lorem.paragraph }
+    selling_price { Faker::Commerce.price + 100_000 }
     sub_category
     designer
 

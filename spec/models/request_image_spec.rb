@@ -1,5 +1,9 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe RequestImage, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe RequestImage, type: :model do
+  let(:request_image) { create :request_image }
+
+  it 'has a valid factory' do
+    expect(create(:request_image)).to be_valid
+  end
 end

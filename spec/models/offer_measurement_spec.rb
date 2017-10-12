@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 describe OfferMeasurement, type: :model do
+  let(:offer_measurement) { create :offer_measurement }
+
   it 'has a valid factory' do
     expect(create(:offer_measurement)).to be_valid
   end
-
-  let(:offer_measurement) { create :offer_measurement }
 
   context 'ActiveModel Validations' do
     # Presence Validations
@@ -13,7 +13,7 @@ describe OfferMeasurement, type: :model do
   end
 
   context 'ActiveRecord Associations' do
-    it { expect(offer_measurement).to belong_to(:offer) }
+    it { expect(offer_measurement).to belong_to(:offer_quotation) }
   end
 
   context 'ActiveRecord Databases' do

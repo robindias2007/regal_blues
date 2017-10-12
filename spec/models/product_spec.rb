@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
 describe Product, type: :model do
+  let(:product) { create :product }
+
   it 'has a valid factory' do
     expect(create(:product)).to be_valid
   end
-
-  let(:product) { create :product }
 
   context 'ActiveModel validations' do
     # Presence Validations
     it { expect(product).to validate_presence_of(:name) }
     it { expect(product).to validate_presence_of(:description) }
     it { expect(product).to validate_presence_of(:selling_price) }
-    it { expect(product).to validate_presence_of(:active) }
     # Uniqueness Validations
     it { expect(product).to validate_uniqueness_of(:name).scoped_to(:designer_id) }
     # Length Validations

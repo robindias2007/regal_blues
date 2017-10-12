@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009055825) do
+ActiveRecord::Schema.define(version: 20171012123816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,23 @@ ActiveRecord::Schema.define(version: 20171009055825) do
     t.index ["request_id"], name: "index_offers_on_request_id"
   end
 
+  create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "designer_id"
+    t.uuid "user_id"
+    t.uuid "offer_quotation_id"
+    t.boolean "paid", default: false, null: false
+    t.boolean "measurements_given", default: false, null: false
+    t.boolean "cancelled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cancelled"], name: "index_orders_on_cancelled", where: "cancelled"
+    t.index ["designer_id"], name: "index_orders_on_designer_id"
+    t.index ["measurements_given"], name: "index_orders_on_measurements_given", where: "measurements_given"
+    t.index ["offer_quotation_id"], name: "index_orders_on_offer_quotation_id"
+    t.index ["paid"], name: "index_orders_on_paid", where: "paid"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "product_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "color", default: "", null: false
     t.text "fabric", default: "", null: false
@@ -307,6 +324,9 @@ ActiveRecord::Schema.define(version: 20171009055825) do
   add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"
   add_foreign_key "offers", "requests"
+  add_foreign_key "orders", "designers"
+  add_foreign_key "orders", "offer_quotations"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_infos", "products"
   add_foreign_key "products", "designers"
   add_foreign_key "products", "sub_categories"
