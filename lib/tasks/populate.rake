@@ -5,11 +5,11 @@ namespace :db do
 
   task populate: :environment do
     # Don't change the order
-    # create_all_categories
-    # create_designers
-    # create_products
-    # create_users
-    # create_addresses_for_users
+    create_all_categories
+    create_designers
+    create_products
+    create_users
+    create_addresses_for_users
     create_requests
     create_offers
   end
@@ -45,7 +45,7 @@ namespace :db do
       build_store_info_for designer
       build_finance_info_for designer
       associate_categories_for designer
-      puts "Created Designer #{i + 1}"
+      puts "Created designer #{i + 1}"
     end
   end
 
@@ -206,22 +206,32 @@ namespace :db do
       end
     end
     puts 'Created Offer Quotations'
-    create_oq_galleries
+    create_oq_galleries_and_oq_measurements
   end
 
-  def create_oq_galleries
+  def create_oq_galleries_and_oq_measurements
     puts 'Creating Offer Quotation Galleries'
     OfferQuotation.all.each do |oq|
       oqg = oq.offer_quotation_galleries.build(oqg_params)
+      om = oq.offer_measurements.build(om_params)
       oqg.save
+      om.save
     end
-    puts 'Created Offer Quotation Galleries'
+    puts 'Created Offer Quotation Galleries with measurements'
+  end
+
+  def om_params
+    {
+      data: {
+        tags: %w[arms legs neck shoulder]
+      }
+    }
   end
 
   def oqg_params
     {
       name:              Faker::Name.first_name,
-      images_attributes: [{ image: image_data }, { image: image_data }, { image: image_data }, { image: image_data }]
+      images_attributes: Array.new(4) { { image: image_data, description: 'Some description' } }
     }
   end
 

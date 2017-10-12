@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009060202) do
+ActiveRecord::Schema.define(version: 20171009055825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,7 +302,7 @@ ActiveRecord::Schema.define(version: 20171009060202) do
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
-  add_foreign_key "offer_measurements", "offers", column: "offer_quotation_id"
+  add_foreign_key "offer_measurements", "offer_quotations"
   add_foreign_key "offer_quotation_galleries", "offer_quotations"
   add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"

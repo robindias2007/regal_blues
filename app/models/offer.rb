@@ -8,7 +8,7 @@ class Offer < ApplicationRecord
 
   has_many :offer_quotations, dependent: :destroy
 
-  validates :designer_id, uniqueness: { scope: :request_id }
+  # validates :designer_id, uniqueness: { scope: :request_id }
   validates :designer_id, :request_id, presence: true
   validate :max_number_of_quotations
 
