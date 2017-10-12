@@ -4,7 +4,7 @@ module V1
   module Users
     class DesignerShowSerializer < ActiveModel::Serializer
       attributes :id, :name, :min_price, :cover, :processing_time, :location, :sales,
-        :member_since, :collection
+        :member_since, :collection, :bio
 
       def name
         object.designer_store_info&.display_name || 'Default Store Name'

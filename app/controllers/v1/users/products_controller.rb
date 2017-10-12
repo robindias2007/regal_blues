@@ -4,17 +4,10 @@ class V1::Users::ProductsController < V1::Users::BaseController
   skip_before_action :authenticate
 
   def index
-    if invalid_price_params?
-      render json: { errors: ['Bad Request. Both price filters must be present'] }, status: 400
-    else
-      server = IndexService.new(params[:category_id], params[:price_low], params[:price_high])
-      products = server.products
-      if products.present?
-        sort_and_serve products
-      else
-        render json: { errors: { message: 'No products found!' } }, status: 404
-      end
-    end
+    return invalid_price_params if invalid_price_params?
+    server = IndexService.new(params[:category_id], params[:price_low], params[:price_high], params[:designer_id])
+    products = products_to_render(server)
+    check_and_render(products)
   end
 
   def show
@@ -51,5 +44,25 @@ class V1::Users::ProductsController < V1::Users::BaseController
   def invalid_price_params?
     (params[:price_low].present? && params[:price_high].nil?) ||
       (params[:price_low].nil? && params[:price_high].present?)
+  end
+
+  def invalid_price_params
+    render json: { errors: ['Bad Request. Both price filters must be present'] }, status: 400
+  end
+
+  def products_to_render(server)
+    if params[:designer_id].present?
+      server.designer_products
+    else
+      server.products
+    end
+  end
+
+  def check_and_render(products)
+    if products.present?
+      sort_and_serve products
+    else
+      render json: { errors: { message: 'No products found!' } }, status: 404
+    end
   end
 end

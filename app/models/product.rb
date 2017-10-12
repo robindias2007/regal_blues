@@ -37,6 +37,10 @@ class Product < ApplicationRecord
       .order("similarity(name, #{ActiveRecord::Base.connection.quote(query)}) DESC")
   end
 
+  def self.of_designer(designer_id)
+    where(designer_id: designer_id)
+  end
+
   def safe_toggle!(attr)
     public_send(attr) == true ? update!(:"#{attr}" => false) : update!(:"#{attr}" => true)
   end

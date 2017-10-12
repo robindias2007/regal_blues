@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class IndexService
-  def initialize(category, price_low, price_high)
+  def initialize(category, price_low, price_high, designer_id)
     @category = category
     @price_low = price_low
     @price_high = price_high
+    @designer_id = designer_id
   end
 
   def products
@@ -12,6 +13,10 @@ class IndexService
     return category_products if only_category?
     return price_filtered_products if only_filter_price?
     return category_and_price_filtered_products if both_category_and_filters?
+  end
+
+  def designer_products
+    products.of_designer(@designer_id)
   end
 
   private
