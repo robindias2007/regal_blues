@@ -3,7 +3,6 @@
 class V1::Designers::OffersController < V1::Designers::BaseController
   def create
     offer = current_designer.offers.build(offer_params)
-    binding.pry
     if offer.save
       # TODO: Send a notification to the user and the support team
       render json: { message: 'Offer saved successfully' }, status: 201
