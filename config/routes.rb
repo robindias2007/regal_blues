@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       resources :sub_categories, only: :index, path: 'sub-categories'
 
       # Designers
-      resources :designers, only: :index
+      resources :designers, only: %i[index show]
 
       # Requests
       resources :requests, only: %i[index create show] do

@@ -9,6 +9,7 @@ class V1::Users::ProductsSerializer < ActiveModel::Serializer
 
   def image
     # TODO: Change this to the cover image of the store
-    object.designer.avatar || 'Default Image URL'
+    # object.designer.avatar || 'Default Image URL'
+    object.images.first.image.url || 'Default Image URL'
   end
 end
