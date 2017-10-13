@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class V1::Designers::RequestsController < V1::Designers::BaseController
+  before_action :find_request_designer, only: %i[toggle_not_interested destroy]
+
   def index
     requests = Request.find_for(current_designer).order(created_at: :desc).limit(20)
     if requests.present?
@@ -18,11 +20,18 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   end
 
   def toggle_not_interested
-    request = RequestDesigner.find_for(params[:id], current_designer)
-    if request.safe_toggle!(:not_interested)
+    if @request.safe_toggle!(:not_interested)
       render json: { message: 'Request has been successfully updated as not interested' }, status: 200
     else
-      render json: { errors: @request.errors.messages }, status: 400
+      render json: { errors: @request.errors }, status: 400
+    end
+  end
+
+  def destroy
+    if @request.destroy
+      render json: { message: 'Request has been deleted for the designer' }
+    else
+      render json: { errors: @request.errors }
     end
   end
 
@@ -46,5 +55,9 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
 
   def offers?(request)
     Offer.where(request: request, designer: current_designer).any?
+  end
+
+  def find_request_designer
+    @request ||= RequestDesigner.find_for(params[:id], current_designer)
   end
 end
