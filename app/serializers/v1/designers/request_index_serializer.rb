@@ -2,7 +2,7 @@
 
 class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   # TODO: sent bids/awaiting bids, user avatar
-  attributes :username, :sent_on, :item_type, :project, :budget, :timeline, :image, :offers?
+  attributes :username, :sent_on, :item_type, :project, :budget, :timeline, :image, :offers, :interested
 
   def username
     object.user.username.capitalize
@@ -36,7 +36,11 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
     object.request_images.order(created_at: :desc).first&.image || 'Default Image URL'
   end
 
-  def offers?
+  def offers
     Offer.where(request: object, designer_id: @instance_options[:designer_id]).any?
+  end
+
+  def interested
+    !RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)&.not_interested?
   end
 end

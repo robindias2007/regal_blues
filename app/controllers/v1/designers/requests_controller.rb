@@ -14,8 +14,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def show
     request = Request.find_for(current_designer).find(params[:id])
     render json: request, serializer: V1::Designers::RequestShowSerializer,
-      meta: { interested: !RequestDesigner.find_by(designer: current_designer, request: @request)&.not_interested? },
-      designer_id: current_designer.id
+      meta: meta_value(request), designer_id: current_designer.id
   end
 
   def toggle_not_interested
@@ -32,5 +31,20 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def first_instance_of(requests)
     ActiveModelSerializers::SerializableResource.new(requests.first,
       serializer: V1::Designers::RequestShowSerializer)
+  end
+
+  def meta_value(request)
+    if offers?(request)
+      {
+        offers: ActiveModelSerializers::SerializableResource.new(request,
+          serializer: V1::Designers::OfferQuotationSentSerializer, designer_id: current_designer.id).as_json
+      }
+    else
+      {}
+    end
+  end
+
+  def offers?(request)
+    Offer.where(request: request, designer: current_designer).any?
   end
 end
