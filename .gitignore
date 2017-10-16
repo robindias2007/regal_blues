@@ -29,3 +29,5 @@ public/uploads
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/config.yml
 !.elasticbeanstalk/*.global.yml
+
+spec/fixtures/registrations/request.json
