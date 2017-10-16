@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       post 'update-mobile-number', to: 'registrations#update_mobile_number'
       get 'resend-otp', to: 'registrations#resend_otp'
       post 'verify-otp', to: 'registrations#verify_otp'
+      get 'me', to: 'registrations#show'
+      get 'me/update', to: 'registrations#update'
 
       # Authentication
       post 'login', to: 'sessions#create'
