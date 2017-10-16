@@ -5,7 +5,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
 
   def index
     requests = Request.joins(:request_designers)
-                      .where(request_designers: { designer: designer, not_interested: false })
+                      .where(request_designers: { designer: designer })
                       .order(created_at: :desc)
                       .limit(20)
     if requests.present?
