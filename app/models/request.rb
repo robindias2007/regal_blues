@@ -24,7 +24,7 @@ class Request < ApplicationRecord
   enumerize :size, in: %w[xs-s s-m m-l l-xl xl-xxl], scope: true, predicates: true
 
   def self.find_for(designer)
-    joins(:request_designers).where(request_designers: { designer: designer, not_interested: false })
+    joins(:request_designers).where(request_designers: { designer: designer })
   end
 
   def safe_toggle!(attr)
