@@ -15,7 +15,10 @@ describe Order, type: :model do
 
   context 'ActiveRecord databases' do
     it { expect(order).to have_db_column(:paid).of_type(:boolean).with_options(null: false, default: false) }
-    it { expect(order).to have_db_column(:measurements_given).of_type(:boolean).with_options(null: false, default: false) }
+    it {
+      expect(order).to have_db_column(:measurements_given).of_type(:boolean)
+                                                          .with_options(null: false, default: false)
+    }
     it { expect(order).to have_db_column(:cancelled).of_type(:boolean).with_options(null: false, default: false) }
   end
 end

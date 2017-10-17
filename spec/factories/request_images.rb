@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :request_image do
     image 'MyString'
     description 'MyText'
-    color 'MyString'
+    color ''
     height 1
     width 1
     serial_number 1

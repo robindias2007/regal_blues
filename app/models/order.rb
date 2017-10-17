@@ -12,6 +12,8 @@ class Order < ApplicationRecord
   belongs_to :user
   belongs_to :offer_quotation
 
+  has_many :order_options, dependent: :destroy
+
   aasm column: 'status' do
     state :started, initial: true
     state :paid
@@ -31,7 +33,7 @@ class Order < ApplicationRecord
       transitions from: :started, to: :paid # , gaurd: :payment_successful?
     end
 
-    event :await_options do
+    event :select_options do
       transitions from: :paid, to: :awaiting_options
     end
 
@@ -40,9 +42,13 @@ class Order < ApplicationRecord
       transitions from: :awaiting_options, to: :awaiting_confirmation # , gaurd: :all_options_selected?
     end
 
+    event :give_measurements do
+      transitions from: :awaiting_confirmation, to: :awaiting_measurements
+    end
+
     # When a designer confirms the order.
     event :confirmation do
-      transitions from: :awaiting_confirmation, to: :confirmed
+      transitions from: :awaiting_measurements, to: :confirmed
     end
 
     # When a designer clicks on the ship_to_qc button. If he/she forgets, support should be able to do it.

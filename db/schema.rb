@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171017065221) do
+ActiveRecord::Schema.define(version: 20171017102333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20171017065221) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.integer "serial_number"
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
   end
 
@@ -168,6 +169,17 @@ ActiveRecord::Schema.define(version: 20171017065221) do
     t.datetime "updated_at", null: false
     t.index ["designer_id"], name: "index_offers_on_designer_id"
     t.index ["request_id"], name: "index_offers_on_request_id"
+  end
+
+  create_table "order_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "order_id"
+    t.uuid "image_id"
+    t.boolean "more_options", default: false, null: false
+    t.boolean "designer_pick", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["image_id"], name: "index_order_options_on_image_id"
+    t.index ["order_id"], name: "index_order_options_on_order_id"
   end
 
   create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -321,6 +333,8 @@ ActiveRecord::Schema.define(version: 20171017065221) do
   add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"
   add_foreign_key "offers", "requests"
+  add_foreign_key "order_options", "images"
+  add_foreign_key "order_options", "orders"
   add_foreign_key "orders", "designers"
   add_foreign_key "orders", "offer_quotations"
   add_foreign_key "orders", "users"
