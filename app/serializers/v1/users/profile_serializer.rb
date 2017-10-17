@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 class V1::Users::ProfileSerializer < ActiveModel::Serializer
-  attributes :id, :full_name, :email, :bio, :member_since, :location, :wishlist, :favorite_designers
+  attributes :id, :full_name, :email, :bio, :location, :wishlist, :favorite_designers, :order_count, :request_count
 
-  def member_since
-    object.created_at.strftime('%Y')
+  def order_count
+    object.orders.paid.count
+  end
+
+  def request_count
+    object.requests.count
   end
 
   def location
-    address = object.addresses.first
-    "#{address.city}, #{address.country}"
+    object.addresses.first.country
   end
 
   def wishlist
