@@ -25,10 +25,10 @@ class Order < ApplicationRecord
     state :delivered
     state :rejected
 
-    # after_all_transitions :broadcast_notification
-
+    # When the payment comes back successfull, this will be transitioned from started to paid.
+    # If the payment fails, then it remains at started
     event :pay do
-      transitions from: :started, to: :paid
+      transitions from: :started, to: :paid # , gaurd: :payment_successful?
     end
 
     event :await_options do
@@ -37,7 +37,7 @@ class Order < ApplicationRecord
 
     # When a user completes selecting the options
     event :await_confirmation do
-      transitions from: :awaiting_options, to: :awaiting_confirmation
+      transitions from: :awaiting_options, to: :awaiting_confirmation # , gaurd: :all_options_selected?
     end
 
     # When a designer confirms the order.
