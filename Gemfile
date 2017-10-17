@@ -55,6 +55,9 @@ gem 'rmagick'
 # Faker / Seed Helper
 gem 'faker'
 
+# State Machine
+gem 'aasm'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
