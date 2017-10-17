@@ -4,9 +4,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   before_action :find_request_designer, only: %i[toggle_not_interested destroy]
 
   def index
-    requests = Request.joins(:request_designers)
-                      .where(request_designers: { designer: current_designer })
-                      .order(created_at: :desc)
+    requests = Request.find_for(current_designer).order(created_at: :desc)
     if requests.present?
       render json: requests, each_serializer: V1::Designers::RequestIndexSerializer, meta: first_instance_of(requests),
       designer_id: current_designer.id
