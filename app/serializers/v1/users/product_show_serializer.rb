@@ -2,7 +2,7 @@
 
 class V1::Users::ProductShowSerializer < ActiveModel::Serializer
   attributes :id, :name, :designer_name, :selling_price, :designer_avatar, :more_items, :similar_items, :description,
-    :additional_info, :images
+    :additional_info, :images, :designer_id, :sub_category_id, :sub_category
 
   def designer_name
     object&.designer&.designer_store_info&.display_name || 'Generic Store Name'
@@ -11,6 +11,18 @@ class V1::Users::ProductShowSerializer < ActiveModel::Serializer
   def designer_avatar
     # TODO: Change this to the cover image of the store
     object.designer.avatar || 'Default Image URL'
+  end
+
+  def designer_id
+    object.designer.id
+  end
+
+  def sub_category
+    object.sub_category.name
+  end
+
+  def sub_category_id
+    object.sub_category.id
   end
 
   def images

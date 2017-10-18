@@ -12,6 +12,26 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     render json: order, serializer: V1::Designers::OrderShowSerializer
   end
 
+  def confirm
+    order = current_designer.orders.find(params[:id])
+    if order.paid? && order.all_options_selected?
+      order.designer_confirm!
+      render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
+    else
+      render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
+  def fabric_unavailable
+    order = current_designer.orders.find(params[:id])
+    if order.paid? && order.all_options_selected?
+      order.fabric_unavailable!
+      render json: { message: 'Order has been marked as fabric unavailable. User will be notified of the same.' }
+    else
+      render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
   private
 
   def first_instance_of(orders)

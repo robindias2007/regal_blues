@@ -18,7 +18,9 @@ class Order < ApplicationRecord
     state :started, initial: true
     state :paid
     state :awaiting_options
+    state :fabric_unavailable
     state :awaiting_confirmation
+    state :designer_confirmed
     state :awaiting_measurements
     state :confirmed
     state :shipped_to_qc
@@ -38,17 +40,17 @@ class Order < ApplicationRecord
     end
 
     # When a user completes selecting the options
-    event :await_confirmation do
+    event :await_user_confirmation do
       transitions from: :awaiting_options, to: :awaiting_confirmation # , gaurd: :all_options_selected?
+    end
+
+    # When a designer confirms the order.
+    event :designer_confirm do
+      transitions from: :awaiting_confirmation, to: :designer_confirmed
     end
 
     event :give_measurements do
       transitions from: :awaiting_confirmation, to: :awaiting_measurements
-    end
-
-    # When a designer confirms the order.
-    event :confirmation do
-      transitions from: :awaiting_measurements, to: :confirmed
     end
 
     # When a designer clicks on the ship_to_qc button. If he/she forgets, support should be able to do it.

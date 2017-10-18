@@ -19,7 +19,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
       order.pay!
       render json: { message: 'Payment has been successfull' }
     else
-      render json: { errors: order.errors, message: 'Something went wrong' }
+      render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
     end
   end
 

@@ -103,7 +103,12 @@ Rails.application.routes.draw do
         resources :offer_quotations, only: %i[index show], path: 'quoations', on: :member
       end
 
-      resources :orders, only: %i[index show]
+      resources :orders, only: %i[index show] do
+        member do
+          patch :confirm
+          patch :fabric_unavailable
+        end
+      end
     end
     # end
   end
