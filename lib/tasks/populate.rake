@@ -237,7 +237,7 @@ namespace :db do
   end
 
   def create_orders
-    puts 'Creating Offers'
+    puts 'Creating Orders'
     Offer.all.map do |offer|
       order = Order.new
       order.user = offer.request.user
