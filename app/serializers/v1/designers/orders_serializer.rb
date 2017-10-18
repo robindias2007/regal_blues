@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Designers::OrdersSerializer < ActiveModel::Serializer
-  attributes :id, :status, :username, :category, :request_name, :timeline, :created_at, :budget
+  attributes :id, :status, :username, :category, :request_name, :timeline, :created_at, :budget, :image
 
   def username
     object.user.username
@@ -25,6 +25,10 @@ class V1::Designers::OrdersSerializer < ActiveModel::Serializer
 
   def budget
     request&.max_budget
+  end
+
+  def image
+    request.request_images.first.image
   end
 
   private
