@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171017102333) do
+ActiveRecord::Schema.define(version: 20171018112717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,14 @@ ActiveRecord::Schema.define(version: 20171017102333) do
     t.datetime "updated_at", null: false
     t.index ["designer_id"], name: "index_offers_on_designer_id"
     t.index ["request_id"], name: "index_offers_on_request_id"
+  end
+
+  create_table "order_measurements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data"
+    t.uuid "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_measurements_on_order_id"
   end
 
   create_table "order_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -333,6 +341,7 @@ ActiveRecord::Schema.define(version: 20171017102333) do
   add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"
   add_foreign_key "offers", "requests"
+  add_foreign_key "order_measurements", "orders"
   add_foreign_key "order_options", "images"
   add_foreign_key "order_options", "orders"
   add_foreign_key "orders", "designers"

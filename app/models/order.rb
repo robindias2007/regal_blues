@@ -13,6 +13,7 @@ class Order < ApplicationRecord
   belongs_to :offer_quotation
 
   has_many :order_options, dependent: :destroy
+  has_one :order_measurement, dependent: :destroy
 
   aasm column: 'status' do
     state :started, initial: true

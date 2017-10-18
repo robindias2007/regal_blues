@@ -23,10 +23,39 @@ class V1::Users::OrdersController < V1::Users::BaseController
     end
   end
 
+  def measurement_tags
+    order = current_user.orders.find(params[:id])
+    measurement_tags = order.offer_quotation.offer_measurements.first.data
+    render json: measurement_tags
+  end
+
+  def update_measurements
+    order = current_user.orders.find(params[:id])
+    return invalid_key_error unless valid_key?
+    om = order.build_order_measurement(measurement_params)
+    if om.save
+      render json: { message: 'Measurements have been saved' }, status: 201
+    else
+      render json: { errors: om.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
   private
 
   def first_instance_of(orders)
     ActiveModelSerializers::SerializableResource.new(orders.first,
       serializer: V1::Users::OrderShowSerializer)
+  end
+
+  def measurement_params
+    params.permit(data: {})
+  end
+
+  def valid_key?
+    measurement_params.fetch('data').key?('measurements')
+  end
+
+  def invalid_key_error
+    render json: { errors: 'key for data is not valid' }, status: 400
   end
 end

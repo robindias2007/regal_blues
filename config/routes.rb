@@ -59,6 +59,8 @@ Rails.application.routes.draw do
       resources :orders, only: %i[index show] do
         member do
           get :pay
+          get :measurement_tags
+          post :update_measurements
         end
       end
     end

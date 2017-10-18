@@ -1,0 +1,10 @@
+{
+  "data": {
+    "measurements": {
+      "arms": 10,
+      "legs": 12,
+      "neck": 14,
+      "shoulder": 16
+    }
+  }
+}
