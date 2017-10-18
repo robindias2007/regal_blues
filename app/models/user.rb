@@ -4,9 +4,10 @@ class User < ApplicationRecord
   include Authenticable
   extend Enumerize
 
-  has_many :user_identities
-  has_many :addresses
-  has_many :requests
+  has_many :user_identities, dependent: :destroy
+  has_many :addresses, dependent: :destroy
+  has_many :requests, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true
   validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }

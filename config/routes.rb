@@ -55,6 +55,8 @@ Rails.application.routes.draw do
 
       get 'explore/mobile', to: 'explore#mobile'
       get 'search/:q', to: 'search#index'
+
+      resources :orders, only: %i[index show]
     end
   end
   # end
