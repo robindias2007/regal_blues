@@ -12,6 +12,17 @@ class V1::Users::OrdersController < V1::Users::BaseController
     render json: order, serializer: V1::Users::OrderShowSerializer
   end
 
+  def pay
+    order = current_user.orders.find(params[:id])
+    # payment = PaymentGateway.pay(params[:gateway], order)
+    if payment.successfull?
+      order.pay!
+      render json: { message: 'Payment has been successfull' }
+    else
+      render json: { errors: order.errors, message: 'Something went wrong' }
+    end
+  end
+
   private
 
   def first_instance_of(orders)
