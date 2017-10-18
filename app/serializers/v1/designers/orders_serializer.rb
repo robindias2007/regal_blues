@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 class V1::Designers::OrdersSerializer < ActiveModel::Serializer
-  attributes :id, :status, :username, :category, :request_name, :timeline, :created_at, :budget, :image
+  attributes :id, :status, :username, :category, :request_name, :timeline, :created_at, :budget, :image, :user_avatar
 
   def username
     object.user.username
+  end
+
+  def user_avatar
+    object.user&.avatar
   end
 
   def category
