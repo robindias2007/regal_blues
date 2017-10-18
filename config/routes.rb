@@ -96,6 +96,8 @@ Rails.application.routes.draw do
       resources :offers, only: %i[index create show] do
         resources :offer_quotations, only: %i[index show], path: 'quoations', on: :member
       end
+
+      resources :orders, only: %i[index show]
     end
     # end
   end
