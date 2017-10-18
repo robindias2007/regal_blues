@@ -5,13 +5,14 @@ namespace :db do
 
   task populate: :environment do
     # Don't change the order
-    create_all_categories
-    create_designers
-    create_products
-    create_users
-    create_addresses_for_users
-    create_requests
-    create_offers
+    # create_all_categories
+    # create_designers
+    # create_products
+    # create_users
+    # create_addresses_for_users
+    # create_requests
+    # create_offers
+    create_orders
   end
 
   private
@@ -233,6 +234,18 @@ namespace :db do
       name:              Faker::Name.first_name,
       images_attributes: Array.new(4) { { image: image_data, description: 'Some description' } }
     }
+  end
+
+  def create_orders
+    puts 'Creating Offers'
+    Offer.all.map do |offer|
+      order = Order.new
+      order.user = offer.request.user
+      order.offer_quotation = offer.offer_quotations.first
+      order.designer = offer.designer
+      order.status = Order.aasm.states.map(&:name).sample
+      order.save!
+    end
   end
 
   def image_data
