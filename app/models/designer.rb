@@ -3,13 +3,14 @@
 class Designer < ApplicationRecord
   include Authenticable
 
-  has_one :designer_store_info
-  has_one :designer_finance_info
-  has_many :designer_categorizations
-  has_many :sub_categories, through: :designer_categorizations
-  has_many :products
-  has_many :request_designers
-  has_many :offers
+  has_one :designer_store_info, dependent: :destroy
+  has_one :designer_finance_info, dependent: :destroy
+  has_many :designer_categorizations, dependent: :destroy
+  has_many :sub_categories, through: :designer_categorizations, dependent: :destroy
+  has_many :products, dependent: :destroy
+  has_many :request_designers, dependent: :destroy
+  has_many :offers, dependent: :nullify
+  has_many :orders, dependent: :nullify
 
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }
