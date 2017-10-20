@@ -18,8 +18,23 @@ class SmsService
   def self.send_msg91_otp_to(user, otp)
     msg = msg_body(otp)
     HTTParty.get(MSG91_BASE_URL, query: {
-      mobiles: user.mobile_number, message: URI.encode(msg), sender: 'AMIDOS', route: 4, country: 91, response: 'json'
+      mobiles: user.mobile_number, message: CGI.escape(msg), sender: 'AMIDOS', route: 4, country: 91, response: 'json'
       })
+  end
+
+  def self.send_msg91_otp_to_number(mobile_number, otp)
+    msg = msg_body(otp)
+    HTTParty.get(MSG91_BASE_URL, query: {
+      mobiles: mobile_number, message: CGI.escape(msg), sender: 'AMIDOS', route: 4, country: 91, response: 'json'
+      })
+  end
+
+  def self.send_twilio_otp_to_number(mobile_number, otp)
+    twilio_client.new.messages.create(
+      to:   mobile_number,
+      from: TWILIO_FROM_NUMBER,
+      body: msg_body(otp)
+    )
   end
 
   def self.msg_body(otp)
@@ -31,6 +46,14 @@ class SmsService
       send_msg91_otp_to(user, otp)
     else
       send_twilio_otp_to(user, otp)
+    end
+  end
+
+  def self.send_otp_to_number(mobile_number, otp)
+    if mobile_number.first(3) == '+91'
+      send_msg91_otp_to_number(mobile_number, otp)
+    else
+      send_twilio_otp_to_number(mobile_number, otp)
     end
   end
 end

@@ -21,6 +21,8 @@ class Designer < ApplicationRecord
 
   mount_base64_uploader :avatar, AvatarUploader
 
+  accepts_nested_attributes_for :designer_store_info
+
   def self.find_for_category(category_id)
     joins(:designer_categorizations).where(designer_categorizations: { sub_category_id: category_id })
   end
@@ -41,6 +43,17 @@ class Designer < ApplicationRecord
 
   def notify_request(request)
     # request
+  end
+
+  def safe_toggle!(attr)
+    public_send(attr) == true ? update!(:"#{attr}" => false) : update!(:"#{attr}" => true)
+  end
+
+  def send_update_otp(number)
+    return if Rails.env.test? || Rails.env.development? || Rails.env.production?
+    otp = Array.new(6) { rand(10) }.join
+    Redis.current.set(id, number: number, otp: otp)
+    SmsService.send_otp_to_number(number, otp)
   end
 
   private

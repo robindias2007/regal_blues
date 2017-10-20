@@ -20,7 +20,7 @@ module Registerable
     def confirm
       token = params[:token]
       resource = resource_class.find_by(confirmation_token: token)
-      if resource && resource.valid_confirmation_token?
+      if resource && resource&.valid_confirmation_token?
         resource.mark_as_confirmed!
         jwt = Auth.issue(resource: resource.id)
         render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
@@ -48,7 +48,7 @@ module Registerable
     def reset_password
       token = params[:token]
       resource = resource_class.find_by(reset_password_token: token)
-      if resource && resource.valid_reset_password_token?
+      if resource && resource&.valid_reset_password_token?
         resource.update_reset_details!
         jwt = Auth.issue(resource: resource.id)
         render json: { message: 'Valid password reset token', jwt: jwt }, status: 200
@@ -58,7 +58,8 @@ module Registerable
     end
 
     def update_password
-      if current_resource && current_resource.update(password: params[:password])
+      return wrong_old_password unless matches_password(params[:password])
+      if current_resource && current_resource&.update(password: params[:password])
         render json: { message: 'Password Updated' }, status: 200
       else
         render json: { errors: ['Something went wrong'] }, status: 400
@@ -66,7 +67,7 @@ module Registerable
     end
 
     def update_mobile_number
-      if current_resource && current_resource.update(mobile_number: params[:mobile_number])
+      if current_resource && current_resource&.update(mobile_number: params[:mobile_number])
         render json: { message: 'Mobile number Updated' }, status: 200
       else
         render json: { errors: ['Something went wrong'] }, status: 400
@@ -120,6 +121,14 @@ module Registerable
 
     def verify_otp_params
       params.require(:otp)
+    end
+
+    def wrong_old_password
+      render json: { errors: 'New password does not match the old password' }, status: 400
+    end
+
+    def matches_password(password)
+      BCrypt::Password.new(current_resource.password_digest) == password
     end
   end
 end

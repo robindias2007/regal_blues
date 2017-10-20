@@ -21,6 +21,50 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     end
   end
 
+  def toggle_active
+    if current_designer.safe_toggle!(:active)
+      render json: { message: 'Designer state successfully changed' }
+    else
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
+  def update_profile
+    if current_designer.update(update_profile_params)
+      render json: { message: 'Designer profile successfully updated' }
+    else
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
+  def send_update_otp
+    if current_designer.send_update_otp(params[:mobile_number])
+      render json: { msg: 'OTP sent successfully' }
+    else
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }
+    end
+  end
+
+  def resend_update_otp
+    number_hash = Redis.current.get(current_designer.id)
+    return wrong_number if number.blank?
+    if current_designer.send_update_otp(number_hash.fetch(:number))
+      render json: { msg: 'OTP resent successfully' }
+    else
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }
+    end
+  end
+
+  def verify_updated_number
+    number_hash = Redis.current.get(current_designer.id)
+    if number_hash.fetch(:otp) == params[:otp]
+      current_designer.update(verified: true, mobile_number: number_hash.fetch(:number))
+      render json: { message: 'Mobile number updated and verified' }, status: 200
+    else
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
   private
 
   def store_info_params
@@ -32,5 +76,14 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     params.require(:data).permit(:bank_name, :bank_branch, :ifsc_code, :account_number, :personal_pan_number,
       :business_pan_number, :tin_number, :gstin_number, :blank_cheque_proof, :personal_pan_number_proof,
       :business_pan_number_proof, :tin_number_proof, :gstin_number_proof, :business_address_proof)
+  end
+
+  def update_profile_params
+    params.require(:designer).permit(:bio, :city, :state, :country, :pincode, :avatar,
+      designer_store_info_attributes: %i[min_order_price])
+  end
+
+  def wrong_number
+    render json: { error: 'Number does not exist' }, status: 400
   end
 end

@@ -84,6 +84,13 @@ Rails.application.routes.draw do
       post 'update-store-info', to: 'registrations#update_store_info'
       post 'update-finance-info', to: 'registrations#update_finance_info'
 
+      # Profile Update
+      patch 'me/toggle-active', to: 'registrations#toggle_active'
+      post 'me/update', to: 'registrations#update_profile'
+      get 'me/send-otp', to: 'registrations#send_update_otp'
+      get 'me/resend-otp', to: 'registrations#resend_update_otp'
+      post 'me/verify-updated-number', to: 'registrations#verify_updated_number'
+
       # Authentication
       post 'login', to: 'sessions#create'
 
