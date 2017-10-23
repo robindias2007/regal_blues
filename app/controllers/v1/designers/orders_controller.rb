@@ -19,7 +19,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
       render json: { errors:  order.errors,
-                     message: 'Something went wrong. Maybe not all the orders are selected by the user' }, status: 400
+                     message: 'Something went wrong. Maybe not all the orders are selected by the user or the order has not been paid yet' }, status: 400
     end
   end
 
