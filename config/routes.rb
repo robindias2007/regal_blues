@@ -113,8 +113,8 @@ Rails.application.routes.draw do
       resources :orders, only: %i[index show] do
         member do
           patch :confirm
-          get   :fabric_unavailable_data, path: 'fabric-unavailable'
-          post  :fabric_unavailable, path: 'fabric-unavailable'
+          get :fabric_unavailable_data, path: 'fabric-unavailable'
+          put :fabric_unavailable, path: 'fabric-unavailable'
         end
       end
     end

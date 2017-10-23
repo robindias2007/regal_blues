@@ -83,8 +83,8 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def update_profile_params
-    params.require(:designer).permit(:bio, :city, :state, :country, :pincode, :avatar,
-      designer_store_info_attributes: %i[min_order_price])
+    params.require(:designer).permit(:bio, :location, :avatar,
+      designer_store_info_attributes: %i[id min_order_price])
   end
 
   def wrong_number

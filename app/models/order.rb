@@ -16,7 +16,7 @@ class Order < ApplicationRecord
   has_one :order_measurement, dependent: :destroy
   # has_one :order_payment, dependent: :destroy
 
-  # #############################################################################################################
+  ###############################################################################################################
   # ############################################## Happy Path ###################################################
   # Pay -> Designer Confirm -> Give Measurements -> Produce Cloth -> Ship to QC -> Deliver to QC ->
   # Control Quality -> Ship to User -> Deliver to User
@@ -46,7 +46,7 @@ class Order < ApplicationRecord
   #
   # ------------------------------------- Fabric Unavailable + User Cancels -------------------------------------
   # Pay -> Designer says Fabric Unavailable -> User cancels
-  # #############################################################################################################
+  ###############################################################################################################
 
   #########################
   # User Actions          #

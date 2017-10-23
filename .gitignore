@@ -30,4 +30,4 @@ public/uploads
 !.elasticbeanstalk/config.yml
 !.elasticbeanstalk/*.global.yml
 
-spec/fixtures/registrations/request.json
+spec/fixtures/registrations

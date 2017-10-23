@@ -30,15 +30,21 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def fabric_unavailable
     order = current_designer.orders.find(params[:id])
-    if order.paid?
+    if order.paid? && order.offer_quotation.update!(offer_quotation_params)
       order.fabric_unavailable!
-      render json: { message: 'Order has been marked as fabric unavailable. User will be notified of the same.' }
+      render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric.
+        User will be notified of the same.' }
     else
       render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
     end
   end
 
   private
+
+  def offer_quotation_params
+    params.require(:offer_quotation).permit(:fabric_unavailable_note,
+      offer_quotation_galleries_attributes: [:name, images_attributes: %i[id image description]])
+  end
 
   def first_instance_of(orders)
     ActiveModelSerializers::SerializableResource.new(orders.first,
