@@ -58,7 +58,7 @@ module Registerable
     end
 
     def update_password
-      return wrong_old_password unless matches_password(params[:password])
+      # return wrong_old_password unless matches_password(params[:password])
       if current_resource && current_resource&.update(password: params[:password])
         render json: { message: 'Password Updated' }, status: 200
       else

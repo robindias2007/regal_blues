@@ -45,7 +45,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     if current_designer.send_update_otp(params[:mobile_number])
       render json: { msg: 'OTP sent successfully' }
     else
-      render json: { errors: current_designer.errors, message: 'Something went wrong' }
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }, status: 400
     end
   end
 
@@ -55,7 +55,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     if current_designer.send_update_otp(number_hash.fetch(:number))
       render json: { msg: 'OTP resent successfully' }
     else
-      render json: { errors: current_designer.errors, message: 'Something went wrong' }
+      render json: { errors: current_designer.errors, message: 'Something went wrong' }, status: 400
     end
   end
 

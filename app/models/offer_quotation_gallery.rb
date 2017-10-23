@@ -7,5 +7,5 @@ class OfferQuotationGallery < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :offer_quotation_id, case_sensitive: false }
 
-  accepts_nested_attributes_for :images
+  accepts_nested_attributes_for :images, allow_destroy: true
 end

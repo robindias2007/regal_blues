@@ -12,7 +12,7 @@ class Offer < ApplicationRecord
   validates :designer_id, :request_id, presence: true
   validate :max_number_of_quotations
 
-  accepts_nested_attributes_for :offer_quotations
+  accepts_nested_attributes_for :offer_quotations, allow_destroy: true
 
   def self.find_for_user(user)
     joins(:request).where(requests: { user: user })

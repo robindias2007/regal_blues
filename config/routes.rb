@@ -117,6 +117,9 @@ Rails.application.routes.draw do
           put :fabric_unavailable, path: 'fabric-unavailable'
         end
       end
+
+      delete '/orders/:id/galleries/:gallery_id', to: 'orders#destroy_gallery'
+      delete '/orders/:id/galleries/:gallery_id/images/:image_id', to: 'orders#destroy_gallery_image'
     end
   end
 end

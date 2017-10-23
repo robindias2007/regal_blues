@@ -13,7 +13,7 @@ class OfferQuotation < ApplicationRecord
   validates :price, numericality: true
   validate  :max_one_measurement
 
-  accepts_nested_attributes_for :offer_quotation_galleries
+  accepts_nested_attributes_for :offer_quotation_galleries, allow_destroy: true
   accepts_nested_attributes_for :offer_measurements
 
   private

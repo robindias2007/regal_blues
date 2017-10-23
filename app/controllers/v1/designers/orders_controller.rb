@@ -32,10 +32,26 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.offer_quotation.update!(offer_quotation_params)
       order.fabric_unavailable!
-      render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric.
+      render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
     else
       render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
+  def destroy_gallery
+    if find_gallery_by(params[:id], params[:gallery_id])&.destroy
+      render json: { message: 'Gallery successfully deleted along with its images' }, status: 204
+    else
+      render json: { message: 'Something went wrong. Could not delete the gallery' }, status: 400
+    end
+  end
+
+  def destroy_gallery_image
+    if find_image_by(params[:id], params[:gallery_id], params[:image_id])&.destroy
+      render json: { message: 'Image successfully deleted' }, status: 204
+    else
+      render json: { message: 'Something went wrong. Could not delete the image' }, status: 400
     end
   end
 
@@ -43,11 +59,20 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def offer_quotation_params
     params.require(:offer_quotation).permit(:fabric_unavailable_note,
-      offer_quotation_galleries_attributes: [:name, images_attributes: %i[id image description]])
+      offer_quotation_galleries_attributes: [:id, :name, :_destroy,
+                                             images_attributes: %i[id image description _destroy]])
   end
 
   def first_instance_of(orders)
     ActiveModelSerializers::SerializableResource.new(orders.first,
       serializer: V1::Designers::OrderShowSerializer)
+  end
+
+  def find_gallery_by(order_id, gallery_id)
+    current_designer.orders.find(order_id).offer_quotation.offer_quotation_galleries.find(gallery_id)
+  end
+
+  def find_image_by(order_id, gallery_id, image_id)
+    find_gallery_for(order_id, gallery_id).find(image_id)
   end
 end
