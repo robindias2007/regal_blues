@@ -6,7 +6,6 @@ Rails.application.routes.default_url_options = {
 
 Rails.application.routes.draw do
   root 'home#index'
-  # namespace 'api.user' do
   scope module: :v1, path: 'users', constraints: RouteConstraints.new(version: 1, default: true),
     defaults: { format: :json } do
     scope module: :users do
@@ -65,9 +64,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  # end
 
-  # constraints subdomain: 'api.designer' do
   scope module: :v1, path: 'designers', constraints: RouteConstraints.new(version: 1, default: true),
     defaults: { format: :json } do
     scope module: :designers do
@@ -116,10 +113,10 @@ Rails.application.routes.draw do
       resources :orders, only: %i[index show] do
         member do
           patch :confirm
-          patch :fabric_unavailable
+          get   :fabric_unavailable_data, path: 'fabric-unavailable'
+          post  :fabric_unavailable, path: 'fabric-unavailable'
         end
       end
     end
-    # end
   end
 end

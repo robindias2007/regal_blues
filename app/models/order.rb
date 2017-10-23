@@ -102,7 +102,7 @@ class Order < ApplicationRecord
     # Actor: Designer
     # Action: Confirm
     event :designer_confirms do
-      transitions from: :paid, to: :designer_confirm
+      transitions from: :paid, to: :designer_confirm, gaurd: :all_options_selected?
     end
 
     # Actor: User
@@ -185,5 +185,9 @@ class Order < ApplicationRecord
     event :fabric_unavailable do
       transitions from: :paid, to: :designer_selected_fabric_unavailable
     end
+  end
+
+  def all_options_selected?
+    order_options.size == offer_quotation.offer_quotation_galleries.size
   end
 end
