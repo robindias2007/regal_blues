@@ -69,6 +69,15 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     end
   end
 
+  def update_profile_password
+    return wrong_old_password unless matches_password(params[:old_password])
+    if current_designer.update(password: params[:new_password])
+      render json: { message: 'Password Updated' }, status: 200
+    else
+      render json: { errors: ['Something went wrong'] }, status: 400
+    end
+  end
+
   private
 
   def store_info_params
@@ -89,5 +98,13 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
 
   def wrong_number
     render json: { error: 'Number does not exist' }, status: 400
+  end
+
+  def wrong_old_password
+    render json: { errors: 'Old password does not match the password in the records' }, status: 400
+  end
+
+  def matches_password(password)
+    BCrypt::Password.new(current_resource.password_digest) == password
   end
 end

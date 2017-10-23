@@ -85,6 +85,7 @@ Rails.application.routes.draw do
       get 'me', to: 'registrations#profile'
       patch 'me/toggle-active', to: 'registrations#toggle_active'
       post 'me/update', to: 'registrations#update_profile'
+      post 'me/update-profile-password', to: 'registrations#update_profile_password'
       get 'me/send-otp', to: 'registrations#send_update_otp'
       get 'me/resend-otp', to: 'registrations#resend_update_otp'
       post 'me/verify-updated-number', to: 'registrations#verify_updated_number'
