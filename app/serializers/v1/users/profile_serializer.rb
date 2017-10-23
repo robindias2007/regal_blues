@@ -2,7 +2,7 @@
 
 class V1::Users::ProfileSerializer < ActiveModel::Serializer
   attributes :id, :full_name, :email, :bio, :location, :wishlist, :favorite_designers, :order_count, :request_count,
-    :avatar
+    :avatar, :username, :gender
 
   def order_count
     object.orders.paid.count

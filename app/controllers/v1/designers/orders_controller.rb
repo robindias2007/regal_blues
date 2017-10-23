@@ -60,7 +60,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def offer_quotation_params
     params.require(:offer_quotation).permit(:fabric_unavailable_note,
       offer_quotation_galleries_attributes: [:id, :name, :_destroy,
-                                             images_attributes: %i[id image description _destroy]])
+                                             images_attributes: %i[id image description disabled _destroy]])
   end
 
   def first_instance_of(orders)
