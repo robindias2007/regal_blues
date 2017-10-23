@@ -14,69 +14,176 @@ class Order < ApplicationRecord
 
   has_many :order_options, dependent: :destroy
   has_one :order_measurement, dependent: :destroy
+  # has_one :order_payment, dependent: :destroy
+
+  # #############################################################################################################
+  # ############################################## Happy Path ###################################################
+  # Pay -> Designer Confirm -> Give Measurements -> Produce Cloth -> Ship to QC -> Deliver to QC ->
+  # Control Quality -> Ship to User -> Deliver to User
+  #
+  # ############################################## User Paths ###################################################
+  # --------------------------------------- More Options + User Agrees ------------------------------------------
+  # Pay -> User asks for more options -> Designer gives more options (== Designer confirmed) -> User Selects Options ->
+  # Give Measurements -> Produce Cloth -> Ship to QC -> Deliver to QC -> Control Quality -> Ship to User ->
+  # Deliver to User
+  #
+  # -------------------------------------- More Options + User Cancels ------------------------------------------
+  # Pay -> User asks for more options -> Designer gives more options (== Designer confirmed) -> User cancels
+  #
+  # ---------------------------------------------- Designer's Pick ----------------------------------------------
+  # User forfiets the option to select later if he chooses this option
+  # Pay -> User asks for designer's choice (== User confirmed) -> Designer confirms -> Give Measurements ->
+  # Produce Cloth -> Ship to QC -> Deliver to QC -> Control Quality -> Ship to User -> Deliver to User
+  #
+  # ############################################## Designer Paths ###############################################
+  #
+  # --------------------------------------- Fabric Unavailable + User Agrees ------------------------------------
+  # NOTE: Does not matter if the designer sends out new options or asks to select among existing options,
+  # the path will be the same.
+  # Pay -> Designer says Fabric Unavailable -> User Selects Options (== User confirmed + Designer confirmed) ->
+  # Give Measurements -> Produce Cloth -> Ship to QC -> Deliver to QC -> Control Quality -> Ship to User ->
+  # Deliver to User
+  #
+  # ------------------------------------- Fabric Unavailable + User Cancels -------------------------------------
+  # Pay -> Designer says Fabric Unavailable -> User cancels
+  # #############################################################################################################
+
+  #########################
+  # User Actions          #
+  # 1. Pay                #
+  # 2. Give Measurements  #
+  # 3. More Options       #
+  # 4. Select Options     #
+  # 5. Cancel the order   #
+  #########################
+  # Designer Actions      #
+  # 1. Confirm the order  #
+  # 2. Start Production   #
+  # 3. Ship to QC         #
+  # 4. Give more options  #
+  # 5. Fabric Unavailable #
+  #########################
+  # Support Actions       #
+  # 1. Delivered to QC    #
+  # 2. In QC              #
+  # 3. Ship to User       #
+  # 4. Delivered to User  #
+  # 5. Reject the product #
+  #########################
 
   aasm column: 'status' do
+    # Happy Path
     state :started, initial: true
     state :paid
-    state :awaiting_options
-    state :fabric_unavailable
-    state :awaiting_confirmation
-    state :designer_confirmed
-    state :awaiting_measurements
-    state :confirmed
+    state :designer_confirm
+    state :measurements_given
+    state :in_production
     state :shipped_to_qc
+    state :delivered_to_qc
     state :in_qc
     state :shipped_to_user
-    state :delivered
-    state :rejected
+    state :delivered_to_user
+    state :rejected_by_qc
+    # User Path: More Options + User Agrees
+    state :user_awaiting_more_options
+    state :designer_gave_more_options
+    state :user_selected_options
+    # User Path: More Options + User Cancels / Fabric Unavailable + User Cancels
+    state :user_cancels
+    # Designer Path: Fabric Unavailable + User Agrees
+    state :designer_selected_fabric_unavailable
 
-    # When the payment comes back successfull, this will be transitioned from started to paid.
-    # If the payment fails, then it remains at started
+    # Actor: User
+    # Actions: Pay
     event :pay do
-      transitions from: :started, to: :paid # , gaurd: :payment_successful?
+      transitions from: :started, to: :paid
     end
 
-    event :select_options do
-      transitions from: :paid, to: :awaiting_options
+    # Actor: Designer
+    # Action: Confirm
+    event :designer_confirms do
+      transitions from: :paid, to: :designer_confirm
     end
 
-    # When a user completes selecting the options
-    event :await_user_confirmation do
-      transitions from: :awaiting_options, to: :awaiting_confirmation # , gaurd: :all_options_selected?
-    end
-
-    # When a designer confirms the order.
-    event :designer_confirm do
-      transitions from: :awaiting_confirmation, to: :designer_confirmed
-    end
-
+    # Actor: User
+    # Action: Give Measurements
     event :give_measurements do
-      transitions from: :awaiting_confirmation, to: :awaiting_measurements
+      transitions from: :designer_confirm, to: :measurements_given
+      transitions from: :user_selected_options, to: :measurements_given
     end
 
-    # When a designer clicks on the ship_to_qc button. If he/she forgets, support should be able to do it.
+    # Actor: Designer
+    # Action: Start Production
+    event :start_production do
+      transitions from: :measurements_given, to: :in_production
+    end
+
+    # Actor: Designer
+    # Action: Ship To QC (Future: Have the delivery partner pick up automatically)
     event :ship_to_qc do
-      transitions from: :confirmed, to: :shipped_to_qc
+      transitions from: :in_production, to: :shipped_to_qc
     end
 
-    # Support clicks the recieved product button for this order
-    event :quality_control do
-      transitions from: :shipped_to_qc, to: :in_qc
+    # Actor: Support / Delivery Partner
+    # Action: Deliver to QC
+    event :deliver_to_qc do
+      transitions from: :shipped_to_qc, to: :delivered_to_qc
     end
 
-    # Support ships the product / Delivery guy picks up the order to be shipped
-    event :ship do
+    # Actor: Support
+    # Action: Recieved from Delivery Partner
+    event :control_quality do
+      transitions from: :delivered_to_qc, to: :in_qc
+    end
+
+    # Actor: Support
+    # Action: Ship to User (Future: Have the delivery partner pick up automatically)
+    event :ship_to_user do
       transitions from: :in_qc, to: :shipped_to_user
     end
 
-    # When the delivery partner notifies us of a product being delivered
-    event :deliver do
-      transitions from: :shipped_to_user, to: :delivered
+    # Actor: Support / Delivery Partner
+    # Action: Deliver to User
+    event :deliver_to_user do
+      transitions from: :ship_to_user, to: :delivered_to_user
     end
 
-    # When the support rejects the product due to low quality/other reasons
-    event :reject do
-      transitions from: :in_qc, to: :rejected
+    # Actor: Support
+    # Action: Reject the product
+    event :reject_by_qc do
+      transitions from: :in_qc, to: :rejected_by_qc
+    end
+
+    # Actor: User
+    # Action: More Options (Take this from Order Options rather than having an option)
+    event :user_asks_more_options do
+      transitions from: :paid, to: :user_awaiting_more_options
+    end
+
+    # Actor: Designer
+    # Action: More Options
+    event :designer_gives_more_options do
+      transitions from: :user_awaiting_more_options, to: :designer_gave_more_options
+    end
+
+    # Actor: User
+    # Action: Choose from existing options / Designer Pick (Make sure no more_options boolean is true in order options)
+    event :user_selects_options do
+      transitions from: :designer_gave_more_options, to: :user_selected_options
+      transitions from: :designer_selected_fabric_unavailable, to: :user_selected_options
+    end
+
+    # Actor: User
+    # Action: Cancel the order
+    event :user_cancels_the_order do
+      transitions from: :designer_gave_more_options, to: :user_cancels
+      transitions from: :designer_selected_fabric_unavailable, to: :user_cancels
+    end
+
+    # Actor: Designer
+    # Action: Fabric Unavailable
+    event :fabric_unavailable do
+      transitions from: :paid, to: :designer_selected_fabric_unavailable
     end
   end
 end

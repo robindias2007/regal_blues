@@ -29,6 +29,10 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     end
   end
 
+  def profile
+    render json: current_designer, serializer: V1::Designers::ProfileSerializer
+  end
+
   def update_profile
     if current_designer.update(update_profile_params)
       render json: { message: 'Designer profile successfully updated' }

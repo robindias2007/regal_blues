@@ -85,6 +85,7 @@ Rails.application.routes.draw do
       post 'update-finance-info', to: 'registrations#update_finance_info'
 
       # Profile Update
+      get 'me', to: 'registrations#profile'
       patch 'me/toggle-active', to: 'registrations#toggle_active'
       post 'me/update', to: 'registrations#update_profile'
       get 'me/send-otp', to: 'registrations#send_update_otp'

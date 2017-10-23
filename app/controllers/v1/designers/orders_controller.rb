@@ -15,7 +15,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def confirm
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.all_options_selected?
-      order.designer_confirm!
+      order.designer_confirms!
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
       render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
@@ -24,7 +24,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def fabric_unavailable
     order = current_designer.orders.find(params[:id])
-    if order.paid? && order.all_options_selected?
+    if order.paid?
       order.fabric_unavailable!
       render json: { message: 'Order has been marked as fabric unavailable. User will be notified of the same.' }
     else
