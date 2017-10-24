@@ -38,7 +38,6 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   end
 
   def images
-    # TODO: color code for images
     object.request_images.map do |image|
       V1::Designers::RequestImageSerializer.new(image)
     end

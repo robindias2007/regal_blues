@@ -33,7 +33,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
 
   def show
     request = current_user.requests.find(params[:id])
-    render json: { request: request }
+    render json: request, serializer: V1::Users::RequestShowSerializer
   end
 
   private
