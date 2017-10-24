@@ -19,8 +19,10 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       # TODO: Notify the user
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
-      render json: { errors:  order.errors,
-                     message: 'Something went wrong. Maybe not all the orders are selected by the user or the order has not been paid yet' }, status: 400
+      render json: {
+        errors:  order.errors,
+        message: 'Not all the orders are selected by the user or the order has not been paid yet'
+      }, status: 400
     end
   end
 
@@ -31,7 +33,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def fabric_unavailable
     order = current_designer.orders.find(params[:id])
-    if order.paid? && order.offer_quotation.update!(offer_quotation_params)
+    if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
@@ -40,8 +42,8 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     end
   end
 
-  def disable_gallery_image
-    if find_image_by(params[:id], params[:gallery_id], params[:image_id])&.update(disabled: true)
+  def toggle_active_gallery_image
+    if find_image_by(params[:id], params[:gallery_id], params[:image_id])&.safe_toggle!(:disabled)
       render json: { message: 'Image successfully disabled' }, status: 200
     else
       render json: { message: 'Something went wrong. Could not update the image' }, status: 400
@@ -57,12 +59,26 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     render json: galleries, each_serializer: V1::Designers::OfferQuotationGallerySerializer
   end
 
+  def give_more_options
+    order = current_designer.orders.find(params[:id])
+    if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
+      order.designer_gave_more_options!
+      render json: { message: 'Order has been marked as designer gave more options.' }
+    else
+      render json: { errors: order.errors, message: "Designer can't give more options for this order" }
+    end
+  end
+
   private
 
-  def offer_quotation_params
-    params.require(:offer_quotation).permit(:fabric_unavailable_note,
-      offer_quotation_galleries_attributes: [:id, :name, :_destroy,
-                                             images_attributes: %i[id image description disabled _destroy]])
+  def fabric_unavailable_params
+    params.require(:offer_quotation).permit(:designer_note,
+      offer_quotation_galleries_attributes: [:name, images_attributes: %i[image description disabled]])
+  end
+
+  def give_more_options_params
+    params.require(:offer_quotation).permit(:designer_note,
+      offer_quotation_galleries_attributes: [:name, images_attributes: %i[image description disabled]])
   end
 
   def first_instance_of(orders)

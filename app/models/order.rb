@@ -190,4 +190,8 @@ class Order < ApplicationRecord
   def all_options_selected?
     order_options.size == offer_quotation.offer_quotation_galleries.size
   end
+
+  def safe_toggle!(attr)
+    public_send(attr) == true ? update!(:"#{attr}" => false) : update!(:"#{attr}" => true)
+  end
 end

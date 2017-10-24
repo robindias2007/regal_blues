@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Designers::OrderFabricUnavailableSerializer < ActiveModel::Serializer
-  attributes :id, :price, :designer_note, :offer_quotation_galleries, :fabric_unavailable_note
+  attributes :id, :price, :designer_note, :offer_quotation_galleries, :designer_additional_note
 
   def price
     offer_quotation&.price
@@ -18,8 +18,8 @@ class V1::Designers::OrderFabricUnavailableSerializer < ActiveModel::Serializer
     end
   end
 
-  def fabric_unavailable_note
-    offer_quotation&.fabric_unavailable_note
+  def designer_additional_note
+    offer_quotation&.designer_note
   end
 
   def offer_quotation
