@@ -47,6 +47,15 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     end
   end
 
+  def give_more_options_data
+    order = current_designer.orders.find(params[:id])
+    galleries = OfferQuotationGallery.joins(:order_option)
+                                     .where(order_options: {
+                                       order: order, more_options: true, image_id: nil
+                                       })
+    render json: galleries, each_serializer: V1::Designers::OfferQuotationGallerySerializer
+  end
+
   private
 
   def offer_quotation_params

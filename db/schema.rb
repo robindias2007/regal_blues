@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023103208) do
+ActiveRecord::Schema.define(version: 20171024053233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,7 +191,9 @@ ActiveRecord::Schema.define(version: 20171023103208) do
     t.boolean "designer_pick", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "offer_quotation_gallery_id"
     t.index ["image_id"], name: "index_order_options_on_image_id"
+    t.index ["offer_quotation_gallery_id"], name: "index_order_options_on_offer_quotation_gallery_id"
     t.index ["order_id"], name: "index_order_options_on_order_id"
   end
 
@@ -348,6 +350,7 @@ ActiveRecord::Schema.define(version: 20171023103208) do
   add_foreign_key "offers", "requests"
   add_foreign_key "order_measurements", "orders"
   add_foreign_key "order_options", "images"
+  add_foreign_key "order_options", "offer_quotation_galleries"
   add_foreign_key "order_options", "orders"
   add_foreign_key "orders", "designers"
   add_foreign_key "orders", "offer_quotations"
