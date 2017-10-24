@@ -39,19 +39,11 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     end
   end
 
-  def destroy_gallery
-    if find_gallery_by(params[:id], params[:gallery_id])&.destroy
-      render json: { message: 'Gallery successfully deleted along with its images' }, status: 204
+  def disable_gallery_image
+    if find_image_by(params[:id], params[:gallery_id], params[:image_id])&.update(disabled: true)
+      render json: { message: 'Image successfully disabled' }, status: 200
     else
-      render json: { message: 'Something went wrong. Could not delete the gallery' }, status: 400
-    end
-  end
-
-  def destroy_gallery_image
-    if find_image_by(params[:id], params[:gallery_id], params[:image_id])&.destroy
-      render json: { message: 'Image successfully deleted' }, status: 204
-    else
-      render json: { message: 'Something went wrong. Could not delete the image' }, status: 400
+      render json: { message: 'Something went wrong. Could not update the image' }, status: 400
     end
   end
 

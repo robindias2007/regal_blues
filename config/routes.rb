@@ -119,8 +119,7 @@ Rails.application.routes.draw do
         end
       end
 
-      delete '/orders/:id/galleries/:gallery_id', to: 'orders#destroy_gallery'
-      delete '/orders/:id/galleries/:gallery_id/images/:image_id', to: 'orders#destroy_gallery_image'
+      patch '/orders/:id/galleries/:gallery_id/images/:image_id', to: 'orders#disable_gallery_image'
     end
   end
 end
