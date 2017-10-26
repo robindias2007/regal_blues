@@ -54,7 +54,6 @@ module Authenticable
     end
 
     def send_otp
-      return if Rails.env.test? || Rails.env.development? || Rails.env.production?
       otp = Array.new(6) { rand(10) }.join
       Redis.current.set(id, otp)
       SmsService.send_otp_to(self, otp)

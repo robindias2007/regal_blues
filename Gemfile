@@ -58,6 +58,9 @@ gem 'faker'
 # State Machine
 gem 'aasm'
 
+# AWS
+gem 'aws-sdk-sns'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
