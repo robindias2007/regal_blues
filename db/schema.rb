@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024114650) do
+ActiveRecord::Schema.define(version: 20171026092810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,29 @@ ActiveRecord::Schema.define(version: 20171024114650) do
     t.index ["order_id"], name: "index_order_options_on_order_id"
   end
 
+  create_table "order_status_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "order_id"
+    t.datetime "started_at"
+    t.datetime "paid_at"
+    t.datetime "designer_confirmed_at"
+    t.datetime "measurements_given_at"
+    t.datetime "in_production_at"
+    t.datetime "shipped_to_qc_at"
+    t.datetime "delivered_to_qc_at"
+    t.datetime "in_qc_at"
+    t.datetime "shipped_to_user_at"
+    t.datetime "delivered_to_user_at"
+    t.datetime "rejected_by_qc_at"
+    t.datetime "user_awaiting_more_options_at"
+    t.datetime "designer_gave_more_options_at"
+    t.datetime "user_selected_options_at"
+    t.datetime "user_cancelled_at"
+    t.datetime "designer_selected_fabric_unavailable_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_status_logs_on_order_id"
+  end
+
   create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "designer_id"
     t.uuid "user_id"
@@ -353,6 +376,7 @@ ActiveRecord::Schema.define(version: 20171024114650) do
   add_foreign_key "order_options", "images"
   add_foreign_key "order_options", "offer_quotation_galleries"
   add_foreign_key "order_options", "orders"
+  add_foreign_key "order_status_logs", "orders"
   add_foreign_key "orders", "designers"
   add_foreign_key "orders", "offer_quotations"
   add_foreign_key "orders", "users"

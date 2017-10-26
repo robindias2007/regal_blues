@@ -14,6 +14,7 @@ class Order < ApplicationRecord
 
   has_many :order_options, dependent: :destroy
   has_one :order_measurement, dependent: :destroy
+  has_one :order_status_log, dependent: :destroy
   # has_one :order_payment, dependent: :destroy
 
   accepts_nested_attributes_for :order_options, allow_destroy: true
@@ -75,25 +76,25 @@ class Order < ApplicationRecord
 
   aasm column: 'status' do
     # Happy Path
-    state :started, initial: true
-    state :paid
-    state :designer_confirm
-    state :measurements_given
-    state :in_production
-    state :shipped_to_qc
-    state :delivered_to_qc
-    state :in_qc
-    state :shipped_to_user
-    state :delivered_to_user
-    state :rejected_by_qc
+    state :started, initial: true, after_enter: :update_datetime
+    state :paid, after_enter: :update_datetime
+    state :designer_confirmed, after_enter: :update_datetime
+    state :measurements_given, after_enter: :update_datetime
+    state :in_production, after_enter: :update_datetime
+    state :shipped_to_qc, after_enter: :update_datetime
+    state :delivered_to_qc, after_enter: :update_datetime
+    state :in_qc, after_enter: :update_datetime
+    state :shipped_to_user, after_enter: :update_datetime
+    state :delivered_to_user, after_enter: :update_datetime
+    state :rejected_by_qc, after_enter: :update_datetime
     # User Path: More Options + User Agrees
-    state :user_awaiting_more_options
-    state :designer_gave_more_options
-    state :user_selected_options
+    state :user_awaiting_more_options, after_enter: :update_datetime
+    state :designer_gave_more_options, after_enter: :update_datetime
+    state :user_selected_options, after_enter: :update_datetime
     # User Path: More Options + User Cancels / Fabric Unavailable + User Cancels
-    state :user_cancels
+    state :user_cancelled, after_enter: :update_datetime
     # Designer Path: Fabric Unavailable + User Agrees
-    state :designer_selected_fabric_unavailable
+    state :designer_selected_fabric_unavailable, after_enter: :update_datetime
 
     # Actor: User
     # Actions: Pay
@@ -104,13 +105,13 @@ class Order < ApplicationRecord
     # Actor: Designer
     # Action: Confirm
     event :designer_confirms do
-      transitions from: :paid, to: :designer_confirm, gaurd: :all_options_selected?
+      transitions from: :paid, to: :designer_confirmed, gaurd: :all_options_selected?
     end
 
     # Actor: User
     # Action: Give Measurements
     event :give_measurements do
-      transitions from: :designer_confirm, to: :measurements_given
+      transitions from: :designer_confirmed, to: :measurements_given
       transitions from: :user_selected_options, to: :measurements_given
     end
 
@@ -178,8 +179,8 @@ class Order < ApplicationRecord
     # Actor: User
     # Action: Cancel the order
     event :user_cancels_the_order do
-      transitions from: :designer_gave_more_options, to: :user_cancels
-      transitions from: :designer_selected_fabric_unavailable, to: :user_cancels
+      transitions from: :designer_gave_more_options, to: :user_cancelled
+      transitions from: :designer_selected_fabric_unavailable, to: :user_cancelled
     end
 
     # Actor: Designer
@@ -187,6 +188,12 @@ class Order < ApplicationRecord
     event :fabric_unavailable do
       transitions from: :paid, to: :designer_selected_fabric_unavailable
     end
+  end
+
+  def update_datetime
+    osl = OrderStatusLog.find_or_initialize_by(order: self)
+    osl["#{aasm.current_state}_at"] = DateTime.current
+    osl.save
   end
 
   def all_options_selected?
