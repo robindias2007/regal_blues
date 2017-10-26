@@ -3,12 +3,12 @@
 class V1::Users::OffersController < V1::Users::BaseController
   def index
     offers = request_conditional_offers.order(created_at: :desc).limit(20)
-    render json: { offers: offers }
+    render json: offers, each_serializer: V1::Users::OffersSerializer
   end
 
   def show
     offer = Offer.find_for_user(current_user).find(params[:id])
-    render json: { offer: offer }
+    render json: offer, serializer: V1::Users::OfferShowSerializer
   end
 
   private

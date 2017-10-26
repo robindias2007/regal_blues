@@ -42,6 +42,9 @@ Rails.application.routes.draw do
           get :init_data, path: 'init-data'
           get 'designers/:category_id' => :designers
         end
+        member do
+          resources :offers, only: %i[index show]
+        end
       end
 
       # Offers
