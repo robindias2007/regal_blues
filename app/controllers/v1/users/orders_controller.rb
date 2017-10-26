@@ -12,6 +12,17 @@ class V1::Users::OrdersController < V1::Users::BaseController
     render json: order, serializer: V1::Users::OrderShowSerializer
   end
 
+  def create
+    order = current_user.orders.new(order_params)
+    order.designer = order.offer_quotation.offer.designer
+    if order.save
+      # render json: { message: 'Order has been created, now redirecting you to the payment gateway' }
+      pay_with_create(order)
+    else
+      render json: { errors: order.errors }
+    end
+  end
+
   def pay
     order = current_user.orders.find(params[:id])
     # payment = PaymentGateway.pay(params[:gateway], order)
@@ -45,6 +56,21 @@ class V1::Users::OrdersController < V1::Users::BaseController
   def first_instance_of(orders)
     ActiveModelSerializers::SerializableResource.new(orders.first,
       serializer: V1::Users::OrderShowSerializer)
+  end
+
+  def order_params
+    params.require(:order).permit(:offer_quotation_id,
+      order_options_attributes: %i[offer_quotation_gallery_id image_id more_options designer_pick])
+  end
+
+  def pay_with_create(order)
+    # payment = PaymentGateway.pay(params[:gateway], order)
+    # if payment.successfull?
+    order.pay!
+    render json: { message: 'Order has been created and payment has been successfull' }
+    # else
+    #   render json: { errors: ['Order has been saved but payment could not be completed'] }, status: 400
+    # end
   end
 
   def measurement_params

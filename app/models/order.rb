@@ -16,6 +16,8 @@ class Order < ApplicationRecord
   has_one :order_measurement, dependent: :destroy
   # has_one :order_payment, dependent: :destroy
 
+  accepts_nested_attributes_for :order_options, allow_destroy: true
+
   ###############################################################################################################
   # ############################################## Happy Path ###################################################
   # Pay -> Designer Confirm -> Give Measurements -> Produce Cloth -> Ship to QC -> Deliver to QC ->

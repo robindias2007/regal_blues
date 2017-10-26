@@ -58,7 +58,7 @@ Rails.application.routes.draw do
       get 'explore/mobile', to: 'explore#mobile'
       get 'search/:q', to: 'search#index'
 
-      resources :orders, only: %i[index show] do
+      resources :orders, only: %i[index show create] do
         member do
           get :pay
           get :measurement_tags
