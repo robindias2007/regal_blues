@@ -20,8 +20,8 @@ class V1::Designers::OrderShowSerializer < ActiveModel::Serializer
 
   def status_and_date
     {
-      status: object.status,
-      data:   object.updated_at.strftime('%d %b %Y')
+      status: object.status.to_s.humanize + ' at',
+      data:   object.order_status_log&.send("#{object.status}_at")&.strftime('%d %b %Y')
     }
   end
 
