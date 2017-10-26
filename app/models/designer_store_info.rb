@@ -5,7 +5,7 @@ class DesignerStoreInfo < ApplicationRecord
   PINCODE_RESOURCE_ID = '6176ee09-3d56-4a3b-8115-21841576b2f6'
   belongs_to :designer
 
-  validates :display_name, :registered_name, :pincode, :country, :state, :city, :address_line_1, :contact_number,
+  validates :display_name, :registered_name, :pincode, :country, :state, :city, :address_line_1,
     :min_order_price, :processing_time, presence: true
 
   validates :display_name, :registered_name,  uniqueness: { case_sensitive: false }
