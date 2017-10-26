@@ -3,8 +3,8 @@
 class Product < ApplicationRecord
   belongs_to :sub_category
   belongs_to :designer
-  has_one :product_info
-  has_many :images, as: :imageable
+  has_one :product_info, dependent: :destroy
+  has_many :images, as: :imageable, dependent: :destroy
 
   validates :name, :description, :selling_price, presence: true
   validates :name, length:     { in: 4..100 },

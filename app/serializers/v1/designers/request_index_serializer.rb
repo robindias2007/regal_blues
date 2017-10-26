@@ -29,11 +29,11 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    "#{object.timeline} weeks"
+    "#{object.timeline - 2} weeks"
   end
 
   def image
-    object.request_images.order(created_at: :desc).first&.image || 'Default Image URL'
+    object.request_images.order(created_at: :asc).first&.image || 'Default Image URL'
   end
 
   def offers

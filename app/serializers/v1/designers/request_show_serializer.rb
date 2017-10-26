@@ -34,11 +34,11 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    "#{object.timeline} weeks"
+    "#{object.timeline - 2} weeks"
   end
 
   def images
-    object.request_images.map do |image|
+    object.request_images.order(created_at: :asc).map do |image|
       V1::Designers::RequestImageSerializer.new(image)
     end
   end
