@@ -16,8 +16,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     order = current_user.orders.new(order_params)
     order.designer = order.offer_quotation.offer.designer
     if order.save
-      # render json: { message: 'Order has been created, now redirecting you to the payment gateway' }
-      pay_with_create(order)
+      pay_and_assign_status(order)
     else
       render json: { errors: order.errors }
     end
@@ -71,6 +70,11 @@ class V1::Users::OrdersController < V1::Users::BaseController
     # else
     #   render json: { errors: ['Order has been saved but payment could not be completed'] }, status: 400
     # end
+  end
+
+  def pay_and_assign_status(order)
+    pay_with_create(order)
+    order.user_asks_more_options! if order.order_options.where.not(more_options: nil).any?
   end
 
   def measurement_params
