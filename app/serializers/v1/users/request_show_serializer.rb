@@ -2,7 +2,7 @@
 
 class V1::Users::RequestShowSerializer < ActiveModel::Serializer
   attributes :id, :sent_on, :status, :name, :item_type, :size, :timeline, :designers, :shipping_address,
-    :budget, :description, :images
+    :budget, :description, :images, :offers_count
 
   def sent_on
     object.created_at.strftime('%d %b %Y')

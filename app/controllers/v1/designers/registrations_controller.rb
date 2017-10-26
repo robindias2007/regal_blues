@@ -21,6 +21,25 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
     end
   end
 
+  def bank_details
+    details = DesignerFinanceInfo.bank_details(params[:ifsc_code])
+    if details.code == 200
+      render json: details.body
+    else
+      render json: { errors: 'Not a valid IFSC code' }, status: 400
+    end
+  end
+
+  def list_categories
+    categories = SubCategory.all.order(name: :asc)
+    render json: categories, each_serializer: V1::Designers::SubCategorySerializer
+  end
+
+  def associate_categories
+    current_designer.designer_categorizations.create!(designer_categories_params)
+    render json: { message: 'Designer associated with the categories' }, status: 201
+  end
+
   def toggle_active
     if current_designer.safe_toggle!(:active)
       render json: { message: 'Designer state successfully changed' }
@@ -94,6 +113,10 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   def update_profile_params
     params.require(:designer).permit(:bio, :location, :avatar,
       designer_store_info_attributes: %i[id min_order_price])
+  end
+
+  def designer_categories_params
+    params.require(:designer).permit!.fetch(:data)
   end
 
   def wrong_number

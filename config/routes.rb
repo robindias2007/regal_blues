@@ -83,6 +83,9 @@ Rails.application.routes.draw do
       post 'verify-otp', to: 'registrations#verify_otp'
       post 'update-store-info', to: 'registrations#update_store_info'
       post 'update-finance-info', to: 'registrations#update_finance_info'
+      get 'list-categories', to: 'registrations#list_categories'
+      post 'associate-categories', to: 'registrations#associate_categories'
+      get 'bank-details/:ifsc_code', to: 'registrations#bank_details'
 
       # Profile Update
       get 'me', to: 'registrations#profile'

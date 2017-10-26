@@ -10,5 +10,22 @@ class DesignerFinanceInfo < ApplicationRecord
   validates :account_number, :business_pan_number, :personal_pan_number, :tin_number, :gstin_number,
     uniqueness: { case_sensitive: false }
 
+  validate :valid_ifsc_code
+
   # TODO: Add length and format validations after consulting with legal
+
+  def self.bank_details(ifsc_code)
+    base_uri = 'https://ifsc.razorpay.com/'
+    url = "#{base_uri}#{ifsc_code}"
+    HTTParty.get(url)
+  end
+
+  private
+
+  def valid_ifsc_code
+    base_uri = 'https://ifsc.razorpay.com/'
+    url = "#{base_uri}#{ifsc_code}"
+    response = HTTParty.get(url)
+    errors.add(:pincode, 'not a valid IFSC code') if response.code == 404
+  end
 end
