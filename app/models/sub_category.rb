@@ -2,10 +2,10 @@
 
 class SubCategory < ApplicationRecord
   belongs_to :category
-  has_many :designer_categorizations
-  has_many :designers, through: :designer_categorizations
-  has_many :requests
-  has_many :products
+  has_many :designer_categorizations, dependent: :destroy
+  has_many :designers, through: :designer_categorizations, dependent: :destroy
+  has_many :requests, dependent: :destroy
+  has_many :products, dependent: :destroy
 
   validates :name, :image, presence: true
   validates :name, uniqueness: { case_sensitive: false }
