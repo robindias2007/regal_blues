@@ -8,7 +8,7 @@ class V1::Designers::ProductShowSerializer < ActiveModel::Serializer
   end
 
   def images
-    object.images.map { |image| ImageSerializer.new(image) }
+    object.images.order(created_at: :asc).map { |image| ImageSerializer.new(image) }
   end
 
   def additional_info
