@@ -65,6 +65,12 @@ Rails.application.routes.draw do
           post :update_measurements
         end
       end
+
+      resources :support_chats, only: %i[create index] do
+        member do
+          resources :conversations, only: %i[create]
+        end
+      end
     end
   end
 
@@ -132,7 +138,7 @@ Rails.application.routes.draw do
 
       resources :support_chats, only: %i[create index] do
         member do
-          resources :conversations, only: %i[create index]
+          resources :conversations, only: %i[create]
         end
       end
     end
