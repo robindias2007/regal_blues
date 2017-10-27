@@ -23,14 +23,16 @@ class V1::Users::OrdersController < V1::Users::BaseController
   end
 
   def pay
-    order = current_user.orders.find(params[:id])
-    # payment = PaymentGateway.pay(params[:gateway], order)
-    if payment.successfull?
-      order.pay!
-      render json: { message: 'Payment has been successfull' }
-    else
-      render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
-    end
+    # TODO: Implement after integrating payment gateway
+    render status: 501
+    # order = current_user.orders.find(params[:id])
+    # # payment = PaymentGateway.pay(params[:gateway], order)
+    # if payment.successfull?
+    #   order.pay!
+    #   render json: { message: 'Payment has been successfull' }
+    # else
+    #   render json: { errors: order.errors, message: 'Something went wrong' }, status: 400
+    # end
   end
 
   def measurement_tags
@@ -55,7 +57,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable
     return bad_selection if more_options_present?
     if order.update(submit_options_params)
-      render json: { message: 'Measurements have been saved' }, status: 201
+      render json: { message: 'Options have been updated' }, status: 201
     else
       render json: { errors: om.errors, message: 'Something went wrong' }, status: 400
     end
