@@ -12,9 +12,13 @@ class V1::Users::SupportChatsController < V1::Users::BaseController
 
   def index
     support_chat = current_user.support_chat
-    if support_chat&.conversations.present?
-      render json:            support_chat.conversations.order(created_at: :asc),
-             each_serializer: V1::Users::ConversationSerializer
+    if support_chat.present?
+      if support_chat&.conversations.present?
+        render json:            support_chat.conversations.order(created_at: :asc),
+               each_serializer: V1::Users::ConversationSerializer
+      else
+        render json: { errors: 'Not conversations yet' }, status: 404
+      end
     else
       render json: { errors: 'No chat initiated' }
     end
