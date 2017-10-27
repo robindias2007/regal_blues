@@ -57,6 +57,9 @@ Rails.application.routes.draw do
 
       get 'explore/mobile', to: 'explore#mobile'
       get 'search/:q', to: 'search#index'
+      post 'search/create', to: 'external_search#create'
+      get 'search/modal-suggestions', to: 'external_search#search_suggestions'
+      get 'search/top-suggestions', to: 'external_search#top_query_suggestions'
 
       resources :orders, only: %i[index show create] do
         member do
