@@ -26,8 +26,8 @@ class DesignerStoreInfo < ApplicationRecord
     base_uri = 'https://api.data.gov.in/resource/'
     url = "#{base_uri}#{PINCODE_RESOURCE_ID}?format=json&api-key=#{PINCODE_API_KEY}&filters[pincode]=#{pincode}"
     response = HTTParty.get(url)
-    data = response.body
-    fields = data[:records]
+    data = JSON.parse(response.body)
+    fields = data['records']
     errors.add(:pincode, 'not a valid pincode') if fields.blank?
   end
 end
