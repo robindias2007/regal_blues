@@ -21,7 +21,7 @@ class V1::Designers::SupportChatsController < V1::Designers::BaseController
         render json: { errors: 'Not conversations yet' }, status: 404
       end
     else
-      render json: { errors: 'No chat initiated' }
+      render json: { errors: 'No chat initiated' }, status: 400
     end
   end
 end
