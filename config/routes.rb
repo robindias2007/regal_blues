@@ -106,7 +106,7 @@ Rails.application.routes.draw do
       post 'login', to: 'sessions#create'
 
       # Products
-      resources :products, only: %i[index create show] do
+      resources :products, only: %i[index create show destroy] do
         patch :toggle_active, on: :member
         get :search, on: :collection
       end

@@ -29,6 +29,15 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
     render json: product, serializer: V1::Designers::ProductShowSerializer
   end
 
+  def destroy
+    product = current_designer.products.find(params[:id])
+    if product.destroy
+      render json: { message: 'Product deleted' }, status: 204
+    else
+      render json: { errors: product.errors }, status: 400
+    end
+  end
+
   def toggle_active
     product = current_designer.products.find(params[:id])
     if product.safe_toggle!(:active)

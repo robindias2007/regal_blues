@@ -20,6 +20,7 @@ class Product < ApplicationRecord
                                                }
 
   before_save :generate_sku
+  # before_destroy :check_requests
 
   accepts_nested_attributes_for :images
   accepts_nested_attributes_for :product_info
@@ -58,4 +59,9 @@ class Product < ApplicationRecord
       break token unless Product.find_by(sku: token)
     end
   end
+
+  # def check_requests
+  # TODO: Add a product based request
+  #   #
+  # end
 end
