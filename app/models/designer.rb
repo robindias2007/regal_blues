@@ -2,6 +2,7 @@
 
 class Designer < ApplicationRecord
   include Authenticable
+  extend Enumerize
 
   has_one :designer_store_info, dependent: :destroy
   has_one :designer_finance_info, dependent: :destroy
@@ -18,6 +19,8 @@ class Designer < ApplicationRecord
   scope :order_alphabetically, -> { order(full_name: :asc) }
 
   before_create :generate_pin
+
+  enumerize :live_status, in: %i[unapproved approved blocked], scope: true, predicates: true, default: :unapproved
 
   mount_base64_uploader :avatar, AvatarUploader
 
