@@ -20,5 +20,6 @@ class SmsService
                                   access_key_id:     Rails.application.secrets[:aws_access_key_id],
                                   secret_access_key: Rails.application.secrets[:aws_secret_access_key])
     client.set_sms_attributes(attributes: { 'DefaultSMSType' => 'Transactional', 'DefaultSenderID' => 'AM1DOS' })
+    client
   end
 end
