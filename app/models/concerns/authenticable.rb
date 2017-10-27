@@ -56,6 +56,7 @@ module Authenticable
     def send_otp
       otp = Array.new(6) { rand(10) }.join
       Redis.current.set(id, otp)
+      Rails.logger.debug otp
       SmsService.send_otp_to(self, otp)
     end
 
