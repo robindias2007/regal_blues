@@ -2,8 +2,10 @@
 
 class V1::Users::ConversationsController < V1::Users::BaseController
   def create
+    resource, id = request.path.split('/')[2, 2]
     conversation = Conversation.new(conversation_params)
-    conversation.support_chat_id = params[:id]
+    conversation.chattable_type = resource.singularize.to_s.camelcase
+    conversation.chattable_id = id
     if conversation.save
       render json: conversation, status: 201
     else
