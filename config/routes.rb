@@ -63,6 +63,7 @@ Rails.application.routes.draw do
           get :pay
           get :measurement_tags
           post :update_measurements
+          post :submit_options
         end
       end
 

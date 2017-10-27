@@ -50,6 +50,17 @@ class V1::Users::OrdersController < V1::Users::BaseController
     end
   end
 
+  def submit_options
+    order = current_user.orders.find(params[:order][:order_id])
+    return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable
+    return bad_selection if more_options_present?
+    if order.update(submit_options_params)
+      render json: { message: 'Measurements have been saved' }, status: 201
+    else
+      render json: { errors: om.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
   private
 
   def first_instance_of(orders)
@@ -60,6 +71,10 @@ class V1::Users::OrdersController < V1::Users::BaseController
   def order_params
     params.require(:order).permit(:offer_quotation_id,
       order_options_attributes: %i[offer_quotation_gallery_id image_id more_options designer_pick])
+  end
+
+  def submit_options_params
+    params.require(:order).permit(order_options_attributes: %i[offer_quotation_gallery_id image_id designer_pick])
   end
 
   def pay_with_create(order)
@@ -74,7 +89,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
 
   def pay_and_assign_status(order)
     pay_with_create(order)
-    order.user_asks_more_options! if order.order_options.where.not(more_options: nil).any?
+    order.user_asks_more_options! if order.order_options.where.not(more_options: false).any?
   end
 
   def measurement_params
@@ -87,5 +102,13 @@ class V1::Users::OrdersController < V1::Users::BaseController
 
   def invalid_key_error
     render json: { errors: 'key for data is not valid' }, status: 400
+  end
+
+  def bad_order
+    render json: { errors: 'Not a valid order for this selection' }, status: 400
+  end
+
+  def more_options_present?
+    params[:order][:order_options_attributes].any? { |oo| oo[:more_options] == true }
   end
 end
