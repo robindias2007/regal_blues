@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027055648) do
+ActiveRecord::Schema.define(version: 20171027071558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(version: 20171027055648) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
     t.index ["super_category_id"], name: "index_categories_on_super_category_id"
+  end
+
+  create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "support_chat_id"
+    t.text "message"
+    t.string "attachment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["support_chat_id"], name: "index_conversations_on_support_chat_id"
   end
 
   create_table "designer_categorizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -326,6 +335,37 @@ ActiveRecord::Schema.define(version: 20171027055648) do
     t.index ["name"], name: "index_super_categories_on_name", unique: true
   end
 
+  create_table "support_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "support_id"
+    t.uuid "user_id"
+    t.uuid "designer_id"
+    t.boolean "responding"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_support_chats_on_designer_id"
+    t.index ["support_id"], name: "index_support_chats_on_support_id"
+    t.index ["user_id"], name: "index_support_chats_on_user_id"
+  end
+
+  create_table "supports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "full_name", default: "", null: false
+    t.string "email", default: "", null: false
+    t.string "mobile_number", default: "", null: false
+    t.string "password_digest", default: "", null: false
+    t.string "confirmation_token"
+    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at"
+    t.string "reset_password_token"
+    t.datetime "reset_password_token_set_at"
+    t.datetime "reset_password_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_supports_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_supports_on_email", unique: true
+    t.index ["password_digest"], name: "index_supports_on_password_digest", unique: true
+    t.index ["reset_password_token"], name: "index_supports_on_reset_password_token", unique: true
+  end
+
   create_table "user_identities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "uid", default: "", null: false
     t.string "provider", default: "", null: false
@@ -364,6 +404,7 @@ ActiveRecord::Schema.define(version: 20171027055648) do
 
   add_foreign_key "addresses", "users"
   add_foreign_key "categories", "super_categories"
+  add_foreign_key "conversations", "support_chats"
   add_foreign_key "designer_categorizations", "designers"
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
@@ -391,5 +432,8 @@ ActiveRecord::Schema.define(version: 20171027055648) do
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"
+  add_foreign_key "support_chats", "designers"
+  add_foreign_key "support_chats", "supports"
+  add_foreign_key "support_chats", "users"
   add_foreign_key "user_identities", "users"
 end

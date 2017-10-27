@@ -13,6 +13,8 @@ class Designer < ApplicationRecord
   has_many :offers, dependent: :nullify
   has_many :orders, dependent: :nullify
 
+  has_one :support_chat, dependent: :destroy
+
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }
 

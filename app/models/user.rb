@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :requests, dependent: :destroy
   has_many :orders, dependent: :destroy
 
+  has_one :support_chat, dependent: :destroy
+
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true
   validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }
 
