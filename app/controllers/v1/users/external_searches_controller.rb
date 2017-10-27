@@ -23,13 +23,13 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
       Anarkali
       Indowestern
     ]
-    render json: suggestions
+    render json: { data: suggestions }
   end
 
   def top_query_suggestions
     suggestions = %W[Wedding Simple Ideas Bridal Casual Indowestern Fashion Bollywood Latest indian 2017
                      #{"Manish Malhotra"} #{"Anita Dongre"} Designer Engagement LFW Floral Elegant Pattern Embroidered
                      Trendy Ethnic Modern Printed]
-    render json: suggestions
+    render json: { data: suggestions }
   end
 end

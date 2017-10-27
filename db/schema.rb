@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027104051) do
+ActiveRecord::Schema.define(version: 20171027141856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20171027104051) do
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "message"
-    t.text "attachment"
+    t.string "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "chattable_type"
@@ -138,6 +138,14 @@ ActiveRecord::Schema.define(version: 20171027104051) do
     t.index ["email"], name: "index_designers_on_email", unique: true
     t.index ["mobile_number"], name: "index_designers_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_designers_on_reset_password_token", unique: true
+  end
+
+  create_table "external_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "query"
+    t.integer "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["query"], name: "index_external_searches_on_query", unique: true
   end
 
   create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
