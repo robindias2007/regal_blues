@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       # Products
       resources :products, only: %i[index create show] do
         patch :toggle_active, on: :member
+        get :search, on: :collection
       end
 
       # Designer Categories
@@ -137,6 +138,12 @@ Rails.application.routes.draw do
       patch '/orders/:id/galleries/:gallery_id/images/:image_id', to: 'orders#disable_gallery_image'
 
       resources :support_chats, only: %i[create index] do
+        member do
+          resources :conversations, only: %i[create]
+        end
+      end
+
+      resources :request_chats, only: %i[create index] do
         member do
           resources :conversations, only: %i[create]
         end

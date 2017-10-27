@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Conversation < ApplicationRecord
-  belongs_to :support_chat
+  belongs_to :chattable, polymorphic: true, autosave: true, dependent: :destroy
 
   validate :either_message_or_attachment
 

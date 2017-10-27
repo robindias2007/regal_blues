@@ -38,6 +38,12 @@ class V1::Designers::ProductsController < V1::Designers::BaseController
     end
   end
 
+  def search
+    products = Product.search_for(params[:q])
+    render json: products,
+      each_serializer: V1::Designers::ProductIndexSerializer, meta: first_instance_of(products)
+  end
+
   private
 
   def product_params

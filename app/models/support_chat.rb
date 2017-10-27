@@ -5,7 +5,7 @@ class SupportChat < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :designer, optional: true
 
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, as: :chattable, dependent: :destroy
 
   after_initialize :set_responding_false
 
