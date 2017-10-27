@@ -3,6 +3,7 @@
 class V1::Designers::RequestChatsController < V1::Designers::BaseController
   def create
     request_chat = current_designer.request_chats.find_or_initialize_by(request_chat_params)
+    request_chat.user = request_chat.request&.user
     if request_chat.save
       render json: request_chat, serializer: V1::Designers::RequestChatSerializer, designer_id: current_designer.id
     else
