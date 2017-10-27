@@ -4,6 +4,11 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
   skip_before_action :authenticate
   def create
     es = ExternalSearch.find_or_initialize_by(query: params[:query])
+    if es.persisted?
+      es.count += 1
+    else
+      es.count = 1
+    end
     if es.save
       render json: { message: 'Query saved' }, status: 200
     else
