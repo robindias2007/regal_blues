@@ -2,6 +2,7 @@
 
 class Conversation < ApplicationRecord
   belongs_to :chattable, polymorphic: true, autosave: true, dependent: :destroy
+  belongs_to :personable, polymorphic: true, autosave: true, dependent: :destroy
 
   validate :either_message_or_attachment
 

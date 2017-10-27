@@ -143,7 +143,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :request_chats, only: %i[create index] do
+      resources :request_chats, only: %i[create show] do
         member do
           resources :conversations, only: %i[create]
         end

@@ -18,7 +18,7 @@ class V1::Designers::SupportChatsController < V1::Designers::BaseController
         render json:            support_chat.conversations.order(created_at: :asc),
                each_serializer: V1::Designers::ConversationSerializer
       else
-        render json: { errors: 'Not conversations yet' }, status: 404
+        render json: { errors: 'No conversations yet' }, status: 404
       end
     else
       render json: { errors: 'No chat initiated' }, status: 400

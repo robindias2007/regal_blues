@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027095946) do
+ActiveRecord::Schema.define(version: 20171027104051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,7 +49,10 @@ ActiveRecord::Schema.define(version: 20171027095946) do
     t.datetime "updated_at", null: false
     t.string "chattable_type"
     t.uuid "chattable_id"
+    t.string "personable_type"
+    t.uuid "personable_id"
     t.index ["chattable_type", "chattable_id"], name: "index_conversations_on_chattable_type_and_chattable_id"
+    t.index ["personable_type", "personable_id"], name: "index_conversations_on_personable_type_and_personable_id"
   end
 
   create_table "designer_categorizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -274,6 +277,17 @@ ActiveRecord::Schema.define(version: 20171027095946) do
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
   end
 
+  create_table "request_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "request_id"
+    t.uuid "user_id"
+    t.uuid "designer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_request_chats_on_designer_id"
+    t.index ["request_id"], name: "index_request_chats_on_request_id"
+    t.index ["user_id"], name: "index_request_chats_on_user_id"
+  end
+
   create_table "request_designers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "request_id"
     t.uuid "designer_id"
@@ -425,6 +439,9 @@ ActiveRecord::Schema.define(version: 20171027095946) do
   add_foreign_key "product_infos", "products"
   add_foreign_key "products", "designers"
   add_foreign_key "products", "sub_categories"
+  add_foreign_key "request_chats", "designers"
+  add_foreign_key "request_chats", "requests"
+  add_foreign_key "request_chats", "users"
   add_foreign_key "request_designers", "designers"
   add_foreign_key "request_designers", "requests"
   add_foreign_key "request_images", "requests"

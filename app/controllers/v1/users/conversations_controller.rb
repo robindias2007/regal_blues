@@ -6,6 +6,7 @@ class V1::Users::ConversationsController < V1::Users::BaseController
     conversation = Conversation.new(conversation_params)
     conversation.chattable_type = resource.singularize.to_s.camelcase
     conversation.chattable_id = id
+    conversation.personable = current_user
     if conversation.save
       render json: conversation, status: 201
     else
