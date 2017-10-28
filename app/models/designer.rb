@@ -15,6 +15,7 @@ class Designer < ApplicationRecord
 
   has_one :support_chat, dependent: :destroy
   has_many :request_chats, dependent: :destroy
+  has_many :offer_quotation_chats, dependent: :destroy
 
   has_many :conversations, as: :personable, dependent: :destroy
 

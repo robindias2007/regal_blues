@@ -11,6 +11,7 @@ class V1::Designers::RequestChatsController < V1::Designers::BaseController
     end
   end
 
+  # Shows offers
   def show
     offers_ids = RequestChat.find(params[:id]).request.offers.where(designer: current_designer).pluck(:id)
     quotes = OfferQuotation.where(offer_id: offers_ids).order(created_at: :asc)

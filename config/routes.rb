@@ -75,6 +75,12 @@ Rails.application.routes.draw do
           resources :conversations, only: %i[create]
         end
       end
+
+      resources :offer_quotation_chats, only: %i[create] do
+        member do
+          resources :conversations, only: %i[create]
+        end
+      end
     end
   end
 
@@ -148,6 +154,12 @@ Rails.application.routes.draw do
       end
 
       resources :request_chats, only: %i[create show] do
+        member do
+          resources :conversations, only: %i[create]
+        end
+      end
+
+      resources :offer_quotation_chats, only: %i[create] do
         member do
           resources :conversations, only: %i[create]
         end

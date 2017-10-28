@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027141856) do
+ActiveRecord::Schema.define(version: 20171028060940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20171027141856) do
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "message"
-    t.string "attachment"
+    t.text "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "chattable_type"
@@ -169,6 +169,17 @@ ActiveRecord::Schema.define(version: 20171027141856) do
     t.datetime "updated_at", null: false
     t.index ["data"], name: "index_offer_measurements_on_data", using: :gin
     t.index ["offer_quotation_id"], name: "index_offer_measurements_on_offer_quotation_id"
+  end
+
+  create_table "offer_quotation_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "designer_id"
+    t.uuid "offer_quotation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_offer_quotation_chats_on_designer_id"
+    t.index ["offer_quotation_id"], name: "index_offer_quotation_chats_on_offer_quotation_id"
+    t.index ["user_id"], name: "index_offer_quotation_chats_on_user_id"
   end
 
   create_table "offer_quotation_galleries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -432,6 +443,9 @@ ActiveRecord::Schema.define(version: 20171027141856) do
   add_foreign_key "designer_finance_infos", "designers"
   add_foreign_key "designer_store_infos", "designers"
   add_foreign_key "offer_measurements", "offer_quotations"
+  add_foreign_key "offer_quotation_chats", "designers"
+  add_foreign_key "offer_quotation_chats", "offer_quotations"
+  add_foreign_key "offer_quotation_chats", "users"
   add_foreign_key "offer_quotation_galleries", "offer_quotations"
   add_foreign_key "offer_quotations", "offers"
   add_foreign_key "offers", "designers"
