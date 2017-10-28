@@ -4,7 +4,7 @@ module Registerable
   extend ActiveSupport::Concern
 
   included do
-    skip_before_action :authenticate, only: %i[create confirm resend_confirmation
+    skip_before_action :authenticate, only: %i[create confirm resend_confirmation people
                                                send_reset_password_instructions reset_password]
 
     def create
@@ -15,6 +15,13 @@ module Registerable
       else
         render json: { errors: resource.errors.full_messages }, status: 400
       end
+    end
+
+    def people
+      {
+        designers:  ['Sangeeta Baishya', 'Twinkle Rathore'],
+        developers: ['Pavan Prakash', 'Ashish Khobragade', 'Ankit Singh']
+      }
     end
 
     def confirm
