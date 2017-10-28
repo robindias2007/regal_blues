@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20171028103123) do
     t.boolean "active"
     t.text "bio"
     t.string "live_status"
-    t.integer "skip_count"
+    t.integer "skip_count", default: 0, null: false
     t.index ["active"], name: "index_designers_on_active", where: "active"
     t.index ["confirmation_token"], name: "index_designers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_designers_on_email", unique: true
