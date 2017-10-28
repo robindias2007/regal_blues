@@ -18,10 +18,11 @@ module Registerable
     end
 
     def people
-      {
+      people = {
         designers:  ['Sangeeta Baishya', 'Twinkle Rathore'],
         developers: ['Pavan Prakash', 'Ashish Khobragade', 'Ankit Singh']
       }
+      render json: people
     end
 
     def confirm
