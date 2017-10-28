@@ -127,6 +127,7 @@ Rails.application.routes.draw do
       # Designer Requests
       resources :requests, only: %i[index show destroy] do
         patch :toggle_not_interested, on: :member
+        patch :mark_involved, on: :member
       end
 
       # Offers
