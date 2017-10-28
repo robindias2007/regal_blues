@@ -25,6 +25,7 @@ class Request < ApplicationRecord
 
   enumerize :size, in: %w[xs-s s-m m-l l-xl xl-xxl], scope: true, predicates: true
   enumerize :status, in: %i[active pending unapproved], scope: true, predicates: true, default: :pending
+  enumerize :origin, in: %i[upload search designer]
 
   def self.find_for(designer)
     joins(:request_designers).where(request_designers: { designer: designer })

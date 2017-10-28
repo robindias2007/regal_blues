@@ -39,7 +39,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   private
 
   def request_params
-    params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id,
+    params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id, :origin,
       :description, :sub_category_id, request_images_attributes:    %i[image color description serial_number],
                                       request_designers_attributes: %i[designer_id])
   end
