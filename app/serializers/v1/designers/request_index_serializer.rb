@@ -2,7 +2,8 @@
 
 class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   # TODO: sent bids/awaiting bids, user avatar
-  attributes :username, :sent_on, :item_type, :project, :budget, :timeline, :image, :offers, :interested
+  attributes :username, :sent_on, :item_type, :project, :budget, :timeline, :image, :offers, :interested,
+    :involved, :involved_time
 
   def username
     object.user.username.capitalize
@@ -41,6 +42,18 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   end
 
   def interested
-    !RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)&.not_interested?
+    !request_designer&.not_interested?
+  end
+
+  def involved
+    request_designer&.involved?
+  end
+
+  def involved_time
+    request_designer&.updated_at
+  end
+
+  def request_designer
+    @rd ||= RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)
   end
 end
