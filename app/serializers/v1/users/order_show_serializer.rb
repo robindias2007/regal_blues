@@ -2,7 +2,7 @@
 
 class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   attributes :id, :request_id, :request_image, :designer_name, :category, :timeline, :paid_price, :designer_note,
-    :added_notes, :selections
+    :added_notes, :selections, :measurements
 
   def request_id
     object.offer_quotation.offer.request.id
@@ -40,6 +40,13 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
     object.order_options.map do |option|
       ActiveModelSerializers::SerializableResource.new(option,
         serializer: V1::Users::OrderOptionSerializer).as_json
+    end
+  end
+
+  def measurements
+    if object.order_measurement
+      ActiveModelSerializers::SerializableResource.new(object&.order_measurement,
+        serializer: V1::Users::OrderMeasurementSerializer).as_json
     end
   end
 end
