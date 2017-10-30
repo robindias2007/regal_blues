@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::OrdersSerializer < ActiveModel::Serializer
-  attributes :id, :designer_name, :item_type, :project, :price, :timeline, :created_at, :image, :status, :action
+  attributes :id, :designer_name, :item_type, :project, :price, :timeline, :created_at, :image, :status
 
   def designer_name
     object.designer.designer_store_info.display_name
