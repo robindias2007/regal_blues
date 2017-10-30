@@ -28,8 +28,8 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
   end
 
   def image
-    object.order_options.where.not(image_id: nil).first.image.image ||
-      object.offer_quotation.offer_quotation_galleries.first.images.first.image
+    object.order_options.where.not(image_id: nil).first&.image&.image ||
+      object.offer_quotation.offer_quotation_galleries&.first&.images&.first&.image
   end
 
   def status

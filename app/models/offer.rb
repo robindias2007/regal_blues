@@ -11,6 +11,7 @@ class Offer < ApplicationRecord
   # validates :designer_id, uniqueness: { scope: :request_id }
   validates :designer_id, :request_id, presence: true
   validate :max_number_of_quotations
+  validate :check_for_time
 
   accepts_nested_attributes_for :offer_quotations, allow_destroy: true
 
@@ -27,5 +28,14 @@ class Offer < ApplicationRecord
   def max_number_of_quotations
     errors.add(:offer_quotations, "More than #{MAX_QUOTES} quotations can't be accepted") if
       offer_quotations.size > MAX_QUOTES
+  end
+
+  def check_for_time
+    errors.add(:designer_id, "Can't accept this offer as the time has exceeded") if time_expired_to_create_offer?
+  end
+
+  def time_expired_to_create_offer?
+    rd = RequestDesigner.find_by(designer: designer, request: request)
+    (rd.involved == true) && (rd.updated_at > (Time.zone.now - 48.hours))
   end
 end

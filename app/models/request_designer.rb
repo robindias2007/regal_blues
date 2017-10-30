@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RequestDesigner < ApplicationRecord
-  MAX_DESIGNERS_INVOLVED = 1
+  MAX_DESIGNERS_INVOLVED = 3
 
   belongs_to :request
   belongs_to :designer
