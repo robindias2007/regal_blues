@@ -24,7 +24,7 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
   end
 
   def created_at
-    object.order_status_log.send("#{status}_at").strftime('%d %b %Y')
+    object.order_status_log&.send("#{status}_at")&.strftime('%d %b %Y')
   end
 
   def image
