@@ -3,7 +3,7 @@
 
 class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   attributes :username, :location, :sent_on, :item_type, :project, :size, :budget, :timeline, :images,
-    :additional_description, :interested, :involved
+    :additional_description, :interested, :involved, :involved_time
 
   def username
     object.user.username.capitalize
@@ -52,11 +52,11 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   end
 
   def involved
-    @rd&.involved?
+    request_designer&.involved?
   end
 
   def involved_time
-    @rd&.updated_at
+    request_designer&.updated_at
   end
 
   def request_designer

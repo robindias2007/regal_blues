@@ -10,6 +10,7 @@ class Designer < ApplicationRecord
   has_many :sub_categories, through: :designer_categorizations, dependent: :destroy
   has_many :products, dependent: :destroy
   has_many :request_designers, dependent: :destroy
+  has_many :requests, through: :request_designers, dependent: :nullify
   has_many :offers, dependent: :nullify
   has_many :orders, dependent: :nullify
 
