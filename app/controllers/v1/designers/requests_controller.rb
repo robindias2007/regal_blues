@@ -28,7 +28,6 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   end
 
   def mark_involved
-    binding.pry
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
