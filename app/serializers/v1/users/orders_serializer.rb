@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::OrdersSerializer < ActiveModel::Serializer
-  attributes :id, :designer_name, :item_type, :project, :price, :timeline, :created_at, :image, :status
+  attributes :id, :designer_name, :item_type, :project, :price, :timeline, :status_logged_at, :image, :status
 
   def designer_name
     object.designer.designer_store_info.display_name
@@ -23,7 +23,7 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
     request&.timeline
   end
 
-  def created_at
+  def status_logged_at
     object.order_status_log&.send("#{status}_at")&.strftime('%d %b %Y')
   end
 
