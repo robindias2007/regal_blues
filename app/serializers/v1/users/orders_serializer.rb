@@ -8,11 +8,11 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
   end
 
   def item_type
-    object.offer_quotation.request.sub_category.name
+    request.sub_category.name
   end
 
   def project
-    object.offer_quotation.request.name
+    request.name
   end
 
   def price
@@ -20,7 +20,7 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    object.offer_quotation.request.timeline
+    request&.timeline
   end
 
   def created_at
@@ -34,5 +34,11 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
 
   def status
     object.status.to_s
+  end
+
+  private
+
+  def request
+    @request ||= object.offer_quotation.offer.request
   end
 end
