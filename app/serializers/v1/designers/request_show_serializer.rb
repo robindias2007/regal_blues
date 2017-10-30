@@ -3,7 +3,7 @@
 
 class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   attributes :username, :location, :sent_on, :item_type, :project, :size, :budget, :timeline, :images,
-    :additional_description, :interested
+    :additional_description, :interested, :involved
 
   def username
     object.user.username.capitalize
@@ -48,6 +48,18 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   end
 
   def interested
-    !RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)&.not_interested?
+    !@rd&.not_interested?
+  end
+
+  def involved
+    @rd&.involved?
+  end
+
+  def involved_time
+    @rd&.updated_at
+  end
+
+  def request_designer
+    @rd ||= RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)
   end
 end
