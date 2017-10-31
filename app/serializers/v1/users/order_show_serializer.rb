@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class V1::Users::OrderShowSerializer < ActiveModel::Serializer
-  attributes :id, :request_id, :request_image, :designer_name, :category, :timeline, :paid_price, :designer_note,
-    :added_notes, :selections, :measurements, :status_log
+  attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :timeline, :paid_price,
+    :designer_note, :added_notes, :selections, :measurements, :status_log
 
   def request_id
     request&.id
