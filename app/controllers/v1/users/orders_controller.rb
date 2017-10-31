@@ -47,6 +47,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     return invalid_key_error unless valid_key?
     om = order.build_order_measurement(measurement_params)
     if om.save
+      order.give_measurements!
       render json: { message: 'Measurements have been saved' }, status: 201
     else
       render json: { errors: om.errors, message: 'Something went wrong' }, status: 400
@@ -58,6 +59,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable
     return bad_selection if more_options_present?
     if order.update(submit_options_params)
+      order.user_selects_options!
       render json: { message: 'Options have been updated' }, status: 201
     else
       render json: { errors: om.errors, message: 'Something went wrong' }, status: 400
