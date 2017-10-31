@@ -8,6 +8,8 @@ class OrderMeasurement < ApplicationRecord
   validate :validate_tag_size
   validate :validate_tags
 
+  before_save :capitalize_data
+
   private
 
   def validate_tags
@@ -22,5 +24,9 @@ class OrderMeasurement < ApplicationRecord
 
   def validate_key
     errors.add(:data, 'key for the hash is not valid') if data.keys.first != 'measurements'
+  end
+
+  def capitalize_data
+    data.fetch(:measurements).keys.each(&:titleize)
   end
 end
