@@ -12,6 +12,6 @@ class V1::Users::RequestsSerializer < ActiveModel::Serializer
   end
 
   def image
-    object.request_images.first.image
+    object.request_images.order(created_at: :desc).first.image
   end
 end

@@ -5,7 +5,7 @@ class V1::Designers::OrderShowSerializer < ActiveModel::Serializer
     :shipping_address, :budget, :user_note, :measurements, :designer_note, :order_options, :user_avatar
 
   def request_images
-    request.request_images.map do |image|
+    request.request_images.order(created_at: :desc).map do |image|
       V1::Designers::RequestImageSerializer.new(image)
     end
   end

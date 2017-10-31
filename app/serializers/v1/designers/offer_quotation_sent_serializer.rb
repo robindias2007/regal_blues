@@ -4,7 +4,7 @@ class V1::Designers::OfferQuotationSentSerializer < ActiveModel::Serializer
   attributes :id, :quotations
 
   def quotations
-    object.offers.find_by(designer_id: @instance_options[:designer_id]).offer_quotations.map do |oq|
+    object.offers.find_by(designer_id: @instance_options[:designer_id]).offer_quotations.order(created_at: :desc).map do |oq|
       ActiveModelSerializers::SerializableResource.new(oq,
         serializer: V1::Designers::OfferQuotationsSerializer).as_json
     end

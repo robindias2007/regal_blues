@@ -22,8 +22,7 @@ module V1
       end
 
       def cover
-        # object.designer.designer_store_info
-        'Some Image URL'
+        object.avatar
       end
     end
   end

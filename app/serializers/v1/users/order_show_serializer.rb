@@ -9,7 +9,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def request_image
-    request.request_images.order(created_at: :asc).first.image
+    request.request_images.order(created_at: :desc).first.image
   end
 
   def designer_name
@@ -41,7 +41,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def selections
-    object.order_options.map do |option|
+    object.order_options.order(created_at: :desc).map do |option|
       ActiveModelSerializers::SerializableResource.new(option,
         serializer: V1::Users::OrderOptionSerializer).as_json
     end

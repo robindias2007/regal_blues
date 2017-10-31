@@ -12,7 +12,7 @@ class V1::Users::OffersSerializer < ActiveModel::Serializer
   end
 
   def prices
-    object.offer_quotations.pluck(:price)
+    object.offer_quotations.order(created_at: :desc).pluck(:price)
   end
 
   def sent_on

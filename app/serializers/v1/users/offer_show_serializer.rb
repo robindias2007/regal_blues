@@ -33,7 +33,7 @@ class V1::Users::OfferShowSerializer < ActiveModel::Serializer
   end
 
   def quotations
-    object.offer_quotations.map do |quote|
+    object.offer_quotations.order(created_at: :desc).map do |quote|
       ActiveModelSerializers::SerializableResource.new(quote,
         serializer: V1::Users::OfferQuotationSerializer).as_json
     end

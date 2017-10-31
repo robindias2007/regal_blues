@@ -8,7 +8,7 @@ class V1::Users::OfferQuotationSerializer < ActiveModel::Serializer
   end
 
   def galleries
-    object.offer_quotation_galleries.map do |oqg|
+    object.offer_quotation_galleries.order(created_at: :desc).map do |oqg|
       ActiveModelSerializers::SerializableResource.new(oqg,
         serializer: V1::Users::OfferQuotationGallerySerializer).as_json
     end

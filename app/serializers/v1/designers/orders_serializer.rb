@@ -32,7 +32,7 @@ class V1::Designers::OrdersSerializer < ActiveModel::Serializer
   end
 
   def image
-    request.request_images.first.image
+    request.request_images.order(created_at: :desc).first.image
   end
 
   private

@@ -26,7 +26,7 @@ class V1::Users::ProductShowSerializer < ActiveModel::Serializer
   end
 
   def images
-    object.images.map do |image|
+    object.images.order(created_at: :desc).map do |image|
       ActiveModelSerializers::SerializableResource.new(image,
         serializer: ImageSerializer).as_json
     end
