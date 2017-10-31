@@ -27,6 +27,6 @@ class OrderMeasurement < ApplicationRecord
   end
 
   def capitalize_data
-    data.fetch(:measurements).keys.each(&:titleize)
+    data.fetch('measurements').keys.each(&:titleize)
   end
 end

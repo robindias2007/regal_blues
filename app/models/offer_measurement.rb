@@ -10,6 +10,6 @@ class OfferMeasurement < ApplicationRecord
   private
 
   def capitalize_data
-    data.fetch(:tags).each(&:titleize)
+    data.fetch('tags').each(&:titleize)
   end
 end
