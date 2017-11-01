@@ -12,8 +12,13 @@ class V1::Designers::OrderGiveMoreOptionsSerializer < ActiveModel::Serializer
   end
 
   def offer_quotation_galleries
-    ActiveModelSerializers::SerializableResource.new(object,
-      serializer: V1::Designers::OfferQuotationGallerySerializer).as_json
+    offer_quotation.offer_quotation_galleries.joins(:order_option)
+                   .where(order_options: {
+                     order: object, more_options: true, image_id: nil, designer_pick: false
+                                         }).order(created_at: :asc).map do |oq|
+      ActiveModelSerializers::SerializableResource.new(oq,
+        serializer: V1::Designers::OfferQuotationGallerySerializer).as_json
+    end
   end
 
   def designer_additional_note
