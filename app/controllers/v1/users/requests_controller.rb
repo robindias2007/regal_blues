@@ -3,6 +3,7 @@
 class V1::Users::RequestsController < V1::Users::BaseController
   def create
     request = current_user.requests.build(request_params)
+    return no_designers_selected if params[:request][:request_designers_attributes].empty?
     if request.save
       # RequestDesignerService.notify_about request
       render json: { message: 'Request saved successfully' }, status: 201
@@ -47,5 +48,9 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def serialization_for(list, serializer)
     ActiveModelSerializers::SerializableResource.new(list,
       each_serializer: serializer)
+  end
+
+  def no_designers_selected
+    render json: { error: 'No designers selected' }, status: 400
   end
 end
