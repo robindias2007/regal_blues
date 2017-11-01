@@ -56,7 +56,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
                                      .where(order_options: {
                                        order: order, more_options: true, image_id: nil
                                        })
-    render json: galleries, each_serializer: V1::Designers::OfferQuotationGallerySerializer
+    render json: galleries, each_serializer: V1::Designers::OrderFabricUnavailableSerializer
   end
 
   def give_more_options

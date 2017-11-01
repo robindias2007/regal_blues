@@ -12,7 +12,7 @@ class V1::Designers::OrderFabricUnavailableSerializer < ActiveModel::Serializer
   end
 
   def offer_quotation_galleries
-    offer_quotation.offer_quotation_galleries.order(created_at: :desc).map do |oq|
+    offer_quotation.offer_quotation_galleries.order(created_at: :asc).map do |oq|
       ActiveModelSerializers::SerializableResource.new(oq,
         serializer: V1::Designers::OfferQuotationGallerySerializer).as_json
     end
