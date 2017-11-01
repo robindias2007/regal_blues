@@ -62,8 +62,12 @@ class V1::Designers::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def order_options
-    # TODO: Don't forget this
-    'yet to be implemented'
+    if object.order_options.present?
+      object.order_options.map do |oo|
+        ActiveModelSerializers::SerializableResource.new(oo,
+          serializer: V1::Designers::OrderOptionsSerializer).as_json
+      end
+    end
   end
 
   private
