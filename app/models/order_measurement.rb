@@ -13,7 +13,7 @@ class OrderMeasurement < ApplicationRecord
   private
 
   def validate_tags
-    errors.add(:data, 'key for the hash is not valid') if
+    errors.add(:data, 'key for the hash is not valid#tags_measurement') if
       order.offer_quotation.offer_measurements.first.data.fetch('tags') != data.fetch('measurements').keys
   end
 
@@ -23,7 +23,7 @@ class OrderMeasurement < ApplicationRecord
   end
 
   def validate_key
-    errors.add(:data, 'key for the hash is not valid') if data.keys.first != 'measurements'
+    errors.add(:data, 'key for the hash is not valid#measurement') if data.keys.first != 'measurements'
   end
 
   def capitalize_data
