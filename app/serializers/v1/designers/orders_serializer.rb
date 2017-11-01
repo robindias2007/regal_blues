@@ -35,6 +35,10 @@ class V1::Designers::OrdersSerializer < ActiveModel::Serializer
     request.request_images.order(created_at: :desc).first.image
   end
 
+  def all_options_selected
+    object.all_options_selected?
+  end
+
   private
 
   def request

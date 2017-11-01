@@ -53,6 +53,10 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
     request_designer&.updated_at
   end
 
+  def can_quote
+    (request_designer&.involved == true) && (request_designer.updated_at < (Time.zone.now - 48.hours))
+  end
+
   def request_designer
     @rd ||= RequestDesigner.find_by(designer_id: @instance_options[:designer_id], request: object)
   end
