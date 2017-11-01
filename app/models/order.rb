@@ -203,4 +203,8 @@ class Order < ApplicationRecord
   def safe_toggle!(attr)
     public_send(attr) == true ? update!(:"#{attr}" => false) : update!(:"#{attr}" => true)
   end
+
+  def more_options_for_user?
+    !all_options_selected? && order_options.pluck(:more_options).include?(true)
+  end
 end

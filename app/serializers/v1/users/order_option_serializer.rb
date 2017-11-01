@@ -8,8 +8,10 @@ class V1::Users::OrderOptionSerializer < ActiveModel::Serializer
   end
 
   def image
-    ActiveModelSerializers::SerializableResource.new(object&.image,
-      serializer: ImageSerializer).as_json
+    if object.image.present?
+      ActiveModelSerializers::SerializableResource.new(object&.image,
+        serializer: ImageSerializer).as_json
+    end
   end
 
   def more_options

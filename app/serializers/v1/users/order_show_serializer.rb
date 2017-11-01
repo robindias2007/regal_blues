@@ -2,7 +2,7 @@
 
 class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :timeline, :paid_price,
-    :designer_note, :added_notes, :selections, :measurements, :status_log
+    :designer_note, :added_notes, :selections, :measurements, :status_log, :new_options
 
   def request_id
     request&.id
@@ -41,14 +41,16 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def selections
-    object.order_options.order(created_at: :desc).map do |option|
-      ActiveModelSerializers::SerializableResource.new(option,
-        serializer: V1::Users::OrderOptionSerializer).as_json
+    if object.order_options.present?
+      object.order_options.order(created_at: :desc).map do |option|
+        ActiveModelSerializers::SerializableResource.new(option,
+          serializer: V1::Users::OrderOptionSerializer).as_json
+      end
     end
   end
 
   def measurements
-    if object.order_measurement
+    if object.order_measurement.present?
       ActiveModelSerializers::SerializableResource.new(object&.order_measurement,
         serializer: V1::Users::OrderMeasurementSerializer).as_json
     end
@@ -59,6 +61,15 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
       status: object.status,
       date:   object.order_status_log&.send("#{object.status}_at")&.strftime('%d %b %Y')
     }
+  end
+
+  def new_options
+    if object.more_options_for_user?
+      object.offer_quotation.offer_quotation_galleries.where('updated_at != created_at').map do |gallery|
+        ActiveModelSerializers::SerializableResource.new(gallery,
+          serializer: V1::Users::OfferQuotationGallerySerializer).as_json
+      end
+    end
   end
 
   private
