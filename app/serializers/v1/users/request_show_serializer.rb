@@ -30,7 +30,13 @@ class V1::Users::RequestShowSerializer < ActiveModel::Serializer
 
   def designers
     requests = RequestDesigner.where(request: object).order('RANDOM()')
-    "#{requests.first.designer.designer_store_info.display_name} + #{requests.count} other designers"
+    if requests.size == 1
+      requests.first.designer.designer_store_info&.display_name
+    elsif requests.size > 1
+      "#{requests.first.designer.designer_store_info&.display_name} + #{requests.count - 1} other designers"
+    else
+      'No designers'
+    end
   end
 
   def shipping_address
