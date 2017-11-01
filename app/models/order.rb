@@ -205,6 +205,6 @@ class Order < ApplicationRecord
   end
 
   def more_options_for_user?
-    !all_options_selected? && order_options.pluck(:more_options).include?(true)
+    order_options.pluck(:more_options).include?(true)
   end
 end
