@@ -2,6 +2,7 @@
 
 class V1::Designers::OffersController < V1::Designers::BaseController
   def create
+    return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     if offer.save
       # TODO: Send a notification to the user and the support team
@@ -30,5 +31,13 @@ class V1::Designers::OffersController < V1::Designers::BaseController
   def offer_quotations_attributes
     [:price, :description, offer_quotation_galleries_attributes: [:name, images_attributes: %i[image description]],
                            offer_measurements_attributes:        [data: {}]]
+  end
+
+  def already_created
+    render json: { error: 'Offer has already been submitted' }, status: 400
+  end
+
+  def offer_by_designer_present?
+    Offer.exists?(designer: current_designer, request_id: params[:offer][:request_id])
   end
 end
