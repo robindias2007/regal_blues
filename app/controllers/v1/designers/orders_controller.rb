@@ -58,7 +58,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def give_more_options
     order = current_designer.orders.find(params[:id])
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
-      order.designer_gave_more_options!
+      order.designer_gives_more_options!
       render json: order, serializer: V1::Designers::OrderShowSerializer
     else
       render json: { errors: order.errors, message: "Designer can't give more options for this order" }
