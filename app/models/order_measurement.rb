@@ -14,7 +14,7 @@ class OrderMeasurement < ApplicationRecord
 
   def validate_tags
     errors.add(:data, 'key for the hash is not valid#tags_measurement') if
-      order.offer_quotation.offer_measurements.first.data.fetch('tags') != data.fetch('measurements').keys
+      order.offer_quotation.offer_measurements.first.data.fetch('tags').sort != data.fetch('measurements').keys.sort
   end
 
   def validate_tag_size

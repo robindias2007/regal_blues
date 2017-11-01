@@ -54,14 +54,6 @@ class V1::Users::OrdersController < V1::Users::BaseController
     end
   end
 
-  # def user_options
-  #   order = current_user.orders.find(params[:id])
-  #   existing_options = order.order_options
-  #   to_submit_options = order.offer_quotation.offer_quotation_galleries
-  #   # render json: { existing_options: existing_options, to_submit_options: to_submit_options }
-  #   render json: order, serializer: V1::Users::OrderShowSerializer
-  # end
-
   def submit_options
     order = current_user.orders.find(params[:order][:order_id])
     return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable
