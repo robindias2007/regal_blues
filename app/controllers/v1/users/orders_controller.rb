@@ -66,6 +66,17 @@ class V1::Users::OrdersController < V1::Users::BaseController
     end
   end
 
+  def cancel_order
+    order = current_user.orders.find(params[:order][:order_id])
+    if order.may_user_cancels_the_order?
+      # PaymentGateway.cancel(order)
+      order.user_cancels_the_order!
+      render json: { message: 'Your order has been cancelled. We will process the refund soon' }, status: 200
+    else
+      render json: { errors: 'You cannot cancel the order at this stage', state: order.status }, status: 400
+    end
+  end
+
   private
 
   def first_instance_of(orders)
