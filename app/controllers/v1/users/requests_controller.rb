@@ -4,7 +4,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def create
     request = current_user.requests.build(request_params)
     return no_designers_selected if params[:request][:request_designers_attributes].empty?
-    if request.save && request.request_designers.create(request_designers_params['request_designers_attributes'])
+    if request.save! && request.request_designers.create!(request_designers_params['request_designers_attributes'])
       # RequestDesignerService.notify_about request
       render json: { message: 'Request saved successfully' }, status: 201
     else
