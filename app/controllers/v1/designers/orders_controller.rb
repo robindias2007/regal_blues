@@ -33,6 +33,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def fabric_unavailable
     order = current_designer.orders.find(params[:id])
+    binding.pry
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
@@ -69,7 +70,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def fabric_unavailable_params
     params.require(:offer_quotation).permit(:id, :designer_note,
-      offer_quotation_galleries_attributes: [:id, :name, images_attributes: %i[image description disabled]])
+      offer_quotation_galleries_attributes: [:id, :name, images_attributes: %i[id image description disabled new]])
   end
 
   def give_more_options_params
