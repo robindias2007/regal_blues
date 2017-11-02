@@ -69,7 +69,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
 
   def new_options
     if object.more_options_for_user?
-      object.offer_quotation.offer_quotation_galleries.joins(:images).where(image: { new: true }).map do |gallery|
+      object.offer_quotation.offer_quotation_galleries.joins(:images).where(images: { new: true }).map do |gallery|
         ActiveModelSerializers::SerializableResource.new(gallery,
           serializer: V1::Users::OfferQuotationGallerySerializer).as_json
       end
