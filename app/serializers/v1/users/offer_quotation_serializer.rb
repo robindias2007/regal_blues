@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::OfferQuotationSerializer < ActiveModel::Serializer
-  attributes :id, :price, :timeline, :description, :galleries
+  attributes :id, :price, :timeline, :description, :galleries, :order_present
 
   def timeline
     object.offer.request.timeline
@@ -12,5 +12,9 @@ class V1::Users::OfferQuotationSerializer < ActiveModel::Serializer
       ActiveModelSerializers::SerializableResource.new(oqg,
         serializer: V1::Users::OfferQuotationGallerySerializer).as_json
     end
+  end
+
+  def order_present
+    Order.exists?(offer_quotation: object)
   end
 end
