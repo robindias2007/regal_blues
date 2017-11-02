@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102044614) do
+ActiveRecord::Schema.define(version: 20171102073735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -406,6 +406,24 @@ ActiveRecord::Schema.define(version: 20171102044614) do
     t.index ["reset_password_token"], name: "index_supports_on_reset_password_token", unique: true
   end
 
+  create_table "user_favorite_designers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "designer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_user_favorite_designers_on_designer_id"
+    t.index ["user_id"], name: "index_user_favorite_designers_on_user_id"
+  end
+
+  create_table "user_favorite_products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_user_favorite_products_on_product_id"
+    t.index ["user_id"], name: "index_user_favorite_products_on_user_id"
+  end
+
   create_table "user_identities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "uid", default: "", null: false
     t.string "provider", default: "", null: false
@@ -480,5 +498,9 @@ ActiveRecord::Schema.define(version: 20171102044614) do
   add_foreign_key "support_chats", "designers"
   add_foreign_key "support_chats", "supports"
   add_foreign_key "support_chats", "users"
+  add_foreign_key "user_favorite_designers", "designers"
+  add_foreign_key "user_favorite_designers", "users"
+  add_foreign_key "user_favorite_products", "products"
+  add_foreign_key "user_favorite_products", "users"
   add_foreign_key "user_identities", "users"
 end

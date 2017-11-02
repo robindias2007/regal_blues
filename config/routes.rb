@@ -82,6 +82,9 @@ Rails.application.routes.draw do
           resources :conversations, only: %i[create]
         end
       end
+
+      resources :user_favorite_products, only: :create, path: 'add-to-wishlist'
+      resources :user_favorite_designers, only: :create, path: 'add-to-favorites'
     end
   end
 
