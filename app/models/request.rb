@@ -13,7 +13,7 @@ class Request < ApplicationRecord
   has_one :request_chat, dependent: :destroy
 
   validates :name, :size, :max_budget, :timeline, :description, presence: true
-  validates :request_images, :request_designers, length: { minimum: 1, maximum: 100 }
+  # validates :request_images, :request_designers, length: { minimum: 1, maximum: 100 }
   validates :name, length: { in: 4..60 }, uniqueness: { case_sensitive: false, scope: :user_id }
   validates :timeline, numericality: { only_integer: true }
   validates :min_budget, numericality: true, allow_nil: true
