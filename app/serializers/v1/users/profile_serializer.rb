@@ -17,10 +17,16 @@ class V1::Users::ProfileSerializer < ActiveModel::Serializer
   end
 
   def wishlist
-    'not implemented'
+    object.products.map do |product|
+      ActiveModelSerializers::SerializableResource.new(product,
+        serializer: V1::Users::ProductsSerializer).as_json
+    end
   end
 
   def favorite_designers
-    'not implemented'
+    object.designers.map do |designer|
+      ActiveModelSerializers::SerializableResource.new(designer,
+        serializer: V1::Users::FavoritesSerializer).as_json
+    end
   end
 end
