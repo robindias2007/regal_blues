@@ -46,7 +46,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
 
   def selections
     if object.order_options.present?
-      object.order_options.order(created_at: :desc).map do |option|
+      object.order_options.where(more_options: false, designer_pick: false).order(created_at: :desc).map do |option|
         ActiveModelSerializers::SerializableResource.new(option,
           serializer: V1::Users::OrderOptionSerializer).as_json
       end
@@ -69,7 +69,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
 
   def new_options
     if object.more_options_for_user?
-      object.offer_quotation.offer_quotation_galleries.where('updated_at != created_at').map do |gallery|
+      object.offer_quotation.offer_quotation_galleries.joins(:images).where(image: { new: true }).map do |gallery|
         ActiveModelSerializers::SerializableResource.new(gallery,
           serializer: V1::Users::OfferQuotationGallerySerializer).as_json
       end
