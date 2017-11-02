@@ -74,7 +74,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def give_more_options_params
     params.require(:offer_quotation).permit(:id, :designer_note,
-      offer_quotation_galleries_attributes: [:id, :name, images_attributes: %i[image description disabled]])
+      offer_quotation_galleries_attributes: [:id, :name, images_attributes: %i[image description disabled new]])
   end
 
   def first_instance_of(orders)
