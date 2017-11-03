@@ -56,7 +56,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
 
   def submit_options
     order = current_user.orders.find(params[:order][:order_id])
-    return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable
+    return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable?
     return bad_selection if more_options_present?
     if order.update(submit_options_params)
       order.user_selects_options!
