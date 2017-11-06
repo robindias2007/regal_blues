@@ -11,7 +11,6 @@ describe Request, type: :model do
     # Presence Validations
     it { expect(request).to validate_presence_of(:name) }
     it { expect(request).to validate_presence_of(:size) }
-    it { expect(request).to validate_presence_of(:max_budget) }
     it { expect(request).to validate_presence_of(:timeline) }
     # Uniqueness Validations
     it { expect(request).to validate_uniqueness_of(:name).case_insensitive.scoped_to(:user_id) }
@@ -19,7 +18,10 @@ describe Request, type: :model do
     it { expect(request).to validate_length_of(:name).is_at_least(4).is_at_most(60) }
     # Numericality Validations
     it { expect(request).to validate_numericality_of(:min_budget) }
-    it { expect(request).to validate_numericality_of(:max_budget).is_greater_than_or_equal_to(request.min_budget) }
+    it do
+      expect(request).to validate_numericality_of(:max_budget).is_greater_than_or_equal_to(request.min_budget)
+        .is_greater_than(1000).is_less_than(10_000_000)
+    end
   end
 
   context 'ActiveRecord Nested Attributes' do

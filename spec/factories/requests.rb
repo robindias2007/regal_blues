@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :request do
-    min = Faker::Commerce.price
+    min = Faker::Commerce.price(1000, 1_000_000).to_f
+    pp min
     name { Faker::Commerce.unique.product_name }
     size { %w[xs-s s-m m-l l-xl xl-xxl].sample }
     min_budget min
