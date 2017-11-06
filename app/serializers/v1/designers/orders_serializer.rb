@@ -32,7 +32,7 @@ class V1::Designers::OrdersSerializer < ActiveModel::Serializer
   end
 
   def image
-    request.request_images.order(created_at: :desc).first.image
+    request.request_images.order(serial_number: :asc).first.image
   end
 
   def all_options_selected

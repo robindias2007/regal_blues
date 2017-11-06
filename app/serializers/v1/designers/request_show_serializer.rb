@@ -38,7 +38,7 @@ class V1::Designers::RequestShowSerializer < ActiveModel::Serializer
   end
 
   def images
-    object.request_images.order(created_at: :asc).map do |image|
+    object.request_images.order(serial_number: :asc).map do |image|
       V1::Designers::RequestImageSerializer.new(image)
     end
   end

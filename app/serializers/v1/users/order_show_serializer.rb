@@ -13,7 +13,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def request_image
-    request.request_images.order(created_at: :desc).first.image
+    request.request_images.order(serial_number: :asc).first.image
   end
 
   def designer_name

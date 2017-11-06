@@ -34,7 +34,7 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   end
 
   def image
-    object.request_images.order(created_at: :asc).first&.image || 'Default Image URL'
+    object.request_images.order(serial_number: :asc).first&.image || 'Default Image URL'
   end
 
   def offers
