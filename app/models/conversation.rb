@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Conversation < ApplicationRecord
-  belongs_to :chattable, polymorphic: true, autosave: true, dependent: :destroy
-  belongs_to :personable, polymorphic: true, autosave: true, dependent: :destroy
+  belongs_to :sender, polymorphic: true, autosave: true, dependent: :destroy # Sender
+  belongs_to :receiver, polymorphic: true, autosave: true, dependent: :destroy # Receiver
 
   validate :either_message_or_attachment
 

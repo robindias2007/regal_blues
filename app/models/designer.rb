@@ -18,7 +18,8 @@ class Designer < ApplicationRecord
   has_many :request_chats, dependent: :destroy
   has_many :offer_quotation_chats, dependent: :destroy
 
-  has_many :conversations, as: :personable, dependent: :destroy
+  has_many :sent_conversations, as: :sender, dependent: :destroy, class_name: 'Conversation'
+  has_many :received_conversations, as: :receiver, dependent: :destroy, class_name: 'Conversation'
 
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }

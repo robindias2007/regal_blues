@@ -33,6 +33,8 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_cable.url = 'ws://localhost:3000/cable'
+
   # AWS SES
   # config.action_mailer.smtp_settings = {
   #   address:              'email-smtp.us-west-2.amazonaws.com',

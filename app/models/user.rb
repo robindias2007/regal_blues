@@ -13,12 +13,13 @@ class User < ApplicationRecord
   has_many :request_chats, dependent: :destroy
   has_many :offer_quotation_chats, dependent: :destroy
 
-  has_many :conversations, as: :personable, dependent: :destroy
+  has_many :sent_conversations, as: :sender, dependent: :destroy, class_name: 'Conversation'
+  has_many :received_conversations, as: :receiver, dependent: :destroy, class_name: 'Conversation'
 
   has_many :user_favorite_products, dependent: :destroy
   has_many :user_favorite_designers, dependent: :destroy
-  has_many :products, through: :user_favorite_products
-  has_many :designers, through: :user_favorite_designers
+  has_many :products, through: :user_favorite_products, dependent: :destroy
+  has_many :designers, through: :user_favorite_designers, dependent: :destroy
 
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true
   validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }
