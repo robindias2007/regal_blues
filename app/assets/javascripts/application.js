@@ -14,3 +14,16 @@
 //= require jquery/dist/jquery.min
 //= require materialize
 //= require_tree .
+
+$(document).ready(function(){
+  $('#js-showPassword').on('click', function(){
+    var passwordField = $('#password');
+    var passwordFieldType = passwordField.attr('type');
+
+    if (passwordFieldType === 'password') {
+        passwordField.attr('type', 'text');
+    } else {
+        passwordField.attr('type', 'password');
+    }
+  });
+});
