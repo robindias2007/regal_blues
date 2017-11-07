@@ -68,6 +68,9 @@ gem 'aasm'
 # AWS
 gem 'aws-sdk-sns'
 
+# Form Builder
+gem 'simple_form'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
