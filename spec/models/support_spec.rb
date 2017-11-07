@@ -1,5 +1,5 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe Support, type: :model do
+describe Support, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

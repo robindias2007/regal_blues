@@ -29,6 +29,7 @@ gem 'redis', '~> 3.0'
 # Authentication
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+gem 'devise'
 gem 'google-api-client'
 gem 'jwt'
 gem 'signet'
