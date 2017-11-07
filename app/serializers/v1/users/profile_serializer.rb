@@ -2,7 +2,7 @@
 
 class V1::Users::ProfileSerializer < ActiveModel::Serializer
   attributes :id, :full_name, :email, :bio, :location, :wishlist, :favorite_designers, :order_count, :request_count,
-    :avatar, :username, :gender
+    :avatar, :username, :gender, :verified, :confirmed
 
   def order_count
     object.orders.paid.count
@@ -28,5 +28,9 @@ class V1::Users::ProfileSerializer < ActiveModel::Serializer
       ActiveModelSerializers::SerializableResource.new(designer,
         serializer: V1::Users::FavoritesSerializer).as_json
     end
+  end
+
+  def confirmed
+    object.confirmed?
   end
 end

@@ -1,28 +1,30 @@
-$(document).ready(function(){
-  var promise = getUserData();
-  promise.success(function(data) {
-    $('input.autocomplete').autocomplete({
-      data: data,
-      limit: 20
-    })
-  })
-  // getUserData();
-  // $.ajax({
-  //   url: '/search/user-suggestions',
-  //   type: 'GET',
-  //   success: function(data) {
-  //     console.log(data);
-  //     $('input#js-user-autocomplete').autocomplete({
-  //       data: data,
-  //       limit: 20
-  //     })
-  //   }
-  // })
+$(document).ready(function() {
+  getUserData().done(function(data) {
+    userAutocomplete(data);
+  });
+  getDesignerData().done(function(data) {
+    designerAutocomplete(data);
+  });
 });
 
+function userAutocomplete(data) {
+  $('input#js-user-autocomplete').autocomplete({
+    data: data,
+    limit: 20
+  });
+}
+
 function getUserData() {
-  return Promise.resolve($.ajax({
-    url: '/search/user-suggestions',
-    type: 'GET'
-  }));
+  return $.get('search/user-suggestions');
+}
+
+function designerAutocomplete(data) {
+  $('input#js-designer-autocomplete').autocomplete({
+    data: data,
+    limit: 20
+  });
+}
+
+function getDesignerData() {
+  return $.get('search/designer-suggestions');
 }
