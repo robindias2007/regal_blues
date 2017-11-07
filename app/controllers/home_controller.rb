@@ -2,6 +2,10 @@
 
 class HomeController < ApplicationController
   def index
-    render json: { pavan_says: 'Hi!' }
+    if support_signed_in?
+      #
+    else
+      render json: { pavan_says: 'Hi!' }
+    end
   end
 end

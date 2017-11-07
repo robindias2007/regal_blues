@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Support < ApplicationRecord
-  validate :full_name, :mobile_number, presence: true
+  validates :full_name, :mobile_number, presence: true
   validates :email, format:     { with: /\A[A-Z0-9._%a-z\-]+@+amidostech\.com\z/, message: 'not valid email address' },
                     uniqueness: { case_sensitive: false }
 
