@@ -9,8 +9,17 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <%= render 'shared/navbar' %>
+
+    <div class="container">
+      <p class="hide">
+        <% flash.each do |key, message| %>
+          <%= message %>
+        <% end %>
+      </p>
+
+      <%= yield %>
+
+      <%= render 'shared/flash_messages' %>
   </body>
 </html>

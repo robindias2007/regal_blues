@@ -71,6 +71,9 @@ gem 'aws-sdk-sns'
 # Form Builder
 gem 'simple_form'
 
+# CSS Framework
+gem 'materialize-sass'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
