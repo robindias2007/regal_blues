@@ -52,6 +52,12 @@ class Designer < ApplicationRecord
                                   .where(designer_store_infos: { min_order_price: 0..max_value.to_i })
   end
 
+  # Uncomment second line and replace `find_by` with `where` if you want a list of users instead of just one user
+  def self.search_for(query)
+    find_by('similarity(email, ?) > 0.15', query)
+    # .order("similarity(email, #{ActiveRecord::Base.connection.quote(query)}) DESC")
+  end
+
   def notify_request(request)
     # request
   end
@@ -68,7 +74,7 @@ class Designer < ApplicationRecord
   end
 
   def autocompleter
-    ["#{full_name} (#{email})", nil]
+    ["#{designer_store_info&.display_name} --> #{full_name} (#{email})", nil]
   end
 
   private

@@ -23,7 +23,7 @@ module ApplicationCable
         reject_unauthorized_connection
       end
     rescue StandardError => e
-      logger.add_tags 'ActionCable', e
+      logger.add_tags 'ActionCable', 'FATAL', e
       reject_unauthorized_connection
     end
   end

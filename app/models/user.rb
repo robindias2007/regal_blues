@@ -52,6 +52,12 @@ class User < ApplicationRecord
   #   user
   # end
 
+  # Uncomment second line and replace `find_by` with `where` if you want a list of users instead of just one user
+  def self.search_for(query)
+    find_by('similarity(email, ?) > 0.15', query)
+    # .order("similarity(email, #{ActiveRecord::Base.connection.quote(query)}) DESC")
+  end
+
   def live_orders?
     # TODO: Update this
     false

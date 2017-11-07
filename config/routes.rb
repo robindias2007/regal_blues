@@ -5,7 +5,6 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
-  # root 'home#index'
   mount ActionCable.server => '/cable'
 
   constraints(subdomain: 'support') do
@@ -21,6 +20,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  root 'home#index'
 
   scope module: :v1, path: 'users', constraints: RouteConstraints.new(version: 1, default: true),
     defaults: { format: :json } do
