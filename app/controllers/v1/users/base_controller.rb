@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class V1::Users::BaseController < ApplicationController
+class V1::Users::BaseController < ApiController
   include BaseHelpers
 end

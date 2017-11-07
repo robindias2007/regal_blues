@@ -26,6 +26,6 @@ class DesignerFinanceInfo < ApplicationRecord
     base_uri = 'https://ifsc.razorpay.com/'
     url = "#{base_uri}#{ifsc_code}"
     response = HTTParty.get(url)
-    errors.add(:pincode, 'not a valid IFSC code') if response.code == 404
+    errors.add(:ifsc_code, 'not a valid IFSC code') if response.code == 404
   end
 end
