@@ -67,6 +67,10 @@ class User < ApplicationRecord
     requests.blank?
   end
 
+  def autocompleter
+    ["#{full_name} (#{email})", nil]
+  end
+
   # private
   #
   # # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400

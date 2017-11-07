@@ -67,6 +67,10 @@ class Designer < ApplicationRecord
     SmsService.send_otp_to_number(number, otp)
   end
 
+  def autocompleter
+    ["#{full_name} (#{email})", nil]
+  end
+
   private
 
   def generate_pin
