@@ -31,3 +31,5 @@ public/uploads
 !.elasticbeanstalk/*.global.yml
 
 spec/fixtures/registrations
+
+node_modules
