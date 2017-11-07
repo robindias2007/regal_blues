@@ -17,6 +17,8 @@ class Order < ApplicationRecord
   has_one :order_status_log, dependent: :destroy
   # has_one :order_payment, dependent: :destroy
 
+  before_save :generate_order_id
+
   accepts_nested_attributes_for :order_options, allow_destroy: true
 
   ###############################################################################################################
@@ -192,7 +194,7 @@ class Order < ApplicationRecord
 
   def update_datetime
     osl = OrderStatusLog.find_or_initialize_by(order: self)
-    osl["#{aasm.current_state}_at"] = DateTime.current
+    osl["#{aasm.current_state}_at"] = Time.current
     osl.save
   end
 
@@ -206,5 +208,19 @@ class Order < ApplicationRecord
 
   def more_options_for_user?
     order_options.pluck(:more_options).include?(true)
+  end
+
+  private
+
+  def generate_order_id
+    return if order_id.present?
+    self.order_id = generate_order_id_token
+  end
+
+  def generate_order_id_token
+    loop do
+      token = SecureRandom.base58(6).tr('liO0', 'sxyz').upcase
+      break token unless Order.find_by(order_id: token)
+    end
   end
 end

@@ -2,7 +2,7 @@
 
 class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :timeline, :paid_price,
-    :project, :designer_note, :added_notes, :selections, :measurements, :status_log, :new_options
+    :project, :designer_note, :added_notes, :selections, :measurements, :status_log, :new_options, :order_id
 
   def request_id
     request&.id

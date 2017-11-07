@@ -2,7 +2,7 @@
 
 class V1::Designers::OrderShowSerializer < ActiveModel::Serializer
   attributes :id, :request_images, :username, :status_and_date, :request_name, :category, :size, :timeline,
-    :shipping_address, :budget, :user_note, :measurements, :designer_note, :order_options, :user_avatar
+    :shipping_address, :budget, :user_note, :measurements, :designer_note, :order_options, :user_avatar, :order_id
 
   def request_images
     request.request_images.order(serial_number: :asc).map do |image|
