@@ -5,9 +5,11 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
-  devise_for :supports
   root 'home#index'
   mount ActionCable.server => '/cable'
+
+  devise_for :supports
+
   scope module: :v1, path: 'users', constraints: RouteConstraints.new(version: 1, default: true),
     defaults: { format: :json } do
     scope module: :users do
