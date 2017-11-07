@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     devise_for :supports, path: ''
     scope module: :support do
       get '/', to: 'home#index', as: :support_root
+      get '/search/users', to: 'search#users', as: :support_user_search
+      get '/search/designers', to: 'search#designers', as: :support_designer_search
+      get '/search/orders', to: 'search#orders', as: :support_order_search
     end
   end
 

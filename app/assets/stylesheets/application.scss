@@ -1,6 +1,7 @@
 @import "materialize/components/color";
-$primary-color: color("teal", "darken-3") !default;
-$secondary-color: color("orange", "base") !default;
+// $primary-color: color("purple", "darken-4") !default;
+$primary-color: #37284d !default;
+$secondary-color: #eaa508 !default;
 $link-color: color('blue', 'darken-2') !default;
 $bg-color: color('teal', 'lighten-2') !default;
 @import 'materialize';
@@ -49,4 +50,8 @@ $bg-color: color('teal', 'lighten-2') !default;
 
 .toast-notice {
   background-color: #0099CC;
+}
+
+.vertical-spacer-5 {
+  margin-bottom: 5%;
 }
