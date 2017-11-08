@@ -1,0 +1,45 @@
+<div class="row">
+  <table class="responsive-table highlight">
+    <thead>
+      <tr>
+        <th colspan="4" class="center">Full Name</th>
+        <th colspan="2" class="center">Username</th>
+        <th colspan="2" class="center">Mobile Number</th>
+        <th colspan="1" class="center">Email</th>
+        <th colspan="1" class="center">Gender</th>
+        <th colspan="1" class="center">Number of requests made</th>
+        <th colspan="1" class="center">Number of orders made</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.each do |user| %>
+      <tr>
+        <td colspan="4" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
+
+        <td colspan="2" class="center">
+          <%= user.username %>
+        </td>
+
+        <td colspan="2" class="center"><%= user.mobile_number %></td>
+
+        <td colspan="1" class="center">
+          <%= user.email %>
+        </td>
+
+        <td colspan="1" class="center">
+          <%= user.gender %>
+        </td>
+
+        <td colspan="1" class="center">
+          <%= user.requests.size %>
+        </td>
+
+        <td colspan="1" class="center">
+          <%= user.orders.size %>
+        </td>
+
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

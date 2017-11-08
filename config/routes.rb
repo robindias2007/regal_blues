@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         get '/search/orders', to: 'search#orders', as: :support_order_search
         get 'search/user-suggestions', to: 'search#users_suggestions'
         get 'search/designer-suggestions', to: 'search#designers_suggestions'
+        resources :users, only: %i[index show], as: :support_users
       end
     end
   end

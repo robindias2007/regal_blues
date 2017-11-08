@@ -18,7 +18,7 @@ class Support::SearchController < ApplicationController
   end
 
   def designers_suggestions
-    render json: Designer.all.map(&:autocompleter).to_h
+    render json: Designer.includes(:designer_store_info).all.map(&:autocompleter).to_h
   end
 
   private
