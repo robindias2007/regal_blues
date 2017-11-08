@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col s12">
     <div class="input-field">
-      <input id="js-name-fuzzy" type="text" class="validate" placeholder="Enter the details of the user" autofocus>
+      <input id="js-name-fuzzy" type="text" class="validate" placeholder="Enter the details of the designer" autofocus>
     </div>
   </div>
 </div>
@@ -11,39 +11,39 @@
     <thead>
       <tr>
         <th colspan="4" class="center">Full Name</th>
-        <th colspan="2" class="center">Username</th>
+        <th colspan="2" class="center">Store Name</th>
         <th colspan="2" class="center">Mobile Number</th>
         <th colspan="1" class="center">Email</th>
-        <th colspan="1" class="center">Gender</th>
+        <th colspan="1" class="center">Number of products</th>
         <th colspan="1" class="center">Number of requests made</th>
         <th colspan="1" class="center">Number of orders made</th>
       </tr>
     </thead>
     <tbody>
-      <% users.each do |user| %>
+      <% designers.each do |designer| %>
         <tr id="js-data-row">
-          <td colspan="4" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
+          <td colspan="4" class="center"><%= link_to designer.full_name.titleize, support_designer_path(designer) %></td>
 
           <td colspan="2" class="center">
-            <%= user.username %>
+            <%= designer.designer_store_info&.display_name %>
           </td>
 
-          <td colspan="2" class="center"><%= user.mobile_number %></td>
+          <td colspan="2" class="center"><%= designer.mobile_number %></td>
 
           <td colspan="1" class="center">
-            <%= user.email %>
-          </td>
-
-          <td colspan="1" class="center">
-            <%= user.gender %>
+            <%= designer.email %>
           </td>
 
           <td colspan="1" class="center">
-            <%= user.requests.size %>
+            <%= designer.products.size %>
           </td>
 
           <td colspan="1" class="center">
-            <%= user.orders.size %>
+            <%= designer.requests.size %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= designer.orders.size %>
           </td>
 
         </tr>
