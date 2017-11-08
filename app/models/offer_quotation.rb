@@ -8,6 +8,8 @@ class OfferQuotation < ApplicationRecord
   has_many :offer_quotation_galleries, dependent: :destroy
   has_many :offer_measurements, dependent: :destroy
 
+  has_one :order, dependent: :destroy
+
   validates :price, :description, presence: true
   validates :description, length: { in: 4..480 }
   validates :price, numericality: true

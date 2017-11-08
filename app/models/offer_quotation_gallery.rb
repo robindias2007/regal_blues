@@ -2,6 +2,7 @@
 
 class OfferQuotationGallery < ApplicationRecord
   belongs_to :offer_quotation
+  has_many :order_options, dependent: :destroy
 
   has_many :images, as: :imageable, dependent: :destroy
   has_one :order_option, dependent: :destroy

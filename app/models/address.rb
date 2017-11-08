@@ -2,7 +2,7 @@
 
 class Address < ApplicationRecord
   belongs_to :user
-  has_many :requests
+  has_many :requests, dependent: :destroy
 
   validates :country, :pincode, :street_address, :city, :state, :nickname, presence: true
   validates :street_address, uniqueness: { case_sensitive: false, scope: :user_id }
