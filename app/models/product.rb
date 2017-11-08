@@ -10,7 +10,7 @@ class Product < ApplicationRecord
   validates :name, length:     { in: 4..100 },
                    uniqueness: { case_insensitive: false,
                                  scope:            :designer_id }
-  validates :description, length: { in: 50..300 }
+  validates :description, length: { in: 25..300 }
   validates :selling_price, numericality: { greater_than_or_equal_to: proc { |product|
                                                                         product&.designer&.designer_store_info
                                                                                &.min_order_price || 5_000

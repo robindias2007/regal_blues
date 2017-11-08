@@ -15,16 +15,16 @@
 //= require materialize
 //= require_tree .
 
-$(document).ready(function(){
-  $('#js-showPassword').on('click', function(){
+$(document).ready(function() {
+  $('#js-showPassword').on('click', function() {
     var passwordField = $('#password');
     var passwordFieldType = passwordField.attr('type');
 
     if (passwordFieldType === 'password') {
-        passwordField.attr('type', 'text');
+      passwordField.attr('type', 'text');
     } else {
-        passwordField.attr('type', 'password');
+      passwordField.attr('type', 'password');
     }
   });
-  $('.collapsible').collapsible();
+  $('.collapsible').collapsible({accordion: true});
 });
