@@ -1,0 +1,86 @@
+<div class="vertical-spacer-5"></div>
+
+<div class="row">
+  <div class="col s12 m6 l6">
+    <div class="card">
+      <div class="card-content blue-grey lighten-5 z-depth-2">
+        <h5 class="card-stats-number center">Profile</h5>
+        <p class="card-stats-title">Name:
+          <b><%= @user.full_name %></b>
+        </p>
+        <p class="card-stats-title">Email:
+          <b><%= @user.email %></b>
+        </p>
+        <p class="card-stats-title">Mobile:
+          <b><%= @user.mobile_number %></b>
+        </p>
+        <p class="card-stats-title">Username:
+          <b><%= @user.username %></b>
+        </p>
+        <p class="card-stats-title">Confirmed Email?:
+          <b><%= t @user.confirmed? %></b>
+        </p>
+        <p class="card-stats-title">Verified Number?:
+          <b><%= t @user.verified? %></b>
+        </p>
+        <p class="card-stats-title">Bio:
+          <b><%= @user.bio ? @user.bio : 'No bio' %></b>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m6 l6 collapsible" data-collapsible="accordion">
+    <div class="collapsible-header active">
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <h5 class="center cursor-pointer">Orders</h5>
+      </li>
+    </div>
+      <div class="collapsible-body">
+        <li class="collection-item">
+          Unpaid (<%= @user.orders.where(status: :started).size %>)
+        </li>
+        <li class="collection-item">
+          Paid (<%= @user.orders.where(status: :paid).size %>)
+        </li>
+        <li class="collection-item">
+          Designer Confirmed (<%= @user.orders.where(status: :designer_confirmed).size %>)
+        </li>
+        <li class="collection-item">
+          User Awaiting More Options (<%= @user.orders.where(status: :user_awaiting_more_options).size %>)
+        </li>
+        <li class="collection-item">
+          Designer Gave More Options (<%= @user.orders.where(status: :designer_gave_more_options).size %>)
+        </li>
+        <li class="collection-item">
+          Designer Selected Fabric Unavailable (<%= @user.orders.where(status: :designer_selected_fabric_unavailable).size %>)
+        </li>
+        <li class="collection-item">
+          Measurements Given (<%= @user.orders.where(status: :measurements_given).size %>)
+        </li>
+        <li class="collection-item">
+          In Production (<%= @user.orders.where(status: :in_production).size %>)
+        </li>
+        <li class="collection-item">
+          Shipped to QC (<%= @user.orders.where(status: :shipped_to_qc).size %>)
+        </li>
+        <li class="collection-item">
+          Delivered to QC (<%= @user.orders.where(status: :delivered_to_qc).size %>)
+        </li>
+        <li class="collection-item">
+          In QC (<%= @user.orders.where(status: :in_qc).size %>)
+        </li>
+        <li class="collection-item">
+          Shipped to User (<%= @user.orders.where(status: :shipped_to_user).size %>)
+        </li>
+        <li class="collection-item">
+          Delivered to User (<%= @user.orders.where(status: :delivered_to_user).size %>)
+        </li>
+        <li class="collection-item">
+          Cancelled by User (<%= @user.orders.where(status: :user_cancelled).size %>)
+        </li>
+      </div>
+    </ul>
+  </div>
+</div>

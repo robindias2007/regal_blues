@@ -11,6 +11,7 @@ class DesignerStoreInfo < ApplicationRecord
   validates :display_name, :registered_name,  uniqueness: { case_sensitive: false }
 
   validates :pincode, length: { in: 5..6 }, numericality: { only_integer: true }
+  validates :min_order_price, numericality: { greater_than: 2000 }
   validates :processing_time, numericality: { only_integer: true }
 
   validate :valid_pincode
