@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       post 'verify-otp', to: 'registrations#verify_otp'
       get 'me', to: 'registrations#show'
       get 'me/update', to: 'registrations#update'
+      delete '/me/delete', to: 'registrations#destroy'
 
       # Authentication
       post 'login', to: 'sessions#create'

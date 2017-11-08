@@ -15,6 +15,11 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
     end
   end
 
+  def destroy
+    current_user.destroy
+    render json: { message: 'User has been deleted' }, status: 200
+  end
+
   private
 
   def update_params
