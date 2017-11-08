@@ -30,5 +30,9 @@ module Sessionable
       jwt = Auth.issue(resource: resource.id)
       render json: { jwt: jwt }, status: 200
     end
+
+    def unverified_designer
+      render json: { errors: 'Unverified or blocked designer', status: 401 }
+    end
   end
 end
