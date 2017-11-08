@@ -13,7 +13,7 @@ class V1::Users::ProfileSerializer < ActiveModel::Serializer
   end
 
   def location
-    object.addresses.first.country
+    object&.addresses&.first&.country
   end
 
   def wishlist

@@ -10,7 +10,7 @@ $(document).ready(function() {
 function userAutocomplete(data) {
   $('input#js-user-autocomplete').autocomplete({
     data: data,
-    limit: 20
+    limit: 10
   });
 }
 
