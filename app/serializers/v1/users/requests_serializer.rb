@@ -11,6 +11,10 @@ class V1::Users::RequestsSerializer < ActiveModel::Serializer
     object.offers.count
   end
 
+  def offer_ids
+    object.offers.order(created_at: :asc).pluck(:id)
+  end
+
   def image
     object.request_images.order(serial_number: :asc).first.image
   end

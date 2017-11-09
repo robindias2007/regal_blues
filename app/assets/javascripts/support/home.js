@@ -1,10 +1,15 @@
 $(document).ready(function() {
-  getUserData().done(function(data) {
-    userAutocomplete(data);
-  });
-  getDesignerData().done(function(data) {
-    designerAutocomplete(data);
-  });
+  $('input#js-user-autocomplete').on('click', function() {
+    getUserData().done(function(data) {
+      userAutocomplete(data);
+    });
+  })
+
+  $('input#js-designer-autocomplete').on('click', function() {
+    getDesignerData().done(function(data) {
+      designerAutocomplete(data);
+    });
+  })
 });
 
 function userAutocomplete(data) {

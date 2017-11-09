@@ -1,0 +1,51 @@
+<div class="row">
+  <h5 class="center">Requests</h5>
+
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="4" class="center">Name</th>
+        <th colspan="1" class="center">Status</th>
+        <th colspan="1" class="center">Size</th>
+        <th colspan="1" class="center">Timeline for User</th>
+        <th colspan="1" class="center">Timeline for Designer</th>
+        <th colspan="1" class="center">Sub Category</th>
+        <th colspan="1" class="center">Address</th>
+        <th colspan="1" class="center">Number of Designers</th>
+        <th colspan="1" class="center">Number of Offers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @requests.order(created_at: :desc).each do |request| %>
+        <tr>
+          <td colspan="4" class="center"><%= link_to request.name, support_request_path(request) %></td>
+
+          <td colspan="1" class="center"><%= request.status.humanize %></td>
+
+          <td colspan="1" class="center"><%= request.size.upcase %></td>
+
+          <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
+
+          <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
+
+          <td colspan="1" class="center">
+            <%= request.sub_category.name %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= request.address.formatted_address %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= request.request_designers.size %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= request.offers.size %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

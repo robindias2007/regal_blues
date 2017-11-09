@@ -6,6 +6,16 @@ class Support::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = if params[:query]
+              User.search_for(search_params)
+            else
+              User.find(params[:id])
+            end
+  end
+
+  private
+
+  def search_params
+    params.require(:search).permit(:query)[:query].split('(').last.tr(')', '')
   end
 end

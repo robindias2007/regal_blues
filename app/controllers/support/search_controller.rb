@@ -2,7 +2,7 @@
 
 class Support::SearchController < ApplicationController
   def users
-    render json: User.search_for(search_params)
+    @user = User.search_for(search_params)
   end
 
   def designers
