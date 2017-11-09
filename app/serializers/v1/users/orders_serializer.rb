@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class V1::Users::OrdersSerializer < ActiveModel::Serializer
-  attributes :id, :designer_name, :item_type, :project, :price, :timeline, :status_logged_at, :image, :status, :order_id
+  attributes :id, :designer_name, :item_type, :project, :price, :timeline, :status_logged_at, :image, :status,
+    :order_id, :designer_avatar
 
   def designer_name
     object.designer.designer_store_info.display_name
+  end
+
+  def designer_avatar
+    object.designer.avatar
   end
 
   def item_type
@@ -28,8 +33,7 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
   end
 
   def image
-    object.order_options.where.not(image_id: nil).order(created_at: :desc).first&.image&.image ||
-      object.offer_quotation.offer_quotation_galleries&.order(created_at: :desc)&.first&.images&.first&.image
+    object.offer_quotation.offer.request.request_images.order(serial_number: :asc).first.image
   end
 
   def status
