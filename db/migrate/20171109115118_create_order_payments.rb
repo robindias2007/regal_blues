@@ -10,6 +10,5 @@ class CreateOrderPayments < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :order_payments, :payment_id, unique: true
   end
 end

@@ -242,7 +242,6 @@ ActiveRecord::Schema.define(version: 20171109115118) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_payments_on_order_id"
-    t.index ["payment_id"], name: "index_order_payments_on_payment_id", unique: true
     t.index ["user_id"], name: "index_order_payments_on_user_id"
   end
 
