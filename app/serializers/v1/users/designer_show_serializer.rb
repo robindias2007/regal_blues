@@ -32,12 +32,6 @@ module V1
         object.created_at.strftime('%Y')
       end
 
-      def bio
-        # TODO: Change this
-        # object.designer_store_info&.bio
-        'Not implemented'
-      end
-
       def collection
         products = object.products.order(created_at: :desc).limit(4)
         products.map do |product|
