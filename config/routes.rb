@@ -94,6 +94,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :order_payments, only: %i[create update]
+
       resources :support_chats, only: %i[create index] do
         member do
           resources :conversations, only: %i[create]
