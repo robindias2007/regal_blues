@@ -170,7 +170,7 @@ namespace :db do
     designers = Designer.all.sample(2)
     {
       name: Faker::Commerce.unique.product_name, size: size,
-      min_budget: min, max_budget: 1.8 * min, timeline: Faker::Number.between(1, 10),
+      min_budget: min, max_budget: 1.8 * min, timeline: Faker::Number.between(1, 6),
       description: Faker::Lorem.paragraph, user: user, sub_category: SubCategory.all.sample,
       address: user.addresses.sample,
       request_images_attributes: [

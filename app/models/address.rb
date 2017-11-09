@@ -13,6 +13,10 @@ class Address < ApplicationRecord
     where(user_id: user_id).pluck(:id)
   end
 
+  def formatted_address
+    "#{street_address}, #{city}, #{state}, #{country}, #{pincode}"
+  end
+
   private
 
   def upcase_attrs

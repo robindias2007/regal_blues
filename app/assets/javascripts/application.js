@@ -26,5 +26,5 @@ $(document).ready(function() {
       passwordField.attr('type', 'password');
     }
   });
-  $('.collapsible').collapsible({accordion: true});
+  $('.collapsible').collapsible({accordion: false});
 });
