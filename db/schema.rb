@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107064157) do
+ActiveRecord::Schema.define(version: 20171109115118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -230,6 +230,20 @@ ActiveRecord::Schema.define(version: 20171107064157) do
     t.index ["image_id"], name: "index_order_options_on_image_id"
     t.index ["offer_quotation_gallery_id"], name: "index_order_options_on_offer_quotation_gallery_id"
     t.index ["order_id"], name: "index_order_options_on_order_id"
+  end
+
+  create_table "order_payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "order_id"
+    t.uuid "user_id"
+    t.integer "price", default: 0, null: false
+    t.string "payment_id", default: "", null: false
+    t.boolean "success", default: false, null: false
+    t.jsonb "extra", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_payments_on_order_id"
+    t.index ["payment_id"], name: "index_order_payments_on_payment_id", unique: true
+    t.index ["user_id"], name: "index_order_payments_on_user_id"
   end
 
   create_table "order_status_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -489,6 +503,8 @@ ActiveRecord::Schema.define(version: 20171107064157) do
   add_foreign_key "order_options", "images"
   add_foreign_key "order_options", "offer_quotation_galleries"
   add_foreign_key "order_options", "orders"
+  add_foreign_key "order_payments", "orders"
+  add_foreign_key "order_payments", "users"
   add_foreign_key "order_status_logs", "orders"
   add_foreign_key "orders", "designers"
   add_foreign_key "orders", "offer_quotations"

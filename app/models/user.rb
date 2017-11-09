@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :addresses, dependent: :destroy
   has_many :requests, dependent: :destroy
   has_many :orders, dependent: :destroy
+  has_many :order_payments, dependent: :nullify
 
   has_one :support_chat, dependent: :destroy
   has_many :request_chats, dependent: :destroy

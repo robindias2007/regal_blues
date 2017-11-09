@@ -15,7 +15,7 @@ class Order < ApplicationRecord
   has_many :order_options, dependent: :destroy
   has_one :order_measurement, dependent: :destroy
   has_one :order_status_log, dependent: :destroy
-  # has_one :order_payment, dependent: :destroy
+  has_one :order_payment, dependent: :destroy
 
   before_save :generate_order_id
 
