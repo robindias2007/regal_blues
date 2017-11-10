@@ -97,7 +97,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     # payment = PaymentGateway.pay(params[:gateway], order)
     # if payment.successfull?
     order.pay!
-    render json: { message: 'Order has been created and payment has been successfull' }
+    render json: { message: 'Order has been created and payment has been successfull', order_id: order.id }
     # else
     #   render json: { errors: ['Order has been saved but payment could not be completed'] }, status: 400
     # end

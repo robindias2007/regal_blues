@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::RequestsSerializer < ActiveModel::Serializer
-  attributes :id, :name, :item_type, :min_budget, :max_budget, :timeline, :offers_count, :status, :image
+  attributes :id, :name, :item_type, :min_budget, :max_budget, :timeline, :offers_count, :status, :image, :offer_ids
 
   def item_type
     SubCategory.find(object.sub_category_id).name

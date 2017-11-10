@@ -19,7 +19,9 @@ Rails.application.routes.draw do
         get 'search/designer-suggestions', to: 'search#designers_suggestions'
         resources :users, only: %i[index show], as: :support_users
         resources :designers, only: %i[index show], as: :support_designers
-        resources :requests, only: %i[index show], as: :support_requests
+        resources :requests, only: %i[index show], as: :support_requests do
+          patch :approve
+        end
         resources :orders, only: %i[index show], as: :support_orders
       end
     end
