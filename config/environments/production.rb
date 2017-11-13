@@ -38,7 +38,9 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   config.action_cable.url = 'ws://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com/cable'
   config.action_cable.allowed_request_origins = ['http://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com',
-                                                 'https://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com']
+                                                 'https://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com',
+                                                 'ws://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com',
+                                                 'wss://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
