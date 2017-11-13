@@ -33,7 +33,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # config.action_cable.url = 'ws://192.168.1.10:3000/cable'
   config.action_cable.url = 'ws://localhost:3000/cable'
+  # config.action_cable.allowed_request_origins = ['ws://192.168.1.10:3000']
 
   # AWS SES
   # config.action_mailer.smtp_settings = {

@@ -27,14 +27,15 @@ class SupportChatChannel < ApplicationCable::Channel
   end
 
   def connect_to_support
-    support_chat = SupportChat.find_or_initialize_by(designer: current_user)
+    resource = current_user.class.name.downcase
+    support_chat = SupportChat.find_or_initialize_by(resource.to_s => current_user)
     if support_chat.present?
       broadcast_connection_new
-      logger.add_tags 'SupportChatChannel', 'support_chat already present'
+      # logger.add_tags 'SupportChatChannel', 'support_chat already present'
     else
       support_chat.save
       broadcast_connection_existing
-      logger.add_tags 'SupportChatChannel', 'support_chat created'
+      # logger.add_tags 'SupportChatChannel', 'support_chat created'
     end
   end
 
