@@ -12,4 +12,10 @@ class Support::RequestsController < ApplicationController
     request.update!(status: :active)
     render json: { message: 'Request approved' }, status: 200
   end
+
+  def reject
+    request = Request.find(params[:support_request_id])
+    request.update!(status: :unapproved)
+    render json: { message: 'Request unapproved' }, status: 200
+  end
 end

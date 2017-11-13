@@ -47,7 +47,7 @@
 
           <td colspan="1" class="center">
             <%= link_to '#approve-request', id: request.id, remote: true do %>
-            <div class='btn btn-floating teal' id="js-approve-request">
+            <div class='btn btn-floating teal <%= approve_button?(request) %>' id="js-approve-request">
               <i class="material-icons" data-id=<%= request.id %>>check</i>
             </div>
           <% end %>
@@ -55,7 +55,7 @@
 
           <td colspan="1" class="center">
             <%= link_to '#reject-request', id: request.id, remote: true do %>
-            <div class='btn btn-floating orange' id="js-reject-request">
+            <div class='btn btn-floating orange <%= reject_button?(request) %>' id="js-reject-request">
               <i class="material-icons" data-id=<%= request.id %>>block</i>
             </div>
           <% end %>
