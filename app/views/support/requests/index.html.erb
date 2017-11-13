@@ -8,9 +8,7 @@
         <th colspan="2" class="center">Name</th>
         <th colspan="1" class="center">User</th>
         <th colspan="1" class="center">Status</th>
-        <!-- <th colspan="1" class="center">Size</th> -->
         <th colspan="1" class="center">Timeline for User</th>
-        <!-- <th colspan="1" class="center">Timeline for Designer</th> -->
         <th colspan="1" class="center">Sub Category</th>
         <th colspan="1" class="center">Number of Designers</th>
         <th colspan="1" class="center">Number of Offers</th>
@@ -27,11 +25,7 @@
 
           <td colspan="1" class="center"><%= request.status.humanize %></td>
 
-          <!-- <td colspan="1" class="center"><%#= request.size.upcase %></td> -->
-
           <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
-
-          <!-- <td colspan="1" class="center"><%#= "#{request.timeline - 2} weeks" %></td> -->
 
           <td colspan="1" class="center">
             <%= request.sub_category.name %>

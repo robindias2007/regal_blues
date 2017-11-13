@@ -5,7 +5,9 @@ class Support::RequestsController < ApplicationController
     @requests = Request.includes(:address, :request_designers, :offers, :sub_category).order(created_at: :desc).all
   end
 
-  def show; end
+  def show
+    @request = Request.find(params[:id])
+  end
 
   def approve
     request = Request.find(params[:support_request_id])

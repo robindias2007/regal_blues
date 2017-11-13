@@ -1,0 +1,46 @@
+<div class="vertical-spacer-5"></div>
+
+<div class="row">
+  <% @request.request_images.each do |request_image| %>
+    <div class="col s6 m4 l3">
+      <%= image_tag request_image.image.url %>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <h5 class="card-stats-number center">Details</h5>
+        <p class="card-stats-title">Name:
+          <b><%= @request.name %></b>
+        </p>
+        <p class="card-stats-title">Category:
+          <b><%= @request.sub_category.name %></b>
+        </p>
+        <p class="card-stats-title">Sent on:
+          <b><%= @request.created_at.strftime('%d %b %Y') %></b>
+        </p>
+        <p class="card-stats-title">Username:
+          <b><%= link_to @request.user.username, support_user_path(@request.user) %></b>
+        </p>
+        <p class="card-stats-title">Size:
+          <b><%= @request.size.upcase %></b>
+        </p>
+        <p class="card-stats-title">Shipping address:
+          <b><%= @request.address.formatted_address %></b>
+        </p>
+        <p class="card-stats-title">Budget:
+          <b><%= @request.max_budget&.round %></b>
+        </p>
+        <p class="card-stats-title">Offers Count:
+          <b><%= @request.offers.size %></b>
+        </p>
+        <p class="card-stats-title">Designers:
+          <b><%= RequestDesigner.joins(designer: :designer_store_info).where(request: @request).pluck(:display_name).to_sentence %></b>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
