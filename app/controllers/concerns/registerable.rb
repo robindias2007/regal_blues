@@ -108,7 +108,7 @@ module Registerable
     end
 
     def designer_params
-      params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar)
+      params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status, :format)
     end
 
     def user_params
