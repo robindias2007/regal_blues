@@ -7,7 +7,7 @@ environment-defaults:
     repository: null
 global:
   application_name: Custumise API
-  default_ec2_keyname: null
+  default_ec2_keyname: custumise-dev
   default_platform: arn:aws:elasticbeanstalk:ap-south-1::platform/Puma with Ruby 2.3
     running on 64bit Amazon Linux/2.4.4
   default_region: ap-south-1
@@ -15,6 +15,6 @@ global:
   instance_profile: null
   platform_name: null
   platform_version: null
-  profile: custumise
+  profile: null
   sc: git
   workspace_type: Application
