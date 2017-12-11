@@ -43,7 +43,7 @@ Rails.application.configure do
                                                  'wss://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  #config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -78,7 +78,6 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  ENV['RAILS_MASTER_KEY'] = 'f79ebc489681833f1e4eb5814e93a937'
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
