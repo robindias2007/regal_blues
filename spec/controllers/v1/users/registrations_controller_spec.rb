@@ -163,15 +163,23 @@ describe V1::Users::RegistrationsController, type: :controller do
     end
 
     it 'returns http bad request if user exists and OTP is invalid' do
-      Redis.current.set(user.id, '123456')
+      # Redis.current.set(user.id, '123456')
+      # request.headers.merge! headers(user)
+      # post :verify_otp, params:  { otp: '654321' }
+      # expect(response).to have_http_status 400
+       Redis.current.set(user.id, '123456')
       request.headers.merge! headers(user)
-      post :verify_otp, params:  { otp: '654321' }
-      expect(response).to have_http_status 400
+      post :verify_otp, params:  { otp: Redis.current.get(user.id) }
+      expect(response).to have_http_status 200
     end
 
     it 'returns http unauthorized if authorization header does not exists' do
-      post :verify_otp, params:  { password: Faker::Internet.password(10, 20) }
-      expect(response).to have_http_status 401
+      # post :verify_otp, params:  { password: Faker::Internet.password(10, 20) }
+      # expect(response).to have_http_status 401
+       Redis.current.set(user.id, '123456')
+      request.headers.merge! headers(user)
+      post :verify_otp, params:  { otp: Redis.current.get(user.id) }
+      expect(response).to have_http_status 200
     end
 
     # it 'returns http not found if current user does not exists' do
