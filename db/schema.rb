@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109115118) do
+ActiveRecord::Schema.define(version: 20171211121848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -382,6 +382,13 @@ ActiveRecord::Schema.define(version: 20171109115118) do
     t.index ["name"], name: "index_sub_categories_on_name", unique: true
   end
 
+  create_table "sub_categories_tests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "super_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "image", default: "", null: false
@@ -391,15 +398,8 @@ ActiveRecord::Schema.define(version: 20171109115118) do
   end
 
   create_table "support_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "support_id"
-    t.uuid "user_id"
-    t.uuid "designer_id"
-    t.boolean "responding"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["designer_id"], name: "index_support_chats_on_designer_id"
-    t.index ["support_id"], name: "index_support_chats_on_support_id"
-    t.index ["user_id"], name: "index_support_chats_on_user_id"
   end
 
   create_table "supports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -474,8 +474,8 @@ ActiveRecord::Schema.define(version: 20171109115118) do
     t.datetime "reset_password_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "verified", default: true
     t.text "bio"
+    t.boolean "verified", default: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["mobile_number"], name: "index_users_on_mobile_number", unique: true
@@ -521,8 +521,6 @@ ActiveRecord::Schema.define(version: 20171109115118) do
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"
-  add_foreign_key "support_chats", "designers"
-  add_foreign_key "support_chats", "users"
   add_foreign_key "user_favorite_designers", "designers"
   add_foreign_key "user_favorite_designers", "users"
   add_foreign_key "user_favorite_products", "products"
