@@ -7,6 +7,6 @@ class CreateSupportChats < ActiveRecord::Migration[5.1]
     #   t.boolean :responding
 
     #   t.timestamps
-    end
+    # end
   end
 end
