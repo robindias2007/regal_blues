@@ -390,17 +390,17 @@ ActiveRecord::Schema.define(version: 20171109115118) do
     t.index ["name"], name: "index_super_categories_on_name", unique: true
   end
 
-  # create_table "support_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-  #   t.uuid "support_id"
-  #   t.uuid "user_id"
-  #   t.uuid "designer_id"
-  #   t.boolean "responding"
-  #   t.datetime "created_at", null: false
-  #   t.datetime "updated_at", null: false
-  #   t.index ["designer_id"], name: "index_support_chats_on_designer_id"
-  #   t.index ["support_id"], name: "index_support_chats_on_support_id"
-  #   t.index ["user_id"], name: "index_support_chats_on_user_id"
-  # end
+  create_table "support_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "support_id"
+    t.uuid "user_id"
+    t.uuid "designer_id"
+    t.boolean "responding"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_support_chats_on_designer_id"
+    t.index ["support_id"], name: "index_support_chats_on_support_id"
+    t.index ["user_id"], name: "index_support_chats_on_user_id"
+  end
 
   create_table "supports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -520,8 +520,8 @@ ActiveRecord::Schema.define(version: 20171109115118) do
   add_foreign_key "requests", "addresses"
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
-  # add_foreign_key "sub_categories", "categories"
-  # add_foreign_key "support_chats", "designers"
+  add_foreign_key "sub_categories", "categories"
+  add_foreign_key "support_chats", "designers"
   add_foreign_key "support_chats", "users"
   add_foreign_key "user_favorite_designers", "designers"
   add_foreign_key "user_favorite_designers", "users"
