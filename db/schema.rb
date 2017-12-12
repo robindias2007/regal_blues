@@ -474,7 +474,7 @@ ActiveRecord::Schema.define(version: 20171109115118) do
     t.datetime "reset_password_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "verified", default: false
+    t.boolean "verified", default: true
     t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
