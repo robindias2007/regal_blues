@@ -169,7 +169,7 @@ describe V1::Users::RegistrationsController, type: :controller do
       # expect(response).to have_http_status 400
        Redis.current.set(user.id, '123456')
       request.headers.merge! headers(user)
-      post :verify_otp, params:  { otp: Redis.current.get(user.id) }
+      post :verify_otp, params:  { otp: Redis.current.get(user.id), verified:true }
       expect(response).to have_http_status 200
     end
 

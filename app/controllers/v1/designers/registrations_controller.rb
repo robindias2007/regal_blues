@@ -13,6 +13,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def update_finance_info
+    debugger
     finance_info = current_designer.build_designer_finance_info(finance_info_params)
     if finance_info.save
       render json: { message: 'Store info successfully updated' }, status: 201
