@@ -15,7 +15,8 @@ module Authenticable
 
     before_save :downcase_reqd_attrs
     before_create :generate_confirmation_instructions
-    after_create :send_confirmation_email, :send_otp
+    after_create :send_confirmation_email
+    # :send_otp
 
     def confirmed?
       confirmed_at.present?
