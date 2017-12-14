@@ -28,7 +28,7 @@ class Designer < ApplicationRecord
 
   before_create :generate_pin
 
-  enumerize :live_status, in: %i[unapproved approved blocked], scope: true, predicates: true, default: :unapproved
+  enumerize :live_status, in: %i[unapproved approved blocked], scope: true, predicates: true, default: :approved
 
   mount_base64_uploader :avatar, AvatarUploader
 

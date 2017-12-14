@@ -28,7 +28,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def fabric_unavailable_data
     order = current_designer.orders.find(params[:id])
-    render json: order, serializer: V1::Designers::OrderFabricUnavailableSerializer
+    render json: order , serializer: V1::Designers::OrderFabricUnavailableSerializer
   end
 
   def fabric_unavailable
@@ -68,7 +68,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   private
 
   def fabric_unavailable_params
-    params.require(:offer_quotation).permit(:id, :designer_note,
+    params.require(:offer_quotation).permit(:id, :offer_quotation, :designer_note,
       offer_quotation_galleries_attributes: [:id, :name, images_attributes: %i[id image description disabled new]])
   end
 

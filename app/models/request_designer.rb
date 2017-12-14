@@ -27,4 +27,9 @@ class RequestDesigner < ApplicationRecord
   def involved_count_exceeds
     request.request_designers.where(involved: true).count > MAX_DESIGNERS_INVOLVED
   end
+
+  def request_designer_params
+    params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status)
+  end
+
 end

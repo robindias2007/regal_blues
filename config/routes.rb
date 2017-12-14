@@ -172,6 +172,7 @@ Rails.application.routes.draw do
           patch :confirm
           get :fabric_unavailable_data, path: 'fabric-unavailable'
           put :fabric_unavailable, path: 'fabric-unavailable'
+          patch :fabric_unavailable, path: 'fabric-unavailable'
           get :give_more_options_data, path: 'give-more-options'
           post :give_more_options, path: 'give-more-options'
           patch :toggle_active_gallery_image, path: 'toggle-active-image'
