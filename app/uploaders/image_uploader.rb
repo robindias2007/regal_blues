@@ -17,6 +17,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
+    if Rails.env.production? 
+      store_url = "https://limitless-brook-27912.herokuapp.com/"
+    else
+      store_url = "http://192.168.0.103:3090/"
+    end
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 

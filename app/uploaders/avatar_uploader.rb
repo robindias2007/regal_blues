@@ -8,7 +8,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # Choose what kind of storage to use for this uploader:
   if Rails.env.production?
-    storage :aws
+    storage :file
   else
     storage :file
   end
@@ -17,7 +17,12 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    if Rails.env.production? 
+      store_url = 'https://limitless-brook-27912.herokuapp.com/'
+    else
+      store_url = 'http://192.168.0.103:3090/'
+    end
+    '#{store_url}/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}'
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

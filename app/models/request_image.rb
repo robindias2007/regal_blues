@@ -6,7 +6,7 @@ class RequestImage < ApplicationRecord
   validates :serial_number, presence: true
   validates :width, :height, :serial_number, numericality: { only_integer: true }
 
-  before_save :make_image, if: :blank_image?
+  #before_save :make_image, if: :blank_image?
 
   mount_base64_uploader :image, ImageUploader
 
