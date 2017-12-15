@@ -13,7 +13,7 @@ class V1::Users::ExploreController < V1::Users::BaseController
       products:   products_serializer(top_three),
       designers:  designers_serializer(designers)
     }
-    
+  end
 
   private
 
