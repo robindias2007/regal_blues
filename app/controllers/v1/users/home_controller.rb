@@ -15,8 +15,8 @@ class V1::Users::HomeController < V1::Users::BaseController
 
   def orders_or_requests_or_recommendations
     if current_user.live_orders?
-      # render_orders
-      render json: { message: 'Not implemented' }, status: 501
+      render_orders
+      # render json: { message: 'Not implemented' }, status: 501
     elsif current_user.requests_but_no_orders?
       render_requests
     elsif current_user.no_requests_or_orders?
@@ -24,10 +24,11 @@ class V1::Users::HomeController < V1::Users::BaseController
     end
   end
 
-  # def render_orders
-  #   orders = current_user.orders.order(created_at: :desc).limit(3)
-  #   render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
-  # end
+  def render_orders
+    orders = current_user.orders.order(created_at: :desc).limit(3)
+    render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+  end
+
 
   def render_requests
     requests = current_user.requests.order(created_at: :desc).limit(3)
