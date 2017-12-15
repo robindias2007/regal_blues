@@ -6,13 +6,13 @@ namespace :db do
   task populate: :environment do
     # Don't change the order
     create_all_categories
-    create_designers
-    create_products
-    create_users
-    create_addresses_for_users
-    create_requests
-    create_offers
-    create_orders
+    #create_designers
+    #create_products
+    #create_users
+    #create_addresses_for_users
+    #create_requests
+    #create_offers
+    #create_orders
   end
 
   private
