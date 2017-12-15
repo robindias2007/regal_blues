@@ -4,12 +4,13 @@ class DesignerFinanceInfo < ApplicationRecord
   belongs_to :designer
 
   validates :bank_name, :bank_branch, :ifsc_code, :account_number, :blank_cheque_proof ,
-    :personal_pan_number_proof, :business_pan_number, :business_pan_number_proof, :tin_number_proof,
-    :gstin_number_proof, :business_address_proof, presence: true
+    :personal_pan_number_proof, :business_pan_number, :business_pan_number_proof,
+    :business_address_proof, :personal_pan_number, presence: true
 
-  # validates :tin_number, :gstin_number, :personal_pan_number, presence: true
+  # validates :tin_number, :gstin_number, , presence: true
+  # :tin_number_proof  :gstin_number_proof
 
-  validates :account_number, :business_pan_number, :personal_pan_number, :tin_number, :gstin_number,
+  validates :account_number, :business_pan_number,
     uniqueness: { case_sensitive: false }
 
   validate :valid_ifsc_code
