@@ -61,7 +61,8 @@ class User < ApplicationRecord
 
   def live_orders?
     # TODO: Update this
-    false
+    orders.present?
+    # false
   end
 
   def requests_but_no_orders?
