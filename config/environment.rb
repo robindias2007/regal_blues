@@ -7,5 +7,5 @@ require_relative 'application'
 Rails.application.initialize!
 Rails.application.eager_load!
 
-ActionController::AbstractRequest.relative_url_root = "https://limitless-brook-27912.herokuapp.com"
+
 
