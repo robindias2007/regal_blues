@@ -4,9 +4,9 @@ class V1::Users::ExploreController < V1::Users::BaseController
   skip_before_action :authenticate, only: :mobile
 
   def mobile
-    categories = SubCategory.order(name: :asc)
-    top_three = categories.sample(3)
-    designers = Designer.order('RANDOM()').limit(6)
+    categories = SubCategory.order(name: :asc) rescue nil
+    top_three = categories.sample(3) rescue nil
+    designers = Designer.order('RANDOM()').limit(6) rescue nil
 
     render json: {
       categories: categories_serializer(categories),
