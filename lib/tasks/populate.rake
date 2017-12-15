@@ -6,13 +6,13 @@ namespace :db do
   task populate: :environment do
     # Don't change the order
     create_all_categories
-    # create_designers
-    # create_products
-    # create_users
-    # create_addresses_for_users
-    # create_requests
-    # create_offers
-    # create_orders
+    create_designers
+    create_products
+    create_users
+    create_addresses_for_users
+    create_requests
+    create_offers
+    create_orders
   end
 
   private
@@ -26,10 +26,10 @@ namespace :db do
 
   def sub_category_with(cat)
     [
-      { name: 'Saree', image: image_data, category: cat },
-      { name: 'Lehenga', image: image_data, category: cat },
-      { name: 'Chudidar', image: image_data, category: cat },
-      { name: 'Anarkali', image: image_data, category: cat },
+      # { name: 'Saree', image: image_data, category: cat },
+      # { name: 'Lehenga', image: image_data, category: cat },
+      # { name: 'Chudidar', image: image_data, category: cat },
+      # { name: 'Anarkali', image: image_data, category: cat },
       { name: 'Chunri', image: image_data, category: cat },
       { name: 'Choli', image: image_data, category: cat },
       { name: 'Mekhela Sador', image: image_data, category: cat },
