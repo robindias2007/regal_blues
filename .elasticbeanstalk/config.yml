@@ -6,8 +6,8 @@ environment-defaults:
     branch: null
     repository: null
 global:
-  application_name: amidos-custumise
-  default_ec2_keyname: amidos-custumise
+  application_name: Custumise API
+  default_ec2_keyname: custumise-dev
   default_platform: Ruby 2.3 (Puma)
   default_region: ap-south-1
   include_git_submodules: true
