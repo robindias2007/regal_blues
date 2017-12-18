@@ -23,7 +23,7 @@ end
 
 CarrierWave.configure do |config|
   config.storage    = :aws
-  config.aws_bucket = Rails.application.secrets[:s3_bucket_name]
+  config.aws_bucket = Rails.application.secrets[:S3_BUCKET_NAME]
   config.aws_acl    = 'public-read'
 
   # The maximum period for authenticated_urls is only 7 days.
@@ -36,8 +36,8 @@ CarrierWave.configure do |config|
   }
 
   config.aws_credentials = {
-    access_key_id:     Rails.application.secrets[:aws_access_key_id],
-    secret_access_key: Rails.application.secrets[:aws_secret_access_key],
-    region:            Rails.application.secrets[:aws_region]
+    access_key_id:     Rails.application.secrets[:AWS_ACCESS_KEY_ID],
+    secret_access_key: Rails.application.secrets[:AWS_SECRET_ACCESS_KEY],
+    region:            Rails.application.secrets[:AWS_REGION]
   }
 end
