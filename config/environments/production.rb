@@ -49,6 +49,11 @@ Rails.application.configure do
   # when problems arise.
   config.log_level = :debug
 
+
+  ENV['AWS_ACCESS_KEY_ID']='AKIAJUO657TYD6D2AQJQ'
+  ENV['AWS_SECRET_ACCESS_KEY']='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'
+  ENV['S3_BUCKET_NAME']='amidos-custumise'
+
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
