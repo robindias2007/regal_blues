@@ -7,9 +7,8 @@ Rails.application.routes.default_url_options = {
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
-  constraints(subdomain: 'support') do
-    devise_for :supports, path: ''
-    scope module: :support do
+  devise_for :supports
+  scope module: :support do
       get '/', to: 'home#index', as: :support_root
       authenticated :support do
         get '/search/users', to: 'search#users', as: :support_user_search
@@ -26,7 +25,27 @@ Rails.application.routes.draw do
         resources :orders, only: %i[index show], as: :support_orders
       end
     end
-  end
+  
+  # constraints(subdomain: 'support') do
+  #   devise_for :supports, path: ''
+  #   scope module: :support do
+  #     get '/', to: 'home#index', as: :support_root
+  #     authenticated :support do
+  #       get '/search/users', to: 'search#users', as: :support_user_search
+  #       get '/search/designers', to: 'search#designers', as: :support_designer_search
+  #       get '/search/orders', to: 'search#orders', as: :support_order_search
+  #       get 'search/user-suggestions', to: 'search#users_suggestions'
+  #       get 'search/designer-suggestions', to: 'search#designers_suggestions'
+  #       resources :users, only: %i[index show], as: :support_users
+  #       resources :designers, only: %i[index show], as: :support_designers
+  #       resources :requests, only: %i[index show], as: :support_requests do
+  #         patch :approve
+  #         patch :reject
+  #       end
+  #       resources :orders, only: %i[index show], as: :support_orders
+  #     end
+  #   end
+  # end
 
   root 'home#index'
 
