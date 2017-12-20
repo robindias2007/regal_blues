@@ -22,7 +22,7 @@ Rails.application.routes.draw do
           patch :approve
           patch :reject
         end
-        resources :orders, only: %i[index show], as: :support_orders
+        resources :orders, only: %i[show], as: :support_orders  
       end
     end
 

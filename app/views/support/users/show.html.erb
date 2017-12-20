@@ -182,7 +182,7 @@
     <tbody>
       <% @user.orders.order(created_at: :desc).each do |order| %>
         <tr>
-          <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td>
+          <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td> 
 
           <td colspan="1" class="center"><%= order.order_id %></td>
 
