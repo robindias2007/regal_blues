@@ -51,23 +51,59 @@
   <!-- Offers List -->
   <div class="row">
     <h5 class="center">Offers</h5>
-
+    <% @request.offers.each do |off| %>
     <table class="highlight">
       <thead>
-        <tr>
-          <th colspan="4" class="center">Offer ID</th>
-          <th colspan="1" class="center">Price</th>
-          <th colspan="1" class="center">Description</th>
-          <th colspan="1" class="center">Designer Note</th>
-          <th colspan="1" class="center">Measurements</th>
-          <th colspan="1" class="center">Gallery Name</th>
-          <th colspan="1" class="center">Created At</th>
-        </tr>
+        <% if ((OfferQuotation.where(offer_id:off).count) || (OfferMeasurement.where(offer_quotation_id:offquo).count) || (OfferQuotationGallery.where(offer_quotation_id:offquo).count))  == 1 %>
+          <tr>
+            <th colspan="1" class="center">Price</th>
+            <th colspan="1" class="center">Description</th>
+            <th colspan="1" class="center">Designer Note</th>
+            <th colspan="1" class="center">Measurements</th>
+            <th colspan="1" class="center">Gallery Name</th>
+          </tr>
+        <% elsif ((OfferQuotation.where(offer_id:off).count) || (OfferMeasurement.where(offer_quotation_id:offquo).count) || (OfferQuotationGallery.where(offer_quotation_id:offquo).count))  == 2 %>
+          <tr>
+            <th colspan="1" class="center">Price</th>
+            <th colspan="1" class="center">Description</th>
+            <th colspan="1" class="center">Designer Note</th>
+            <th colspan="1" class="center">Measurements</th>
+            <th colspan="1" class="center">Gallery Name</th>
+            <div class="row">
+              <th colspan="1" class="center">Quote 2 Price</th>
+              <th colspan="1" class="center">Quote 2 Description</th>
+              <th colspan="1" class="center">Quote 2 Designer Note</th>
+              <th colspan="1" class="center">Quote 2 Measurements</th>
+              <th colspan="1" class="center">Quote 2 Gallery Name</th>
+            </div>
+          </tr>
+        <% else %>
+          <tr>
+            <th colspan="1" class="center">Price</th>
+            <th colspan="1" class="center">Description</th>
+            <th colspan="1" class="center">Designer Note</th>
+            <th colspan="1" class="center">Measurements</th>
+            <th colspan="1" class="center">Gallery Name</th>
+            <div class="row">
+              <th colspan="1" class="center">Quote 2 Price</th>
+              <th colspan="1" class="center">Quote 2 Description</th>
+              <th colspan="1" class="center">Quote 2 Designer Note</th>
+              <th colspan="1" class="center">Quote 2 Measurements</th>
+              <th colspan="1" class="center">Quote 2 Gallery Name</th>
+            </div>
+            <div class="row">
+              <th colspan="1" class="center">Quote 3 Price</th>
+              <th colspan="1" class="center">Quote 3 Description</th>
+              <th colspan="1" class="center">Quote 3 Designer Note</th>
+              <th colspan="1" class="center">Quote 3 Measurements</th>
+              <th colspan="1" class="center">Quote 3 Gallery Name</th>
+            </div>
+          </tr>
+        <% end %>
       </thead>
       <tbody>
         <tr>
-          <% @request.offers.each do |off| %>
-            <td colspan="4" class="center"><%= off.id %></td>
+          
             <% OfferQuotation.where(offer_id:off).each do |offquo| %>
               <td colspan="1" class="center"><%= offquo.price %></td>
               <td colspan="1" class="center"><%= offquo.description %></td>
@@ -79,7 +115,6 @@
                 <td colspan="1" class="center"><%= offgall.name %></td>
               <% end %>
             <% end %>
-            <td colspan="1" class="center"><%= off.created_at.strftime('%d %B %Y') %></td>
           <% end %>
         </tr>
       </tbody>
@@ -97,6 +132,3 @@
     </div>
   <% end %>
 </div>
-
-<!-- <a data-fancybox="gallery" href="dummyImg.jpeg"><img src="dummyImg.jpeg"></a>
-<a data-fancybox="gallery" href="dummyImg.jpeg"><img src="dummyImg.jpeg"></a> -->
