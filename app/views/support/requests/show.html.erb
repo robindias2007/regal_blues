@@ -1,12 +1,12 @@
 <div class="vertical-spacer-5"></div>
 
-<div class="row">
+<!-- <div class="row">
   <% @request.request_images.each do |request_image| %>
     <div class="col s6 m4 l3">
       <%= image_tag request_image.image_url rescue nil %>
     </div>
   <% end %>
-</div>
+</div> -->
 
 <div class="row">
   <div class="col s12">
@@ -80,11 +80,17 @@
               <% end %>
             <% end %>
             <td colspan="1" class="center"><%= off.created_at.strftime('%d %B %Y') %></td>
-            <%= image_tag @reqest.request_image.image_url , size:"50x50" %>
           <% end %>
         </tr>
       </tbody>
     </table>
+
+    <% @request.request_images.each do |request_image| %>
+      <div class="col s6 m4 l3">
+        <%= image_tag request_image.image_url size:"50x50" %>
+      </div>
+    <% end %>
+
   </div>
 
 <% else %>
