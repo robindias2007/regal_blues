@@ -93,7 +93,11 @@
 <div class="row">
   <% @request.request_images.each do |request_image| %>
     <div class="col s6 m4 l3">
-      <%= image_tag request_image.image_url, size:"100x100" %>
+      <a data-fancybox="gallery" href="<%= request_image.image_url %>"><img src="<%= request_image.image_url %>"></a>
+      
     </div>
   <% end %>
 </div>
+
+<!-- <a data-fancybox="gallery" href="dummyImg.jpeg"><img src="dummyImg.jpeg"></a>
+<a data-fancybox="gallery" href="dummyImg.jpeg"><img src="dummyImg.jpeg"></a> -->
