@@ -2,7 +2,7 @@
   <li><%= link_to 'Users', support_users_path %></li>
   <li><%= link_to 'Designers', support_designers_path %></li>
   <li><%= link_to 'Requests', support_requests_path %></li>
-  <li><%= link_to 'Chats' %></li>
+  <li><%= link_to 'Chats', chat_details_path %></li>
   <li><%= link_to 'Log Out', destroy_support_session_path, :method => 'delete' %></li>
 <% else  %>
   <li><%= link_to 'Sign Up', new_support_registration_path %></li>

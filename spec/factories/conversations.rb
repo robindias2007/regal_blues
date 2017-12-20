@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :conversation do
-    support_chat nil
+    support_chat "value"
     message "MyText"
     attachment "MyText"
   end

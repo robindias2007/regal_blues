@@ -17,13 +17,15 @@ class SupportChatChannel < ApplicationCable::Channel
   # This receives the data even the method name tells something else.
   def send_convo(_chat_params)
     connect_to_support
-    # support_chat = SupportChat.find_by(designer: current_user)
-    # convo = support_chat.conversations.build(chat_params)
-    # if convo.save
-    #   send_convo(convo)
-    # else
-    #   broadcast_error_to_sender(convo)
-    # end
+    support_chat = SupportChat.find_by(designer: current_user)
+    logger.add_tags support_chat
+    convo = support_chat.conversations.build(chat_params)
+    
+    if convo.save
+      send_convo(convo)
+    else
+      broadcast_error_to_sender(convo)
+    end
   end
 
   def connect_to_support

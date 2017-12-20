@@ -25,7 +25,9 @@ Rails.application.routes.draw do
         resources :orders, only: %i[index show], as: :support_orders
       end
     end
-  
+
+  get '/chat_details' => 'support/chats#chat_details'
+
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
   #   scope module: :support do

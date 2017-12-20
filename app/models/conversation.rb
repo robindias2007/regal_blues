@@ -4,6 +4,8 @@ class Conversation < ApplicationRecord
   belongs_to :sender, polymorphic: true, autosave: true, dependent: :destroy # Sender
   belongs_to :receiver, polymorphic: true, autosave: true, dependent: :destroy # Receiver
 
+  belongs_to :support_chat 
+  
   validate :either_message_or_attachment
 
   mount_base64_uploader :attachment, ImageUploader
