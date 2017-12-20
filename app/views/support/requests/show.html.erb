@@ -80,6 +80,7 @@
               <% end %>
             <% end %>
             <td colspan="1" class="center"><%= off.created_at.strftime('%d %B %Y') %></td>
+            <%= image_tag @reqest.request_image.image_url , size:"50x50" %>
           <% end %>
         </tr>
       </tbody>
