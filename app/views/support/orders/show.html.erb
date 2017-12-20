@@ -46,10 +46,10 @@
             <b><%= @order.order_measurement.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b>
           </p>
         <% end %>
-        <p class="card-stats-title">Images:
-          <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
-            <%= image_tag req_image.image_url rescue nil %>
-          <% end %>
+        
+        <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
+          <p class="card-stats-title">Images:<%= image_tag req_image.image_url rescue nil %></p>
+        <% end %>
         </p>
       </div>
     </div>

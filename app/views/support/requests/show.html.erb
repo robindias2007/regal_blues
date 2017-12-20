@@ -84,15 +84,16 @@
         </tr>
       </tbody>
     </table>
-
-    <% @request.request_images.each do |request_image| %>
-      <div class="col s6 m4 l3">
-        <%= image_tag request_image.image_url size:"50x50" %>
-      </div>
-    <% end %>
-
   </div>
 
 <% else %>
   <h5>No offers yet</h5>
 <% end %>
+
+<div class="row">
+  <% @request.request_images.each do |request_image| %>
+    <div class="col s6 m4 l3">
+      <%= image_tag request_image.image_url, size:"50x50" %>
+    </div>
+  <% end %>
+</div>
