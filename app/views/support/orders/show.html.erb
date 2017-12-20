@@ -48,7 +48,7 @@
         <% end %>
         
         <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
-          <p class="card-stats-title">Images:<%= image_tag req_image.image_url rescue nil %></p>
+          <p class="card-stats-title">Images:<%= image_tag req_image.image_url, size:"100x100" %></p>
         <% end %>
         </p>
       </div>
