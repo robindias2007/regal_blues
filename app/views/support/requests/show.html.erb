@@ -54,16 +54,17 @@
     <table class="highlight">
       <thead>        
         <tr>
-          <th colspan="1" class="center">Designer Name</th>
-          <th colspan="1" class="center">Quotes</th>
+          
+          <th colspan="1" class="left">Designer Name</th>
+          <th colspan="1" class="right">Quotes</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <% @request.offers.each do |off| %>
             <% Designer.where(id:off.designer_id).each do |des_name| %>
-              <td colspan="1" class="center"><%= des_name.full_name  %></td>
-              <td colspan="1" class="center"><%= link_to 'Quotes', quoation_path(@request)  %></td>
+              <td colspan="1" class="left"><%= des_name.full_name  %></td>
+              <td colspan="1" class="right"><%= link_to OfferQuotation.where(offer_id:off).count, quoation_path(@request)  %></td>
             <% end %>
           <% end %>
         </tr>
