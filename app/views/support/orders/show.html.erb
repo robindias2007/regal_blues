@@ -47,7 +47,7 @@
           </p>
         <% end %>
 
-        Request Image
+        <b>Request Image:</b>
         <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
           <p class="card-stats-title">
             <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
@@ -55,7 +55,7 @@
         <% end %>
         </p>
         <% if OrderOption.where(order_id:@order).present? %>
-          User Selected Option
+          <b>User Selected: </b>
         <% end %>
         <p class="card-stats-title">
           <% OrderOption.where(order_id:@order).each do |p| %>  
