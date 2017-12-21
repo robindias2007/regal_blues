@@ -46,77 +46,26 @@
 </div>
 
 
-<% if (@request.offers.size > 0) %>
-
-  <!-- Offers List -->
-  <div class="row">
-    <h5 class="center">Offers</h5>
-    <% @request.offers.each do |off| %>
-    <table class="highlight">
-      <thead>
-        <% if ((OfferQuotation.where(offer_id:off).count) || (OfferMeasurement.where(offer_quotation_id:offquo).count) || (OfferQuotationGallery.where(offer_quotation_id:offquo).count))  == 1 %>
-          <tr>
-            <th colspan="1" class="center">Price</th>
-            <th colspan="1" class="center">Description</th>
-            <th colspan="1" class="center">Designer Note</th>
-            <th colspan="1" class="center">Measurements</th>
-            <th colspan="1" class="center">Gallery Name</th>
-          </tr>
-        <% elsif ((OfferQuotation.where(offer_id:off).count) || (OfferMeasurement.where(offer_quotation_id:offquo).count) || (OfferQuotationGallery.where(offer_quotation_id:offquo).count))  == 2 %>
-          <tr>
-            <th colspan="1" class="center">Price</th>
-            <th colspan="1" class="center">Description</th>
-            <th colspan="1" class="center">Designer Note</th>
-            <th colspan="1" class="center">Measurements</th>
-            <th colspan="1" class="center">Gallery Name</th>
-            <div class="row">
-              <th colspan="1" class="center">Quote 2 Price</th>
-              <th colspan="1" class="center">Quote 2 Description</th>
-              <th colspan="1" class="center">Quote 2 Designer Note</th>
-              <th colspan="1" class="center">Quote 2 Measurements</th>
-              <th colspan="1" class="center">Quote 2 Gallery Name</th>
-            </div>
-          </tr>
-        <% else %>
-          <tr>
-            <th colspan="1" class="center">Price</th>
-            <th colspan="1" class="center">Description</th>
-            <th colspan="1" class="center">Designer Note</th>
-            <th colspan="1" class="center">Measurements</th>
-            <th colspan="1" class="center">Gallery Name</th>
-            <div class="row">
-              <th colspan="1" class="center">Quote 2 Price</th>
-              <th colspan="1" class="center">Quote 2 Description</th>
-              <th colspan="1" class="center">Quote 2 Designer Note</th>
-              <th colspan="1" class="center">Quote 2 Measurements</th>
-              <th colspan="1" class="center">Quote 2 Gallery Name</th>
-            </div>
-            <div class="row">
-              <th colspan="1" class="center">Quote 3 Price</th>
-              <th colspan="1" class="center">Quote 3 Description</th>
-              <th colspan="1" class="center">Quote 3 Designer Note</th>
-              <th colspan="1" class="center">Quote 3 Measurements</th>
-              <th colspan="1" class="center">Quote 3 Gallery Name</th>
-            </div>
-          </tr>
+<% @request.offers.each do |off| %>
+  <% Designer.where(id:off.designer_id) do |d| %>
+    <%= d.full_name %>
+  <% end %>
+  <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
+    <div class="card">
+      <%= offquo.price %>
+      <%= offquo.description %>
+      <%= offquo.designer_note %>
+      <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
+        <%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></td>
+      <% end %>
+      <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
+        <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
+          <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
         <% end %>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="1" class="center"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-<% else %>
-  <h5>No offers yet</h5>
+      <% end %>
+    </div>  
+  <% end %>
 <% end %>
 
-<div class="row">
-  <% @request.request_images.each do |request_image| %>
-    <div class="col s6 m4 l3">
-      <a data-fancybox="gallery" href="<%= request_image.image_url %>"><img src="<%= request_image.image_url %>" id="thumb"></a>
-    </div>
-  <% end %>
-</div>
+
+
