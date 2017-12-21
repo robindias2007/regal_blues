@@ -54,13 +54,13 @@
         <% end %>
         </p>
 
-        <% @order.offer_quotation.offer_quotation_galleries.each do |f| %>
-          <% Image.where(imageable_id:f).each do |gallery_image| %>
-            <p class="card-stats-title">
+        <p class="card-stats-title">
+          <% @order.offer_quotation.offer_quotation_galleries.each do |f| %>
+            <% Image.where(imageable_id:f).each do |gallery_image| %>            
               <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
-            </p>
-          <% end %>  
-        <% end %>
+            <% end %>  
+          <% end %>
+        </p>
       </div>
     </div>
   </div>
