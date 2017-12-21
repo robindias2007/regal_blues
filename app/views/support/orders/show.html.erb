@@ -46,14 +46,17 @@
             <b><%= @order.order_measurement.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b>
           </p>
         <% end %>
-        
+
+        Request Image
         <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
-          <p class="card-stats-title">Images:
+          <p class="card-stats-title">
             <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
           </p>
         <% end %>
         </p>
-
+        <% if OrderOption.where(order_id:@order).present? %>
+          User Selected Option
+        <% end %>
         <p class="card-stats-title">
           <% OrderOption.where(order_id:@order).each do |p| %>  
             <a data-fancybox="gallery" href="<%= p.image.image_url rescue nil %>"><img src="<%= p.image.image_url rescue nil %>" id="thumb"></a>
