@@ -20,4 +20,8 @@ class Support::RequestsController < ApplicationController
     request.update!(status: :unapproved)
     render json: { message: 'Request unapproved' }, status: 200
   end
+
+  def show_request_quo
+    @request = Request.find(params[:id])
+  end
 end

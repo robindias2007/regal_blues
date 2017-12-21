@@ -46,28 +46,31 @@
 </div>
 
 
-<% @request.offers.each do |off| %>
-  <% Designer.where(id:off.designer_id).each do |des_name| %>
-    <%= des_name.full_name  %>
-    <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
-      <div class="card">
-        <%= offquo.price %>
-        <%= offquo.description %>
-        <%= offquo.designer_note %>
-        <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
-          <%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></td>
-        <% end %>
-        <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
-          <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
-            <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
-            <%= gallery_image.description %>
-            <%= gallery_image.serial_number %>
+
+<% if (@request.offers.size > 0) %>
+
+  <div class="row">
+    <h5 class="center">Offers</h5>
+    <table class="highlight">
+      <thead>        
+        <tr>
+          <th colspan="1" class="center">Designer Name</th>
+          <th colspan="1" class="center">Quotes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% @request.offers.each do |off| %>
+            <% Designer.where(id:off.designer_id).each do |des_name| %>
+              <td colspan="1" class="center"><%= des_name.full_name  %></td>
+              <td colspan="1" class="center"><%= link_to 'Quotes', quoation_path(@request)  %></td>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>  
-    <% end %>
-  <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<% else %>
+  <h5>No offers yet</h5>
 <% end %>
-
-
-
