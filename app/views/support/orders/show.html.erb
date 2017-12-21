@@ -58,10 +58,16 @@
           <% @order.offer_quotation.offer_quotation_galleries.each do |f| %>
             <% Image.where(imageable_id:f).each do |gallery_image| %>            
               <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
-            <% end %>  
+            <% end %>
           <% end %>
         </p>
+
       </div>
     </div>
   </div>
 </div>
+
+
+<% OrderOption.where(order_id:@order).each do |p| %>  
+  <a data-fancybox="gallery" href="<%= p.image.image_url rescue nil %>"><img src="<%= p.image.image_url rescue nil %>" id="thumb"></a>
+<% end %>
