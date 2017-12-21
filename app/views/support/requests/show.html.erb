@@ -47,23 +47,25 @@
 
 
 <% @request.offers.each do |off| %>
-  <% Designer.where(id:off.designer_id) do |d| %>
-    <%= d.full_name %>
-  <% end %>
-  <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
-    <div class="card">
-      <%= offquo.price %>
-      <%= offquo.description %>
-      <%= offquo.designer_note %>
-      <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
-        <%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></td>
-      <% end %>
-      <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
-        <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
-          <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+  <% Designer.where(id:off.designer_id).each do |des_name| %>
+    <%= des_name.full_name  %>
+    <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
+      <div class="card">
+        <%= offquo.price %>
+        <%= offquo.description %>
+        <%= offquo.designer_note %>
+        <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
+          <%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></td>
         <% end %>
-      <% end %>
-    </div>  
+        <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
+          <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
+            <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+            <%= gallery_image.description %>
+            <%= gallery_image.serial_number %>
+          <% end %>
+        <% end %>
+      </div>  
+    <% end %>
   <% end %>
 <% end %>
 
