@@ -2,6 +2,7 @@
 
 class Conversation < ApplicationRecord
 	has_many :messages, dependent: :destroy
+  belongs_to :sender, :foreign_key => :sender_id, class_name: 'User'
   #belongs_to :sender, polymorphic: true, autosave: true, dependent: :destroy # Sender
   #belongs_to :receiver, polymorphic: true, autosave: true, dependent: :destroy # Receiver
 
