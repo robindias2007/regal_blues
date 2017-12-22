@@ -1,12 +1,12 @@
 <div class="vertical-spacer-5"></div>
 
-<div class="row">
+<!-- <div class="row">
   <% @request.request_images.each do |request_image| %>
     <div class="col s6 m4 l3">
-      <%= image_tag request_image.image.url %>
+      <%= image_tag request_image.image_url rescue nil %>
     </div>
   <% end %>
-</div>
+</div> -->
 
 <div class="row">
   <div class="col s12">
@@ -44,3 +44,36 @@
     </div>
   </div>
 </div>
+
+
+
+<% if (@request.offers.size > 0) %>
+
+  <div class="row">
+    <h5 class="center">Offers</h5>
+    <table class="highlight">
+      <thead>        
+        <tr>
+          
+          <th colspan="4" class="center">Designer Name</th>
+          <th colspan="1" class="center">Quotes</th>
+          <th colspan="1" class="center">Chat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% @request.offers.each do |off| %>
+            <% Designer.where(id:off.designer_id).each do |des_name| %>
+              <td colspan="4" class="center"><%= des_name.full_name  %></td>
+              <td colspan="1" class="center"><%= link_to OfferQuotation.where(offer_id:off).count, quoation_path(@request)  %></td>
+            <% end %>
+          <% end %>
+          <td colspan="1" class="center">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<% else %>
+  <h5>No offers yet</h5>
+<% end %>

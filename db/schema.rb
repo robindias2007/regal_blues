@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20171211121848) do
   end
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "support_chat_id"
     t.text "message"
     t.string "attachment"
     t.datetime "created_at", null: false
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 20171211121848) do
     t.uuid "receiver_id"
     t.index ["receiver_type", "receiver_id"], name: "index_conversations_on_receiver_type_and_receiver_id"
     t.index ["sender_type", "sender_id"], name: "index_conversations_on_sender_type_and_sender_id"
+    t.index ["support_chat_id"], name: "index_conversations_on_support_chat_id"
   end
 
   create_table "designer_categorizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -398,8 +400,15 @@ ActiveRecord::Schema.define(version: 20171211121848) do
   end
 
   create_table "support_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "support_id"
+    t.uuid "user_id"
+    t.uuid "designer_id"
+    t.boolean "responding"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["designer_id"], name: "index_support_chats_on_designer_id"
+    t.index ["support_id"], name: "index_support_chats_on_support_id"
+    t.index ["user_id"], name: "index_support_chats_on_user_id"
   end
 
   create_table "supports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -485,6 +494,7 @@ ActiveRecord::Schema.define(version: 20171211121848) do
 
   add_foreign_key "addresses", "users"
   add_foreign_key "categories", "super_categories"
+  add_foreign_key "conversations", "support_chats"
   add_foreign_key "designer_categorizations", "designers"
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"

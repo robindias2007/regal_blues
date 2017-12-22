@@ -1,0 +1,38 @@
+
+<% @request.offers.each do |off| %>
+	<% OfferQuotation.where(offer_id:off).each do |offquo| %> 
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<div class="row">
+							<div class="col s6" style="text-align:right;"><h5>Quote Details</h5></div>
+							<div class="col s6" style="text-align:right;"><h5>Chat:0 </h5></div>
+						</div>
+						<p class="card-stats-title">Price:
+							<b><%= offquo.price %></b>
+						</p>
+						<p class="card-stats-title">Description:
+							<b><%= offquo.description %></b>
+						</p>
+						<p class="card-stats-title">Designer Note:
+							<b><%= offquo.designer_note %></b>
+						</p>
+						<p class="card-stats-title">Offer Measurement:
+						  	<% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
+						  		<b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b>
+						  	<% end %>
+						</p>
+						<% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
+						  	<p class="card-stats-title">
+						  		<% Image.where(imageable_id:offgall).each do |gallery_image| %>            
+						      		<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+						  		<% end %>
+						  	</p>
+						<% end %>
+						</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% end %>

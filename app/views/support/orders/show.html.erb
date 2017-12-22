@@ -1,0 +1,71 @@
+<!-- Orders Information -->
+<br>
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <h5 class="card-stats-number center"><%=@order.offer_quotation.offer.request.name %></h5>
+        <p class="card-stats-title">Order ID:
+          <b><%= @order.id %></b>
+        </p>
+        <p class="card-stats-title">Order Username:
+          <b><%= @order.user.username %></b>
+        </p>
+        <p class="card-stats-title">Status:
+          <b><%= @order.status.humanize %></b>
+        </p>
+        <p class="card-stats-title">Request Name:
+          <b><%= @order.offer_quotation.offer.request.name %></b>
+        </p>
+        <p class="card-stats-title">Request Size:
+          <b><%= @order.offer_quotation.offer.request.size %></b>
+        </p>
+        <p class="card-stats-title">Request Timeline:
+          <b><%= @order.offer_quotation.offer.request.timeline %></b>
+        </p>
+        <p class="card-stats-title">Request Budget:
+          <b><%= @order.offer_quotation.offer.request.max_budget %></b>
+        </p>
+        <p class="card-stats-title">Designer Name:
+          <b><%= @order.designer.full_name %></b>
+        </p>
+        <p class="card-stats-title">Designer Email:
+          <b><%= @order.designer.email %></b>
+        </p>
+        <p class="card-stats-title">Designer Mobile:
+          <b><%= @order.designer.mobile_number %></b>
+        </p>
+        <p class="card-stats-title">Designers Store:
+          <b><%= @order.designer.designer_store_info.display_name %></b>
+        </p>
+        <p class="card-stats-title">Order Created:
+          <b><%= @order.created_at.strftime('%d %B %Y') %></b>
+        </p>
+        <% if @order.order_measurement.present? %>
+          <p class="card-stats-title">Order Measurement:
+            <b><%= @order.order_measurement.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b>
+          </p>
+        <% end %>
+
+        <b>Request Image:</b>
+        <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
+          <p class="card-stats-title">
+            <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
+          </p>
+        <% end %>
+        </p>
+        <% if OrderOption.where(order_id:@order).present? %>
+          <b>User Selected: </b>
+        <% end %>
+        <p class="card-stats-title">
+          <% OrderOption.where(order_id:@order).each do |p| %>  
+            <a data-fancybox="gallery" href="<%= p.image.image_url rescue nil %>"><img src="<%= p.image.image_url rescue nil %>" id="thumb"></a>
+          <% end %>
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

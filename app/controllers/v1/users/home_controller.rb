@@ -62,8 +62,8 @@ class V1::Users::HomeController < V1::Users::BaseController
     ActiveModelSerializers::SerializableResource.new(recos, recc_options)
   end
 
-  # def order_resource(orders)
-  #   order_options = { each_serializer: V1::Users::OrdersSerializer }
-  #   ActiveModelSerializers::SerializableResource.new(orders, order_options)
-  # end
+  def order_resource(orders)
+    order_options = { each_serializer: V1::Users::OrdersSerializer }
+    ActiveModelSerializers::SerializableResource.new(orders, order_options)
+  end
 end

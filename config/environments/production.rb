@@ -36,11 +36,11 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
-  config.action_cable.url = 'ws://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com/cable'
-  config.action_cable.allowed_request_origins = ['http://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com',
-                                                 'https://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com',
-                                                 'ws://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com',
-                                                 'wss://custumiseapi-env.gpmw6833qc.ap-south-1.elasticbeanstalk.com']
+  # config.action_cable.url = 'ws://limitless-brook-27912.herokuapp.com/cable'
+  # config.action_cable.allowed_request_origins = ['http://limitless-brook-27912.herokuapp.com',
+  #                                                'https://limitless-brook-27912.herokuapp.com',
+  #                                                'ws://limitless-brook-27912.herokuapp.com',
+  #                                                'wss://limitless-brook-27912.herokuapp.com']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   #config.force_ssl = true

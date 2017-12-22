@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <h5 class="card-stats-number center">Designer Details</h5>
+        <p class="card-stats-title">Designer ID:
+          <b><%= @designer.id rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Full Name:
+          <b><%= @designer.full_name rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Email:
+          <b><%= @designer.email rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Mobile:
+          <b><%= @designer.mobile_number rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Location:
+          <b><%= @designer.location rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Bio:
+          <b><%= @designer.bio rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Store Name:
+          <b><%= @designer.designer_store_info.display_name rescue nil %></b>
+        </p>
+        <p class="card-stats-title">City / State / Country:
+          <b><%= @designer.designer_store_info.city rescue nil %><%= @designer.designer_store_info.state rescue nil %>/ <%= @designer.designer_store_info.country rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Number of Products:
+          <b><%= @designer.products.size rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Total Request Count:
+          <b><%= @designer.requests.size rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Total Orders:
+          <b><%= @designer.orders.size rescue nil %></b>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
