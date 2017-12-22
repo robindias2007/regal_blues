@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171211121848) do
+ActiveRecord::Schema.define(version: 20171222065049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,16 +44,12 @@ ActiveRecord::Schema.define(version: 20171211121848) do
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "support_chat_id"
-    t.text "message"
-    t.string "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "sender_type"
     t.uuid "sender_id"
     t.string "receiver_type"
     t.uuid "receiver_id"
     t.index ["receiver_type", "receiver_id"], name: "index_conversations_on_receiver_type_and_receiver_id"
-    t.index ["sender_type", "sender_id"], name: "index_conversations_on_sender_type_and_sender_id"
     t.index ["support_chat_id"], name: "index_conversations_on_support_chat_id"
   end
 
@@ -164,6 +160,14 @@ ActiveRecord::Schema.define(version: 20171211121848) do
     t.boolean "disabled", default: false, null: false
     t.boolean "new", default: false, null: false
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
+  end
+
+  create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "body"
+    t.string "attachment"
+    t.text "conversation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "offer_measurements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -437,6 +441,12 @@ ActiveRecord::Schema.define(version: 20171211121848) do
     t.index ["email"], name: "index_supports_on_email", unique: true
     t.index ["reset_password_token"], name: "index_supports_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_supports_on_unlock_token", unique: true
+  end
+
+  create_table "user_chat_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_favorite_designers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
