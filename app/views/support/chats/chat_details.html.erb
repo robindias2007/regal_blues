@@ -1,3 +1,106 @@
-<% @chats.each do |f| %>
-  <%= f.id %>
-<% end %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			.container {
+			    border: 2px solid #dedede;
+			    background-color: #f1f1f1;
+			    border-radius: 5px;
+			    padding: 10px;
+			    width: 100%;
+			}	
+
+			.darker {
+			    border-color: #ccc;
+			    background-color: #ddd;
+			}
+
+			.container img {
+			    float: left;
+			    max-width: 60px;
+			    width: 100%;
+			    margin-right: 20px;
+			    border-radius: 50%;
+			}
+
+			.container img.right {
+			    float: right;
+			    margin-left: 20px;
+			    margin-right:0;
+			}
+
+			.time-right {
+			    float: right;
+			    color: #aaa;
+			    margin-top: -10px;
+			}
+
+			.time-left {
+			    float: left;
+			    color: #999;
+			    margin-top: -10px;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
+      <li class="bold"><a href="#" class="waves-effect waves-teal"><h5>Custumise Chat</h5></a></li>
+      <br><br>
+      <li class="bold"><a href="#" class="waves-effect waves-teal">General</a></li>
+      <li class="bold"><a href="#" class="waves-effect waves-teal">Users</a></li>
+      <li class="bold"><a href="#" class="waves-effect waves-teal">Designers</a></li>
+      <li class="bold"><a href="#" class="waves-effect waves-teal">Requests</a></li>
+      <li class="bold"><a href="#" class="waves-effect waves-teal">Offers</a></li>
+  	</ul>
+  	<div class="row">
+  		<div class="col s3"></div>
+  		<div class="col s9"><h5>CHAT MESSAGES</h5></div>
+  	</div>
+  	<div class="row">
+      <div class="col s3"></div>
+      <div class="col s9">
+				<div class="container">
+				<i class="material-icons">account_circle</i>
+				<p>Hello. How are you today?</p>
+				<span class="time-right">11:00</span>
+				</div>
+				<br>
+				<div class="container darker">
+				<i class="material-icons right">account_circle</i>
+				<p>Hey! I'm fine. Thanks for asking!</p>
+				<span class="time-left">11:01</span>
+				</div>
+				<br>
+				<div class="container">
+				<i class="material-icons">account_circle</i>
+				<p>Sweet! So, what do you wanna do today?</p>
+				<span class="time-right">11:02</span>
+				</div>
+				<br>
+				<div class="container darker">
+				<i class="material-icons right">account_circle</i>
+				<p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+				<span class="time-left">11:05</span>
+				</div>
+				<br><br>
+      </div>
+    </div>
+    <div class="row">
+    	<div class="col s3"></div>
+    	<div class="col s9">
+    		<textarea rows="4" cols="100"></textarea>
+    	</div>	
+    </div>
+          
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
