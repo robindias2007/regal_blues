@@ -128,7 +128,7 @@ Rails.application.routes.draw do
       #   end
       # end
 
-      resources :conversations, only: %i[create show destroy] do
+      resources :conversations, only: %i[index create show destroy] do
         collection do
           get :chat_type
         end
