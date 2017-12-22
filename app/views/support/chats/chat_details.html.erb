@@ -2,6 +2,12 @@
 <html>
 	<head>
 		<style type="text/css">
+
+			body
+			{
+				background-color: #f1f1f1;
+			}
+
 			.container {
 			    border: 2px solid #dedede;
 			    background-color: #f1f1f1;
@@ -44,6 +50,10 @@
 		
 	</head>
 	<body>
+		<div class="row" style="position:fixed">
+  		<div class="col s3"></div>
+  		<div class="col s9"><h5>CHAT MESSAGES</h5></div>
+  	</div>
 		<ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
       <li class="bold"><a href="#" class="waves-effect waves-teal"><h5>Custumise Chat</h5></a></li>
       <br><br>
@@ -53,10 +63,7 @@
       <li class="bold"><a href="#" class="waves-effect waves-teal">Requests</a></li>
       <li class="bold"><a href="#" class="waves-effect waves-teal">Offers</a></li>
   	</ul>
-  	<div class="row">
-  		<div class="col s3"></div>
-  		<div class="col s9"><h5>CHAT MESSAGES</h5></div>
-  	</div>
+  	
   	<div class="row">
       <div class="col s3"></div>
       <div class="col s9">
@@ -88,9 +95,12 @@
     </div>
     <div class="row">
     	<div class="col s3"></div>
-    	<div class="col s9">
-    		<textarea rows="4" cols="100"></textarea>
+    	<div class="col s7">
+    		<textarea rows="3" cols="100"></textarea>
     	</div>	
+    	<div class="col s2">
+    		<a class="waves-effect waves-light btn" style="width: 100%">Send Message</a>
+    	</div>
     </div>
           
 	</body>
