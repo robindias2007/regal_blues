@@ -1,0 +1,2 @@
+class UserChatType < ApplicationRecord
+end
