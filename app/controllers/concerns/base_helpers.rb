@@ -20,6 +20,13 @@ module BaseHelpers
       render json: { errors: ['Unauthorized'] }, status: 401 unless logged_in?
     end
 
+    def current_user
+      user_id = request.headers['HTTP_USER_ID'].presence
+      if user_id
+        @current_user ||= User.find(user_id)
+      end
+    end
+
     private
 
     def resource_class
