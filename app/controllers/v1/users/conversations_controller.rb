@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class V1::Users::ConversationsController < V1::Users::BaseController
+
+  def index
+    conversations = Conversation.all
+    if conversations.present?
+      render json: {conversation: conversations}, status: 201
+    else
+      render json: { errors: conversations.errors }, status: 400
+    end
+  end
+
   def create
     conversation = Conversation.new(conversation_params)
     if conversation.save
@@ -8,10 +18,6 @@ class V1::Users::ConversationsController < V1::Users::BaseController
     else
       render json: { errors: conversation.errors }, status: 400
     end
-  end
-
-  def show
-    
   end
 
   def chat_type
