@@ -5,7 +5,7 @@ class V1::Users::ConversationsController < V1::Users::BaseController
   def index
     conversations = current_user.conversations
     if conversations.present?
-      render json: {conversation: {order_level: conversations.where(receiver_type: "order_level"), support_on_general: conversations.where(receiver_type: "support_on_general"), request: conversations.where(receiver_type: "request"), offers: conversations.where(receiver_type: "request")}}, status: 201
+      render json: {conversation: {order_level: conversations.where(receiver_type: "order_level"), support_on_general: conversations.where(receiver_type: "support_on_general"), request: conversations.where(receiver_type: "request"), offers: conversations.where(receiver_type: "offers")}}, status: 201
     else
       render json: { errors: conversations.errors }, status: 400
     end
