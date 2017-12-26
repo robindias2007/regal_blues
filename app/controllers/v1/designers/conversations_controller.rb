@@ -12,7 +12,7 @@ class V1::Designers::ConversationsController < V1::Designers::BaseController
   end
 
   def create
-    conversation = Conversation.new(conversation_params)
+    conversation = current_designer.conversations.new(conversation_params)
     if conversation.save
       render json: {conversation: conversation}, status: 201
     else
@@ -34,5 +34,5 @@ class V1::Designers::ConversationsController < V1::Designers::BaseController
   def conversation_params
     params.require(:conversation).permit(:receiver_id, :receiver_type, :sender_id)
   end
-  
+
 end

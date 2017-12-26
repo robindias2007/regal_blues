@@ -2,15 +2,17 @@
 
 class Conversation < ApplicationRecord
 	has_many :messages, dependent: :destroy
-  belongs_to :sender, :foreign_key => :sender_id, class_name: 'User'
-  belongs_to :sender, :foreign_key => :sender_id, class_name: 'Designer'
+  belongs_to :conversationable, polymorphic: true
+
+  # belongs_to :sender, :foreign_key => :sender_id, class_name: 'User'
+  # belongs_to :sender, :foreign_key => :sender_id, class_name: 'Designer'
   #belongs_to :sender, polymorphic: true, autosave: true, dependent: :destroy # Sender
   #belongs_to :receiver, polymorphic: true, autosave: true, dependent: :destroy # Receiver
 
   # validate :either_message_or_attachment
-  validates :sender_id, :receiver_id, :receiver_type, presence: true
+  validates :receiver_id, :receiver_type, presence: true
   
-  validates_uniqueness_of :sender_id, :scope => :receiver_id
+  # validates_uniqueness_of :sender_id, :scope => :receiver_id
 
   scope :involving, -> (user) do
     where("conversations.sender_id =? OR conversations.receiver_id =?",user.id,user.id)

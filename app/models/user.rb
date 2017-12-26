@@ -22,7 +22,7 @@ class User < ApplicationRecord
   has_many :products, through: :user_favorite_products, dependent: :destroy
   has_many :designers, through: :user_favorite_designers, dependent: :destroy
 
-  has_many :conversations, :foreign_key => :sender_id
+  has_many :conversations, as: :conversationable
 
   validates :full_name, :username, :email, :gender, :mobile_number, presence: true
   validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }

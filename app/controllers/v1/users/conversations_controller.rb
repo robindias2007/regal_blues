@@ -12,7 +12,7 @@ class V1::Users::ConversationsController < V1::Users::BaseController
   end
 
   def create
-    conversation = Conversation.new(conversation_params)
+    current_user.conversation.new(conversation_params)
     if conversation.save
       render json: {conversation: conversation}, status: 201
     else
