@@ -1,0 +1,2 @@
+class DesignerChatType < ApplicationRecord
+end

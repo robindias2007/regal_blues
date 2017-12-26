@@ -213,9 +213,18 @@ Rails.application.routes.draw do
 
       patch '/orders/:id/galleries/:gallery_id/images/:image_id', to: 'orders#disable_gallery_image'
 
-      resources :support_chats, only: %i[create index] do
+      # resources :support_chats, only: %i[create index] do
+      #   member do
+      #     resources :conversations, only: %i[create]
+      #   end
+      # end
+
+      resources :conversations, only: %i[index create show destroy] do
+        collection do
+          get :chat_type
+        end
         member do
-          resources :conversations, only: %i[create]
+          resources :messages, only: %i[index create]
         end
       end
 

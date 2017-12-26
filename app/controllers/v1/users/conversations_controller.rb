@@ -31,10 +31,6 @@ class V1::Users::ConversationsController < V1::Users::BaseController
 
   private
 
-  # def conversation_params
-  #   params.require(:conversation).permit(:message, :attachment)
-  # end
-
   def conversation_params
     params.require(:conversation).permit(:receiver_id, :receiver_type, :sender_id)
   end

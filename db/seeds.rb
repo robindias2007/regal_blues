@@ -13,6 +13,10 @@ UserChatType.find_or_create_by(name: 'request')
 UserChatType.find_or_create_by(name: 'offers')
 UserChatType.find_or_create_by(name: 'order_level')
 
+DesignerChatType.find_or_create_by(name: 'support_on_request')
+DesignerChatType.find_or_create_by(name: 'offers')
+DesignerChatType.find_or_create_by(name: 'order_level')
+
 # }, {name: 'request'}, {name: 'offers'}, {name: 'order_level'}])
 
 

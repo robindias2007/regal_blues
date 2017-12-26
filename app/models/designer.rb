@@ -21,6 +21,8 @@ class Designer < ApplicationRecord
   has_many :sent_conversations, as: :sender, dependent: :destroy, class_name: 'Conversation'
   has_many :received_conversations, as: :receiver, dependent: :destroy, class_name: 'Conversation'
 
+  has_many :conversations, :foreign_key => :sender_id
+
   validates :full_name, :email, :mobile_number, :location, presence: true
   validates :email, :mobile_number, uniqueness: { case_sensitive: false }
 
