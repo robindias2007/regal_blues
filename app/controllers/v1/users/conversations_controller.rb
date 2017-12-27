@@ -21,7 +21,9 @@ class V1::Users::ConversationsController < V1::Users::BaseController
   end
 
   def chat_type
-    user_chat_type = UserChatType.all
+    offers = request_conditional_offers.order(created_at: :desc).limit(20)
+    user_chat_type = {support_general: UserChatType.support_json, requests: current_user.requests, orders: current_user.orders, offers: UserChatType.as_json(offers)}
+    
     if user_chat_type.present?
       render json: {user_chat_type: user_chat_type}, status: 201
     else
@@ -33,5 +35,13 @@ class V1::Users::ConversationsController < V1::Users::BaseController
 
   def conversation_params
     params.require(:conversation).permit(:receiver_id, :receiver_type, :sender_id)
+  end
+
+  def request_conditional_offers
+    if params[:request_id].present?
+      Offer.find_for_user_and_request(current_user, params[:request_id])
+    else
+      Offer.find_for_user(current_user)
+    end
   end
 end
