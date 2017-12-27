@@ -6,6 +6,7 @@ class Support < ApplicationRecord
   #                   uniqueness: { case_sensitive: false }
   # validates :mobile_number, uniqueness: true, allow_nil: true, length: { in: 10..14 }
 
+  has_many :conversations, as: :conversationable
   has_many :support_chats, dependent: :destroy
   has_many :sent_conversations, as: :sender, dependent: :destroy, class_name: 'Conversation'
   has_many :received_conversations, as: :receiver, dependent: :destroy, class_name: 'Conversation'
