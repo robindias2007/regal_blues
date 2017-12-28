@@ -14,5 +14,8 @@ class Support < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable, :lockable,
     :recoverable, :rememberable, :trackable, :validatable
 
+  def self.as_json(options={})
+    Support.all.collect{|support| { id: support.id }}
+  end
 
 end
