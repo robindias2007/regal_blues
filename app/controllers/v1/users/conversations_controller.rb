@@ -31,25 +31,25 @@ class V1::Users::ConversationsController < V1::Users::BaseController
     end
   end
 
-  def chat_type_request
-    offers = request_conditional_offers.order(created_at: :desc).limit(20)
-    user_chat_type = {
-                    support_general: Support.as_json, 
-                    requests: current_user.requests.as_json(:only => [:id, :name, :max_budget], :include => {:sub_category => {:only => :name}} ), 
+  # def chat_type_request
+  #   offers = request_conditional_offers.order(created_at: :desc).limit(20)
+  #   user_chat_type = {
+  #                   support_general: Support.as_json, 
+  #                   requests: current_user.requests.as_json(:only => [:id, :name, :max_budget], :include => {:sub_category => {:only => :name}} ), 
                     
-                    orders: current_user.orders.as_json(:only => [:id], 
-                                                      :include => {:offer_quotation => {:id} =>
-                                                      {:include=> {:offer => 
-                                                      {:include => {:request => {:only => :name}}}}}),
-                    offers:   Offer.as_json(offers).as_json(:only => [:id, :request_id])
-                    }
+  #                   orders: current_user.orders.as_json(:only => [:id], 
+  #                                                     :include => {:offer_quotation => {:id} =>
+  #                                                     {:include=> {:offer => 
+  #                                                     {:include => {:request => {:only => :name}}}}}),
+  #                   offers:   Offer.as_json(offers).as_json(:only => [:id, :request_id])
+  #                   }
     
-    if user_chat_type.present?
-      render json: {user_chat_type: user_chat_type}, status: 201
-    else
-      render json: { errors: user_chat_type.errors }, status: 400
-    end
-  end
+  #   if user_chat_type.present?
+  #     render json: {user_chat_type: user_chat_type}, status: 201
+  #   else
+  #     render json: { errors: user_chat_type.errors }, status: 400
+  #   end
+  # end
 
   private
 

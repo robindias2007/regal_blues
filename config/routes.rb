@@ -148,7 +148,7 @@ Rails.application.routes.draw do
       resources :conversations, only: %i[index create show destroy] do
         collection do
           get :chat_type
-          get :chat_type_request
+          #get :chat_type_request
         end
         member do
           resources :messages, only: %i[index create]
@@ -240,7 +240,7 @@ Rails.application.routes.draw do
       resources :conversations, only: %i[index create show destroy] do
         collection do
           get :chat_type
-          get :chat_type_request
+          #get :chat_type_request
         end
         member do
           resources :messages, only: %i[index create]
