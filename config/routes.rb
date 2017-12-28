@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
       resources :conversations, only: %i[index create show destroy] do
         collection do
-          get :chat_type
+          post :chat_type
         end
         member do
           resources :messages, only: %i[index create]
