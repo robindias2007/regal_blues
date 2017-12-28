@@ -35,13 +35,14 @@ class V1::Users::ConversationsController < V1::Users::BaseController
     offers = request_conditional_offers.order(created_at: :desc).limit(20)
     user_chat_type = {
                     support_general: Support.as_json, 
-                    requests: current_user.requests.as_json(:only => [:id, :name, :max_budget, :sub_category_id], :include => {:sub_category => {:only => :name}} ), 
+                    requests: current_user.requests.as_json(:only => [:id, :name, :max_budget], :include => {:sub_category => {:only => :name}} ), 
                     
                     orders: current_user.orders.as_json(:only => [:id], 
                                                       :include => {:offer_quotation => 
                                                       {:include=> {:offer => 
                                                       {:include => {:request => {:only => :name}}}}}}),
-                    offers: Offer.as_json(:only => [:id, :request_id], :include => {:request => {:only => :timeline}}, :include => {:designer => {:only => :full_name}})(offers).as_json
+                    offers:   Offer.as_json(offers).as_json(:only => [:id, :request_id], :include => {:request => {:only => :timeline }},
+                                                           :include => {:designer => {:only => :full_name} } )
                     }
     
     if user_chat_type.present?
