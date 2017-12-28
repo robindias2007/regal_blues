@@ -41,7 +41,7 @@ class V1::Users::ConversationsController < V1::Users::BaseController
                                                       :include => {:offer_quotation => 
                                                       {:include=> {:offer => 
                                                       {:include => {:request => {:only => :name}}}}}}),
-                    offers: Offer.as_json(offers).as_json(:only => [:id, :request_id], :include => {:request => {:only => :timeline}}, :include => {:designer => {:only => :full_name}})
+                    offers: Offer.as_json(:only => [:id, :request_id], :include => {:request => {:only => :timeline}}, :include => {:designer => {:only => :full_name}})(offers).as_json
                     }
     
     if user_chat_type.present?
