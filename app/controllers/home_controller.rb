@@ -2,6 +2,6 @@
 
 class HomeController < ApplicationController
   def index
-    render json: { pavan_says: 'Hi!' }
+    render json: { custumise_says: 'Hi!' }
   end
 end
