@@ -42,7 +42,9 @@ class V1::Users::ConversationsController < V1::Users::BaseController
                     #                                   {:include=> {:offer => 
                     #                                   {:include => {:request => {:only => :name}}}}}}),
                     orders: current_user.orders.as_json(:only => [:id], 
-                                                      :include => {:request => {:only => :name}}), 
+                                                      :include => {:offer_quotation => {:only => :null} 
+                                                      {:include=> {:offer => {:only => :null}
+                                                      {:include => {:request => {:only => :name}}}}}}), 
                     offers: Offer.as_json(offers).as_json(:only => [:id, :request_id])
                     }
     
