@@ -5,6 +5,14 @@ class Support::RequestsController < ApplicationController
     @requests = Request.includes(:address, :request_designers, :offers, :sub_category).order(created_at: :desc).all
   end
 
+  def chat
+    @convo_id = Conversation.find(params[:id])
+    @message = Message.new()
+    # request_id = Request.find(params[:id]).id
+    # @convo_id = Request.find(request_id).user.conversations
+  end
+
+
   def show
     @request = Request.find(params[:id])
   end

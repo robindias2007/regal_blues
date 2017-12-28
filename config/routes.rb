@@ -27,8 +27,9 @@ Rails.application.routes.draw do
     end
 
   get '/quoation/:id' => 'support/requests#show_request_quo', as: :quoation
-
   get '/chat_details' => 'support/chats#chat_details'
+  get '/chat/:id' => 'support/requests#chat', as: :chat
+
 
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
