@@ -7,7 +7,9 @@
 					<div class="card-content">
 						<div class="row">
 							<div class="col s6" style="text-align:right;"><h5>Quote Details</h5></div>
-							<div class="col s6" style="text-align:right;"><h5>Chat:0 </h5></div>
+							<div class="col s6" style="text-align:right;">
+								<h5><%= link_to "Chat", chat_path(Conversation.where(receiver_id:offquo).first.id) rescue nil %></h5>
+							</div>
 						</div>
 						<p class="card-stats-title">Price:
 							<b><%= offquo.price %></b>

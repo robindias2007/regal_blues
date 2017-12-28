@@ -167,7 +167,7 @@
             <%= request.offers.size %>
           </td>
           <td colspan="1" class="center">
-            0
+            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:request).first.id) rescue nil %>
           </td>
 
         </tr>
@@ -215,7 +215,7 @@
             <%= order.offer_quotation.offer.request.address.formatted_address %>
           </td>
           <td colspan="1" class="center">
-            0
+            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order).first.id) rescue nil %>
           </td>
         </tr>
       <% end %>

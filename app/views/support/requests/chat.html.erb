@@ -66,55 +66,39 @@
   	<div class="row">
       <div class="col s3"></div>
       <div class="col s9">
-				<div class="container">
-				<i class="material-icons">account_circle</i>
-				<p>Hello. How are you today?</p>
-				<span class="time-right">11:00</span>
-				</div>
-				<br>
-				<div class="container darker">
-				<i class="material-icons right">account_circle</i>
-				<p>Hey! I'm fine. Thanks for asking!</p>
-				<span class="time-left">11:01</span>
-				</div>
-				<br>
-				<div class="container">
-				<i class="material-icons">account_circle</i>
-				<p>What plans for today?</p>
-				<span class="time-right">11:02</span>
-				</div>
-				<br>
-				<div class="container darker">
-				<i class="material-icons right">account_circle</i>
-				<p>Play soccer or learn more coding mayb</p>
-				<span class="time-left">11:05</span>
-				</div>
-				<br><br>
+				<% Conversation.find(@convo_id.id).messages.each do |f| %>
+					<div class="container">
+						<p><%= f.body %></p>
+						<span class="time-right"><%= f.created_at.strftime('%d %b %Y') %></span>
+					</div>
+					<br><br>
+				<% end %>
       </div>
     </div>
     <div class="row">
     	<div class="col s3"></div>
-    	<div class="col s7">
-    		<textarea rows="3" cols="100"></textarea>
-    	</div>	
-    	<div class="col s2">
-    		<a class="waves-effect waves-light btn" style="width: 100%">Send Message</a>
-    	</div>
+    	<%= form_for(@message , remote: true) do |f|%>
+	    	<div class="col s7">
+	    		<%= f.text_field :body%>
+	    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
+	    	</div>	
+	    	<div class="col s2">
+	    		<%= f.submit "Send Message", class: "waves-effect waves-light btn" %>
+	    		
+	    	</div>
+	    <% end %>
     </div>
           
-  
-
-
-
 	</body>
 </html>
 
 
-  
 
 
 
 
 
 
+
+	
 
