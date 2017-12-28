@@ -37,10 +37,12 @@ class V1::Users::ConversationsController < V1::Users::BaseController
                     support_general: Support.as_json, 
                     requests: current_user.requests.as_json(:only => [:id, :name, :max_budget, :sub_category_id], :include => {:sub_category => {:only => :name}} ), 
                     
+                    # orders: current_user.orders.as_json(:only => [:id], 
+                    #                                   :include => {:offer_quotation => 
+                    #                                   {:include=> {:offer => 
+                    #                                   {:include => {:request => {:only => :name}}}}}}),
                     orders: current_user.orders.as_json(:only => [:id], 
-                                                      :include => {:offer_quotation => 
-                                                      {:include=> {:offer => 
-                                                      {:include => {:request => {:only => :name}}}}}}), 
+                                                      :include => {:request => {:only => :name}}), 
                     offers: Offer.as_json(offers).as_json(:only => [:id, :request_id])
                     }
     
