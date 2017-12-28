@@ -38,10 +38,8 @@ class V1::Users::ConversationsController < V1::Users::BaseController
                     requests: current_user.requests.as_json(:only => [:id, :name, :max_budget], :include => {:sub_category => {:only => :name}} ), 
                     
                     orders: current_user.orders.as_json(:only => [:id], 
-                                                      :include => {:offer_quotation => 
-                                                      {:include=> {:offer => 
-                                                      {:include => {:request => {:only => :name}}}}}}),
-                    offers:   Offer.as_json(offers).as_json(:only => [:id, :request_id], :include => {:request => {:only => :timeline }})
+                                                      :include => {:request => {:only => :name, :max_budget}}),
+                    offers:   Offer.as_json(offers).as_json(:only => [:id, :request_id])
                     }
     
     if user_chat_type.present?
