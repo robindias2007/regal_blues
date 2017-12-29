@@ -255,21 +255,17 @@
     <table class="highlight">
       <thead>
         <tr>
-          <th colspan="4" class="center">ID</th>
           <th colspan="1" class="center">Name</th>
           <th colspan="1" class="center">Description</th>
           <th colspan="1" class="center">Price</th>
           <th colspan="1" class="center">Status Active</th>
-          <th colspan="1" class="center">Sub Category</th>
           <th colspan="1" class="center">Date</th>
         </tr>
       </thead>
       <tbody>
         <% Product.where(designer_id:@designer).order(created_at: :desc).each do |product| %>
           <tr>
-            <td colspan="4" class="center"><%= product.id %></td> 
-
-            <td colspan="1" class="center"><%= product.name %></td>
+            <td colspan="1" class="center"><%= link_to product.name, product_path(product) %></td>
 
             <td colspan="1" class="center"><%= product.description %></td>
 
@@ -282,8 +278,6 @@
                 Inactive
               <% end %>  
             </td>
-
-            <td colspan="1" class="center"><%= SubCategory.where(id:product.sub_category_id).name %></td>
 
             <td colspan="1" class="center"><%= product.created_at.strftime('%d %B %Y') %></td>          
           </tr>

@@ -8,4 +8,8 @@ class Support::DesignersController < ApplicationController
   def show
     @designer = Designer.find(params[:id])
   end
+
+  def show_product_details
+  	@product = Product.find(params[:id])
+  end
 end
