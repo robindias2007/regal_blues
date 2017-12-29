@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <h5 class="card-stats-number center">Product Details</h5>
+        <p class="card-stats-title">ID:
+          <b><%= @product.id rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Name:
+          <b><%= @product.name rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Description:
+          <b><%= @product.description rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Price:
+          <b><%= @product.selling_price rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Status:
+          <b>
+            <% if @product.active == true %>
+              Active
+            <% else %>
+              Inactive
+            <% end %>  
+          </b>
+        </p>
+        <p class="card-stats-title">Sub Category:
+          <b><%= @product.sub_category.name rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Designer Name:
+          <b><%= @product.designer.full_name rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Designer Email:
+          <b><%= @product.designer.email rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Designer Mobile:
+          <b><%= @product.designer.mobile_number rescue nil %></b>
+        </p>
+        <p class="card-stats-title">Designer Store Name:
+          <b><%= @product.designer.designer_store_info.display_name rescue nil %></b>
+        </p>
+        <p class="card-stats-title">
+          <% @product.images.each do |gallery_image| %>            
+              <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
