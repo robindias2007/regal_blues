@@ -7,7 +7,7 @@ class V1::Designers::ConversationsController < V1::Designers::BaseController
     if conversations.present?
       render json: {conversation: {support_general: conversations.where(receiver_type: "support_general"), offers: conversations.where(receiver_type: "offers"), orders: conversations.where(receiver_type: "orders"), requests: conversations.where(receiver_type: "requests")}}, status: 201
     else
-      render json: { errors: conversations.errors }, status: 400
+      render json: { errors: " No conversation found" }, status: 400
     end
   end
 
