@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col s12">
+  <div class="col s12 m6 l6">
     <div class="card">
       <div class="card-content">
         <h5 class="card-stats-number center">Designer Details</h5>
@@ -39,5 +39,193 @@
       </div>
     </div>
   </div>
+
+  <!-- Orders and Requests -->
+  <div class="col s12 m6 l6">
+    <ul class="collapsible" data-collapsible="expandable">
+      <li>
+        <div class="collapsible-header">
+          <a href="#">Orders</a>
+        </div>
+
+        <div class="collapsible-body">
+          <ul class="collection">
+            <li class="collection-item">
+              <%= link_to "Unpaid (#{@designer.orders.where(status: :started).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Paid (#{@designer.orders.where(status: :paid).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Designer Confirmed (#{@designer.orders.where(status: :designer_confirmed).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "User Awaiting More Options (#{@designer.orders.where(status: :user_awaiting_more_options).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Designer Gave More Options (#{@designer.orders.where(status: :designer_gave_more_options).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Designer Selected Fabric Unavailable (#{@designer.orders.where(status: :designer_selected_fabric_unavailable).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Measurements Given (#{@designer.orders.where(status: :measurements_given).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "In Production (#{@designer.orders.where(status: :in_production).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Shipped to QC (#{@designer.orders.where(status: :shipped_to_qc).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Delivered to QC (#{@designer.orders.where(status: :delivered_to_qc).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "In QC (#{@designer.orders.where(status: :in_qc).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Shipped to User (#{@designer.orders.where(status: :shipped_to_user).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Delivered to User (#{@designer.orders.where(status: :delivered_to_user).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Cancelled by User (#{@designer.orders.where(status: :delivered_to_user).size})" %>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header active">
+          <a href="#">Requests</a>
+        </div>
+        <div class="collapsible-body">
+          <ul class="collection">
+            <li class="collection-item">
+              <%= link_to "Active (#{@designer.requests.where(status: :active).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Pending (#{@designer.requests.where(status: :pending).size})" %>
+            </li>
+            <li class="collection-item">
+              <%= link_to "Unapproved (#{@designer.requests.where(status: :unapproved).size})" %>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header active">
+          <a href="#">Products</a>
+        </div>
+        <div class="collapsible-body">
+          <ul class="collection">
+            <% if Product.where(designer_id:@designer).present? %>
+              <% Product.where(designer_id:@designer).each do |p| %>
+                <li class="collection-item">
+                  <%= p.name %>
+                </li>
+              <% end %>
+            <% else %>
+              <li class="collection-item">
+                <%= link_to "No Products" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
 
+
+<div class="row">
+  <h5 class="center">Designer Requests</h5>
+
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="4" class="center">Name</th>
+        <th colspan="1" class="center">Size</th>
+        <th colspan="1" class="center">Budget</th>
+        <th colspan="1" class="center">Timeline for User</th>
+        <th colspan="1" class="center">Timeline for Designer</th>
+        <th colspan="1" class="center">Description</th>
+        <th colspan="1" class="center">Status</th>
+        <th colspan="1" class="center">Date</th>
+        <th colspan="1" class="center">Chat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @designer.requests.order(created_at: :desc).each do |request| %>
+        <tr>
+          <td colspan="4" class="center"><%= request.name %></td>
+
+          <td colspan="1" class="center"><%= request.size.upcase %></td>
+
+          <td colspan="1" class="center"><%= request.max_budget %></td>
+
+          <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
+
+          <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
+
+          <td colspan="1" class="center"><%= request.status.humanize %></td>
+          
+          <td colspan="1" class="center"><%= request.created_at.strftime('%d %B %Y') %> </td>
+
+          <td colspan="1" class="center">
+            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:request).first.id) rescue nil %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Orders List -->
+<div class="row">
+  <h5 class="center">Orders</h5>
+
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="4" class="center">Name</th>
+        <th colspan="1" class="center">Order ID</th>
+        <th colspan="1" class="center">Status</th>
+        <th colspan="1" class="center">Designer</th>
+        <th colspan="1" class="center">Price</th>
+        <th colspan="1" class="center">Ordered On</th>
+        <th colspan="1" class="center">Time to deliver</th>
+        <th colspan="1" class="center">Shipping Address</th>
+        <th colspan="1" class="center">Chat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @designer.orders.order(created_at: :desc).each do |order| %>
+        <tr>
+          <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td> 
+
+          <td colspan="1" class="center"><%= order.order_id %></td>
+
+          <td colspan="1" class="center"><%= order.status.humanize %></td>
+
+          <td colspan="1" class="center"><%= order.designer.designer_store_info.display_name %></td>
+
+          <td colspan="1" class="center"><%= order.offer_quotation.price %></td>
+
+          <td colspan="1" class="center"><%= order.created_at.strftime('%d %B %Y') %></td>
+
+          <td colspan="1" class="center"><%= time_to_deliver(order) %></td>
+
+          <td colspan="1" class="center">
+            <%= order.offer_quotation.offer.request.address.formatted_address %>
+          </td>
+          <td colspan="1" class="center">
+            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order).first.id) rescue nil %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
