@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get '/chat_details' => 'support/chats#chat_details'
   get '/chat/:id' => 'support/requests#chat', as: :chat
 
+  post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
 
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
