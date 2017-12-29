@@ -35,4 +35,10 @@ class Request < ApplicationRecord
   def safe_toggle!(attr)
     public_send(attr) == true ? update(:"#{attr}" => false) : update(:"#{attr}" => true)
   end
+
+  def send_request_mail
+    self.request_designers.each do |request_designer|
+      NotificationsMailer.new_request(self.user, request_designer.designer).deliver
+    end
+  end
 end

@@ -17,8 +17,11 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     if order.paid? && order.all_options_selected?
       order.designer_confirms!
       # TODO: Notify the user
+      NotificationsMailer.order_confirm(order).deliver
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
+      NotificationsMailer.order_cancel(order.user, order).deliver
+      NotificationsMailer.order_cancel(order.designer, order).deliver
       render json: {
         errors:  order.errors,
         message: 'Not all the orders are selected by the user or the order has not been paid yet'

@@ -37,6 +37,8 @@ class User < ApplicationRecord
 
   enumerize :gender, in: %i[male female], scope: true, predicates: true
 
+  after_create :send_welcome_email
+
   mount_base64_uploader :avatar, AvatarUploader
 
   # def self.create_with_facebook(info)
@@ -95,4 +97,11 @@ class User < ApplicationRecord
   #   user.password = friendly_password
   #   user.username = SecureRandom.hex(4)
   # end
+
+  private
+
+  def send_welcome_email
+    NotificationsMailer.send_email(self).deliver
+  end
+
 end

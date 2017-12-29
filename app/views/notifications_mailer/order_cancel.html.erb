@@ -1,0 +1,5 @@
+<% if @resource.class.name == "User" %>
+	Your order with order id <%= @order.id %> has been cancelled. Money would be refunded in 7 working days.
+<% elsif @resource.class.name == "Designer"%>
+	Your order with order id <%= @order.id %> has been cancelled by <%= @order.user.full_name%>.
+<% end %>

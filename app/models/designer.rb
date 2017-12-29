@@ -30,6 +30,8 @@ class Designer < ApplicationRecord
 
   before_create :generate_pin
 
+  after_create :send_welcome_email
+
   enumerize :live_status, in: %i[unapproved approved blocked], scope: true, predicates: true, default: :approved
 
   mount_base64_uploader :avatar, AvatarUploader
@@ -91,5 +93,9 @@ class Designer < ApplicationRecord
       token = SecureRandom.hex(2).tr('lIO0', 'sxyz').upcase
       break token unless Designer.find_by(pin: token)
     end
+  end
+
+  def send_welcome_email
+    NotificationsMailer.send_email(self).deliver
   end
 end
