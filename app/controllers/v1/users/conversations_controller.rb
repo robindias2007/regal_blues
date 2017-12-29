@@ -5,15 +5,15 @@ class V1::Users::ConversationsController < V1::Users::BaseController
   def index
     conversations = current_user.conversations
     if conversations.present?
-      render json: {conversation: {order_level: conversations.where(receiver_type: "order_level"), support_on_general: conversations.where(receiver_type: "support_on_general"), request: conversations.where(receiver_type: "request"), offers: conversations.where(receiver_type: "offers")}}, status: 201
+      render json: {conversation: {orders: conversations.where(receiver_type: "orders"), support_general: conversations.where(receiver_type: "support_general"), requests: conversations.where(receiver_type: "requests"), offers: conversations.where(receiver_type: "offers")}}, status: 201
     else
       render json: { errors: conversations.errors }, status: 400
     end
   end
 
   def create
-    conversation = current_user.conversations.new(conversation_params)
-    if conversation.save
+    conversation = current_user.conversations.find_or_create_by(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
+    if conversation
       render json: {conversation: conversation}, status: 201
     else
       render json: { errors: conversation.errors }, status: 400
@@ -28,6 +28,15 @@ class V1::Users::ConversationsController < V1::Users::BaseController
       render json: {user_chat_type: user_chat_type}, status: 201
     else
       render json: { errors: user_chat_type.errors }, status: 400
+    end
+  end
+
+  def fetch_conversation
+    conversation = current_user.conversations.where(receiver_id: params[:receiver_id])
+    if conversation
+      render json: {conversation: conversation}, status: 201
+    else
+      render json: { errors: conversation.errors }, status: 400
     end
   end
 

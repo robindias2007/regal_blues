@@ -7,13 +7,13 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
     if conversations.present?
       render json: {conversation: {order_level: conversations.where(receiver_type: "order_level"), support_on_general: conversations.where(receiver_type: "support_on_general"), request: conversations.where(receiver_type: "request"), offers: conversations.where(receiver_type: "offers")}}, status: 201
     else
-      render json: { errors: conversations.errors }, status: 400
+      render json: { errors: "No conversation found" }, status: 400
     end
   end
 
   def create
-    conversation = current_support.conversations.new(conversation_params)
-    if conversation.save
+    conversation = current_support.conversations.find_or_create_by(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
+    if conversation
       render json: {conversation: conversation}, status: 201
     else
       render json: { errors: conversation.errors }, status: 400
@@ -37,6 +37,16 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
       render json: {conversation: conversations}, status: 201
     else
       render json: { errors: conversations.errors }, status: 400
+    end
+  end
+
+  def fetch_conversation
+    user_conv = Conversation.where(receiver_id: params[:receiver_id], conversationable_type: "User")
+    degn_conv = Conversation.where(receiver_id: params[:receiver_id], conversationable_type: "Designer")
+    if user_conv.present? || degn_conv.present?
+      render json: {conversations: {user: user_conv, designer: degn_conv}}, status: 201
+    else
+      render json: { errors: conversation.errors }, status: 400
     end
   end
 
