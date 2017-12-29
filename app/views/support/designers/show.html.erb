@@ -246,7 +246,7 @@
       </tr>
     </thead>
     <tbody>
-      <% Product.where(id:@designer).order(created_at: :desc).each do |product| %>
+      <% Product.where(designer_id:@designer).order(created_at: :desc).each do |product| %>
         <tr>
           <td colspan="4" class="center"><%= product.id %></td> 
 
