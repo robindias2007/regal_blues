@@ -124,6 +124,9 @@
               <li class="collection-item">
                 Active: <%= Product.where(designer_id:@designer).where(active:true).count %>
               </li>
+              <li class="collection-item">
+                Inactive: <%= Product.where(designer_id:@designer).where(active:false).count %>
+              </li>
             <% else %>
               <li class="collection-item">
                 No Product Added
