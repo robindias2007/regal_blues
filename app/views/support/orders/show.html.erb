@@ -48,11 +48,11 @@
         <% end %>
 
         <b>Request Image:</b>
-        <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
-          <p class="card-stats-title">
+        <p class="card-stats-title">
+          <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
             <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
-          </p>
-        <% end %>
+          <% end %>
+        </p>
         </p>
         <% if OrderOption.where(order_id:@order).present? %>
           <b>User Selected: </b>

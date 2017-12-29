@@ -79,7 +79,7 @@
     	<div class="col s3"></div>
     	<%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 	    	<div class="col s7">
-	    		<%= f.text_field :body%>
+	    		<%= f.text_field :body, required:true %>
 	    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
 	    	</div>	
 	    	<div class="col s2">

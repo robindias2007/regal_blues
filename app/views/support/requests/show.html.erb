@@ -41,6 +41,12 @@
         <p class="card-stats-title">Designers:
           <b><%= RequestDesigner.joins(designer: :designer_store_info).where(request: @request).pluck(:display_name).to_sentence %></b>
         </p>
+        <b>Request Image:</b>
+        <p class="card-stats-title">
+          <% @request.request_images.each do |req_image| %>
+            <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
+          <% end %>
+        </p>
       </div>
     </div>
   </div>
