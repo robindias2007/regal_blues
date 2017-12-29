@@ -37,7 +37,7 @@ Rails.application.routes.draw do
           post :fetch_conversation
         end
         member do
-          resources :messages, only: %i[index create]
+          resources :messages, only: %i[index create update]
         end
       end
     end
@@ -154,7 +154,7 @@ Rails.application.routes.draw do
           #get :chat_type_request
         end
         member do
-          resources :messages, only: %i[index create]
+          resources :messages, only: %i[index create update]
         end
       end
 
@@ -247,7 +247,7 @@ Rails.application.routes.draw do
           #get :chat_type_request
         end
         member do
-          resources :messages, only: %i[index create]
+          resources :messages, only: %i[index create update]
         end
       end
 
