@@ -122,7 +122,7 @@
           <ul class="collection">
             <% if Product.where(designer_id:@designer).present? %>
               <li class="collection-item">
-                <%= Product.where(designer_id:@designer).where(active:true).count %>
+                Active: <%= Product.where(designer_id:@designer).where(active:true).count %>
               </li>
             <% else %>
               <li class="collection-item">
@@ -166,6 +166,8 @@
           <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
 
           <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
+
+          <td colspan="1" class="center"><%= request.description %></td>
 
           <td colspan="1" class="center"><%= request.status.humanize %></td>
           
