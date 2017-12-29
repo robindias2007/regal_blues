@@ -22,6 +22,15 @@ module Messageable
 		end
 	end
 
+	def update
+		message = Message.find(params[:id])
+		if message.update(read: true)
+			render json: {message: message}, status: 201
+		else
+			render json: {message: message.errors}, status: 400
+		end
+	end
+
 	private
 	def message_params
     params.require(:message).permit(:body, :attachment)
