@@ -1,0 +1,12 @@
+<div class="row">
+	<div class="col s3"></div>
+	<%= form_for(Message.new , remote: true) do |f|%>
+    	<div class="col s7">
+    		<%= f.text_field :body%>
+    		<%= f.hidden_field :conversation_id %>
+    	</div>	
+    	<div class="col s2">
+    		<%= f.submit "Send Message", class: "waves-effect waves-light btn" %>
+    	</div>
+    <% end %>
+</div>

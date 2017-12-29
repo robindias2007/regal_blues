@@ -77,7 +77,7 @@
     </div>
     <div class="row">
     	<div class="col s3"></div>
-    	<%= form_for(@message , remote: true) do |f|%>
+    	<%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 	    	<div class="col s7">
 	    		<%= f.text_field :body%>
 	    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
