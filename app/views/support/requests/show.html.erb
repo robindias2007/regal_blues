@@ -70,7 +70,7 @@
           <% @request.offers.each do |off| %>
             <% Designer.where(id:off.designer_id).each do |des_name| %>
               <td colspan="4" class="center"><%= des_name.full_name  %></td>
-              <td colspan="1" class="center"><%= link_to OfferQuotation.where(offer_id:off).count, quoation_path(@request)  %></td>
+              <td colspan="1" class="center" id="offer_quote"><%=  OfferQuotation.where(offer_id:off).count %></td>
             <% end %>
           <% end %>
         </tr>
@@ -83,4 +83,42 @@
 <% end %>
 
 
+
+<div class="col s12 m6 l6", id="collapse_offer" style="display:none">
+  <ul class="collapsible" data-collapsible="expandable">
+    <li>
+      <% @request.offers.each do |off| %>
+        <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
+          <div class="collapsible-header">
+            <a href="#">Quote Details</a>
+          </div>
+
+          <div class="collapsible-body">
+            <ul class="collection">             
+              <li class="collection-item">Price: <b><%= offquo.price %></b></li>
+              <li class="collection-item">Description: <b><%= offquo.description %></b></li>
+              <li class="collection-item">Designer Note: <b><%= offquo.designer_note %></b></li> 
+              <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
+                <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b></li>
+              <% end %>
+              <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
+                <p class="card-stats-title">
+                  <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
+                      <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+                  <% end %>
+                </p>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      <% end %>      
+    </li>
+  </ul>
+</div>
   
+<script type="text/javascript">
+  
+  $("#offer_quote").click(function(){
+    $("#collapse_offer").fadeToggle();
+});
+</script>
