@@ -182,7 +182,7 @@
             <td colspan="1" class="center"><%= request.created_at.strftime('%d %B %Y') %> </td>
 
             <td colspan="1" class="center">
-              <%= link_to "Chat", chat_path(Conversation.where(receiver_id:request).first.id) rescue nil %>
+              <%= link_to "Chat", chat_path(Conversation.where(receiver_id:request,conversationable_type: "Designer").first.id) rescue nil %>
             </td>
 
           </tr>
