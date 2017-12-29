@@ -42,46 +42,46 @@
         <div class="collapsible-body">
           <ul class="collection">
             <li class="collection-item">
-              <%= link_to "Unpaid (#{@user.orders.where(status: :started).size})" %>
+              <%= "Unpaid (#{@user.orders.where(status: :started).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Paid (#{@user.orders.where(status: :paid).size})" %>
+              <%= "Paid (#{@user.orders.where(status: :paid).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Designer Confirmed (#{@user.orders.where(status: :designer_confirmed).size})" %>
+              <%= "Designer Confirmed (#{@user.orders.where(status: :designer_confirmed).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "User Awaiting More Options (#{@user.orders.where(status: :user_awaiting_more_options).size})" %>
+              <%= "User Awaiting More Options (#{@user.orders.where(status: :user_awaiting_more_options).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Designer Gave More Options (#{@user.orders.where(status: :designer_gave_more_options).size})" %>
+              <%= "Designer Gave More Options (#{@user.orders.where(status: :designer_gave_more_options).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Designer Selected Fabric Unavailable (#{@user.orders.where(status: :designer_selected_fabric_unavailable).size})" %>
+              <%= "Designer Selected Fabric Unavailable (#{@user.orders.where(status: :designer_selected_fabric_unavailable).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Measurements Given (#{@user.orders.where(status: :measurements_given).size})" %>
+              <%= "Measurements Given (#{@user.orders.where(status: :measurements_given).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "In Production (#{@user.orders.where(status: :in_production).size})" %>
+              <%= "In Production (#{@user.orders.where(status: :in_production).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Shipped to QC (#{@user.orders.where(status: :shipped_to_qc).size})" %>
+              <%= "Shipped to QC (#{@user.orders.where(status: :shipped_to_qc).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Delivered to QC (#{@user.orders.where(status: :delivered_to_qc).size})" %>
+              <%= "Delivered to QC (#{@user.orders.where(status: :delivered_to_qc).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "In QC (#{@user.orders.where(status: :in_qc).size})" %>
+              <%= "In QC (#{@user.orders.where(status: :in_qc).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Shipped to User (#{@user.orders.where(status: :shipped_to_user).size})" %>
+              <%= "Shipped to User (#{@user.orders.where(status: :shipped_to_user).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Delivered to User (#{@user.orders.where(status: :delivered_to_user).size})" %>
+              <%= "Delivered to User (#{@user.orders.where(status: :delivered_to_user).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Cancelled by User (#{@user.orders.where(status: :delivered_to_user).size})" %>
+              <%= "Cancelled by User (#{@user.orders.where(status: :delivered_to_user).size})" %>
             </li>
           </ul>
         </div>
@@ -94,13 +94,13 @@
         <div class="collapsible-body">
           <ul class="collection">
             <li class="collection-item">
-              <%= link_to "Active (#{@user.requests.where(status: :active).size})" %>
+              <%= "Active (#{@user.requests.where(status: :active).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Pending (#{@user.requests.where(status: :pending).size})" %>
+              <%= "Pending (#{@user.requests.where(status: :pending).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Unapproved (#{@user.requests.where(status: :unapproved).size})" %>
+              <%= "Unapproved (#{@user.requests.where(status: :unapproved).size})" %>
             </li>
           </ul>
         </div>
@@ -222,3 +222,6 @@
     </tbody>
   </table>
 </div>
+
+
+

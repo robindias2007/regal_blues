@@ -51,46 +51,46 @@
         <div class="collapsible-body">
           <ul class="collection">
             <li class="collection-item">
-              <%= link_to "Unpaid (#{@designer.orders.where(status: :started).size})" %>
+              <%= "Unpaid (#{@designer.orders.where(status: :started).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Paid (#{@designer.orders.where(status: :paid).size})" %>
+              <%= "Paid (#{@designer.orders.where(status: :paid).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Designer Confirmed (#{@designer.orders.where(status: :designer_confirmed).size})" %>
+              <%= "Designer Confirmed (#{@designer.orders.where(status: :designer_confirmed).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "User Awaiting More Options (#{@designer.orders.where(status: :user_awaiting_more_options).size})" %>
+              <%= "User Awaiting More Options (#{@designer.orders.where(status: :user_awaiting_more_options).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Designer Gave More Options (#{@designer.orders.where(status: :designer_gave_more_options).size})" %>
+              <%= "Designer Gave More Options (#{@designer.orders.where(status: :designer_gave_more_options).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Designer Selected Fabric Unavailable (#{@designer.orders.where(status: :designer_selected_fabric_unavailable).size})" %>
+              <%= "Designer Selected Fabric Unavailable (#{@designer.orders.where(status: :designer_selected_fabric_unavailable).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Measurements Given (#{@designer.orders.where(status: :measurements_given).size})" %>
+              <%= "Measurements Given (#{@designer.orders.where(status: :measurements_given).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "In Production (#{@designer.orders.where(status: :in_production).size})" %>
+              <%= "In Production (#{@designer.orders.where(status: :in_production).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Shipped to QC (#{@designer.orders.where(status: :shipped_to_qc).size})" %>
+              <%= "Shipped to QC (#{@designer.orders.where(status: :shipped_to_qc).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Delivered to QC (#{@designer.orders.where(status: :delivered_to_qc).size})" %>
+              <%= "Delivered to QC (#{@designer.orders.where(status: :delivered_to_qc).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "In QC (#{@designer.orders.where(status: :in_qc).size})" %>
+              <%= "In QC (#{@designer.orders.where(status: :in_qc).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Shipped to User (#{@designer.orders.where(status: :shipped_to_user).size})" %>
+              <%= "Shipped to User (#{@designer.orders.where(status: :shipped_to_user).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Delivered to User (#{@designer.orders.where(status: :delivered_to_user).size})" %>
+              <%= "Delivered to User (#{@designer.orders.where(status: :delivered_to_user).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Cancelled by User (#{@designer.orders.where(status: :delivered_to_user).size})" %>
+              <%= "Cancelled by User (#{@designer.orders.where(status: :delivered_to_user).size})" %>
             </li>
           </ul>
         </div>
@@ -103,13 +103,13 @@
         <div class="collapsible-body">
           <ul class="collection">
             <li class="collection-item">
-              <%= link_to "Active (#{@designer.requests.where(status: :active).size})" %>
+              <%= "Active (#{@designer.requests.where(status: :active).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Pending (#{@designer.requests.where(status: :pending).size})" %>
+              <%= "Pending (#{@designer.requests.where(status: :pending).size})" %>
             </li>
             <li class="collection-item">
-              <%= link_to "Unapproved (#{@designer.requests.where(status: :unapproved).size})" %>
+              <%= "Unapproved (#{@designer.requests.where(status: :unapproved).size})" %>
             </li>
           </ul>
         </div>
@@ -121,14 +121,12 @@
         <div class="collapsible-body">
           <ul class="collection">
             <% if Product.where(designer_id:@designer).present? %>
-              <% Product.where(designer_id:@designer).each do |p| %>
-                <li class="collection-item">
-                  <%= p.name %>
-                </li>
-              <% end %>
+              <li class="collection-item">
+                <%= Product.where(designer_id:@designer).where(active:true).count %>
+              </li>
             <% else %>
               <li class="collection-item">
-                <%= link_to "No Products" %>
+                No Product Added
               </li>
             <% end %>
           </ul>
@@ -224,6 +222,45 @@
           <td colspan="1" class="center">
             <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order).first.id) rescue nil %>
           </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Product List -->
+<div class="row">
+  <h5 class="center">Products</h5>
+
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="4" class="center">ID</th>
+        <th colspan="1" class="center">Name</th>
+        <th colspan="1" class="center">Description</th>
+        <th colspan="1" class="center">Price</th>
+        <th colspan="1" class="center">Product Status(Active)</th>
+        <th colspan="1" class="center">Sub Category</th>
+        <th colspan="1" class="center">Product Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Product.where(id:@designer).order(created_at: :desc).each do |product| %>
+        <tr>
+          <td colspan="4" class="center"><%= product.id %></td> 
+
+          <td colspan="1" class="center"><%= product.name %></td>
+
+          <td colspan="1" class="center"><%= product.description %></td>
+
+          <td colspan="1" class="center"><%= product.selling_price %></td>
+
+          <td colspan="1" class="center"><%= product.active %></td>
+
+          <td colspan="1" class="center"><%= SubCategory.where(id:product.sub_category_id).name %></td>
+
+          <td colspan="1" class="center"><%= product.created_at.strftime('%d %B %Y') %></td>          
         </tr>
       <% end %>
     </tbody>
