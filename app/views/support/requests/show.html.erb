@@ -12,7 +12,8 @@
   <div class="col s12">
     <div class="card">
       <div class="card-content">
-        <h5 class="card-stats-number center">Details</h5>
+        <h5 class="card-stats-number center" style="word-spacing:500px">Details <%= link_to "Chat", chat_path(Conversation.where(receiver_id:@request).first.id) rescue nil %> </h5>
+
         <p class="card-stats-title">Name:
           <b><%= @request.name %></b>
         </p>
@@ -57,8 +58,6 @@
           
           <th colspan="4" class="center">Designer Name</th>
           <th colspan="1" class="center">Quotes</th>
-          <th colspan="1" class="center">Chat</th>
-        </tr>
       </thead>
       <tbody>
         <tr>
@@ -68,9 +67,6 @@
               <td colspan="1" class="center"><%= link_to OfferQuotation.where(offer_id:off).count, quoation_path(@request)  %></td>
             <% end %>
           <% end %>
-          <td colspan="1" class="center">
-            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:off).first.id) rescue nil %>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -79,3 +75,4 @@
 <% else %>
   <h5>No offers yet</h5>
 <% end %>
+

@@ -19,7 +19,13 @@
           <b><%= @designer.location rescue nil %></b>
         </p>
         <p class="card-stats-title">Bio:
-          <b><%= @designer.bio rescue nil %></b>
+          <b>
+            <% if @designer.bio.present? %>
+              <%= @designer.bio %>
+            <% else %>
+              No Bio Avaliable
+            <% end %>    
+          </b>
         </p>
         <p class="card-stats-title">Store Name:
           <b><%= @designer.designer_store_info.display_name rescue nil %></b>
@@ -139,132 +145,154 @@
   </div>
 </div>
 
+<!-- Request List -->
 
-<div class="row">
-  <h5 class="center">Designer Requests</h5>
+<% if @designer.requests.present? %>
+  <div class="row">
+    <h5 class="center">Designer Requests</h5>
 
-  <table class="highlight">
-    <thead>
-      <tr>
-        <th colspan="4" class="center">Name</th>
-        <th colspan="1" class="center">Size</th>
-        <th colspan="1" class="center">Budget</th>
-        <th colspan="1" class="center">Timeline for User</th>
-        <th colspan="1" class="center">Timeline for Designer</th>
-        <th colspan="1" class="center">Status</th>
-        <th colspan="1" class="center">Date</th>
-        <th colspan="1" class="center">Chat</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @designer.requests.order(created_at: :desc).each do |request| %>
+    <table class="highlight">
+      <thead>
         <tr>
-          <td colspan="4" class="center"><%= request.name %></td>
-
-          <td colspan="1" class="center"><%= request.size.upcase %></td>
-
-          <td colspan="1" class="center"><%= request.max_budget %></td>
-
-          <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
-
-          <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
-
-          <td colspan="1" class="center"><%= request.status.humanize %></td>
-          
-          <td colspan="1" class="center"><%= request.created_at.strftime('%d %B %Y') %> </td>
-
-          <td colspan="1" class="center">
-            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:request).first.id) rescue nil %>
-          </td>
-
+          <th colspan="4" class="center">Name</th>
+          <th colspan="1" class="center">Size</th>
+          <th colspan="1" class="center">Budget</th>
+          <th colspan="1" class="center">Timeline for User</th>
+          <th colspan="1" class="center">Timeline for Designer</th>
+          <th colspan="1" class="center">Status</th>
+          <th colspan="1" class="center">Date</th>
+          <th colspan="1" class="center">Chat</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% @designer.requests.order(created_at: :desc).each do |request| %>
+          <tr>
+            <td colspan="4" class="center"><%= link_to request.name, support_request_path(request) %></td>
+
+            <td colspan="1" class="center"><%= request.size.upcase %></td>
+
+            <td colspan="1" class="center"><%= request.max_budget %></td>
+
+            <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
+
+            <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
+
+            <td colspan="1" class="center"><%= request.status.humanize %></td>
+            
+            <td colspan="1" class="center"><%= request.created_at.strftime('%d %B %Y') %> </td>
+
+            <td colspan="1" class="center">
+              <%= link_to "Chat", chat_path(Conversation.where(receiver_id:request).first.id) rescue nil %>
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <h5>No Requests</h5>
+<% end %>
 
 <!-- Orders List -->
-<div class="row">
-  <h5 class="center">Orders</h5>
+<% if @designer.orders.present? %>
+  <div class="row">
+    <h5 class="center">Orders</h5>
 
-  <table class="highlight">
-    <thead>
-      <tr>
-        <th colspan="4" class="center">Name</th>
-        <th colspan="1" class="center">Order ID</th>
-        <th colspan="1" class="center">Status</th>
-        <th colspan="1" class="center">Designer</th>
-        <th colspan="1" class="center">Price</th>
-        <th colspan="1" class="center">Ordered On</th>
-        <th colspan="1" class="center">Time to deliver</th>
-        <th colspan="1" class="center">Shipping Address</th>
-        <th colspan="1" class="center">Chat</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @designer.orders.order(created_at: :desc).each do |order| %>
+    <table class="highlight">
+      <thead>
         <tr>
-          <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td> 
-
-          <td colspan="1" class="center"><%= order.order_id %></td>
-
-          <td colspan="1" class="center"><%= order.status.humanize %></td>
-
-          <td colspan="1" class="center"><%= order.designer.designer_store_info.display_name %></td>
-
-          <td colspan="1" class="center"><%= order.offer_quotation.price %></td>
-
-          <td colspan="1" class="center"><%= order.created_at.strftime('%d %B %Y') %></td>
-
-          <td colspan="1" class="center"><%= time_to_deliver(order) %></td>
-
-          <td colspan="1" class="center">
-            <%= order.offer_quotation.offer.request.address.formatted_address %>
-          </td>
-          <td colspan="1" class="center">
-            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order).first.id) rescue nil %>
-          </td>
+          <th colspan="4" class="center">Name</th>
+          <th colspan="1" class="center">Order ID</th>
+          <th colspan="1" class="center">Status</th>
+          <th colspan="1" class="center">Designer</th>
+          <th colspan="1" class="center">Price</th>
+          <th colspan="1" class="center">Ordered On</th>
+          <th colspan="1" class="center">Time to deliver</th>
+          <th colspan="1" class="center">Shipping Address</th>
+          <th colspan="1" class="center">Chat</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% @designer.orders.order(created_at: :desc).each do |order| %>
+          <tr>
+            <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td> 
+
+            <td colspan="1" class="center"><%= order.order_id %></td>
+
+            <td colspan="1" class="center"><%= order.status.humanize %></td>
+
+            <td colspan="1" class="center"><%= order.designer.designer_store_info.display_name %></td>
+
+            <td colspan="1" class="center"><%= order.offer_quotation.price %></td>
+
+            <td colspan="1" class="center"><%= order.created_at.strftime('%d %B %Y') %></td>
+
+            <td colspan="1" class="center"><%= time_to_deliver(order) %></td>
+
+            <td colspan="1" class="center">
+              <%= order.offer_quotation.offer.request.address.formatted_address %>
+            </td>
+            <td colspan="1" class="center">
+              <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order).first.id) rescue nil %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <h5>No Orders</h5>
+<% end %>
 
 
 <!-- Product List -->
-<div class="row">
-  <h5 class="center">Products</h5>
+<% if Product.where(designer_id:@designer).present? %>
 
-  <table class="highlight">
-    <thead>
-      <tr>
-        <th colspan="4" class="center">ID</th>
-        <th colspan="1" class="center">Name</th>
-        <th colspan="1" class="center">Description</th>
-        <th colspan="1" class="center">Price</th>
-        <th colspan="1" class="center">Product Status(Active)</th>
-        <th colspan="1" class="center">Sub Category</th>
-        <th colspan="1" class="center">Product Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Product.where(designer_id:@designer).order(created_at: :desc).each do |product| %>
+  <div class="row">
+    <h5 class="center">Products</h5>
+
+    <table class="highlight">
+      <thead>
         <tr>
-          <td colspan="4" class="center"><%= product.id %></td> 
-
-          <td colspan="1" class="center"><%= product.name %></td>
-
-          <td colspan="1" class="center"><%= product.description %></td>
-
-          <td colspan="1" class="center"><%= product.selling_price %></td>
-
-          <td colspan="1" class="center"><%= product.active %></td>
-
-          <td colspan="1" class="center"><%= SubCategory.where(id:product.sub_category_id).name %></td>
-
-          <td colspan="1" class="center"><%= product.created_at.strftime('%d %B %Y') %></td>          
+          <th colspan="4" class="center">ID</th>
+          <th colspan="1" class="center">Name</th>
+          <th colspan="1" class="center">Description</th>
+          <th colspan="1" class="center">Price</th>
+          <th colspan="1" class="center">Status Active</th>
+          <th colspan="1" class="center">Sub Category</th>
+          <th colspan="1" class="center">Date</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% Product.where(designer_id:@designer).order(created_at: :desc).each do |product| %>
+          <tr>
+            <td colspan="4" class="center"><%= product.id %></td> 
+
+            <td colspan="1" class="center"><%= product.name %></td>
+
+            <td colspan="1" class="center"><%= product.description %></td>
+
+            <td colspan="1" class="center"><%= product.selling_price %></td>
+
+            <td colspan="1" class="center">
+              <% if product.active == true %>
+                Active
+              <% else %>
+                Inactive
+              <% end %>  
+            </td>
+
+            <td colspan="1" class="center"><%= SubCategory.where(id:product.sub_category_id).name %></td>
+
+            <td colspan="1" class="center"><%= product.created_at.strftime('%d %B %Y') %></td>          
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<% else %>
+  
+  <h5>No Products</h5>
+<% end %>
