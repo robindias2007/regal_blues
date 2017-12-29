@@ -17,7 +17,7 @@ class Conversation < ApplicationRecord
   scope :involving, -> (user) do
     where("conversations.sender_id =? OR conversations.receiver_id =?",user.id,user.id)
   end
-  mount_base64_uploader :attachment, ImageUploader
+  # mount_base64_uploader :attachment, ImageUploader
 
   private
 
