@@ -24,7 +24,7 @@ module Messageable
 
 	def update
 		message = Message.find(params[:id])
-		if message.update(read: true)
+		if message.update(read: params[:read])
 			render json: {message: message}, status: 201
 		else
 			render json: {message: message.errors}, status: 400
