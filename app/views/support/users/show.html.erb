@@ -221,7 +221,7 @@
               <%= order.offer_quotation.offer.request.address.formatted_address %>
             </td>
             <td colspan="1" class="center">
-              <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order,conversationable_type: "User").id) rescue nil %>
+              <%= link_to "Chat", chat_path(Conversation.where(receiver_id:order,conversationable_type: "User").first.id) rescue nil %>
             </td>
           </tr>
         <% end %>

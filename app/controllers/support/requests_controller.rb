@@ -28,7 +28,6 @@ class Support::RequestsController < ApplicationController
 
   def show
     @request = Request.find(params[:id])
-    a = Conversation.where(receiver_id:@request)
   end
 
   def approve
