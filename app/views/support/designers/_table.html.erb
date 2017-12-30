@@ -48,7 +48,11 @@
           </td>
 
           <td colspan="1" class="center">
-            <%= link_to "Chat", chat_path(Conversation.where(receiver_id:designer,conversationable_type: "Designer").first.id) rescue nil %>
+            
+            <%= link_to 'Chat',
+              chat_path(Conversation.where(receiver_type:"support_on_general", conversationable_id:designer, conversationable_type: "Designer" ).first.id), 
+              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+            %>
           </td>
 
         </tr>
