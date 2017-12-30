@@ -2,6 +2,8 @@ class Message < ApplicationRecord
 	belongs_to :conversation
 	mount_base64_uploader :attachment, ImageUploader
 
+	validates_length_of :body, :minimum => 1
+
 	def self.as_json messages
     messages.collect{|msg| {
       id: msg.id,

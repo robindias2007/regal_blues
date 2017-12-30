@@ -28,3 +28,9 @@ $(document).ready(function() {
   });
   $('.collapsible').collapsible({accordion: false});
 });
+
+
+$('a[data-popup]').live('click', function(e) { 
+  window.open( $(this).attr('href'), "Popup", "height=300, width=300" ); 
+  e.preventDefault(); 
+});

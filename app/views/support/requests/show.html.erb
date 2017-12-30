@@ -12,8 +12,15 @@
   <div class="col s12">
     <div class="card">
       <div class="card-content">
-        <h5 class="card-stats-number center" style="word-spacing:500px">Details <%= link_to "Chat", chat_path(Conversation.where(receiver_id:@request).first.id) rescue nil %> </h5>
+        <h5 class="card-stats-number center" style="word-spacing:500px">
+          Details 
+          <%= link_to 'Chat',
+          chat_path(Conversation.where(receiver_id:@request,conversationable_type: "User").first.id), 
+          :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+          %> 
+      </h5>
 
+        
         <p class="card-stats-title">Name:
           <b><%= @request.name %></b>
         </p>
@@ -84,7 +91,7 @@
 
 
 
-<div class="col s12 m6 l6", id="collapse_offer" style="display:none">
+<div class="col s12 m6 l6", id="collapse_offer">
   <ul class="collapsible" data-collapsible="expandable">
     <li>
       <% @request.offers.each do |off| %>
@@ -99,7 +106,7 @@
               <li class="collection-item">Description: <b><%= offquo.description %></b></li>
               <li class="collection-item">Designer Note: <b><%= offquo.designer_note %></b></li> 
               <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
-                <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b></li>
+                <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&')).to_s %></b></li>
               <% end %>
               <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
                 <p class="card-stats-title">
@@ -116,9 +123,16 @@
   </ul>
 </div>
   
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   
   $("#offer_quote").click(function(){
     $("#collapse_offer").fadeToggle();
 });
-</script>
+</script> -->
+
+<style type="text/css">
+  #thumb
+  {
+    margin-right: 25px;
+  }
+</style>

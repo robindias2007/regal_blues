@@ -6,6 +6,7 @@ class Support::RequestsController < ApplicationController
   end
 
   def chat
+    @skip_header = true;
     @convo_id = Conversation.find(params[:id])
     @message = Message.new()
     # request_id = Request.find(params[:id]).id
@@ -20,7 +21,7 @@ class Support::RequestsController < ApplicationController
       @message.update_attributes(body:params[:message][:body], conversation_id:params[:message][:conversation_id])
       redirect_to chat_path(params[:message][:conversation_id])
       else
-      redirect_to :back
+      redirect_to root_url
       #render json: {message: message.errors}, status: 400
     end
   end
