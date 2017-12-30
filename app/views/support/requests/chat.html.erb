@@ -70,6 +70,7 @@
 					  <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
 					  <h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
 					  <h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
+					  <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).offer.request.name rescue nil %></h5>
 					<% else %>
 					  
 					<% end %>
