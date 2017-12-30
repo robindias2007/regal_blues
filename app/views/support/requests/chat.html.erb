@@ -62,8 +62,8 @@
 	     </ul> -->
   	
   	<div class="row">
-        <div class="col s1"></div>
-        <div class="col s9">
+        <div class="col s2"></div>
+        <div class="col s8">
 			<% Conversation.find(@convo_id.id).messages.each do |f| %>
 				<div class="container">
 					<p><%= f.body %></p>
@@ -72,25 +72,21 @@
 				<br><br>
 			<% end %>
         </div>
+        <div class="col s2"></div>
     </div>
-    <!-- <div class="row">
-    	<div class="col s1"></div>
+    <div class="row">
+    	<div class="col s2"></div>
     	<%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
-	    	<div class="col s7">
+	    	<div class="col s5">
 	    		<%= f.text_field :body, required:true %>
 	    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
 	    	</div>	
 	    	<div class="col s2">
 	    		<%= f.submit "Send Message", class: "waves-effect waves-light btn" %>
-	    		
 	    	</div>
 	    <% end %>
-    </div> -->
-
-   <div class="row" id="permen">
-   	Hey
-   </div> 
-          
+    	<div class="col s2"></div>
+    </div>          
 	</body>
 </html>
 
