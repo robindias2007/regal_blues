@@ -10,7 +10,7 @@ class Message < ApplicationRecord
 			conversation_id: msg.conversation_id,
 			created_at: msg.created_at,
 			updated_at: msg.updated_at,
-			sender_id: msg.conversation.conversationable_id,
+			sender_id: msg.sender_id,
 			receiver_id: msg.conversation.receiver_id
     }}
   end
