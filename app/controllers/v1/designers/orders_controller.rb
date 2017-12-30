@@ -38,6 +38,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
+      NotificationsMailer.fabric_unavailable(order).deliver
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
     else
@@ -55,12 +56,14 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def give_more_options_data
     order = current_designer.orders.find(params[:id])
+    NotificationsMailer.more_option(order).deliver
     render json: order, serializer: V1::Designers::OrderGiveMoreOptionsSerializer
   end
 
   def give_more_options
     order = current_designer.orders.find(params[:id])
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
+      NotificationsMailer.more_option(order).deliver
       order.designer_gives_more_options!
       render json: order, serializer: V1::Designers::OrderShowSerializer
     else

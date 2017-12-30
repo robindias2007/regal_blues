@@ -40,4 +40,50 @@ class NotificationsMailer < ApplicationMailer
 		@resource = resource
 		mail to: resource.email, subject: 'Order Cancelled'
 	end
+
+	def fabric_unavailable(order)
+		@order = order
+		mail to: order.user.email, subject: 'Fabric Unavailable'
+	end
+
+	def order_accept(order)
+		@order = order
+		mail to: order.designer.email, subject: 'Awaiting Confirmation'
+	end
+
+	def more_option(order)
+		@order = order
+		mail to: order.designer.email, subject: 'Awaiting Options'
+	end
+
+	def new_option(order)
+		@order = order
+		mail to: order.user.email, subject: 'More Options'
+	end
+
+	def under_qc(order)
+		@order = order
+		mail to: order.user.email, subject: 'Product Under QC'
+	end
+
+	def shipped_to_user(order)
+		@order = order
+		mail to: order.user.email, subject: 'Product Shipped to User'
+	end
+
+	def designer_shipped(order)
+		@order = order
+		mail to: order.designer.email, subject: 'Product Shipped to User'
+	end
+
+	def rejected_in_qc(order)
+		@order = order
+		mail to: order.designer.email, subject: 'Rejected in QC'
+	end
+
+	def product_deliverd(order)
+		@order = order
+		mail to: order.user.email, subject: 'Product Delivered'
+		mail to: order.designer.email, subject: 'Product Delivered'
+	end
 end

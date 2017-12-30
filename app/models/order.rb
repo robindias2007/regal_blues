@@ -76,6 +76,7 @@ class Order < ApplicationRecord
   # 5. Reject the product #
   #########################
 
+
   aasm column: 'status' do
     # Happy Path
     state :started, initial: true, after_enter: :update_datetime
@@ -83,12 +84,12 @@ class Order < ApplicationRecord
     state :designer_confirmed, after_enter: :update_datetime
     state :measurements_given, after_enter: :update_datetime
     state :in_production, after_enter: :update_datetime
-    state :shipped_to_qc, after_enter: :update_datetime
+    state :shipped_to_qc, after_enter: :update_datetime, after_commit: :send_mail
     state :delivered_to_qc, after_enter: :update_datetime
     state :in_qc, after_enter: :update_datetime
-    state :shipped_to_user, after_enter: :update_datetime
-    state :delivered_to_user, after_enter: :update_datetime
-    state :rejected_by_qc, after_enter: :update_datetime
+    state :shipped_to_user, after_enter: :update_datetime, after_commit: :send_shipped_mail
+    state :delivered_to_user, after_enter: :update_datetime, after_commit: :send_deliverd_mail
+    state :rejected_by_qc, after_enter: :update_datetime, after_commit: :qc_reject_mail
     # User Path: More Options + User Agrees
     state :user_awaiting_more_options, after_enter: :update_datetime
     state :designer_gave_more_options, after_enter: :update_datetime
@@ -208,6 +209,23 @@ class Order < ApplicationRecord
 
   def more_options_for_user?
     order_options.pluck(:more_options).include?(true)
+  end
+
+  def send_mail
+    NotificationsMailer.under_qc(self).deliver
+  end
+
+  def send_shipped_mail
+    NotificationsMailer.shipped_to_user(self).deliver
+    NotificationsMailer.designer_shipped(self).deliver
+  end
+
+  def qc_reject_mail
+    NotificationsMailer.rejected_in_qc(self).deliver
+  end
+
+  def send_deliverd_mail
+    NotificationsMailer.product_deliverd(self).deliver
   end
 
   private
