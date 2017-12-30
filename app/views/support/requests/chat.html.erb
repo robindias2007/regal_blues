@@ -61,7 +61,7 @@
 	      <li class="bold"><a href="/requests" class="waves-effect waves-teal">Requests</a></li>
 	     </ul> -->
   	
-		<div class="navbar-fixed">
+		<!-- <div class="navbar-fixed">
 			<nav>
 				<div class="nav-wrapper">
 					<div class="push-center">
@@ -83,6 +83,18 @@
 					</div>
 				</div>
 			</nav>
+		</div> -->
+		<div class="navbar">
+		    <% if (Order.where(id:@convo_id.receiver_id).present?) || (Request.where(id:@convo_id.receiver_id).present?) || (OfferQuotation.where(id:@convo_id.receiver_id).present?)  %>
+					  
+			    <h5><%= Order.where(id:@convo_id.receiver_id).first.offer_quotation.offer.request.name rescue nil %></h5>
+			    <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
+			    <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).offer.request.name rescue nil %></h5>
+		
+			<% else %>
+				<h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
+		    	<h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>  
+			<% end %>
 		</div>
 
 
@@ -90,7 +102,7 @@
   	<div class="row">
         <div class="col s1"></div>
         <div class="col s10">
-        	<br>
+        	<br><br><br>
 			<% Conversation.find(@convo_id.id).messages.each do |f| %>
 				<% if f.sender_id.present? %>
 					<div class="container darker" style="width:80%;float:left">
@@ -108,7 +120,7 @@
         </div>
         <div class="col s1"></div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
     	<div class="col s1"></div>
     	<%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 	    	<div class="col s5">
@@ -120,7 +132,27 @@
 	    	</div>
 	    <% end %>
     	<div class="col s1"></div>
-    </div>          
+    </div>  -->
+
+    <div class="footer">
+	    <div class="row">
+		    <div class="col s1"></div>
+		    <div class="col s9">
+			    <%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
+			  		<div class="col s9">
+			  			<br>
+			  			<%= f.text_field :body, required:true, width:"100" %>
+			    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
+			  		</div>
+			  		<div class="col s3">
+			  			<br>
+			  			<%= f.submit "SEND", class: "waves-effect waves-light btn" %>
+			  		</div>
+			  	<% end %>
+			</div>
+		  	<div class="col s2"></div>
+		</div>  	
+	</div>         
 	</body>
 </html>
 
@@ -140,7 +172,26 @@
  -->
 
 <style type="text/css">
-	#permen
+	.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #f2f2f2;
+   color: black;
+   text-align: center;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #4d3d65;
+  position: fixed;
+  color: white;
+  text-align: center;
+  top: 0;
+  width: 100%;
+}
+
 </style>
 
 
