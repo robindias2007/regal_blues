@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222065049) do
+ActiveRecord::Schema.define(version: 20171230060316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20171222065049) do
     t.uuid "sender_id"
     t.string "receiver_type"
     t.uuid "receiver_id"
+    t.text "conversationable_id"
+    t.string "conversationable_type"
     t.index ["receiver_type", "receiver_id"], name: "index_conversations_on_receiver_type_and_receiver_id"
     t.index ["support_chat_id"], name: "index_conversations_on_support_chat_id"
   end
@@ -60,6 +62,12 @@ ActiveRecord::Schema.define(version: 20171222065049) do
     t.datetime "updated_at", null: false
     t.index ["designer_id"], name: "index_designer_categorizations_on_designer_id"
     t.index ["sub_category_id"], name: "index_designer_categorizations_on_sub_category_id"
+  end
+
+  create_table "designer_chat_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "designer_finance_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -168,6 +176,8 @@ ActiveRecord::Schema.define(version: 20171222065049) do
     t.text "conversation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "read", default: false
+    t.text "sender_id"
   end
 
   create_table "offer_measurements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

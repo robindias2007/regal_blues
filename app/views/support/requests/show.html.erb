@@ -12,7 +12,7 @@
   <div class="col s12">
     <div class="card">
       <div class="card-content">
-        <h5 class="card-stats-number center" style="word-spacing:500px">Details <%= link_to "Chat", chat_path(Conversation.where(receiver_id:@request).first.id) rescue nil %> </h5>
+        <h5 class="card-stats-number center" style="word-spacing:500px">Details <%= link_to "Chat", chat_path(Conversation.where(receiver_id:@request,conversationable_type: "User").first.id) rescue nil %> </h5>
 
         <p class="card-stats-title">Name:
           <b><%= @request.name %></b>
