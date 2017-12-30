@@ -65,14 +65,15 @@
 			<nav>
 				<div class="nav-wrapper">
 					<div class="push-center">
-					<% if support_signed_in? %>
-					  <h5><%= Order.where(id:@convo_id.receiver_id).first.offer_quotation.offer.request.name rescue nil %></h5>
-					  <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
-					  <h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
-					  <h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
-					  <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).offer.request.name rescue nil %></h5>
-					<% else %>
+					<% if (Order.where(id:@convo_id.receiver_id).present?) || (Request.where(id:@convo_id.receiver_id).present?) || (OfferQuotation.where(id:@convo_id.receiver_id).present?)  %>
 					  
+					    <h5><%= Order.where(id:@convo_id.receiver_id).first.offer_quotation.offer.request.name rescue nil %></h5>
+					    <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
+					    <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).offer.request.name rescue nil %></h5>
+					
+					<% else %>
+						<h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
+					    <h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>  
 					<% end %>
 					</div>
 					<div class="th-nav">
