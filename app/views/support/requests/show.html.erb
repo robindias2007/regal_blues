@@ -96,7 +96,7 @@
     <li>
       <% @request.offers.each do |off| %>
         <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
-          <div class="collapsible-header">
+          <div class="collapsible-header active">
             <a href="#">Quote Details</a>
           </div>
 
