@@ -6,6 +6,7 @@ class Support::RequestsController < ApplicationController
   end
 
   def chat
+    @skip_header = true;
     @convo_id = Conversation.find(params[:id])
     @message = Message.new()
     # request_id = Request.find(params[:id]).id

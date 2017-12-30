@@ -91,7 +91,7 @@
 
 
 
-<div class="col s12 m6 l6", id="collapse_offer" style="display:none">
+<div class="col s12 m6 l6", id="collapse_offer">
   <ul class="collapsible" data-collapsible="expandable">
     <li>
       <% @request.offers.each do |off| %>
@@ -123,9 +123,16 @@
   </ul>
 </div>
   
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   
   $("#offer_quote").click(function(){
     $("#collapse_offer").fadeToggle();
 });
-</script>
+</script> -->
+
+<style type="text/css">
+  #thumb
+  {
+    margin-right: 25px;
+  }
+</style>
