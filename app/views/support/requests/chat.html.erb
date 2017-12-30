@@ -7,7 +7,7 @@
 
 			.container {
 			    border: 2px solid #dedede;
-			    background-color: #f1f1f1;
+			    
 			    border-radius: 5px;
 			    padding: 10px;
 			    width: 100%;
@@ -15,7 +15,7 @@
 
 			.darker {
 			    border-color: #ccc;
-			    background-color: #ddd;
+			    background-color: #edeff8;
 			}
 
 			.container img {
@@ -88,21 +88,28 @@
 
 
   	<div class="row">
-        <div class="col s2"></div>
-        <div class="col s8">
+        <div class="col s1"></div>
+        <div class="col s10">
         	<br>
 			<% Conversation.find(@convo_id.id).messages.each do |f| %>
-				<div class="container">
-					<p><%= f.body %></p>
-					<span class="time-right"><%= f.created_at.strftime('%d %b %Y') %></span>
-				</div>
+				<% if f.sender_id.present? %>
+					<div class="container darker" style="width:80%;float:left">
+						<p><%= f.body %></p>
+						<span class="time-right"><%= f.created_at.strftime('%d %b %Y') %></span>
+					</div><br><br><br>
+				<% else %>
+					<div class="container" style="width:80%;float:right;background:#ffe3a4">
+						<p><%= f.body %></p>
+						<span class="time-right"><%= f.created_at.strftime('%d %b %Y') %></span>
+					</div><br><br><br>
+				<% end %>
 				<br><br>
 			<% end %>
         </div>
-        <div class="col s2"></div>
+        <div class="col s1"></div>
     </div>
     <div class="row">
-    	<div class="col s2"></div>
+    	<div class="col s1"></div>
     	<%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 	    	<div class="col s5">
 	    		<%= f.text_field :body, required:true %>
@@ -112,7 +119,7 @@
 	    		<%= f.submit "Send Message", class: "waves-effect waves-light btn" %>
 	    	</div>
 	    <% end %>
-    	<div class="col s2"></div>
+    	<div class="col s1"></div>
     </div>          
 	</body>
 </html>
