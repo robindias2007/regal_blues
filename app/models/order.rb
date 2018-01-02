@@ -18,6 +18,7 @@ class Order < ApplicationRecord
   has_one :order_payment, dependent: :destroy
 
   before_save :generate_order_id
+  after_create :send_notification
 
   accepts_nested_attributes_for :order_options, allow_destroy: true
 
@@ -226,6 +227,11 @@ class Order < ApplicationRecord
 
   def send_deliverd_mail
     NotificationsMailer.product_deliverd(self).deliver
+  end
+
+  def send_notification
+    NotificationsMailer.order_accept(self).deliver
+    NotificationsMailer.give_measurement(self).deliver unless self.order_measurement.present?
   end
 
   private

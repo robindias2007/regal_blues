@@ -18,7 +18,6 @@ class V1::Users::OrdersController < V1::Users::BaseController
     order.designer = order.offer_quotation.offer.designer
     if order.save
       pay_and_assign_status(order)
-      NotificationsMailer.order_accept(order).deliver
     else
       render json: { errors: order.errors }
     end

@@ -86,4 +86,24 @@ class NotificationsMailer < ApplicationMailer
 		mail to: order.user.email, subject: 'Product Delivered'
 		mail to: order.designer.email, subject: 'Product Delivered'
 	end
+
+	def message_notification(resource, msg)
+		@message = msg
+		mail to: resource.email, subject: 'New Message'
+	end
+
+	def give_measurement(order)
+		@order = order
+		mail to: order.user.email, subject: 'Measurements Pending'
+	end
+
+	def interested(request_designer)
+		@request_designer = request_designer
+		mail to: request_designer.designer.email, subject: 'Time remaining for quotation'
+	end
+
+	def penalty(request_designer)
+		@request_designer = request_designer
+		mail to: request_designer.designer.email, subject: 'Quote Penalty'
+	end
 end
