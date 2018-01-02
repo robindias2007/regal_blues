@@ -9,7 +9,7 @@ module Registerable
 
     def create
       resource = resource_class.new(resource_params) 
-      if resource.save!
+      if resource.save
         jwt = Auth.issue(resource: resource.id)
         render json: { message: "#{resource_class.name} created successfully", jwt: jwt }, status: 201
       else
