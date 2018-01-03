@@ -1,5 +1,9 @@
+Dear <%= @resource.full_name %>
 <% if @resource.class.name == "User" %>
-	Your order with order id <%= @order.id %> has been cancelled. Money would be refunded in 7 working days.
+	Your order has been successfully cancelled for order with order id <%= @order.id %>. We will refund your money within 7 working days. Please login to your profile and check the updated status of your order.
 <% elsif @resource.class.name == "Designer"%>
 	Your order with order id <%= @order.id %> has been cancelled by <%= @order.user.full_name%>.
 <% end %>
+
+Regards
+Team Custumise

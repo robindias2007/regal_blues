@@ -1,5 +1,19 @@
 <% if @resource.class.name == "Designer" %>
-	Your email has been verified and you can set up your store now.
+	Dear <%= @resource.full_name %>
+	Your account verification is successful. You can now add products to your inventory, accept customer requests and send offers. Please login to your account and start selling.
+
+	Thank you 
+
+	Regards
+	Team Custumise
 <% elsif @resource.class.name == "User"%>
+	Dear <%= @resource.full_name %>
+	Your account verification is successful. You can now send outfit requests, receive offers from designers and custumise existing products. Please login to your profile and get started.
+
+	Thank you 
+
+	Regards
+	Team Custumise
+<% else %>
 	Your email has been verified and your account is active now.
 <% end %>
