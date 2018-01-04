@@ -81,6 +81,26 @@ class Designer < ApplicationRecord
     ["#{designer_store_info&.display_name} --> #{full_name} (#{email})", nil]
   end
 
+  def as_json
+    self.requests.collect{|request| {
+      id: request.id,
+      name: request.name,
+      size: request.size,
+      min_budget: request.min_budget,
+      max_budget: request.max_budget,
+      timeline: request.timeline,
+      description: request.description,
+      user_id: request.user_id,
+      sub_category_id: request.sub_category_id,
+      created_at: request.created_at,
+      updated_at: request.updated_at,
+      address_id: request.address_id,
+      status: request.status,
+      origin: request.origin,
+      message_count: self.conversations.where(receiver_id: request.id)[0].try(:messages).try(:count) 
+    }}
+  end
+
   private
 
   def generate_pin
