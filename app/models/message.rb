@@ -38,10 +38,10 @@ class Message < ApplicationRecord
   	if sender.present?
   		if sender.class.name == "Designer" || sender.class.name == "User"
 	  		Support.all.each do |sup|
-	  			NotificationsMailer.message_notification(sup, self).deliver
+	  			NotificationsMailer.message_notification(sup, self, sender).deliver
 	  		end
 	  	elsif sender.class.name == "Support"
-	  		NotificationsMailer.message_notification(self.conversation.conversationable, self).deliver
+	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver
 	  	end
   	end
   end

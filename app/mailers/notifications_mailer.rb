@@ -93,10 +93,10 @@ class NotificationsMailer < ApplicationMailer
 		mail to: order.designer.email, subject: 'Product Delivered'
 	end
 
-	def message_notification(resource, msg)
+	def message_notification(resource, msg, sender)
 		@message = msg
 		@resource = resource
-		@sender = User.find(msg.sender_id) rescue @sender = Designer.find(msg.sender_id) rescue @sender = Support.find(msg.sender_id) rescue
+		@sender = sender
 		mail to: resource.email, subject: 'You have a new message'
 	end
 
