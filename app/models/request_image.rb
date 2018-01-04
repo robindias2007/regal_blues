@@ -14,7 +14,7 @@ class RequestImage < ApplicationRecord
 
     def make_image
       require 'open3'
-      image_data = Open3.popen3("convert -size 1024x1024 canvas:#{color} PNG:-| base64") do |_, out, _, _|
+      image_data = Open3.popen3("convert -size 1024x1024 canvas:##{color} PNG:-| base64") do |_, out, _, _|
         out.read.chomp
       end
       self.image = 'data:image/png;base64,' + image_data
