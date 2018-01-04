@@ -15,6 +15,7 @@ class Message < ApplicationRecord
 			created_at: msg.created_at,
 			updated_at: msg.updated_at,
 			sender_id: msg.sender_id,
+			read: msg.read,
 			receiver_id: msg.conversation.receiver_id
     }}
   end

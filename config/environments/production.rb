@@ -103,7 +103,7 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'developer@custumise.com',
+    user_name:            'support@custumise.com',
     password:             'niwxlxvthucgnqsl',
     authentication:       :login,
     enable_starttls_auto: true

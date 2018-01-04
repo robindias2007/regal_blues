@@ -69,7 +69,7 @@ class NotificationsMailer < ApplicationMailer
 
 	def under_qc(order)
 		@order = order
-		mail to: order.user.email, subject: 'Product Under QC'
+		mail to: order.designer.email, subject: 'Your order has reached QC'
 	end
 
 	def shipped_to_user(order)
@@ -84,7 +84,7 @@ class NotificationsMailer < ApplicationMailer
 
 	def rejected_in_qc(order)
 		@order = order
-		mail to: order.designer.email, subject: 'Rejected in QC'
+		mail to: order.designer.email, subject: 'Your order was rejected in QC'
 	end
 
 	def product_deliverd(order)
@@ -95,7 +95,9 @@ class NotificationsMailer < ApplicationMailer
 
 	def message_notification(resource, msg)
 		@message = msg
-		mail to: resource.email, subject: 'New Message'
+		@resource = resource
+		@sender = User.find(msg.sender_id) rescue @sender = Designer.find(msg.sender_id) rescue @sender = Support.find(msg.sender_id) rescue
+		mail to: resource.email, subject: 'You have a new message'
 	end
 
 	def give_measurement(order)
@@ -110,6 +112,6 @@ class NotificationsMailer < ApplicationMailer
 
 	def penalty(request_designer)
 		@request_designer = request_designer
-		mail to: request_designer.designer.email, subject: 'Quote Penalty'
+		mail to: request_designer.designer.email, subject: 'You have received a penalty'
 	end
 end
