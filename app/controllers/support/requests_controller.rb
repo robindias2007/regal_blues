@@ -17,11 +17,12 @@ class Support::RequestsController < ApplicationController
     conversation = Conversation.find(params[:id])
     @message = conversation.messages.new(message_params)
     @message.sender_id = current_support.id
+    debugger
     if @message.save!
 
       # render json: {message: Message.as_a_json(message)}, status: 201
       #render json: {message: message}, status: 201
-      @message.update_attributes(body:params[:message][:body], conversation_id:params[:message][:conversation_id])
+      @message.update_attributes(body:params[:message][:body], conversation_id:params[:message][:conversation_id], attachment:params[:message][:attachment])
       redirect_to chat_path(params[:message][:conversation_id])
       else
       redirect_to root_url
