@@ -21,7 +21,7 @@ class V1::Designers::ConversationsController < V1::Designers::BaseController
   end
 
   def chat_type
-    user_chat_type = {support_general: Support.as_json, requests: current_designer.as_json, orders: current_designer.orders, offers: current_designer.offers}
+    user_chat_type = {support_general: Support.as_json(current_designer), requests: current_designer.as_request_json, orders: current_designer.as_order_json, offers: current_designer.as_offer_json}
     if user_chat_type.present?
       render json: {user_chat_type: user_chat_type}, status: 201
     else

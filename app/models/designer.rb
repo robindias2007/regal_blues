@@ -81,7 +81,7 @@ class Designer < ApplicationRecord
     ["#{designer_store_info&.display_name} --> #{full_name} (#{email})", nil]
   end
 
-  def as_json
+  def as_request_json
     self.requests.collect{|request| {
       id: request.id,
       name: request.name,
@@ -98,6 +98,31 @@ class Designer < ApplicationRecord
       status: request.status,
       origin: request.origin,
       message_count: self.conversations.where(receiver_id: request.id)[0].try(:messages).try(:count) 
+    }}
+  end
+
+  def as_order_json
+    self.orders.collect{|order| {
+      id: order.id,
+      designer_id: order.designer_id,
+      user_id: order.user_id,
+      offer_quotation_id: order.offer_quotation_id,
+      status: order.status,
+      order_id: order.order_id,
+      created_at: order.created_at,
+      updated_at: order.updated_at,
+      message_count: self.conversations.where(receiver_id: order.id)[0].try(:messages).try(:count)
+    }}
+  end
+
+  def as_offer_json
+    self.offers.collect{|offer| {
+      id: offer.id,
+      designer_id: offer.designer_id,
+      request_id: offer.request_id,
+      created_at: offer.created_at,
+      updated_at: offer.updated_at,
+      message_count: self.conversations.where(receiver_id: offer.id)[0].try(:messages).try(:count)
     }}
   end
 

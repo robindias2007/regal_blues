@@ -16,8 +16,11 @@ class Support < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable, :lockable,
     :recoverable, :rememberable, :trackable, :validatable
 
-  def self.as_json(options={})
-    Support.all.collect{|support| { id: support.id }}
+  def self.as_json(current_resource)
+    Support.all.collect{|support| { 
+      id: support.id,
+      message_count: current_resource.conversations.where(receiver_id: support.id)[0].try(:messages).try(:count) 
+    }}
   end
 
 end
