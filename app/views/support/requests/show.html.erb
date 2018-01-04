@@ -98,7 +98,7 @@
         <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
           <div class="collapsible-header active">
             
-            <a href="#">Quote Details</a>
+            <a href="#">Quote Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%= link_to 'Chat',
             chat_path(Conversation.where(receiver_id:offquo,conversationable_type: "User").first.id), 
             :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
