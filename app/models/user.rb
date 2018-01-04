@@ -83,6 +83,40 @@ class User < ApplicationRecord
     ["#{full_name} (#{email})", nil]
   end
 
+  def as_request_json
+    self.requests.collect{|request| {
+      id: request.id,
+      name: request.name,
+      size: request.size,
+      min_budget: request.min_budget,
+      max_budget: request.max_budget,
+      timeline: request.timeline,
+      description: request.description,
+      user_id: request.user_id,
+      sub_category_id: request.sub_category_id,
+      created_at: request.created_at,
+      updated_at: request.updated_at,
+      address_id: request.address_id,
+      status: request.status,
+      origin: request.origin,
+      message_count: self.conversations.where(receiver_id: request.id)[0].try(:messages).try(:count) 
+    }}
+  end
+
+  def as_order_json
+    self.orders.collect{|order| {
+      id: order.id,
+      designer_id: order.designer_id,
+      user_id: order.user_id,
+      offer_quotation_id: order.offer_quotation_id,
+      status: order.status,
+      order_id: order.order_id,
+      created_at: order.created_at,
+      updated_at: order.updated_at,
+      message_count: self.conversations.where(receiver_id: order.id)[0].try(:messages).try(:count)
+    }}
+  end
+
   # private
   #
   # # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400

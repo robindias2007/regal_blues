@@ -22,7 +22,7 @@ class V1::Users::ConversationsController < V1::Users::BaseController
 
   def chat_type
     offers = request_conditional_offers.order(created_at: :desc).limit(20)
-    user_chat_type = {support_general: Support.as_json, requests: current_user.requests, orders: current_user.orders, offers: Offer.as_json(offers)}
+    user_chat_type = {support_general: Support.as_json(current_user), requests: current_user.as_request_json, orders: current_user.as_order_json, offers: Offer.as_json(offers, current_user)}
     
     if user_chat_type.present?
       render json: {user_chat_type: user_chat_type}, status: 201

@@ -23,13 +23,14 @@ class Offer < ApplicationRecord
     joins(:request).where(requests: { user: user, id: request_id })
   end
 
-  def self.as_json offers
+  def self.as_json(offers, current_resource)
     offers.collect{|offer| {
       id: offer.id,
       designer_id: offer.designer_id,
       request_id: offer.request_id,
       created_at: offer.created_at,
       updated_at: offer.updated_at,
+      message_count: current_resource.conversations.where(receiver_id: offer.id)[0].try(:messages).try(:count),
       offer_quotations: offer.offer_quotations.collect{|quotation| {
         id: quotation.id,
         price: quotation.price,
@@ -37,7 +38,7 @@ class Offer < ApplicationRecord
         created_at: quotation.created_at,
         updated_at: quotation.updated_at
       }}
-     }}
+    }}
   end
 
   private
