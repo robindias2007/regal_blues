@@ -107,12 +107,12 @@
 				<% if f.sender_id == current_support.id %>
 					<div class="container darker" style="width:80%;float:right">
 						<p><%= f.body %></p>
-						<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+						<span class="time-right"><%= f.created_at.strftime('%d %b %Y at %I:%M%p') %></span>
 					</div><br><br><br>
 				<% else %>
 					<div class="container" style="width:80%;float:left;background:#ffe3a4">
 						<p><%= f.body %></p>
-						<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+						<span class="time-right"><%= f.created_at.strftime('%d %b %Y at %I:%M%p') %></span>
 					</div><br><br><br>
 				<% end %>
 				<br><br>
@@ -158,16 +158,16 @@
 
 
 <script type="text/javascript">
-	$(document).ready(function() {
-	  setInterval(function() {
-	    cache_clear()
-	  }, 20000);
-	});
+	// $(document).ready(function() {
+	//   setInterval(function() {
+	//     cache_clear()
+	//   }, 20000);
+	// });
 
-	function cache_clear() {
-	  window.location.reload(true);
-	  // window.location.reload(); use this if you do not remove cache
-	}
+	// function cache_clear() {
+	//   window.location.reload(true);
+	//   // window.location.reload(); use this if you do not remove cache
+	// }
 </script>
 
 
