@@ -99,7 +99,7 @@
 
 
 
-  	<div class="row">
+  	<div class="row" id="conversation_section">
         <div class="col s1"></div>
         <div class="col s10">
         	<br><br><br>
@@ -158,16 +158,25 @@
 
 
 <script type="text/javascript">
-	$(document).ready(function() {
-	  setInterval(function() {
-	    cache_clear()
-	  }, 20000);
-	});
+	// $(document).ready(function() {
+	//   setInterval(function() {
+	//     cache_clear()
+	//   }, 5000);
+	// });
 
-	function cache_clear() {
-	  window.location.reload(true);
-	  // window.location.reload(); use this if you do not remove cache
-	}
+	// function cache_clear() {
+	//   window.location.reload(true);
+	//   // window.location.reload(); use this if you do not remove cache
+	// }
+
+	window.scrollTo(0,document.body.scrollHeight);
+	
+	function autoRefresh_div()
+ 	{
+      $("#conversation_section").load(document.URL +  ' #conversation_section');// a function which will load data from other file after x seconds
+  	}
+ 
+  	setInterval('autoRefresh_div()', 10000); // refresh div after 5 secs
 </script>
 
 
