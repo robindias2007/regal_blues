@@ -1,6 +1,6 @@
 Dear <%= @user.full_name %><br><br>
 
-<% if @resource.class.name == "Designer" %>
+<% if @user.class.name == "Designer" %>
 	Welcome on board! Thank you for signing up with Custumise and becoming a part of our endeavour to make custom made outfits a part of every woman’s wardrobe. You can now setup your store and add your products. A few simple tips before you get started.<br>
 	Try to upload multiple images for the garments like front, side and detail zoom in.<br>
 	Give a detailed description about the product in terms of styling, fabric and work.<br>
@@ -12,7 +12,7 @@ Dear <%= @user.full_name %><br><br>
 
 	For any information or feedback, email us at connect.custumise.com<br><br>
 
-<% elsif @resource.class.name == "User"%>
+<% elsif @user.class.name == "User"%>
 	Welcome on board! Thank you for signing up with Custumise. You are only a few steps away from your very own custom made outfit. A few simple tips before you get started on how easy it is to use Custumise.<br>
 	Create a request by uploading a picture/s of something similar to what you’re looking for. Write a short description and your budget estimate.<br>
 	The designers will send you multiple options based on your request and budget.<br>
