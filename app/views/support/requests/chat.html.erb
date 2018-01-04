@@ -104,7 +104,7 @@
         <div class="col s10">
         	<br><br><br>
 			<% Conversation.find(@convo_id.id).messages.each do |f| %>
-				<% if f.sender_id.present? %>
+				<% if f.sender_id == current_support.id %>
 					<div class="container darker" style="width:80%;float:left">
 						<p><%= f.body %></p>
 						<span class="time-right"><%= f.created_at.strftime('%d %b %Y') %></span>
@@ -157,11 +157,11 @@
 </html>
 
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	$(document).ready(function() {
 	  setInterval(function() {
 	    cache_clear()
-	  }, 10000);
+	  }, 20000);
 	});
 
 	function cache_clear() {
@@ -169,7 +169,7 @@
 	  // window.location.reload(); use this if you do not remove cache
 	}
 </script>
- -->
+
 
 <style type="text/css">
 	.footer {
