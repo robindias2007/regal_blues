@@ -1,1 +1,6 @@
-You have a new message for <%= @message.conversation.receiver_type %> with id <%= @message.conversation.receiver_id %>
+Dear <%= @resource.full_name %><br><br>
+
+You have a new message for <%= @message.conversation.receiver_type %> from  <%= @sender.full_name %><br><br>
+
+Regards<br>
+Team Custumise

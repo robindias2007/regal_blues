@@ -1,1 +1,6 @@
-Your measurements are pending for <%= @order.id %>. <%= @order.designer.full_name %> cannot start production until you give measurements.
+Dear <%= @order.user.full_name %><br><br>
+
+Your measurements are pending for order with order id <%= @order.order_id %>. <%= @order.designer.full_name %> cannot start production until you give measurements. Please login to your profile and add measurements for the order.<br><br>
+
+Regards<br>
+Team Custumise
