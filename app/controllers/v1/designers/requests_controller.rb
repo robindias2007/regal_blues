@@ -31,7 +31,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
       NotificationsMailer.interested(@request_designer).deliver
-      NotificationsMailer.penalty(@request_designer).deliver
+      # NotificationsMailer.penalty(@request_designer).deliver
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
     else
       render json: { errors: @request_designer.errors }, status: 400
