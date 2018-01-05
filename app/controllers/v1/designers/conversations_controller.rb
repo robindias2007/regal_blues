@@ -27,6 +27,7 @@ class V1::Designers::ConversationsController < V1::Designers::BaseController
     else
       render json: { errors: user_chat_type.errors }, status: 400
     end
+
   end
 
   def fetch_conversation
