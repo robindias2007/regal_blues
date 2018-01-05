@@ -54,7 +54,7 @@
 
 			#thumb
 			{
-				width: 50%;
+				width: 40%;
 				margin-top: 10px;
 				margin-bottom: 10px;
 				border: 2px solid grey;
@@ -77,7 +77,7 @@
 		 
 		  	setInterval('autoRefresh_div()', 5000); // refresh div after 10 secs
 
-		  	window.scrollTo(0,document.body.scrollHeight); // Go to the bottom of the page when opening window
+		  	// window.scrollTo(0,document.body.scrollHeight); // Go to the bottom of the page when opening window
 		</script>
 
 		
@@ -110,8 +110,7 @@
 						<% end %>
 						<% if f.attachment.present? %>
 							<div class="image_cont">
-								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"></a>
-								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"><span style="color: #aaa; margin-top: -10px;"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span></a>
 							</div>
 						<% end %>
 					<% else %>
@@ -123,8 +122,7 @@
 						<% end %>
 						<% if f.attachment.present? %>
 							<div class="image_cont">
-								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"></a>
-								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"><span style="color: #aaa; margin-top: -10px;"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span></a>
 							</div>
 						<% end %>
 					<% end %>
