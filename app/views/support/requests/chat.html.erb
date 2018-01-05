@@ -3,8 +3,6 @@
 	<head>
 		<style type="text/css">
 
-			
-
 			.container {
 			    border: 2px solid #dedede;
 			    
@@ -16,20 +14,10 @@
 			.darker {
 			    border-color: #ccc;
 			    background-color: #edeff8;
-			}
+			    width:80%;
+			    float:right;
+			    margin-top: 10px;
 
-			.container img {
-			    float: left;
-			    max-width: 60px;
-			    width: 100%;
-			    margin-right: 20px;
-			    border-radius: 50%;
-			}
-
-			.container img.right {
-			    float: right;
-			    margin-left: 20px;
-			    margin-right:0;
 			}
 
 			.time-right {
@@ -43,97 +31,112 @@
 			    color: #999;
 			    margin-top: -10px;
 			}
+
+			.footer {
+		   position: fixed;
+		   left: 0;
+		   bottom: 0;
+		   width: 100%;
+		   background-color: #f2f2f2;
+		   color: black;
+		   text-align: center;
+			}
+
+			.navbar {
+		  overflow: hidden;
+		  background-color: #4d3d65;
+		  position: fixed;
+		  color: white;
+		  text-align: center;
+		  top: 0;
+		  width: 100%;
+			}
+
+			#thumb
+			{
+				width: 50%;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				border: 2px solid grey;
+			}
+
+			.image_cont
+			{
+				 width:80%;
+				 float:right;
+			}
+
 		</style>
+
+		<script type="text/javascript">
+
+			function autoRefresh_div()
+		 	{
+		      $("#conversation_section").load(document.URL +  ' #conversation_section');// a function which will load data from other file after x seconds
+		  	}
+		 
+		  	setInterval('autoRefresh_div()', 10000); // refresh div after 10 secs
+		
+		  	window.scrollTo(0,document.body.scrollHeight); // Go to the bottom of the page when opening window
+		</script>
+
 		
 	</head>
 	<body>
-		<!-- <div class="row">
-	  		<div class="col s2"></div>
-	  		<div class="col s8"><h5>CHAT MESSAGES</h5></div>
-	  		<div class="col s2"></div>
-	  	</div> -->
-		<!-- <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
-	      <li class="bold"><a href="#" class="waves-effect waves-teal"><h5>Custumise Chat</h5></a></li>
-	      <br><br>
-	      <li class="bold"><a href="#" class="waves-effect waves-teal">General Chat</a></li>
-	      <li class="bold"><a href="/users" class="waves-effect waves-teal">Users</a></li>
-	      <li class="bold"><a href="/designers" class="waves-effect waves-teal">Designers</a></li>
-	      <li class="bold"><a href="/requests" class="waves-effect waves-teal">Requests</a></li>
-	     </ul> -->
-  	
-		<!-- <div class="navbar-fixed">
-			<nav>
-				<div class="nav-wrapper">
-					<div class="push-center">
-					<% if (Order.where(id:@convo_id.receiver_id).present?) || (Request.where(id:@convo_id.receiver_id).present?) || (OfferQuotation.where(id:@convo_id.receiver_id).present?)  %>
-					  
-					    <h5><%= Order.where(id:@convo_id.receiver_id).first.offer_quotation.offer.request.name rescue nil %></h5>
-					    <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
-					    <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).offer.request.name rescue nil %></h5>
-					
-					<% else %>
-						<h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
-					    <h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>  
-					<% end %>
-					</div>
-					<div class="th-nav">
-					<ul class="right hide-on-med-and-down">
-					  <%= render 'shared/navlinks' %>
-					</ul>
-					</div>
-				</div>
-			</nav>
-		</div> -->
 		<div class="navbar">
-		    <% if (Order.where(id:@convo_id.receiver_id).present?) || (Request.where(id:@convo_id.receiver_id).present?) || (OfferQuotation.where(id:@convo_id.receiver_id).present?)  %>
-					  
-			    <h5><%= Order.where(id:@convo_id.receiver_id).first.offer_quotation.offer.request.name rescue nil %></h5>
-			    <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
-			    <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).first.offer.request.name rescue nil %></h5>
-		
+		  <% if (Order.where(id:@convo_id.receiver_id).present?) || (Request.where(id:@convo_id.receiver_id).present?) || (OfferQuotation.where(id:@convo_id.receiver_id).present?)  %>
+		    <h5><%= Order.where(id:@convo_id.receiver_id).first.offer_quotation.offer.request.name rescue nil %></h5>
+		    <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
+		    <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).first.offer.request.name rescue nil %></h5>
 			<% else %>
 				<h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
-		    	<h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>  
+		    <h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>  
 			<% end %>
 		</div>
 
 
 
   	<div class="row" id="conversation_section">
-        <div class="col s1"></div>
-        <div class="col s10">
-        	<br><br><br>
-			<% Conversation.find(@convo_id.id).messages.each do |f| %>
-				<% if f.sender_id == current_support.id %>
-					<div class="container darker" style="width:80%;float:right">
-						<p><%= f.body %></p>
-						<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
-					</div><br><br><br>
-				<% else %>
-					<div class="container" style="width:80%;float:left;background:#ffe3a4">
-						<p><%= f.body %></p>
-						<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
-					</div><br><br><br>
+      <div class="col s1"></div>
+      <div class="col s10">
+      	<br><br><br>
+				<% Conversation.find(@convo_id.id).messages.each do |f| %>
+					<% if f.sender_id == current_support.id %>
+						<% if f.body.present? %>
+							<div class="container darker">
+								<p><%= f.body %></p>
+								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+							</div>
+						<% end %>
+						<% if f.attachment.present? %>
+							<div class="image_cont">
+								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"></a>
+								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+							</div>
+						<% end %>
+					<% else %>
+						<% if f.body.present? %>
+							<div class="container" style="width:80%;float:left;background:#ffe3a4;margin-top: 10px;">
+								<p><%= f.body %></p>
+								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+							</div>
+						<% end %>
+						<% if f.attachment.present? %>
+							<div class="image_cont">
+								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"></a>
+								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+							</div>
+						<% end %>
+					<% end %>
 				<% end %>
-				<br><br>
-			<% end %>
-        </div>
-        <div class="col s1"></div>
+      </div>
+      <div class="col s1"></div>
     </div>
-    <!-- <div class="row">
-    	<div class="col s1"></div>
-    	<%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
-	    	<div class="col s5">
-	    		<%= f.text_field :body, required:true %>
-	    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
-	    	</div>	
-	    	<div class="col s2">
-	    		<%= f.submit "Send Message", class: "waves-effect waves-light btn" %>
-	    	</div>
-	    <% end %>
-    	<div class="col s1"></div>
-    </div>  -->
-    <br><br><br>
+    
+    <div class="row">
+    	<br><br><br><br><br>
+    </div>
+    
     <div class="footer">
 	    <div class="row">
 		    <div class="col s1"></div>
@@ -141,7 +144,8 @@
 			    <%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 			  		<div class="col s9">
 			  			<br>
-			  			<%= f.text_field :body, required:true, width:"100" %>
+			  			<%= f.text_field :body, width:"100" %>
+			    		<%= f.file_field :attachment %>
 			    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
 			  		</div>
 			  		<div class="col s3">
@@ -155,53 +159,6 @@
 	</div>         
 	</body>
 </html>
-
-
-<script type="text/javascript">
-	// $(document).ready(function() {
-	//   setInterval(function() {
-	//     cache_clear()
-	//   }, 5000);
-	// });
-
-	// function cache_clear() {
-	//   window.location.reload(true);
-	//   // window.location.reload(); use this if you do not remove cache
-	// }
-
-	window.scrollTo(0,document.body.scrollHeight);
-	
-	function autoRefresh_div()
- 	{
-      $("#conversation_section").load(document.URL +  ' #conversation_section');// a function which will load data from other file after x seconds
-  	}
- 
-  	setInterval('autoRefresh_div()', 10000); // refresh div after 5 secs
-</script>
-
-
-<style type="text/css">
-	.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: #f2f2f2;
-   color: black;
-   text-align: center;
-}
-
-.navbar {
-  overflow: hidden;
-  background-color: #4d3d65;
-  position: fixed;
-  color: white;
-  text-align: center;
-  top: 0;
-  width: 100%;
-}
-
-</style>
 
 
 
