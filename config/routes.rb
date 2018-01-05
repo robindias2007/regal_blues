@@ -87,7 +87,7 @@ Rails.application.routes.draw do
       get 'resend-otp', to: 'registrations#resend_otp'
       post 'verify-otp', to: 'registrations#verify_otp'
       get 'me', to: 'registrations#show'
-      get 'me/update', to: 'registrations#update'
+      post 'me/update', to: 'registrations#update'
       delete '/me/delete', to: 'registrations#destroy'
 
       # Authentication
