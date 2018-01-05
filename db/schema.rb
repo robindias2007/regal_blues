@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171230060316) do
+ActiveRecord::Schema.define(version: 20180105073016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20171230060316) do
     t.text "bio"
     t.string "live_status"
     t.integer "skip_count", default: 0, null: false
+    t.text "devise_token"
     t.index ["active"], name: "index_designers_on_active", where: "active"
     t.index ["confirmation_token"], name: "index_designers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_designers_on_email", unique: true
@@ -505,6 +506,7 @@ ActiveRecord::Schema.define(version: 20171230060316) do
     t.datetime "updated_at", null: false
     t.text "bio"
     t.boolean "verified", default: true
+    t.text "devise_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["mobile_number"], name: "index_users_on_mobile_number", unique: true
