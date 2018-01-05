@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Designers::RequestsController < V1::Designers::BaseController
+  include PushNotification
   before_action :find_request_designer, only: %i[toggle_not_interested mark_involved]
 
   def index
@@ -31,6 +32,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
       NotificationsMailer.interested(@request_designer).deliver
+      send_notification(@request_designer.designer.devise_token, "48 hrs left to send quote for the request", "48 hrs left to send quote for the request")
       # NotificationsMailer.penalty(@request_designer).deliver
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
     else

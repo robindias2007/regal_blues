@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class V1::Designers::OffersController < V1::Designers::BaseController
+  include PushNotification
   def create
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     if offer.save
       # TODO: Send a notification to the user and the support team
       NotificationsMailer.new_offer(offer).deliver
+      send_notification(offer.request.user.devise_token, "You have a new offer", "You have a new offer")
       render json: { message: 'Offer saved successfully' }, status: 201
     else
       render json: { errors: offer.errors.messages }, status: 400

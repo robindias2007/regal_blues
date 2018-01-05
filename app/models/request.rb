@@ -2,6 +2,7 @@
 
 class Request < ApplicationRecord
   extend Enumerize
+  include PushNotification
 
   belongs_to :user
   belongs_to :sub_category
@@ -39,6 +40,7 @@ class Request < ApplicationRecord
   def send_request_mail
     self.request_designers.each do |request_designer|
       NotificationsMailer.new_request(self.user, request_designer.designer).deliver
+      Request.new.send_notification(request_designer.designer.devise_token, "You have a new request", "You have a new request")
     end
   end
 end
