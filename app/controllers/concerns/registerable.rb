@@ -85,6 +85,15 @@ module Registerable
       end
     end
 
+    def update_devise_token
+      devise_token = current_resource.update(devise_token: params[:devise_token])
+      if devise_token
+        render json: { message: 'devise token updated' }, status: 200
+      else
+        render json: { message: devise_token.errors }, status: 200
+      end
+    end
+
     def resend_otp
       current_resource.send_otp
       render json: { message: 'OTP resent successfully' }, status: 200
