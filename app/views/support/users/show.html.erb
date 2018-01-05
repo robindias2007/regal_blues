@@ -175,13 +175,13 @@
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
             </td>
-            <td colspan="1" class="center"><%= @user.as_request_json.pluck(:message_count) %></td>
-
             <td colspan="1" class="center">
-              <% @user.as_request_json.pluck(:message_count).each do |x| %>
-                <%= x %>
-              <% end %> 
+              <% a =  @user.as_request_json.pluck(:message_count) %>
+              <% for b in a %>
+                <%= b %>
+              <% end %>
             </td>
+
 
           </tr>
         <% end %>
@@ -210,6 +210,8 @@
           <th colspan="1" class="center">Time to deliver</th>
           <th colspan="1" class="center">Shipping Address</th>
           <th colspan="1" class="center">Chat</th>
+          <th colspan="1" class="center">Message Count</th>
+          <th colspan="1" class="center">Unread Count</th>
         </tr>
       </thead>
       <tbody>
@@ -237,6 +239,13 @@
               chat_path(Conversation.where(receiver_id:order,conversationable_type: "User").first.id), 
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
+            </td>
+            <td colspan="1" class="center"><%= @user.as_order_json.pluck(:message_count) %></td>
+
+            <td colspan="1" class="center">
+              <% @user.as_order_json.pluck(:message_count) do |x| %>
+                <%= x %>
+              <% end %> 
             </td>
           </tr>
         <% end %>
