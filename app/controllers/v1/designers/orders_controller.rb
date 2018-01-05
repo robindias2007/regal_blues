@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Designers::OrdersController < V1::Designers::BaseController
+  include PushNotification
   def index
     orders = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(designer: current_designer)
                   .order(created_at: :desc)
@@ -18,10 +19,13 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       order.designer_confirms!
       # TODO: Notify the user
       NotificationsMailer.order_confirm(order).deliver
+      send_notification(order.user.devise_token, "Your order is confirmed", "Your order is confirmed")
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
       NotificationsMailer.order_cancel(order.user, order).deliver
+      send_notification(order.user.devise_token, "Order Cancelled", "Order Cancelled")
       NotificationsMailer.order_cancel(order.designer, order).deliver
+      send_notification(order.designer.devise_token, "Order Cancelled", "Order Cancelled")
       render json: {
         errors:  order.errors,
         message: 'Not all the orders are selected by the user or the order has not been paid yet'
@@ -39,6 +43,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
       NotificationsMailer.fabric_unavailable(order).deliver
+      send_notification(order.user.devise_token, "Fabric of your choice is unavailable", "Fabric of your choice is unavailable")
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
     else
@@ -57,6 +62,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def give_more_options_data
     order = current_designer.orders.find(params[:id])
     NotificationsMailer.more_option(order).deliver
+    send_notification(order.designer.devise_token, "Awaiting more options on your offer", "Awaiting more options on your offer")
     render json: order, serializer: V1::Designers::OrderGiveMoreOptionsSerializer
   end
 
@@ -64,6 +70,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
       NotificationsMailer.more_option(order).deliver
+      send_notification(order.designer.devise_token, "Awaiting more options on your offer", "Awaiting more options on your offer")
       order.designer_gives_more_options!
       render json: order, serializer: V1::Designers::OrderShowSerializer
     else

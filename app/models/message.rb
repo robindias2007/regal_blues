@@ -1,4 +1,5 @@
 class Message < ApplicationRecord
+	include PushNotification
 	belongs_to :conversation
 	mount_base64_uploader :attachment, ImageUploader
 
@@ -37,9 +38,11 @@ class Message < ApplicationRecord
   		if sender.class.name == "Designer" || sender.class.name == "User"
 	  		Support.all.each do |sup|
 	  			NotificationsMailer.message_notification(sup, self, sender).deliver
+	  			Message.new.send_notification(sup.devise_token, "You have a new message", "You have a new message")
 	  		end
 	  	elsif sender.class.name == "Support"
 	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver
+	  		Message.new.send_notification(self.conversation.conversationable.devise_token, "You have a new message", "You have a new message")
 	  	end
   	end
   end

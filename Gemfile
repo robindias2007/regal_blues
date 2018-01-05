@@ -74,6 +74,9 @@ gem 'simple_form'
 # CSS Framework
 gem 'materialize-sass'
 
+# Push Notification
+gem 'houston', '~> 2.2', '>= 2.2.3'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'

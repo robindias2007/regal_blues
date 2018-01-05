@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class OrderOption < ApplicationRecord
+  include PushNotification
   belongs_to :order
   belongs_to :offer_quotation_gallery
   belongs_to :image, optional: true
@@ -18,6 +19,7 @@ class OrderOption < ApplicationRecord
   def more_options_show
   	if self.more_options
   		NotificationsMailer.new_option(self.order).deliver
+      OrderOption.new.send_notification(self.order.user.devise_token, "More Options", "More Options")
   	end
   end
 end
