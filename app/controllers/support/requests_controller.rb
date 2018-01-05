@@ -17,7 +17,6 @@ class Support::RequestsController < ApplicationController
     conversation = Conversation.find(params[:id])
     @message = conversation.messages.new(message_params)
     @message.sender_id = current_support.id
-    debugger
     if @message.save!
 
       # render json: {message: Message.as_a_json(message)}, status: 201

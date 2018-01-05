@@ -14,20 +14,10 @@
 			.darker {
 			    border-color: #ccc;
 			    background-color: #edeff8;
-			}
+			    width:80%;
+			    float:right;
+			    margin-top: 10px;
 
-			.container img {
-			    float: left;
-			    max-width: 60px;
-			    width: 100%;
-			    margin-right: 20px;
-			    border-radius: 50%;
-			}
-
-			.container img.right {
-			    float: right;
-			    margin-left: 20px;
-			    margin-right:0;
 			}
 
 			.time-right {
@@ -61,17 +51,33 @@
 		  top: 0;
 		  width: 100%;
 			}
+
+			#thumb
+			{
+				width: 50%;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				border: 2px solid grey;
+			}
+
+			.image_cont
+			{
+				 width:80%;
+				 float:right;
+			}
+
 		</style>
 
 		<script type="text/javascript">
-			window.scrollTo(0,document.body.scrollHeight);
-			
+
 			function autoRefresh_div()
 		 	{
 		      $("#conversation_section").load(document.URL +  ' #conversation_section');// a function which will load data from other file after x seconds
 		  	}
 		 
-		  	setInterval('autoRefresh_div()', 3000); // refresh div after 5 secs
+		  	setInterval('autoRefresh_div()', 10000); // refresh div after 10 secs
+		
+		  	window.scrollTo(0,document.body.scrollHeight); // Go to the bottom of the page when opening window
 		</script>
 
 		
@@ -98,35 +104,40 @@
       	<br><br><br>
 				<% Conversation.find(@convo_id.id).messages.each do |f| %>
 					<% if f.sender_id == current_support.id %>
-						<div class="container darker" style="width:80%;float:right;margin-top: 10px;">
-							<p><%= f.body %></p>
-							<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
-						</div>
+						<% if f.body.present? %>
+							<div class="container darker">
+								<p><%= f.body %></p>
+								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+							</div>
+						<% end %>
 						<% if f.attachment.present? %>
-							<div class="container darker" style="width:80%;float:right">
-								<%= image_tag f.attachment.url %>
+							<div class="image_cont">
+								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"></a>
 								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
 							</div>
 						<% end %>
 					<% else %>
-						<div class="container" style="width:80%;float:left;background:#ffe3a4;margin-top: 10px;">
-							<p><%= f.body %></p>
-							<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
-						</div>
+						<% if f.body.present? %>
+							<div class="container" style="width:80%;float:left;background:#ffe3a4;margin-top: 10px;">
+								<p><%= f.body %></p>
+								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
+							</div>
+						<% end %>
 						<% if f.attachment.present? %>
-							
-							<div class="container darker" style="width:80%;float:right;">
-								<%= image_tag f.attachment.url %>
+							<div class="image_cont">
+								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"></a>
 								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
 							</div>
 						<% end %>
 					<% end %>
 				<% end %>
-				<br><br><br>
       </div>
       <div class="col s1"></div>
     </div>
     
+    <div class="row">
+    	<br><br><br><br><br>
+    </div>
     
     <div class="footer">
 	    <div class="row">
