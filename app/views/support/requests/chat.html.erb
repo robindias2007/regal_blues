@@ -63,7 +63,6 @@
 			.image_cont
 			{
 				 width:80%;
-				 float:right;
 			}
 
 		</style>
@@ -109,7 +108,7 @@
 							</div>
 						<% end %>
 						<% if f.attachment.present? %>
-							<div class="image_cont">
+							<div class="image_cont" style="float:right">
 								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"><span style="color: #aaa; margin-top: -10px;"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span></a>
 							</div>
 						<% end %>
@@ -121,7 +120,7 @@
 							</div>
 						<% end %>
 						<% if f.attachment.present? %>
-							<div class="image_cont">
+							<div class="image_cont" style="float:left">
 								<a data-fancybox="gallery" href="<%= f.attachment.url %>"><img src="<%= f.attachment.url %>" id="thumb"><span style="color: #aaa; margin-top: -10px;"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span></a>
 							</div>
 						<% end %>
