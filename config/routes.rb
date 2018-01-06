@@ -136,7 +136,7 @@ Rails.application.routes.draw do
           get :measurement_tags
           post :update_measurements
           post :submit_options
-          get :cancel_order
+          post :cancel_order
         end
       end
 
