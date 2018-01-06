@@ -19,7 +19,7 @@ class Request < ApplicationRecord
   validates :timeline, numericality: { only_integer: true }
   validates :min_budget, numericality: true, allow_nil: true
   validates :max_budget, numericality: { greater_than_or_equal_to: :min_budget, greater_than: 1000,
-    less_than: 10_000_000 }
+    less_than: 10_000_000 }, allow_nil: true
   validates :address, presence: true, if: proc { |req| Address.ids_for(req.user_id) }
 
   accepts_nested_attributes_for :request_images
