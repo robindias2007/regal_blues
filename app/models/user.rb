@@ -2,6 +2,8 @@
 
 class User < ApplicationRecord
   include Authenticable
+  include ActiveModel::Dirty
+
   extend Enumerize
 
   has_many :user_identities, dependent: :destroy

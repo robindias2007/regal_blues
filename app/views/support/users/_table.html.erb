@@ -64,6 +64,11 @@
             <% end %>
           </td>
 
+          <td colspan="1" class="center">
+            <% a = Support.as_json(user).shift[:message_count] %>
+            <%= a %>
+          </td>
+
         </tr>
       <% end %>
     </tbody>
