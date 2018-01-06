@@ -32,7 +32,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
       NotificationsMailer.interested(@request_designer).deliver
-      send_notification(@request_designer.designer.devise_token, "48 hrs left to send quote for the request", "48 hrs left to send quote for the request")
+      send_notification(@request_designer.designer.devise_token, "48 hrs left to send quote for the request", "48 hrs left to send quote for the request") rescue
       # NotificationsMailer.penalty(@request_designer).deliver
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
     else

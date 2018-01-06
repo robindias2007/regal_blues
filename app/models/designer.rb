@@ -142,6 +142,10 @@ class Designer < ApplicationRecord
 
   def send_welcome_email
     NotificationsMailer.send_email(self).deliver
-    Designer.new.send_notification(self.devise_token, "Welcome","Welcome to Custumise!")
+    begin
+      Designer.new.send_notification(self.devise_token, "Welcome","Welcome to Custumise!")
+    rescue
+    end
+     
   end
 end
