@@ -2,7 +2,7 @@
 
 class V1::Users::OfferShowSerializer < ActiveModel::Serializer
   attributes :id, :designer_name, :item_type, :prices, :sent_on, :store_avatar, :project, :max_budget,
-    :quotations
+    :quotations, :status
 
   def designer_name
     object.designer.designer_store_info.display_name
@@ -30,6 +30,10 @@ class V1::Users::OfferShowSerializer < ActiveModel::Serializer
 
   def max_budget
     object.request.max_budget
+  end
+
+  def status
+    object.request.status
   end
 
   def quotations
