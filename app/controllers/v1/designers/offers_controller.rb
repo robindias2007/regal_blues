@@ -8,7 +8,10 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     if offer.save
       # TODO: Send a notification to the user and the support team
       NotificationsMailer.new_offer(offer).deliver
-      send_notification(offer.request.user.devise_token, "You have a new offer", "You have a new offer") rescue
+      begin
+      send_notification(offer.request.user.devise_token, "You have a new offer", "You have a new offer")
+      rescue
+      end
       render json: { message: 'Offer saved successfully' }, status: 201
     else
       render json: { errors: offer.errors.messages }, status: 400

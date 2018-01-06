@@ -32,8 +32,11 @@ module Registerable
       if resource && resource&.valid_confirmation_token?
         resource.mark_as_confirmed!
         jwt = Auth.issue(resource: resource.id)
-        NotificationsMailer.send_confirmed_email(resource).deliver
-        Registerable.send_notification(resource.devise_token, "Account Verification successful", "Account Verification successful") rescue
+        begin
+          NotificationsMailer.send_confirmed_email(resource).deliver
+          Registerable.send_notification(resource.devise_token, "Account Verification successful", "Account Verification successful")
+        rescue 
+        end
         render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
       else
         render json: { errors: 'Invalid Token' }, status: 404
@@ -63,7 +66,6 @@ module Registerable
         resource.update_reset_details!
         jwt = Auth.issue(resource: resource.id)
         NotificationsMailer.password_change(resource).deliver
-        Registerable.send_notification(resource.devise_token, "Password successfully changed", "Password successfully changed") rescue
         render json: { message: 'Valid password reset token', jwt: jwt }, status: 200
       else
         render json: { errors: 'resource_class not found or invalid token' }, status: 404
@@ -74,7 +76,6 @@ module Registerable
       # return wrong_old_password unless matches_password(params[:password])
       if current_resource && current_resource&.update(password: params[:password])
         NotificationsMailer.password_change(current_resource).deliver
-        Registerable.send_notification(resource.devise_token, "Password successfully changed", "Password successfully changed") rescue
         render json: { message: 'Password Updated' }, status: 200
       else
         render json: { errors: current_resource.errors, message: ['Something went wrong'] }, status: 400

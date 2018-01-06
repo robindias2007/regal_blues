@@ -6,7 +6,10 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
     op = current_user.order_payments.new(op_create_params)
     if op.save
       NotificationsMailer.payment(current_user, op).deliver
-      send_notification(current_user.devise_token, "Payment Successful", "Payment Successful") rescue
+      begin
+        send_notification(current_user.devise_token, "Payment Successful", "Payment Successful")
+      rescue
+      end
       render json: { message: 'Order Payment successfully created', op_id: op.id }, status: 201
     else
       render json: { errors: op.errors }, status: 400
