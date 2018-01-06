@@ -176,10 +176,7 @@
               %>
             </td>
             <td colspan="1" class="center">
-              <% a =  @user.as_request_json.pluck(:message_count) %>
-              <% for b in a %>
-                <%= b %>
-              <% end %>
+              <%= @user.as_request_json.pluck(:message_count).each {|e| puts e.inspect } %>
             </td>
 
 
