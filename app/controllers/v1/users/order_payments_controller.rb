@@ -6,10 +6,6 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
     op = current_user.order_payments.new(op_create_params)
     if op.save
       NotificationsMailer.payment(current_user, op).deliver
-      begin
-        send_notification(current_user.devise_token, "Payment Successful", "Payment Successful")
-      rescue
-      end
       render json: { message: 'Order Payment successfully created', op_id: op.id }, status: 201
     else
       render json: { errors: op.errors }, status: 400
@@ -19,6 +15,10 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
   def update
     op = current_user.order_payments.find(params[:id])
     if op.update(op_update_params)
+      begin
+        send_notification(current_user.devise_token, "Payment Successful", "Payment Successful")
+      rescue
+      end
       render json: { message: 'Order Payment successfully updated' }, status: 200
     else
       render json: { errors: op.errors }, status: 400
