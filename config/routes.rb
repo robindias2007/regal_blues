@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   defaults: { format: :json } do
     scope module: :supports do
       post 'login', to: 'sessions#create'
+      post 'update_devise_token', to: 'registrations#update_devise_token'
 
       resources :conversations, only: %i[index create show destroy] do
         collection do
