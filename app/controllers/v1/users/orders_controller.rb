@@ -68,7 +68,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
   end
 
   def cancel_order
-    order = current_user.orders.find(params[:order][:order_id])
+    order = Order.find(params[:id])
     if order.may_user_cancels_the_order?
       # PaymentGateway.cancel(order)
       order.user_cancels_the_order!
