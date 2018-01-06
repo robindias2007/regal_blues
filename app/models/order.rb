@@ -101,12 +101,12 @@ class Order < ApplicationRecord
     # Designer Path: Fabric Unavailable + User Agrees
     state :designer_selected_fabric_unavailable, after_enter: :update_datetime
 
-    state :unpaid, after_enter: :update_datetime
+    #state :unpaid, after_enter: :update_datetime
 
     # Actor: User
     # Actions: Pay
     event :pay do
-      transitions from: :started, to: :unpaid
+      transitions from: :started, to: :paid
     end
 
     # Actor: Designer
