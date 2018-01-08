@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     scope module: :supports do
       post 'login', to: 'sessions#create'
       post 'update_devise_token', to: 'registrations#update_devise_token'
+      #notifications
+      post 'notifications', to: 'messages#notifications'
 
       resources :conversations, only: %i[index create show destroy] do
         collection do
@@ -92,6 +94,8 @@ Rails.application.routes.draw do
       post 'me/update', to: 'registrations#update'
       delete '/me/delete', to: 'registrations#destroy'
 
+      #notifications
+      post 'notifications', to: 'messages#notifications'
       # Authentication
       post 'login', to: 'sessions#create'
       match 'auth/facebook', to: 'sessions#facebook', via: %i[get post]
@@ -208,6 +212,9 @@ Rails.application.routes.draw do
         patch :toggle_active, on: :member
         get :search, on: :collection
       end
+
+      #notifications
+      post 'notifications', to: 'messages#notifications'
 
       # Designer Categories
       resources :designer_categorizations, only: :index, path: 'designer-categories'

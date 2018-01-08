@@ -5,18 +5,18 @@ module PushNotification
 		if token.present?
 			apn = Houston::Client.development
 			path = Rails.root.join("public","Development_APNS_Certificate.pem")
-		    # apn.certificate = File.read("/home/yuva/Desktop/Development_APNS_Certificate.pem")
-		    apn.certificate = File.read(path)
-		    token = token
-		    notification = Houston::Notification.new(device: token)
-		    notification.alert = alert
+	    # apn.certificate = File.read("/home/yuva/Desktop/Development_APNS_Certificate.pem")
+	    apn.certificate = File.read(path)
+	    token = token
+	    notification = Houston::Notification.new(device: token)
+	    notification.alert = alert
 
-		    notification.badge = 1
-		    notification.sound = "sosumi.aiff"
-		    notification.category = "INVITE_CATEGORY"
-		    notification.content_available = true
-		    notification.custom_data = {data: data}
-		    apn.push(notification)
-	  	end
+	    notification.badge = 1
+	    notification.sound = "sosumi.aiff"
+	    notification.category = "INVITE_CATEGORY"
+	    notification.content_available = true
+	    notification.custom_data = {data: data}
+	    apn.push(notification)
+	  end
 	end
 end

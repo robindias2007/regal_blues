@@ -32,6 +32,15 @@ module Messageable
 		end
 	end
 
+	def notifications
+		notifications = current_resource.notifications
+		if notifications.present?
+			render json: {notifications: notifications}, status: 201
+		else
+			render json: {notifications: "No Notification found"}
+		end
+	end
+
 	private
 	def message_params
     params.require(:message).permit(:body, :attachment)

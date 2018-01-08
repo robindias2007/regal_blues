@@ -9,7 +9,9 @@ class V1::Designers::OffersController < V1::Designers::BaseController
       # TODO: Send a notification to the user and the support team
       NotificationsMailer.new_offer(offer).deliver
       begin
-      send_notification(offer.request.user.devise_token, "You have a new offer", "You have a new offer")
+        body = "You have a new offer"
+        offer.request.user.notifications.create(body: body, notification_type: "offer")
+        send_notification(offer.request.user.devise_token, body, body)
       rescue
       end
       render json: { message: 'Offer saved successfully' }, status: 201
