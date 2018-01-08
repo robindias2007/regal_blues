@@ -30,7 +30,8 @@ class Offer < ApplicationRecord
       request_id: offer.request_id,
       created_at: offer.created_at,
       updated_at: offer.updated_at,
-      message_count: current_resource.conversations.where(receiver_id: offer.id)[0].try(:messages).try(:count),
+      message_count: offer.msg_count(current_resource, offer),
+      unread_message_count: offer.unread_msg_count(current_resource, offer),
       offer_quotations: offer.offer_quotations.collect{|quotation| {
         id: quotation.id,
         price: quotation.price,
@@ -39,6 +40,14 @@ class Offer < ApplicationRecord
         updated_at: quotation.updated_at
       }}
     }}
+  end
+
+  def msg_count(res, offer)
+    return res.conversations.where(receiver_id: offer.id)[0].messages.count rescue 0
+  end
+
+  def unread_msg_count(res, offer)
+    return res.conversations.where(receiver_id: offer.id)[0].messages.where(read: false).count rescue 0
   end
 
   private

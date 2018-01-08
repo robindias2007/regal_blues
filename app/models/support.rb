@@ -12,6 +12,7 @@ class Support < ApplicationRecord
   has_many :support_chats, dependent: :destroy
   has_many :sent_conversations, as: :sender, dependent: :destroy, class_name: 'Conversation'
   has_many :received_conversations, as: :receiver, dependent: :destroy, class_name: 'Conversation'
+  has_many :notifications, as: :resourceable
 
   devise :database_authenticatable, :registerable, :confirmable, :lockable,
     :recoverable, :rememberable, :trackable, :validatable
@@ -19,8 +20,17 @@ class Support < ApplicationRecord
   def self.as_json(current_resource)
     Support.all.collect{|support| { 
       id: support.id,
-      message_count: current_resource.conversations.where(receiver_id: support.id)[0].try(:messages).try(:count) 
+      message_count: support.msg_count(current_resource, support),
+      unread_message_count: support.unread_msg_count(current_resource, support)
     }}
   end
 
+
+  def msg_count(res, support)
+    return res.conversations.where(receiver_id: support.id)[0].messages.count rescue 0
+  end
+
+  def unread_msg_count(res, support)
+    return res.conversations.where(receiver_id: support.id)[0].messages.where(read: false).count rescue 0
+  end
 end
