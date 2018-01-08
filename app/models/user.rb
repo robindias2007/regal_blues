@@ -108,6 +108,7 @@ class User < ApplicationRecord
   def send_welcome_email
     NotificationsMailer.send_email(self).deliver
     begin
+      self.notifications.create(body: "Welcome to Custumise!", notification_type: "order")
       User.new.send_notification(self.devise_token, "Welcome", "Welcome to Custumise!")
     rescue
     end

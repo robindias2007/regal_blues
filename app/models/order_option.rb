@@ -20,7 +20,9 @@ class OrderOption < ApplicationRecord
   	if self.more_options
   		NotificationsMailer.new_option(self.order).deliver
       begin
-        OrderOption.new.send_notification(self.order.user.devise_token, "More Options", "More Options")
+        body = "More Options"
+        self.order.user.notifications.create(body: body, notification_type: "order")
+        OrderOption.new.send_notification(self.order.user.devise_token, body, body)
       rescue
       end
   	end

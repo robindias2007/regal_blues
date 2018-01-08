@@ -218,7 +218,9 @@ class Order < ApplicationRecord
   def send_mail
     NotificationsMailer.under_qc(self).deliver
     begin
-      Order.new.send_notification(self.designer.devise_token, "Your order has reached QC", "Your order has reached QC")
+      body = "Your order has reached QC"
+      self.designer.notifications.create(body: body, notification_type: "order")
+      Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
     end
     
@@ -226,24 +228,25 @@ class Order < ApplicationRecord
   end
 
   def send_shipped_mail
+    body = "Your order has been shipped"
     NotificationsMailer.shipped_to_user(self).deliver
-    begin
-      Order.new.send_notification(self.user.devise_token, "Your order has been shipped", "Your order has been shipped")
-    rescue   
-    end
-
     NotificationsMailer.designer_shipped(self).deliver
     begin
-      Order.new.send_notification(self.designer.devise_token, "Your order has been shipped", "Your order has been shipped")
+      self.user.notifications.create(body: body, notification_type: "order")
+      Order.new.send_notification(self.user.devise_token, body, body)
+
+      self.designer.notifications.create(body: body, notification_type: "order")
+      Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
-      
     end
   end
 
   def qc_reject_mail
     NotificationsMailer.rejected_in_qc(self).deliver
     begin
-      Order.new.send_notification(self.designer.devise_token, "Your order was rejected in QC", "Your order was rejected in QC")
+      body = "Your order was rejected in QC"
+      self.designer.notifications.create(body: body, notification_type: "order")
+      Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
     end
   end
@@ -251,8 +254,11 @@ class Order < ApplicationRecord
   def send_deliverd_mail
     NotificationsMailer.product_deliverd(self).deliver
     begin
-      Order.new.send_notification(self.designer.devise_token, "Product Delivered", "Product Delivered") 
-      Order.new.send_notification(self.user.devise_token, "Product Delivered", "Product Delivered")
+      body = "Product Delivered"
+      self.user.notifications.create(body: body, notification_type: "order")
+      self.designer.notifications.create(body: body, notification_type: "order")
+      Order.new.send_notification(self.designer.devise_token, body, body) 
+      Order.new.send_notification(self.user.devise_token, body, body)
     rescue
     end
   end
@@ -260,10 +266,13 @@ class Order < ApplicationRecord
   def send_notifications
     NotificationsMailer.order_accept(self).deliver
     NotificationsMailer.give_measurement(self).deliver unless self.order_measurement.present?
-
     begin
-      Order.new.send_notification(self.designer.devise_token, "Awaiting Designer Confirmation", "Awaiting Designer Confirmation")
-      Order.new.send_notification(self.user.devise_token, "Measurements Pending", "Measurements Pending") unless self.order_measurement.present?
+      body = "Awaiting Designer Confirmation"
+      body_u = "Measurements Pending"
+      self.designer.notifications.create(body: body, notification_type: "order")
+      self.user.notifications.create(body: body_u, notification_type: "order")
+      Order.new.send_notification(self.designer.devise_token, body, body)
+      Order.new.send_notification(self.user.devise_token, body, body) unless self.order_measurement.present?
     rescue
     end
   end
