@@ -150,8 +150,8 @@
 <% if @designer.requests.present? %>
   <div class="row">
     <h5 class="center">Designer Requests</h5>
-
-    <table class="highlight">
+    <div class="col s10">
+      <table class="highlight">
       <thead>
         <tr>
           <th colspan="4" class="center">Name</th>
@@ -196,11 +196,28 @@
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
             </td>
-
           </tr>
         <% end %>
       </tbody>
-    </table>
+      </table>
+    </div>
+    <div class="col s2">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br>Message Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @designer.as_request_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 <% else %>
   <h5>No Requests</h5>
@@ -211,7 +228,8 @@
   <div class="row">
     <h5 class="center">Orders</h5>
 
-    <table class="highlight">
+    <div class="col s10">
+      <table class="highlight">
       <thead>
         <tr>
           <th colspan="4" class="center">Name</th>
@@ -254,7 +272,25 @@
           </tr>
         <% end %>
       </tbody>
-    </table>
+      </table>
+    </div>
+    <div class="col s2">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br>Message Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @designer.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 <% else %>
   <h5>No Orders</h5>
@@ -305,3 +341,10 @@
   
   <h5>No Products</h5>
 <% end %>
+
+<style type="text/css">
+  td.center
+  {
+    height: 140px;
+  }
+</style>

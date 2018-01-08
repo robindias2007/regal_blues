@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include Authenticable
+
   include PushNotification
   extend Enumerize
 
