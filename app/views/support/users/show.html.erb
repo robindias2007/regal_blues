@@ -142,7 +142,7 @@
         <tbody>
           <% @user.requests.order(created_at: :desc).each do |request| %>
             <tr>
-              <td colspan="4" class="center" id="hi"><%= link_to request.name, support_request_path(request) %></td>
+              <td colspan="4" class="center"><%= link_to request.name, support_request_path(request) %></td>
 
               <td colspan="1" class="center"><%= request.status.humanize %></td>
 
@@ -180,11 +180,11 @@
         </tbody>
       </table>
     </div>
-    <div class="col s2">
+    <div class="col s1">
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br><br>Message Count</th>
+            <th colspan="1" class="center"><br>Message Count</th>
           </tr>
         </thead>
         <tbody>
@@ -197,7 +197,23 @@
         </tbody>
       </table>
     </div>
-
+    <div class="col s1">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br><br>Unread</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.as_request_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:unread_message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 <% else %>
   <h5>No Requests</h5>
@@ -257,15 +273,32 @@
       </tbody>
       </table>
     </div>
-    <div class="col s2">
+    <div class="col s1">
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br><br>Message Count</th>
+            <th colspan="1" class="center">Message Count</th>
           </tr>
         </thead>
         <tbody>
           <% @user.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col s1">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br>Unread</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:unread_message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
             <tr>
               <td colspan="1" class="center"><%=  f %></td> 
               </td>
