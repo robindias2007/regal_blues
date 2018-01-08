@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180105073016) do
+ActiveRecord::Schema.define(version: 20180108072511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,15 @@ ActiveRecord::Schema.define(version: 20180105073016) do
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
     t.text "sender_id"
+  end
+
+  create_table "notifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "body"
+    t.text "resourceable_id"
+    t.string "resourceable_type"
+    t.string "notification_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "offer_measurements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
