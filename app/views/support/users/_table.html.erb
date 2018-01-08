@@ -1,3 +1,5 @@
+
+
 <div class="row">
   <div class="col s12">
     <div class="input-field">
@@ -18,6 +20,8 @@
         <th colspan="1" class="center">Requests made</th>
         <th colspan="1" class="center">Orders made</th>
         <th colspan="1" class="center">Chat</th>
+        <th colspan="1" class="center">Message Count</th>
+        <th colspan="1" class="center">Unread</th>
       </tr>
     </thead>
     <tbody>
@@ -49,13 +53,11 @@
 
           <td colspan="1" class="center">
             <%= link_to 'Chat',
-              chat_path(Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.id), 
+              chat_path(Conversation.where(receiver_type:"support_on_general", conversationable_id:user, conversationable_type: "User" ).first.id), 
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
             %>
           </td>
 
-<<<<<<< HEAD
-=======
           <td colspan="1" class="center">
             <% if Support.as_json(user).pluck(:message_count) == [nil]  %>
               0
@@ -69,7 +71,6 @@
             <%= a %>
           </td>
 
->>>>>>> chat_count
         </tr>
       <% end %>
     </tbody>
