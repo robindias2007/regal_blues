@@ -9,6 +9,7 @@ class Support::RequestsController < ApplicationController
     @skip_header = true;
     @convo_id = Conversation.find(params[:id])
     @message = Message.new()
+    update_read_count = Conversation.find(@convo_id.id).messages.update_all(read:true)
     # request_id = Request.find(params[:id]).id
     # @convo_id = Request.find(request_id).user.conversations
   end
