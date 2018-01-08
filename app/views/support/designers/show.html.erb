@@ -201,11 +201,11 @@
       </tbody>
       </table>
     </div>
-    <div class="col s2">
+    <div class="col s1">
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br>Message Count</th>
+            <th colspan="1" class="center">Message Count</th>
           </tr>
         </thead>
         <tbody>
@@ -218,6 +218,24 @@
         </tbody>
       </table>
     </div>
+    <div class="col s1">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br>Unread</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @designer.as_request_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:unread_message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 <% else %>
   <h5>No Requests</h5>
@@ -274,15 +292,32 @@
       </tbody>
       </table>
     </div>
-    <div class="col s2">
+    <div class="col s1">
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br><br>Message Count</th>
+            <th colspan="1" class="center">Message Count</th>
           </tr>
         </thead>
         <tbody>
           <% @designer.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col s1">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br>Unread</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @designer.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:unread_message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
             <tr>
               <td colspan="1" class="center"><%=  f %></td> 
               </td>

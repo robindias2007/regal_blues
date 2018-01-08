@@ -18,6 +18,9 @@
         <th colspan="1" class="center">Requests Recieved</th>
         <th colspan="1" class="center">Orders Recieved</th>
         <th colspan="1" class="center">Chat</th>
+        <th colspan="1" class="center">Message Count</th>
+        <th colspan="1" class="center">Unread Count</th>
+
       </tr>
     </thead>
     <tbody>
@@ -54,7 +57,17 @@
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
             %>
           </td>
+          <td colspan="1" class="center">
+            <% if Support.as_json(designer).pluck(:message_count) == [nil]  %>
+              0
+            <% else %>
+              <%= Support.as_json(designer).pluck(:message_count).inject(0){|sum,x| sum + x } %>
+            <% end %>
+          </td>
 
+          <td colspan="1" class="center">
+            <%= Support.as_json(designer).pluck(:unread_message_count).inject(0){|sum,x| sum + x } %>
+          </td>
 
         </tr>
       <% end %>
