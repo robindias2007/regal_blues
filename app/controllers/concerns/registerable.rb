@@ -33,8 +33,10 @@ module Registerable
         resource.mark_as_confirmed!
         jwt = Auth.issue(resource: resource.id)
         begin
+          body = "Account Verification successful"
           NotificationsMailer.send_confirmed_email(resource).deliver
-          Registerable.send_notification(resource.devise_token, "Account Verification successful", "Account Verification successful")
+          resource.notifications.create(body: body, notification_type: "registration")
+          Registerable.send_notification(resource.devise_token, body, body)
         rescue 
         end
         render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200

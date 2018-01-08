@@ -20,7 +20,9 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       # TODO: Notify the user
       NotificationsMailer.order_confirm(order).deliver
       begin
-        send_notification(order.user.devise_token, "Your order is confirmed", "Your order is confirmed")
+        body = "Your order is confirmed"
+        order.user.notifications.create(body: body, notification_type: "order")
+        send_notification(order.user.devise_token, body, body)
       rescue
       end
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
@@ -28,8 +30,11 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       NotificationsMailer.order_cancel(order.user, order).deliver
       NotificationsMailer.order_cancel(order.designer, order).deliver
       begin
-        send_notification(order.user.devise_token, "Order Cancelled", "Order Cancelled")
-        send_notification(order.designer.devise_token, "Order Cancelled", "Order Cancelled")
+        body = "Order Cancelled"
+        order.user.notifications.create(body: body, notification_type: "order")
+        order.designer.notifications.create(body: body, notification_type: "order")
+        send_notification(order.user.devise_token, body, body)
+        send_notification(order.designer.devise_token, body, body)
       rescue
       end
       render json: {
@@ -50,7 +55,9 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       order.fabric_unavailable!
       NotificationsMailer.fabric_unavailable(order).deliver
       begin
-        send_notification(order.user.devise_token, "Fabric of your choice is unavailable", "Fabric of your choice is unavailable")
+        body = "Fabric of your choice is unavailable"
+        order.user.notifications.create(body: body, notification_type: "order")
+        send_notification(order.user.devise_token, body, body)
       rescue
       end
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
@@ -72,7 +79,9 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     NotificationsMailer.more_option(order).deliver
     begin
-      send_notification(order.designer.devise_token, "Awaiting more options on your offer", "Awaiting more options on your offer")
+      body = "Awaiting more options on your offer"
+      order.designer.notifications.create(body: body, notification_type: "order")
+      send_notification(order.designer.devise_token, body, body)
     rescue  
     end
     
@@ -84,7 +93,9 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
       NotificationsMailer.more_option(order).deliver
       begin
-        send_notification(order.designer.devise_token, "Awaiting more options on your offer", "Awaiting more options on your offer")
+        body = "Awaiting more options on your offer"
+        order.designer.notifications.create(body: body, notification_type: "order")
+        send_notification(order.designer.devise_token, body, body)
       rescue
       end
       order.designer_gives_more_options!

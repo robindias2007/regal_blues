@@ -16,7 +16,9 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
     op = current_user.order_payments.find(params[:id])
     if op.update(op_update_params)
       begin
-        send_notification(current_user.devise_token, "Payment Successful", "Payment Successful")
+        body = "Payment Successful"
+        current_user.notifications.create(body: body, notification_type: "order")
+        send_notification(current_user.devise_token, body, body)
       rescue
       end
       render json: { message: 'Order Payment successfully updated' }, status: 200
