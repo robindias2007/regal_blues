@@ -205,7 +205,7 @@
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br>Message Count</th>
+            <th colspan="1" class="center">Message Count</th>
           </tr>
         </thead>
         <tbody>
@@ -222,13 +222,13 @@
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br><br>Unread</th>
+            <th colspan="1" class="center"><br>Unread</th>
           </tr>
         </thead>
         <tbody>
           <% @designer.as_request_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:unread_message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
             <tr>
-              <td colspan="1" class="center"><%=  f %></td> 
+              <td colspan="1" class="center"><%= f %></td> 
               </td>
             </tr>
           <% end %>
@@ -296,7 +296,7 @@
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center">Message Count</th>
+            <th colspan="1" class="center"><br>Message Count</th>
           </tr>
         </thead>
         <tbody>
@@ -313,7 +313,7 @@
       <table class="highlight">
         <thead>
           <tr>
-            <th colspan="1" class="center"><br>Unread</th>
+            <th colspan="1" class="center"><br><br>Unread</th>
           </tr>
         </thead>
         <tbody>
