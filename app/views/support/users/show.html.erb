@@ -123,71 +123,87 @@
 <% if @user.requests.present? %>
   <div class="row">
     <h5 class="center">Requests</h5>
-
-    <table class="highlight">
-      <thead>
-        <tr>
-          <th colspan="4" class="center">Name</th>
-          <th colspan="1" class="center">Status</th>
-          <th colspan="1" class="center">Size</th>
-          <th colspan="1" class="center">Timeline for User</th>
-          <th colspan="1" class="center">Timeline for Designer</th>
-          <th colspan="1" class="center">Sub Category</th>
-          <th colspan="1" class="center">Address</th>
-          <th colspan="1" class="center">Number of Designers</th>
-          <th colspan="1" class="center">Number of Offers</th>
-          <th colspan="1" class="center">Chat</th>
-          <th colspan="1" class="center">Message Count</th>
-          <th colspan="1" class="center">Unread Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @user.requests.order(created_at: :desc).each do |request| %>
+    <div class="col s10">
+      <table class="highlight">
+        <thead>
           <tr>
-            <td colspan="4" class="center"><%= link_to request.name, support_request_path(request) %></td>
-
-            <td colspan="1" class="center"><%= request.status.humanize %></td>
-
-            <td colspan="1" class="center"><%= request.size.upcase %></td>
-
-            <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
-
-            <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
-
-            <td colspan="1" class="center">
-              <%= request.sub_category.name %>
-            </td>
-
-            <td colspan="1" class="center">
-              <%= request.address.formatted_address %>
-            </td>
-
-            <td colspan="1" class="center">
-              <%= request.request_designers.size %>
-            </td>
-
-            <td colspan="1" class="center">
-              <%= request.offers.size %>
-            </td>
-            <td colspan="1" class="center">
-              <%= link_to 'Chat',
-              chat_path(Conversation.where(receiver_id:request,conversationable_type: "User").first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            </td>
-            <td colspan="1" class="center">
-              <%= @user.as_request_json.pluck(:message_count).each {|e| puts e.inspect } %>
-            </td>
-
-
+            <th colspan="4" class="center">Name</th>
+            <th colspan="1" class="center">Status</th>
+            <th colspan="1" class="center">Size</th>
+            <th colspan="1" class="center">Timeline for User</th>
+            <th colspan="1" class="center">Timeline for Designer</th>
+            <th colspan="1" class="center">Sub Category</th>
+            <th colspan="1" class="center">Address</th>
+            <th colspan="1" class="center">Number of Designers</th>
+            <th colspan="1" class="center">Number of Offers</th>
+            <th colspan="1" class="center">Chat</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @user.requests.order(created_at: :desc).each do |request| %>
+            <tr>
+              <td colspan="4" class="center" id="hi"><%= link_to request.name, support_request_path(request) %></td>
+
+              <td colspan="1" class="center"><%= request.status.humanize %></td>
+
+              <td colspan="1" class="center"><%= request.size.upcase %></td>
+
+              <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
+
+              <td colspan="1" class="center"><%= "#{request.timeline - 2} weeks" %></td>
+
+              <td colspan="1" class="center">
+                <%= request.sub_category.name %>
+              </td>
+
+              <td colspan="1" class="center">
+                <%= request.address.formatted_address %>
+              </td>
+
+              <td colspan="1" class="center">
+                <%= request.request_designers.size %>
+              </td>
+
+              <td colspan="1" class="center">
+                <%= request.offers.size %>
+              </td>
+              <td colspan="1" class="center">
+                <%= link_to 'Chat',
+                chat_path(Conversation.where(receiver_id:request,conversationable_type: "User").first.id), 
+                :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+                %>
+              </td>
+              <td colspan="1" class="center">
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col s2">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br><br>Message Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.as_request_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 <% else %>
   <h5>No Requests</h5>
 <% end %>
+
+
 
 
 <!-- Orders List -->
@@ -195,7 +211,8 @@
   <div class="row">
     <h5 class="center">Orders</h5>
 
-    <table class="highlight">
+    <div class="col s10">
+      <table class="highlight">
       <thead>
         <tr>
           <th colspan="4" class="center">Name</th>
@@ -207,8 +224,6 @@
           <th colspan="1" class="center">Time to deliver</th>
           <th colspan="1" class="center">Shipping Address</th>
           <th colspan="1" class="center">Chat</th>
-          <th colspan="1" class="center">Message Count</th>
-          <th colspan="1" class="center">Unread Count</th>
         </tr>
       </thead>
       <tbody>
@@ -237,17 +252,28 @@
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
             </td>
-            <td colspan="1" class="center"><%= @user.as_order_json.pluck(:message_count) %></td>
-
-            <td colspan="1" class="center">
-              <% @user.as_order_json.pluck(:message_count) do |x| %>
-                <%= x %>
-              <% end %> 
-            </td>
           </tr>
         <% end %>
       </tbody>
-    </table>
+      </table>
+    </div>
+    <div class="col s2">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th colspan="1" class="center"><br>Message Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
+            <tr>
+              <td colspan="1" class="center"><%=  f %></td> 
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 <% else %>
   <h5>No Orders</h5>
@@ -255,3 +281,9 @@
 
 
 
+<style type="text/css">
+  td.center
+  {
+    height: 140px;
+  }
+</style>
