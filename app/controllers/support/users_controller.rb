@@ -6,11 +6,13 @@ class Support::UsersController < ApplicationController
   end
 
   def show
+
     @user = if params[:query]
               User.search_for(search_params)
             else
               User.find(params[:id])
             end
+    
   end
 
   private

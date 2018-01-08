@@ -104,6 +104,7 @@ class User < ApplicationRecord
 
   private
 
+
   def send_welcome_email
     NotificationsMailer.send_email(self).deliver
     begin
