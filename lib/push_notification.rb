@@ -27,7 +27,7 @@ module PushNotification
 	    notification = Houston::Notification.new(device: token)
 	    notification.badge = 1
 	    notification.sound = "default"
-	    notification.alert = {title: msg.conversation.receiver_type, body: "You have new message"}
+	    notification.alert = {title: "Custumise", body: "You have new message"}
 	    key = msg.conversation.receiver_type.singularize+"_id"
 	    data = msg.conversation.receiver_id
 	    extraData = {"#{key}": data, message: msg.body}
