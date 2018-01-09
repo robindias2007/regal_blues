@@ -243,7 +243,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @user.orders.order(created_at: :desc).each do |order| %>
+        <% @user.orders.sort {|x,y| y[:created_at]<=>x[:created_at]}.each do |order| %>
           <tr>
             <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td> 
 

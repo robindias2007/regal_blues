@@ -24,7 +24,7 @@
         <th colspan="1" class="center">Unread</th>
     </thead>
     <tbody>
-      <% users.order(created_at: :desc).each do |user| %>
+      <% users.each do |user| %>
         <tr id="js-data-row">
           <td colspan="4" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
 
@@ -65,7 +65,9 @@
             <% end %>
           </td>
 
-          <td colspan="1" class="center"><%= Support.as_json(user).pluck(:unread_message_count).inject(0){|sum,x| sum + x } %></td>
+          <td colspan="1" class="center">
+            <%= Support.as_json(user).pluck(:unread_message_count).inject(0){|sum,x| sum + x } %>  
+          </td>
         </tr>
       <% end %>
     </tbody>
