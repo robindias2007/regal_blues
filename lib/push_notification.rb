@@ -20,7 +20,6 @@ module PushNotification
 	def msg_notification(token, msg)
 		require 'houston'
 		if token.present?
-			binding.pry
 			apn = Houston::Client.development
 			path = Rails.root.join("public","Development_APNS_Certificate.pem")
 			apn.certificate = File.read(path)
@@ -33,7 +32,6 @@ module PushNotification
 	    data = msg.conversation.receiver_id
 	    extraData = {"#{key}": data, message: msg.body}
 	    notification.custom_data = {extraData: extraData}
-	    binding.pry
 	    apn.push(notification)
 		end
 	end
