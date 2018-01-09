@@ -30,24 +30,24 @@ class Offer < ApplicationRecord
       request_id: offer.request_id,
       created_at: offer.created_at,
       updated_at: offer.updated_at,
-      message_count: offer.msg_count(current_resource, offer),
-      unread_message_count: offer.unread_msg_count(current_resource, offer),
       offer_quotations: offer.offer_quotations.collect{|quotation| {
         id: quotation.id,
         price: quotation.price,
         description: quotation.description,
+        message_count: offer.msg_count(current_resource, quotation),
+        unread_message_count: offer.unread_msg_count(current_resource, quotation),
         created_at: quotation.created_at,
         updated_at: quotation.updated_at
       }}
     }}
   end
 
-  def msg_count(res, offer)
-    return res.conversations.where(receiver_id: offer.id)[0].messages.count rescue 0
+  def msg_count(res, quotation)
+    return res.conversations.where(receiver_id: quotation.id)[0].messages.count rescue 0
   end
 
-  def unread_msg_count(res, offer)
-    return res.conversations.where(receiver_id: offer.id)[0].messages.where(read: false).count rescue 0
+  def unread_msg_count(res, quotation)
+    return res.conversations.where(receiver_id: quotation.id)[0].messages.where(read: false).count rescue 0
   end
 
   private
