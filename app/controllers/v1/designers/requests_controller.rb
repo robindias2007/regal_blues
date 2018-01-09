@@ -31,7 +31,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def mark_involved
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
-      NotificationsMailer.interested(@request_designer).deliver
+      NotificationsMailer.interested(@request_designer).deliver_later
       begin
         body = "48 hrs left to send quote for the request"
         @request_designer.designer.notifications.create(body: body, notification_type: "request")
@@ -39,7 +39,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
       rescue
       end
       
-      # NotificationsMailer.penalty(@request_designer).deliver
+      NotificationsMailer.penalty(@request_designer).deliver_later(wait: 48.hour)
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
     else
       render json: { errors: @request_designer.errors }, status: 400

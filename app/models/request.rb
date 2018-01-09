@@ -39,7 +39,7 @@ class Request < ApplicationRecord
 
   def send_request_mail
     self.request_designers.each do |request_designer|
-      NotificationsMailer.new_request(self.user, request_designer.designer).deliver
+      NotificationsMailer.new_request(self.user, request_designer.designer).deliver_later
       begin
         body = "You have a new request"
         request_designer.designer.notifications.create(body: body, notification_type: "request")
