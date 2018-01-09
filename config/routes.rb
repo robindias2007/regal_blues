@@ -183,7 +183,7 @@ Rails.application.routes.draw do
       get 'confirm/:token', to: 'registrations#confirm'
       post 'resend-confirmation-email', to: 'registrations#resend_confirmation'
       post 'send-reset-password-instructions', to: 'registrations#send_reset_password_instructions'
-      get 'reset-password/:token', to: 'registrations#reset_password'
+      get 'reset-password/:token', to: 'registrations#reset_password', :constraints => { :token => /.+@.+\..*/ }
       post 'update-password', to: 'registrations#update_password'
       post 'update-mobile-number', to: 'registrations#update_mobile_number'
       post 'update_devise_token', to: 'registrations#update_devise_token'
