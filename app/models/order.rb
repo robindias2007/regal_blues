@@ -216,7 +216,7 @@ class Order < ApplicationRecord
   end
 
   def send_mail
-    NotificationsMailer.under_qc(self).deliver
+    NotificationsMailer.under_qc(self).deliver_later
     begin
       body = "Your order has reached QC"
       self.designer.notifications.create(body: body, notification_type: "order")
@@ -229,8 +229,8 @@ class Order < ApplicationRecord
 
   def send_shipped_mail
     body = "Your order has been shipped"
-    NotificationsMailer.shipped_to_user(self).deliver
-    NotificationsMailer.designer_shipped(self).deliver
+    NotificationsMailer.shipped_to_user(self).deliver_later
+    NotificationsMailer.designer_shipped(self).deliver_later
     begin
       self.user.notifications.create(body: body, notification_type: "order")
       Order.new.send_notification(self.user.devise_token, body, body)
@@ -242,7 +242,7 @@ class Order < ApplicationRecord
   end
 
   def qc_reject_mail
-    NotificationsMailer.rejected_in_qc(self).deliver
+    NotificationsMailer.rejected_in_qc(self).deliver_later
     begin
       body = "Your order was rejected in QC"
       self.designer.notifications.create(body: body, notification_type: "order")
@@ -252,7 +252,7 @@ class Order < ApplicationRecord
   end
 
   def send_deliverd_mail
-    NotificationsMailer.product_deliverd(self).deliver
+    NotificationsMailer.product_deliverd(self).deliver_later
     begin
       body = "Product Delivered"
       self.user.notifications.create(body: body, notification_type: "order")
@@ -264,8 +264,8 @@ class Order < ApplicationRecord
   end
 
   def send_notifications
-    NotificationsMailer.order_accept(self).deliver
-    NotificationsMailer.give_measurement(self).deliver unless self.order_measurement.present?
+    NotificationsMailer.order_accept(self).deliver_later
+    NotificationsMailer.give_measurement(self).deliver_later unless self.order_measurement.present?
     begin
       body = "Awaiting Designer Confirmation"
       body_u = "Measurements Pending"

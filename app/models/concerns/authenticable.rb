@@ -46,7 +46,7 @@ module Authenticable
       self.reset_password_token = SecureRandom.urlsafe_base64(15)
       self.reset_password_token_sent_at = Time.now.getlocal
       save
-      RegistrationsMailer.password(self).deliver
+      RegistrationsMailer.password(self).deliver_later
     end
 
     def friendly_password(length = 20)
@@ -75,7 +75,7 @@ module Authenticable
     end
 
     def send_confirmation_email
-      RegistrationsMailer.confirmation(self).deliver
+      RegistrationsMailer.confirmation(self).deliver_later
     end
   end
 
