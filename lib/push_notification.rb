@@ -28,12 +28,30 @@ module PushNotification
 	    notification = Houston::Notification.new(device: token)
 	    notification.badge = 1
 	    notification.sound = "default"
-	    notification.alert = {title: "Custumise", body: "You have new message"}
+	    notification.alert = {title: title(msg), body: "You have new message"}
 	    key = msg.conversation.receiver_type.singularize+"_id"
 	    data = msg.conversation.receiver_id
 	    extraData = {"#{key}": data, message: msg.body}
 	    notification.custom_data = {extraData: extraData}
 	    apn.push(notification)
 		end
+	end
+
+	def title(msg)
+		conv = msg.conversation
+		if conv.receiver_type == "requests"
+			ttl = Request.find(conv.receiver_id).name rescue "Custumise"
+		elsif conv.receiver_type == "orders"
+			ttl = Order.find(conv.receiver_id).offer_quotation.offer.request.name rescue "Custumise"
+		elsif conv.receiver_type == "offers"
+			if conv.conversationable_type == "Designer"
+				ttl = Offer.find(conv.receiver_id).request.name rescue "Custumise"
+			elsif conv.conversationable_type == "User"
+				ttl = OfferQuotation.find(conv.receiver_id).offer.request.name rescue "Custumise"
+			end
+		else
+			ttl = "Custumise"
+		end
+		return ttl
 	end
 end
