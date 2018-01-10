@@ -8,23 +8,23 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   devise_for :supports
-  # scope module: :support do
-  #   get '/', to: 'home#index', as: :support_root
-  #   authenticated :support do
-  #     get '/search/users', to: 'search#users', as: :support_user_search
-  #     get '/search/designers', to: 'search#designers', as: :support_designer_search
-  #     get '/search/orders', to: 'search#orders', as: :support_order_search
-  #     get 'search/user-suggestions', to: 'search#users_suggestions'
-  #     get 'search/designer-suggestions', to: 'search#designers_suggestions'
-  #     resources :users, only: %i[index show], as: :support_users
-  #     resources :designers, only: %i[index show], as: :support_designers
-  #     resources :requests, only: %i[index show], as: :support_requests do
-  #       patch :approve
-  #       patch :reject
-  #     end
-  #     resources :orders, only: %i[show], as: :support_orders  
-  #   end
-  # end
+  scope module: :support do
+    get '/', to: 'home#index', as: :support_root
+    authenticated :support do
+      get '/search/users', to: 'search#users', as: :support_user_search
+      get '/search/designers', to: 'search#designers', as: :support_designer_search
+      get '/search/orders', to: 'search#orders', as: :support_order_search
+      get 'search/user-suggestions', to: 'search#users_suggestions'
+      get 'search/designer-suggestions', to: 'search#designers_suggestions'
+      resources :users, only: %i[index show], as: :support_users
+      resources :designers, only: %i[index show], as: :support_designers
+      resources :requests, only: %i[index show], as: :support_requests do
+        patch :approve
+        patch :reject
+      end
+      resources :orders, only: %i[show], as: :support_orders  
+    end
+  end
 
   scope module: :v1, path: 'supports', constraints: RouteConstraints.new(version: 1, default: true),
   defaults: { format: :json } do
