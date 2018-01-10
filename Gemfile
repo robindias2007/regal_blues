@@ -82,8 +82,6 @@ gem 'kaminari'
 # gem 'will_paginate'
 gem 'pager_api' , :github => 'BrahimDahmani/pager-api', :branch => "bugfixes"
 
-gem 'unicorn'
-
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'
