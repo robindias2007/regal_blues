@@ -61,12 +61,12 @@
             <% if Support.as_json(designer).pluck(:message_count) == [nil]  %>
               0
             <% else %>
-              <%= Support.as_json(designer).pluck(:message_count).inject(0){|sum,x| sum + x } %>
+              <%= (Support.as_json(designer).pluck(:message_count) + designer.as_request_json.pluck(:message_count) + designer.as_order_json.pluck(:message_count)).inject(0){|sum,x| sum + x } %>  
             <% end %>
           </td>
 
           <td colspan="1" class="center">
-            <%= Support.as_json(designer).pluck(:unread_message_count).inject(0){|sum,x| sum + x } %>
+            <%= (Support.as_json(designer).pluck(:unread_message_count) + designer.as_request_json.pluck(:unread_message_count) + designer.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } %>  
           </td>
 
         </tr>
