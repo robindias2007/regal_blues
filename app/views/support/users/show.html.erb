@@ -142,7 +142,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @user.as_request_json.sort {|x,y| y[:message_count]<=>x[:message_count]}.each do |request| %>
+          <% @user.as_request_json.sort {|x,y| y[:unread_message_count]<=>x[:unread_message_count]}.each do |request| %>
             <tr>
               <td colspan="4" class="center"><%= link_to request[:name], support_request_path(request) %></td>
 
@@ -213,7 +213,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @user.as_order_json.sort {|x,y| y[:message_count]<=>x[:message_count]}.each do |order| %>
+        <% @user.as_order_json.sort {|x,y| y[:unread_message_count]<=>x[:unread_message_count]}.each do |order| %>
           <tr>
             <td colspan="4" class="center"><%= link_to Order.find(order[:id]).offer_quotation.offer.request.name, support_order_path(order) %></td> 
 
