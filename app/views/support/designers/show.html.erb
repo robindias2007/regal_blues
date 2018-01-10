@@ -168,7 +168,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @designer.as_request_json.sort {|x,y| y[:unread_message_count]<=>x[:unread_message_count]}.each do |request| %>
+        <% @designer.as_request_json.sort {|x,y| y[:message_count]<=>x[:message_count]}.each do |request| %>
           <tr>
             <td colspan="4" class="center"><%= link_to request[:name], support_request_path(request) %></td>
 
