@@ -215,7 +215,7 @@
   <div class="row">
     <h5 class="center">Orders</h5>
 
-    <div class="col s10">
+    <div class="col s12">
       <table class="highlight">
       <thead>
         <tr>
@@ -225,74 +225,41 @@
           <th colspan="1" class="center">Designer</th>
           <th colspan="1" class="center">Price</th>
           <th colspan="1" class="center">Ordered On</th>
-          <th colspan="1" class="center">Time to deliver</th>
           <th colspan="1" class="center">Shipping Address</th>
           <th colspan="1" class="center">Chat</th>
+          <th colspan="1" class="center">Message Count</th>
+          <th colspan="1" class="center">Unread Count</th>
         </tr>
       </thead>
       <tbody>
-        <% @designer.orders.order(created_at: :desc).each do |order| %>
+        <% @designer.as_order_json.sort {|x,y| y[:message_count]<=>x[:message_count]}.each do |order| %>
           <tr>
-            <td colspan="4" class="center"><%= link_to order.offer_quotation.offer.request.name, support_order_path(order) %></td> 
+            <td colspan="4" class="center"><%= link_to Order.find(order[:id]).offer_quotation.offer.request.name, support_order_path(order) %></td> 
 
-            <td colspan="1" class="center"><%= order.order_id %></td>
+            <td colspan="1" class="center"><%= order[:order_id] %></td>
 
-            <td colspan="1" class="center"><%= order.status.humanize %></td>
+            <td colspan="1" class="center"><%= order[:status].humanize %></td>
 
-            <td colspan="1" class="center"><%= order.designer.designer_store_info.display_name %></td>
+            <td colspan="1" class="center"><%= Order.find(order[:id]).designer.designer_store_info.display_name %></td>
 
-            <td colspan="1" class="center"><%= order.offer_quotation.price %></td>
+            <td colspan="1" class="center"><%= Order.find(order[:id]).offer_quotation.price %></td>
 
-            <td colspan="1" class="center"><%= order.created_at.strftime('%d %B %Y') %></td>
-
-            <td colspan="1" class="center"><%= time_to_deliver(order) %></td>
+            <td colspan="1" class="center"><%= order[:created_at].strftime('%d %B %Y') %></td>
 
             <td colspan="1" class="center">
-              <%= order.offer_quotation.offer.request.address.formatted_address %>
+              <%= Order.find(order[:id]).offer_quotation.offer.request.address.formatted_address %>
             </td>
             <td colspan="1" class="center">
               <%= link_to 'Chat',
-              chat_path(Conversation.where(receiver_id:order, conversationable_type: "Designer").first.id), 
+              chat_path(Conversation.where(receiver_id:order[:id], conversationable_type: "Designer").first.id), 
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
             </td>
+            <td colspan="1" class="center"><%= order[:message_count] %></td>
+            <td colspan="1" class="center"><%= order[:unread_message_count] %></td>
           </tr>
         <% end %>
       </tbody>
-      </table>
-    </div>
-    <div class="col s1">
-      <table class="highlight">
-        <thead>
-          <tr>
-            <th colspan="1" class="center"><br>Message Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @designer.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
-            <tr>
-              <td colspan="1" class="center"><%=  f %></td> 
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-    <div class="col s1">
-      <table class="highlight">
-        <thead>
-          <tr>
-            <th colspan="1" class="center"><br><br>Unread</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @designer.as_order_json.sort {|x,y| y[:created_at]<=>x[:created_at]}.pluck(:unread_message_count).collect { |x| x.nil? ? 0:x }.each do |f| %>
-            <tr>
-              <td colspan="1" class="center"><%=  f %></td> 
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
       </table>
     </div>
   </div>
