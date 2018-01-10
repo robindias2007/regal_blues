@@ -3,11 +3,15 @@ module Messageable
 
   def index
 		conversation = Conversation.find(params[:id])
-		messages = conversation.messages if conversation.present?
-		if messages.present?
-			render json: {messages: Message.as_json(messages)}, status: 201
-		else
-			render json: {messages: "No message avilable"}, status: 400
+		if conversation.present?
+			messages = paginate conversation.messages.unscoped, per_page: 5
+			# messages = conversation.messages if conversation.present?
+			if messages.present?
+				# render json: {messages: messages}, status: 201
+				messages
+			else
+				render json: {messages: "No message avilable"}, status: 400
+			end
 		end
 	end
 

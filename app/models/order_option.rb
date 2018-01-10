@@ -18,7 +18,7 @@ class OrderOption < ApplicationRecord
 
   def more_options_show
   	if self.more_options
-  		NotificationsMailer.new_option(self.order).deliver
+  		NotificationsMailer.new_option(self.order).deliver_later
       begin
         body = "More Options"
         self.order.user.notifications.create(body: body, notification_type: "order")

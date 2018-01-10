@@ -18,7 +18,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     if order.paid? && order.all_options_selected?
       order.designer_confirms!
       # TODO: Notify the user
-      NotificationsMailer.order_confirm(order).deliver
+      NotificationsMailer.order_confirm(order).deliver_later
       begin
         body = "Your order is confirmed"
         order.user.notifications.create(body: body, notification_type: "order")
@@ -27,8 +27,8 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       end
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
-      NotificationsMailer.order_cancel(order.user, order).deliver
-      NotificationsMailer.order_cancel(order.designer, order).deliver
+      NotificationsMailer.order_cancel(order.user, order).deliver_later
+      NotificationsMailer.order_cancel(order.designer, order).deliver_later
       begin
         body = "Order Cancelled"
         order.user.notifications.create(body: body, notification_type: "order")
@@ -53,7 +53,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
-      NotificationsMailer.fabric_unavailable(order).deliver
+      NotificationsMailer.fabric_unavailable(order).deliver_later
       begin
         body = "Fabric of your choice is unavailable"
         order.user.notifications.create(body: body, notification_type: "order")
@@ -77,7 +77,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def give_more_options_data
     order = current_designer.orders.find(params[:id])
-    NotificationsMailer.more_option(order).deliver
+    NotificationsMailer.more_option(order).deliver_later
     begin
       body = "Awaiting more options on your offer"
       order.designer.notifications.create(body: body, notification_type: "order")
@@ -91,7 +91,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def give_more_options
     order = current_designer.orders.find(params[:id])
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
-      NotificationsMailer.more_option(order).deliver
+      NotificationsMailer.more_option(order).deliver_later
       begin
         body = "Awaiting more options on your offer"
         order.designer.notifications.create(body: body, notification_type: "order")

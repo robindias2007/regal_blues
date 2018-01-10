@@ -77,6 +77,11 @@ gem 'materialize-sass'
 # Push Notification
 gem 'houston', '~> 2.2', '>= 2.2.3'
 
+# Pagination for APi's
+gem 'kaminari'
+# gem 'will_paginate'
+gem 'pager_api' , :github => 'BrahimDahmani/pager-api', :branch => "bugfixes"
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'

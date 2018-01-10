@@ -1,16 +1,13 @@
 module PushNotification
 	def send_notification(token, alert, data)
 		require 'houston'
-		# token = "646CF0A42162B121ACD5653AC43B7A9D6EA9288F0C77B403EA2BC6FCFF28B4FB"
 		if token.present?
-			apn = Houston::Client.development
-			path = Rails.root.join("public","Development_APNS_Certificate.pem")
-	    # apn.certificate = File.read("/home/yuva/Desktop/Development_APNS_Certificate.pem")
+			apn = Houston::Client.production
+			path = Rails.root.join("public","Production_APNS_Certificate.pem")
 	    apn.certificate = File.read(path)
 	    token = token
 	    notification = Houston::Notification.new(device: token)
 	    notification.alert = alert
-
 	    notification.badge = 1
 	    notification.sound = "sosumi.aiff"
 	    notification.category = "INVITE_CATEGORY"
@@ -18,5 +15,25 @@ module PushNotification
 	    notification.custom_data = {data: data}
 	    apn.push(notification)
 	  end
+	end
+
+	def msg_notification(token, msg)
+		require 'houston'
+		# token = "50285224824E89B8BE2EE0A0388C6D959E348BAA599781AE29C976646E925274"
+		if token.present?
+			apn = Houston::Client.production
+			path = Rails.root.join("public","Production_APNS_Certificate.pem")
+			apn.certificate = File.read(path)
+			token = token
+	    notification = Houston::Notification.new(device: token)
+	    notification.badge = 1
+	    notification.sound = "default"
+	    notification.alert = {title: "Custumise", body: "You have new message"}
+	    key = msg.conversation.receiver_type.singularize+"_id"
+	    data = msg.conversation.receiver_id
+	    extraData = {"#{key}": data, message: msg.body}
+	    notification.custom_data = {extraData: extraData}
+	    apn.push(notification)
+		end
 	end
 end

@@ -37,20 +37,23 @@ class Message < ApplicationRecord
   	if sender.present?
   		if sender.class.name == "Designer" || sender.class.name == "User"
 	  		Support.all.each do |sup|
-	  			NotificationsMailer.message_notification(sup, self, sender).deliver
+	  			NotificationsMailer.message_notification(sup, self, sender).deliver_later
 	  			begin
-	  				Message.new.send_notification(sup.devise_token, "You have a new message", "You have a new message")
+	  				Message.new.msg_notification(sup.devise_token, self)
 	  			rescue
 	  			end
-	  			
 	  		end
 	  	elsif sender.class.name == "Support"
-	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver
+	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver_later
 	  		begin
-	  			Message.new.send_notification(self.conversation.conversationable.devise_token, "You have a new message", "You have a new message")
+	  			Message.new.msg_notification(self.conversation.conversationable.devise_token, self)
   			rescue
   			end
 	  	end
   	end
   end
 end
+
+
+
+

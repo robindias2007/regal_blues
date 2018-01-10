@@ -5,7 +5,7 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
   def create
     op = current_user.order_payments.new(op_create_params)
     if op.save
-      NotificationsMailer.payment(current_user, op).deliver
+      NotificationsMailer.payment(current_user, op).deliver_later
       render json: { message: 'Order Payment successfully created', op_id: op.id }, status: 201
     else
       render json: { errors: op.errors }, status: 400

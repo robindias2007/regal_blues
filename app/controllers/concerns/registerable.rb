@@ -63,8 +63,8 @@ module Registerable
 
     def reset_password
       token = params[:token]
-      resource = resource_class.find_by(reset_password_token: token)
-      if resource && resource&.valid_reset_password_token?
+      resource = resource_class.find_by(email: token)
+      if resource && resource&.email?
         resource.update_reset_details!
         jwt = Auth.issue(resource: resource.id)
         NotificationsMailer.password_change(resource).deliver

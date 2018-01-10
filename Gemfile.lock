@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/BrahimDahmani/pager-api.git
+  revision: 31890e7bc9c884d3e9cbf8c8e58c77863612bc2c
+  branch: bugfixes
+  specs:
+    pager_api (0.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -160,6 +167,18 @@ GEM
     json (2.1.0)
     jsonapi-renderer (0.1.3)
     jwt (1.5.6)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
     libxml-ruby (3.0.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -376,9 +395,11 @@ DEPENDENCIES
   houston (~> 2.2, >= 2.2.3)
   httparty
   jwt
+  kaminari
   listen (>= 3.0.5, < 3.2)
   materialize-sass
   mini_magick
+  pager_api!
   pg (~> 0.18)
   pry
   pry-byebug
