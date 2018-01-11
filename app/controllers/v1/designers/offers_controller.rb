@@ -37,7 +37,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
   end
 
   def offer_quotations_attributes
-    [:price, :description, offer_quotation_galleries_attributes: [:name, images_attributes: %i[image description]],
+    [:price, :description,:shipping_price, offer_quotation_galleries_attributes: [:name, images_attributes: %i[image description]],
                            offer_measurements_attributes:        [data: {}]]
   end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::OfferShowSerializer < ActiveModel::Serializer
-  attributes :id, :designer_name, :item_type, :prices, :sent_on, :store_avatar, :project, :max_budget,
+  attributes :id, :designer_name, :item_type, :prices, :shipping_price, :sent_on, :store_avatar, :project, :max_budget,
     :quotations, :status
 
   def designer_name
@@ -14,6 +14,14 @@ class V1::Users::OfferShowSerializer < ActiveModel::Serializer
 
   def prices
     object.offer_quotations.pluck(:price)
+  end
+
+  def shipping_price
+    if object.request.address == "India"
+      500
+    else
+      1400
+    end
   end
 
   def sent_on
