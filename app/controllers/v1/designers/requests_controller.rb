@@ -31,7 +31,9 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def mark_involved
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
-      NotificationsMailer.interested(@request_designer).deliver_later
+      NotificationsMailer.interested(@request_designer, 48).deliver_later
+      NotificationsMailer.interested(@request_designer, 24).deliver_later(wait: 24.hour)
+      NotificationsMailer.interested(@request_designer, 12).deliver_later(wait: 12.hour)
       begin
         body = "48 hrs left to send quote for the request"
         @request_designer.designer.notifications.create(body: body, notification_type: "request")
