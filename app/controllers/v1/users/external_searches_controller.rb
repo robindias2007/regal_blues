@@ -18,15 +18,14 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
 
   def search_suggestions
     suggestions = %W[
-      Wedding
-      Fashion
-      Bollywood
-      Ethnic
-      LFW
-      Runway
-      #{"Trending Lehengas"}
-      Anarkali
-      Indowestern
+      #{"Indianwear 2017"}
+      #{"Indian Wedding Outfit"}
+      #{"Indian Cocktail Gown"}
+      #{"Sangeet Outfit"}
+      #{"India Fashion Week"}
+      #{"Deepika Indian Outfits"}
+      #{"Sonam Indian Outfits"}
+      #{"Bollywood Indian Fashion"}
     ]
     render json: { data: suggestions }
   end
