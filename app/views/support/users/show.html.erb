@@ -113,7 +113,9 @@
   <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
-        <span class="card-title" style="text-align:center">CHAT : 0</span>
+        <span class="card-title" style="text-align:center">
+          CHAT : <%= (Support.as_json(@user).pluck(:unread_message_count) + @user.as_request_json.pluck(:unread_message_count) + @user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x }%>
+        </span>
       </div>
     </div>
   </div>
