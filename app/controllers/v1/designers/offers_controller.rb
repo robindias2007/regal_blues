@@ -3,13 +3,15 @@
 class V1::Designers::OffersController < V1::Designers::BaseController
   include PushNotification
   def create
+    debugger
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     if offer.save
-      if (offer.request.address.country == "India") || (offer.request.address.country == "india")
-        OfferQuotation.where(offer_id:offer).update(shipping_price:500)
+      offer1 = Offer.where(request_id:params[:request_id]).first
+      if (offer1.request.address.country == "India") || (offer1.request.address.country == "india")
+        OfferQuotation.where(offer_id:offer1.id).update(shipping_price:500)
       else
-        OfferQuotation.where(offer_id:offer).update(shipping_price:1400)
+        OfferQuotation.where(offer_id:offer1.id).update(shipping_price:1400)
       end
       # TODO: Send a notification to the user and the support team
       NotificationsMailer.new_offer(offer).deliver
