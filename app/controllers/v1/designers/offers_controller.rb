@@ -7,16 +7,17 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     offer = current_designer.offers.build(offer_params)
     
     req =  Request.find(params[:request_id])
-    puts req
     req1 = Offer.where(request_id:req.id)
-    if req.address.country == "India" 
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
-    else
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
-    end 
-
+    
 
     if offer.save  
+      
+      if req.address.country == "India" 
+        OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
+      else
+        OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
+      end 
+
       # TODO: Send a notification to the user and the support team
       NotificationsMailer.new_offer(offer).deliver
       begin
