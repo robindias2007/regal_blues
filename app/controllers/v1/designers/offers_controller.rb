@@ -7,8 +7,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     offer = current_designer.offers.build(offer_params)
     
     req =  Request.find(params[:request_id])
-    req1 = Offer.where(request_id:req.id)
-    
+    req1 = Offer.where(request_id: req.id).first
     if req.address.country == "India" 
       OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
     else
