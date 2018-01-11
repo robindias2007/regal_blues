@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class RequestDesigner < ApplicationRecord
-  MAX_DESIGNERS_INVOLVED = 3
+  MAX_DESIGNERS_INVOLVED = 4
 
   belongs_to :request
   belongs_to :designer
 
   validates :designer_id, uniqueness: { scope: :request_id }
 
-  validate :max_three_involved
+  validate :max_four_involved
 
   def self.find_for(request_id, designer)
     find_by(request_id: request_id, designer: designer)
@@ -20,8 +20,8 @@ class RequestDesigner < ApplicationRecord
 
   private
 
-  def max_three_involved
-    errors.add(:involved, 'three designers are already involved for this request') if involved_count_exceeds
+  def max_four_involved
+    errors.add(:involved, 'four designers are already involved for this request') if involved_count_exceeds
   end
 
   def involved_count_exceeds
