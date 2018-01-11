@@ -6,9 +6,9 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     if offer.request.address.country == "India"
-      OfferQuotation.where(offer_id:offer).first.update(shipping_price:500)
+      OfferQuotation.where(offer_id:offer).update(shipping_price:500)
     else
-      OfferQuotation.where(offer_id:offer).first.update(shipping_price:1400)
+      OfferQuotation.where(offer_id:offer).update(shipping_price:1400)
     end
     if offer.save
       # TODO: Send a notification to the user and the support team
