@@ -5,7 +5,15 @@ class V1::Designers::OffersController < V1::Designers::BaseController
   def create
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
-  
+    
+    req =  Request.find(params[:request_id])
+    req1 = Offer.where(request_id:req.id)
+    
+    if req.address.country == "India" 
+      OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
+    else
+      OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
+    end  
 
     if offer.save       
 
@@ -22,14 +30,6 @@ class V1::Designers::OffersController < V1::Designers::BaseController
       render json: { errors: offer.errors.messages }, status: 400
     end
 
-    req =  Request.find(params[:request_id])
-    req1 = Offer.where(request_id:req.id)
-    
-    if req.address.country == "India" 
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
-    else
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
-    end
 
   end
 
