@@ -30,26 +30,13 @@ class V1::Users::HomeController < V1::Users::BaseController
     orders = current_user.orders.order(created_at: :desc).limit(3)
     requests = current_user.requests.order(created_at: :desc).limit(3)
     ord_req = (orders + requests).sort {|x,y| y[:created_at]<=>x[:created_at]}
-    orders_requests = ord_req.first(3)
-    if orders_requests.first.name.present?
-      req1 = current_user.requests.order(created_at: :desc).first
+    if ord_req.first.name.present?
+      requests = current_user.requests.order(created_at: :desc).limit(3)
+      render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
     else
-      ord1 = current_user.orders.order(created_at: :desc).first
+      orders = current_user.orders.order(created_at: :desc).limit(3)
+      render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
     end
-    if orders_requests.second.name.present?
-      req2 = current_user.requests.order(created_at: :desc).second
-    else
-      ord2 = current_user.orders.order(created_at: :desc).second
-    end
-    if orders_requests.third.name.present?
-      req3 = current_user.requests.order(created_at: :desc).third
-    else
-      ord3 = current_user.orders.order(created_at: :desc).third
-    end
-    # requests = req1 + req2 + req3
-    # render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
-    orders   = (ord1 rescue nil) + (ord2 rescue nil) + (ord3 rescue nil)
-    render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
   end
 
   def render_orders
