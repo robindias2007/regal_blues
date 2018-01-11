@@ -5,12 +5,12 @@ class V1::Designers::OffersController < V1::Designers::BaseController
   def create
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
-    offer1 = Offer.where(request_id:params[:request_id]).first
-    if (offer1.request.address.country == "India") || (offer1.request.address.country == "india")
-        OfferQuotation.where(offer_id:offer1.id).update(shipping_price:500)
-    else
-      OfferQuotation.where(offer_id:offer1.id).update(shipping_price:1400)
-    end
+    # offer1 = Offer.where(request_id:params[:request_id]).first
+    # if (offer1.request.address.country == "India") || (offer1.request.address.country == "india")
+    #     OfferQuotation.where(offer_id:offer1.id).update(shipping_price:500)
+    # else
+    #   OfferQuotation.where(offer_id:offer1.id).update(shipping_price:1400)
+    # end
     if offer.save  
       # TODO: Send a notification to the user and the support team
       NotificationsMailer.new_offer(offer).deliver
