@@ -112,6 +112,7 @@
               <li class="collection-item">Price: <b><%= offquo.price %></b></li>
               <li class="collection-item">Description: <b><%= offquo.description %></b></li>
               <li class="collection-item">Designer Note: <b><%= offquo.designer_note %></b></li> 
+              <li class="collection-item">Shipping Price: <b><%= offquo.shipping_price %></b></li> 
               <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
                 <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&').strip %></b></li>
               <% end %>

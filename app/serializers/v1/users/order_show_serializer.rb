@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::OrderShowSerializer < ActiveModel::Serializer
-  attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :timeline, :paid_price,
+  attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :timeline, :paid_price,:shipping_price,
     :project, :designer_note, :added_notes, :selections, :measurements, :status_log, :new_options, :order_id
 
   def request_id
@@ -34,6 +34,14 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
 
   def paid_price
     offer_quotation&.price
+  end
+
+  def shipping_price
+    if request.address.country == "India" || request.address.country == "india"
+      500
+    else
+      1400
+    end
   end
 
   def designer_note
