@@ -46,11 +46,10 @@ class V1::Users::HomeController < V1::Users::BaseController
     else
       ord3 = current_user.orders.order(created_at: :desc).third
     end
-    requests = req1 + req2 + req3
-    render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    # requests = req1 + req2 + req3
+    # render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
     orders   = ord1 + ord2 + ord3
     render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
-    
   end
 
   def render_orders
