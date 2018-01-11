@@ -3,7 +3,6 @@
 class V1::Designers::OffersController < V1::Designers::BaseController
   include PushNotification
   def create
-    debugger
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     if offer.save
