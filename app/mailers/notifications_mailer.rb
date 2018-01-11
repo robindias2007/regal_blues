@@ -105,9 +105,11 @@ class NotificationsMailer < ApplicationMailer
 		mail to: order.user.email, subject: 'Measurements Pending'
 	end
 
-	def interested(request_designer)
+	def interested(request_designer, time)
+		@time = time
 		@request_designer = request_designer
-		mail to: request_designer.designer.email, subject: ' 48 hrs left to send quote for the request'
+		subject = time.to_s + " "+ "hrs left to send quote for the request"
+		mail to: request_designer.designer.email, subject: subject
 	end
 
 	def penalty(request_designer)
