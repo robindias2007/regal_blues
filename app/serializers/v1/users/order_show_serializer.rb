@@ -37,7 +37,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def shipping_price
-    if request.address.country == "India"
+    if request.address.country == "India" || request.address.country == "india"
       500
     else
       1400
