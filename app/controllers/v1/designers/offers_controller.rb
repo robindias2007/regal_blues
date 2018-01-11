@@ -2,7 +2,47 @@
 
 class V1::Designers::OffersController < V1::Designers::BaseController
   include PushNotification
-  def create
+#   def create
+#     return already_created if offer_by_designer_present?
+#     offer = current_designer.offers.build(offer_params)
+    
+#     req =  Request.find(params[:request_id])
+# <<<<<<< HEAD
+#     req1 = Offer.where(request_id:req.id)
+    
+# =======
+#     puts req
+#     req1 = Offer.where(request_id: req.id).first
+# >>>>>>> 41b879b77ef2deec5b0e32c8a57bd12643b1c032
+#     if req.address.country == "India" 
+#       OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
+#     else
+#       OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
+# <<<<<<< HEAD
+#     end  
+# =======
+#     end 
+# >>>>>>> 41b879b77ef2deec5b0e32c8a57bd12643b1c032
+
+#     if offer.save       
+
+#       # TODO: Send a notification to the user and the support team
+#       NotificationsMailer.new_offer(offer).deliver
+#       begin
+#         body = "You have a new offer"
+#         offer.request.user.notifications.create(body: body, notification_type: "offer")
+#         send_notification(offer.request.user.devise_token, body, body)
+#       rescue
+#       end
+#       render json: { message: 'Offer saved successfully' }, status: 201
+#     else
+#       render json: { errors: offer.errors.messages }, status: 400
+#     end
+
+
+#   end
+
+ def create
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     
@@ -12,7 +52,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
       OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
     else
       OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
-    end  
+    end 
 
     if offer.save       
 
@@ -28,8 +68,6 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     else
       render json: { errors: offer.errors.messages }, status: 400
     end
-
-
   end
 
   def index
