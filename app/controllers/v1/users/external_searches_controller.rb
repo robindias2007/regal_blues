@@ -26,6 +26,7 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
       #{"Deepika Indian Outfits"}
       #{"Sonam Indian Outfits"}
       #{"Bollywood Indian Fashion"}
+      #{"Bridesmaid Indian Outfits"}
     ]
     render json: { data: suggestions }
   end
