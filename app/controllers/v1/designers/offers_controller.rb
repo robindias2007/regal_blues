@@ -6,13 +6,13 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
     
-    req =  Request.find(params[:request_id])
-    req1 = Offer.where(request_id:req).first.id
-    if req.address.country == "USA" 
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
-    else
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
-    end 
+    # req =  Request.find(params[:request_id])
+    # req1 = Offer.where(request_id:req).first.id
+    # if req.address.country == "USA" 
+    #   OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
+    # else
+    #   OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
+    # end 
 
 
     if offer.save  
