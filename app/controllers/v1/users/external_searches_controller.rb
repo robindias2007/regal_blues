@@ -32,9 +32,7 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
   end
 
   def top_query_suggestions
-    suggestions = %W[Wedding Simple Ideas Bridal Casual Indowestern Fashion Bollywood Latest indian 2017
-                     #{"Manish Malhotra"} #{"Anita Dongre"} Designer Engagement LFW Floral Elegant Pattern Embroidered
-                     Trendy Ethnic Modern Printed]
+    suggestions = %W[Bridal #{"Fashion week"} #{"Couture Week"} 2017 Wedding #{"For Teens"} Designer Simple Plain ]
     render json: { data: suggestions }
   end
 end

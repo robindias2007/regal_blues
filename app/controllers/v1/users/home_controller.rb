@@ -30,28 +30,27 @@ class V1::Users::HomeController < V1::Users::BaseController
     orders = current_user.orders.order(created_at: :desc).limit(3)
     requests = current_user.requests.order(created_at: :desc).limit(3)
     ord_req = (orders + requests).sort {|x,y| y[:created_at]<=>x[:created_at]}
-    ord1 = ord_req.first(3)
-    if ord1.first.name.present?
-      requests = current_user.requests.order(created_at: :desc).first
-      render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    orders_requests = ord_req.first(3)
+    if orders_requests.first.name.present?
+      req1 = current_user.requests.order(created_at: :desc).first
     else
-      orders = current_user.orders.order(created_at: :desc).first
-      render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+      ord1 = current_user.orders.order(created_at: :desc).first
     end
-    if ord1.second.name.present?
-      requests = current_user.requests.order(created_at: :desc).second
-      render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    if orders_requests.second.name.present?
+      req2 = current_user.requests.order(created_at: :desc).second
     else
-      orders = current_user.orders.order(created_at: :desc).second
-      render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+      ord2 = current_user.orders.order(created_at: :desc).second
     end
-    if ord1.third.name.present?
-      requests = current_user.requests.order(created_at: :desc).third
-      render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    if orders_requests.third.name.present?
+      req3 = current_user.requests.order(created_at: :desc).third
     else
-      orders = current_user.orders.order(created_at: :desc).third
-      render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
-    end  
+      ord3 = current_user.orders.order(created_at: :desc).third
+    end
+    requests = req1 + req2 + req3
+    render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    orders   = ord1 + ord2 + ord3
+    render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+    
   end
 
   def render_orders
