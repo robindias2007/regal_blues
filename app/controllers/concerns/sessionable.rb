@@ -8,11 +8,17 @@ module Sessionable
 
     def create
       resource = resource_class.find_for_auth(auth_params[:login])
-      return unverified_designer if resource_class.name == 'Designer' && (resource.unapproved? || resource.blocked?)
+      
+      if !resource
+        return unverified_designer
+      else
+        return unverified_designer if resource_class.name == 'Designer' && (resource.unapproved? || resource.blocked?)
+      end
+
       if resource&.authenticate(auth_params[:password])
         issue_jwt(resource)
       else
-        render json: { errors: ['Invalid Credentials'] }, status: 401
+        render json: { errors: 'Wrong Password' } , status: 401
       end
     end
 
@@ -32,7 +38,7 @@ module Sessionable
     end
 
     def unverified_designer
-      render json: { errors: 'Unverified or blocked designer', status: 401 }
+      render json: { errors: 'Designer E-mail Not Found'}, status: 401
     end
   end
 end
