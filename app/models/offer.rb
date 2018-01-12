@@ -50,6 +50,18 @@ class Offer < ApplicationRecord
     return res.conversations.where(receiver_id: quotation.id)[0].messages.where(read: false).count rescue 0
   end
 
+  def update_shipping_price
+    if self.request.address.country == "India"
+      self.offer_quotations.each do |oq|
+        oq.update(shipping_price: 500)
+      end
+    else
+      self.offer_quotations.each do |oq|
+        oq.update(shipping_price: 500)
+      end
+    end
+  end
+
   private
 
   def max_number_of_quotations

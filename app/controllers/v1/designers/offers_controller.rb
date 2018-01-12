@@ -5,22 +5,12 @@ class V1::Designers::OffersController < V1::Designers::BaseController
   def create
     return already_created if offer_by_designer_present?
     offer = current_designer.offers.build(offer_params)
-    
-    req =  Request.find(params[:request_id])
-    puts req
-    req1 = Offer.where(request_id: req.id).first
-    if req.address.country == "India" 
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
-    else
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
-    end 
-
-    if offer.save       
-
+    if offer.save
+      offer.update_shipping_price
       # TODO: Send a notification to the user and the support team
-      NotificationsMailer.new_offer(offer).deliver
       begin
         body = "You have a new offer"
+        NotificationsMailer.new_offer(offer).deliver_later
         offer.request.user.notifications.create(body: body, notification_type: "offer")
         send_notification(offer.request.user.devise_token, body, body)
       rescue
@@ -29,16 +19,6 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     else
       render json: { errors: offer.errors.messages }, status: 400
     end
-
-    req =  Request.find(params[:request_id])
-    req1 = Offer.where(request_id:req.id)
-    
-    if req.address.country == "India" 
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:500)
-    else
-      OfferQuotation.where(offer_id:req1).first.update(shipping_price:1400)
-    end
-
   end
 
   def index
