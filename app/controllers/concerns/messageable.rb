@@ -1,18 +1,16 @@
 module Messageable
   extend ActiveSupport::Concern
-  # include PagerApi
   def index
 		conversation = Conversation.find(params[:id])
 		if conversation.present?
-			# binding.pry
-			messages = conversation.messages
-			# binding.pry
-			# messages = paginate messages.unscoped, per_page: 5
-			# messages = conversation.messages if conversation.present?
+			messages = conversation.messages.paginate(page: params[:page], per_page: 10)
 			if messages.present?
-				paginate json: messages, per_page: 10
-				# render json: {messages: messages}, status: 201
-				# messages
+				render :json => {
+		      :current_page => messages.current_page,
+		      :per_page => messages.per_page,
+		      :total_entries => messages.total_entries,
+		      :messages => messages
+		    }
 			else
 				render json: {messages: "No message avilable"}, status: 400
 			end

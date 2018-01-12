@@ -78,12 +78,7 @@ gem 'materialize-sass'
 gem 'houston', '~> 2.2', '>= 2.2.3'
 
 # Pagination for APi's
-# gem 'rails-api'
-gem 'grape', '>= 0.10.0'
-gem 'kaminari'
-gem 'api-pagination'
-# gem 'will_paginate'
-# gem 'pager_api' , :github => 'BrahimDahmani/pager-api', :branch => "bugfixes"
+gem 'will_paginate'
 
 group :development, :test do
   gem 'bullet'

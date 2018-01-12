@@ -2,6 +2,4 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  # include PagerApi::Pagination::Kaminari
-  include Rails::Pagination
 end
