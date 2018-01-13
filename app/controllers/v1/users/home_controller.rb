@@ -27,7 +27,7 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests
-    if current_user.orders.first.created_at < current_user.requests.first.created_at
+    if current_user.orders.(created_at: :desc).limit(1).first.created_at < current_user.requests.(created_at: :desc).limit(1).first.created_at
       render_requests
       else
       render_orders
