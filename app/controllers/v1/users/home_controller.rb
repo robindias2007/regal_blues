@@ -27,16 +27,22 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests
-    orders = current_user.orders.order(created_at: :desc).limit(3)
-    requests = current_user.requests.order(created_at: :desc).limit(3)
-    ord_req = (orders + requests).sort {|x,y| y[:created_at]<=>x[:created_at]}
-    if ord_req.first.name.present?
-      requests = current_user.requests.order(created_at: :desc).limit(3)
-      render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
-    else
-      orders = current_user.orders.order(created_at: :desc).limit(3)
-      render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+    if current_user.orders.first.created_at < current_user.requests.first.created_at
+      render_requests
+      else
+      render_orders
     end
+
+    # orders = current_user.orders.order(created_at: :desc).limit(3)
+    # requests = current_user.requests.order(created_at: :desc).limit(3)
+    # ord_req = (orders + requests).sort {|x,y| y[:created_at]<=>x[:created_at]}
+    # if ord_req.first.name.present?
+    #   requests = current_user.requests.order(created_at: :desc).limit(3)
+    #   render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    # else
+    #   orders = current_user.orders.order(created_at: :desc).limit(3)
+    #   render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+    # end
   end
 
   def render_orders
