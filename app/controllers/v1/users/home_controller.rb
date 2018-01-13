@@ -6,10 +6,10 @@ class V1::Users::HomeController < V1::Users::BaseController
   def mobile
     if current_user.present?
       render_orders_requests
-    else
-      orders_or_requests_or_recommendations
     # else
-    #   render_top_designers
+    #   orders_or_requests_or_recommendations
+    else
+      render_top_designers
     end
   end
 
