@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   get '/chat/:id' => 'support/requests#chat', as: :chat
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
 
+  get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
+
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
   #   scope module: :support do
@@ -229,6 +231,8 @@ Rails.application.routes.draw do
       resources :offers, only: %i[index create show] do
         resources :offer_quotations, only: %i[index show], path: 'quoations', on: :member
       end
+
+
 
       resources :orders, only: %i[index show] do
         member do
