@@ -19,7 +19,7 @@ module PushNotification
 
 	def msg_notification(token, msg)
 		require 'houston'
-		# token = "50285224824E89B8BE2EE0A0388C6D959E348BAA599781AE29C976646E925274"
+		# token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"
 		if token.present?
 			apn = Houston::Client.development
 			path = Rails.root.join("public","Development_APNS_Certificate.pem")
@@ -31,7 +31,7 @@ module PushNotification
 	    notification.alert = {title: title(msg), body: "You have new message"}
 	    key = msg.conversation.receiver_type.singularize+"_id"
 	    data = msg.conversation.receiver_id
-	    extraData = {"#{key}": data, message: msg.body}
+	    extraData = {"#{key}": data, message: msg.body, type: "chat"}
 	    notification.custom_data = {extraData: extraData}
 	    apn.push(notification)
 		end
