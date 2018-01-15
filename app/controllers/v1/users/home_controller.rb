@@ -27,22 +27,58 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests
-    if current_user.orders.last.created_at < current_user.requests.last.created_at
-      render_requests
-      else
-      render_orders
+    order_name_array = Array.new
+    request_name_array = Array.new
+    new_requests = Array.new
+
+    orders = current_user.orders.order(created_at: :desc).limit(3).each do |f|
+      order_name_array.push(f.offer_quotation.offer.request.name)
     end
 
-    # orders = current_user.orders.order(created_at: :desc).limit(3)
-    # requests = current_user.requests.order(created_at: :desc).limit(3)
-    # ord_req = (orders + requests).sort {|x,y| y[:created_at]<=>x[:created_at]}
-    # if ord_req.first.name.present?
-    #   requests = current_user.requests.order(created_at: :desc).limit(3)
-    #   render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
-    # else
-    #   orders = current_user.orders.order(created_at: :desc).limit(3)
-    #   render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
-    # end
+    requests = current_user.requests.order(updated_at: :desc).each do |f|
+      request_name_array.push(f.name)
+    end
+    
+    (request_name_array - order_name_array).each do |f|
+      new_requests.push(Request.where(name:f))
+    end
+
+    ord_req = (orders + new_requests.flatten.sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
+    
+    if (ord_req.first.name.present? rescue nil)
+      req1 = ord_req.first rescue nil 
+    end
+    if (ord_req.second.name.present? rescue nil)
+      req2 = ord_req.second rescue nil
+    end
+    if (ord_req.third.name.present? rescue nil)
+      req3 = ord_req.third rescue nil
+    end
+
+    if (ord_req.first.designer_id.present? rescue nil)
+      ord1 = ord_req.first rescue nil 
+    end
+    if (ord_req.second.designer_id.present? rescue nil)
+      ord2 = ord_req.second rescue nil
+    end
+    if (ord_req.third.designer_id.present? rescue nil)
+      ord3 = ord_req.third rescue nil
+    end
+
+    r1 = Array.new
+    r1.push(req1)
+    r1.push(req2)
+    r1.push(req3)
+
+    o1 = Array.new
+    o1.push(ord1)
+    o1.push(ord2)
+    o1.push(ord3)
+
+    requests1 = r1.compact
+    orders1 = o1.compact
+
+    render json: { requests: request_resource(requests1), orders:order_resource(orders1), recos: [], top_designers: [] }
   end
 
   def render_orders
