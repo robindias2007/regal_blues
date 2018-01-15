@@ -23,7 +23,7 @@ end
 
 CarrierWave.configure do |config|
   config.storage    = :aws
-  config.aws_bucket = ENV['S3_BUCKET'] 'amidos-custumise'
+  config.aws_bucket = ENV['S3_BUCKET']
   config.aws_acl    = 'public-read'
 
   # The maximum period for authenticated_urls is only 7 days.
