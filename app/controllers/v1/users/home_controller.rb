@@ -27,12 +27,24 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests
-    orders = current_user.orders.order(created_at: :desc).limit(3)
-    requests = current_user.requests.order(created_at: :desc).limit(3)
-    ord_req = (orders + requests).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
+    order_name_array = Array.new
+    request_name_array = Array.new
+    new_requests = Array.new
 
+    orders = current_user.orders.order(created_at: :desc).limit(3).each do |f|
+      order_name_array.push(f.offer_quotation.offer.request.name)
+    end
+
+    requests = current_user.requests.order(updated_at: :desc).each do |f|
+      request_name_array.push(f.name)
+    end
     
+    (request_name_array - order_name_array).each do |f|
+      new_requests.push(Request.where(name:f))
+    end
 
+    ord_req = (orders + new_requests.flatten.sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
+    
     if (ord_req.first.name.present? rescue nil)
       req1 = ord_req.first rescue nil 
     end
