@@ -23,7 +23,12 @@ end
 
 CarrierWave.configure do |config|
   config.storage    = :aws
-  config.aws_bucket = 'amidos-custumise-prod'
+  if Rails.env.development? || Rails.env.test?
+    config.aws_bucket = 'amidos-custumise'
+  else
+    config.aws_bucket = 'amidos-custumise-prod'
+  end
+
   config.aws_acl    = 'public-read'
 
   # The maximum period for authenticated_urls is only 7 days.
