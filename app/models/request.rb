@@ -10,6 +10,7 @@ class Request < ApplicationRecord
   has_many :request_images, dependent: :destroy
   has_many :request_designers, dependent: :destroy
   has_many :offers, dependent: :destroy
+  has_many :notifications, as: :notificationable
 
   has_one :request_chat, dependent: :destroy
 
@@ -42,7 +43,7 @@ class Request < ApplicationRecord
       NotificationsMailer.new_request(self.user, request_designer.designer).deliver_later
       begin
         body = "You have a new request"
-        request_designer.designer.notifications.create(body: body, notification_type: "request")
+        request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: self.id)
         Request.new.send_notification(request_designer.designer.devise_token, body, body)
       rescue        
       end

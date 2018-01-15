@@ -12,7 +12,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
       begin
         body = "You have a new offer"
         NotificationsMailer.new_offer(offer).deliver_later
-        offer.request.user.notifications.create(body: body, notification_type: "offer")
+        offer.request.user.notifications.create(body: body, notificationable_type: "Offer", notificationable_id: offer.id)
         send_notification(offer.request.user.devise_token, body, body)
       rescue
       end

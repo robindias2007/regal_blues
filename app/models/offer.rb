@@ -7,6 +7,7 @@ class Offer < ApplicationRecord
   belongs_to :request
 
   has_many :offer_quotations, dependent: :destroy
+  has_many :notifications, as: :notificationable
 
   # validates :designer_id, uniqueness: { scope: :request_id }
   validates :designer_id, :request_id, presence: true

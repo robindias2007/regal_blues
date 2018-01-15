@@ -17,7 +17,7 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
     if op.update(op_update_params)
       begin
         body = "Payment Successful"
-        current_user.notifications.create(body: body, notification_type: "order")
+        current_user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: op.order_id)
         send_notification(current_user.devise_token, body, body)
       rescue
       end
