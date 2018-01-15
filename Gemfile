@@ -80,6 +80,8 @@ gem 'houston', '~> 2.2', '>= 2.2.3'
 # Pagination for APi's
 gem 'will_paginate'
 
+gem 'dotenv-rails'
+
 group :development, :test do
   gem 'bullet'
   gem 'bundler-audit'

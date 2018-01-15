@@ -111,6 +111,10 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.3)
     docile (1.1.5)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     enumerize (2.1.2)
       activesupport (>= 3.2)
     erubi (1.7.0)
@@ -368,6 +372,7 @@ DEPENDENCIES
   carrierwave-base64
   database_cleaner
   devise
+  dotenv-rails
   enumerize
   factory_girl_rails
   faker

@@ -23,12 +23,7 @@ end
 
 CarrierWave.configure do |config|
   config.storage    = :aws
-  if Rails.env.development? || Rails.env.test?
-    config.aws_bucket = 'amidos-custumise'
-  else
-    config.aws_bucket = 'amidos-custumise-prod'
-  end
-
+  config.aws_bucket = ENV['S3_BUCKET'] 'amidos-custumise'
   config.aws_acl    = 'public-read'
 
   # The maximum period for authenticated_urls is only 7 days.
@@ -41,8 +36,8 @@ CarrierWave.configure do |config|
   }
 
   config.aws_credentials = {
-    access_key_id:     'AKIAJLKO3VAAAFRG7XUA',
-    secret_access_key: '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',
-    region:            'ap-south-1'
+    access_key_id:     ENV['AWS_ACCESS_KEY'] ,
+    secret_access_key: ENV['AWS_SECRET_KEY'],
+    region:            ENV['AWS_REGION']
   }
 end
