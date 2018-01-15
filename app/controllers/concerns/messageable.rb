@@ -3,7 +3,7 @@ module Messageable
   def index
 		conversation = Conversation.find(params[:id])
 		if conversation.present?
-			messages = conversation.messages.paginate(page: params[:page], per_page: 10)
+			messages = conversation.messages.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
 			if messages.present?
 				render :json => {
 		      :current_page => messages.current_page,
