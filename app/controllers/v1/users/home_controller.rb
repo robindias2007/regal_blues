@@ -27,7 +27,7 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests
-    order_name_array = Array.new
+    order_name_array = Array.new     
     request_name_array = Array.new
     new_requests = Array.new
 
@@ -43,6 +43,7 @@ class V1::Users::HomeController < V1::Users::BaseController
       new_requests.push(Request.where(name:f))
     end
 
+    #Combination of Order and Requests which is not an order and sorting based on created_at 
     ord_req = (orders + new_requests.flatten.sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
     
     if (ord_req.first.name.present? rescue nil)
@@ -65,20 +66,24 @@ class V1::Users::HomeController < V1::Users::BaseController
       ord3 = ord_req.third rescue nil
     end
 
-    r1 = Array.new
-    r1.push(req1)
-    r1.push(req2)
-    r1.push(req3)
+    #Pushing each req into an array
+    request_array = Array.new
+    request_array.push(req1)
+    request_array.push(req2)
+    request_array.push(req3)
 
-    o1 = Array.new
-    o1.push(ord1)
-    o1.push(ord2)
-    o1.push(ord3)
+    #Pushing each order into an array
+    order_array = Array.new
+    order_array.push(ord1)
+    order_array.push(ord2)
+    order_array.push(ord3)
 
-    requests1 = r1.compact
-    orders1 = o1.compact
 
-    render json: { requests: request_resource(requests1), orders:order_resource(orders1), recos: [], top_designers: [] }
+    #Removing the null values from an array
+    requests_json_array = request_array.compact
+    orders_json_array = order_array.compact
+    
+    render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array), recos: [], top_designers: [] }
   end
 
   def render_orders
