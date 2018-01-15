@@ -3,7 +3,7 @@ module Messageable
   def index
 		conversation = Conversation.find(params[:id])
 		if conversation.present?
-			messages = conversation.messages.paginate(page: params[:page], per_page: 10)
+			messages = conversation.messages.order(created_at: :asc).paginate(page: params[:page], per_page: 10)
 			if messages.present?
 				render :json => {
 		      :current_page => messages.current_page,
@@ -21,7 +21,7 @@ module Messageable
 		conversation = Conversation.find(params[:id])
 		message = conversation.messages.new(message_params)
 		message.sender_id = current_resource.id
-		if message.save!
+		if message.save
 			# render json: {message: Message.as_a_json(message)}, status: 201
 			render json: {message: message}, status: 201
 		else

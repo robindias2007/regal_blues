@@ -17,6 +17,7 @@ class Order < ApplicationRecord
   has_one :order_measurement, dependent: :destroy
   has_one :order_status_log, dependent: :destroy
   has_one :order_payment, dependent: :destroy
+  has_many :notifications, as: :notificationable
 
   before_save :generate_order_id
   after_create :send_notifications
@@ -219,7 +220,7 @@ class Order < ApplicationRecord
     NotificationsMailer.under_qc(self).deliver_later
     begin
       body = "Your order has reached QC"
-      self.designer.notifications.create(body: body, notification_type: "order")
+      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
     end
@@ -232,10 +233,10 @@ class Order < ApplicationRecord
     NotificationsMailer.shipped_to_user(self).deliver_later
     NotificationsMailer.designer_shipped(self).deliver_later
     begin
-      self.user.notifications.create(body: body, notification_type: "order")
+      self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.user.devise_token, body, body)
 
-      self.designer.notifications.create(body: body, notification_type: "order")
+      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
     end
@@ -245,7 +246,7 @@ class Order < ApplicationRecord
     NotificationsMailer.rejected_in_qc(self).deliver_later
     begin
       body = "Your order was rejected in QC"
-      self.designer.notifications.create(body: body, notification_type: "order")
+      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
     end
@@ -255,8 +256,8 @@ class Order < ApplicationRecord
     NotificationsMailer.product_deliverd(self).deliver_later
     begin
       body = "Product Delivered"
-      self.user.notifications.create(body: body, notification_type: "order")
-      self.designer.notifications.create(body: body, notification_type: "order")
+      self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
+      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body) 
       Order.new.send_notification(self.user.devise_token, body, body)
     rescue
@@ -269,8 +270,8 @@ class Order < ApplicationRecord
     begin
       body = "Awaiting Designer Confirmation"
       body_u = "Measurements Pending"
-      self.designer.notifications.create(body: body, notification_type: "order")
-      self.user.notifications.create(body: body_u, notification_type: "order")
+      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
+      self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
       Order.new.send_notification(self.user.devise_token, body, body) unless self.order_measurement.present?
     rescue

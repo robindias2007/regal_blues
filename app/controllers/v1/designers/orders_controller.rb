@@ -21,7 +21,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       NotificationsMailer.order_confirm(order).deliver_later
       begin
         body = "Your order is confirmed"
-        order.user.notifications.create(body: body, notification_type: "order")
+        order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
         send_notification(order.user.devise_token, body, body)
       rescue
       end
@@ -31,8 +31,8 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       NotificationsMailer.order_cancel(order.designer, order).deliver_later
       begin
         body = "Order Cancelled"
-        order.user.notifications.create(body: body, notification_type: "order")
-        order.designer.notifications.create(body: body, notification_type: "order")
+        order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
+        order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
         send_notification(order.user.devise_token, body, body)
         send_notification(order.designer.devise_token, body, body)
       rescue
@@ -56,7 +56,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       NotificationsMailer.fabric_unavailable(order).deliver_later
       begin
         body = "Fabric of your choice is unavailable"
-        order.user.notifications.create(body: body, notification_type: "order")
+        order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
         send_notification(order.user.devise_token, body, body)
       rescue
       end
@@ -80,7 +80,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     NotificationsMailer.more_option(order).deliver_later
     begin
       body = "Awaiting more options on your offer"
-      order.designer.notifications.create(body: body, notification_type: "order")
+      order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
       send_notification(order.designer.devise_token, body, body)
     rescue  
     end
@@ -94,7 +94,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       NotificationsMailer.more_option(order).deliver_later
       begin
         body = "Awaiting more options on your offer"
-        order.designer.notifications.create(body: body, notification_type: "order")
+        order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
         send_notification(order.designer.devise_token, body, body)
       rescue
       end

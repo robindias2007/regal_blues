@@ -21,7 +21,7 @@ class OrderOption < ApplicationRecord
   		NotificationsMailer.new_option(self.order).deliver_later
       begin
         body = "More Options"
-        self.order.user.notifications.create(body: body, notification_type: "order")
+        self.order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.order.id)
         OrderOption.new.send_notification(self.order.user.devise_token, body, body)
       rescue
       end

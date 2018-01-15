@@ -113,7 +113,7 @@ class Designer < ApplicationRecord
     NotificationsMailer.send_email(self).deliver_later
     begin
       body = "Welcome to Custumise!"
-      self.notifications.create(body: body, notification_type: "order")
+      # self.notifications.create(body: body, notification_type: "order")
       Designer.new.send_notification(self.devise_token, "Welcome", body)
     rescue
     end

@@ -35,7 +35,7 @@ module Registerable
         begin
           body = "Account Verification successful"
           NotificationsMailer.send_confirmed_email(resource).deliver
-          resource.notifications.create(body: body, notification_type: "registration")
+          # resource.notifications.create(body: body, notificationable_type: resource.class.name, notificationable_id: resource.id)
           Registerable.send_notification(resource.devise_token, body, body)
         rescue 
         end

@@ -36,7 +36,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
       NotificationsMailer.interested(@request_designer, 12).deliver_later(wait: 12.hour)
       begin
         body = "48 hrs left to send quote for the request"
-        @request_designer.designer.notifications.create(body: body, notification_type: "request")
+        @request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: @request_designer.request.id)
         send_notification(@request_designer.designer.devise_token, body, body)
       rescue
       end
