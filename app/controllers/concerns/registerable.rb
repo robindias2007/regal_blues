@@ -46,7 +46,12 @@ module Registerable
         end
         #render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
       else
-        render json: { errors: 'Invalid Token' }, status: 404
+        #render json: { errors: 'Invalid Token' }, status: 404
+        if resource_class == User
+          redirect_to Rails.application.secrets[:user_url], status: 404
+        else
+          redirect_to Rails.application.secrets[:designer_url], status: 404
+        end
       end
     end
 
@@ -80,7 +85,12 @@ module Registerable
           redirect_to Rails.application.secrets[:designer_url], jwt: jwt, status: 200
         end
       else
-        render json: { errors: 'resource_class not found or invalid token' }, status: 404
+        if resource_class == User
+          redirect_to Rails.application.secrets[:user_url], status: 404
+        else
+          redirect_to Rails.application.secrets[:designer_url], status: 404
+        end
+        #render json: { errors: 'resource_class not found or invalid token' }, status: 404
       end
     end
 
