@@ -39,7 +39,12 @@ module Registerable
           Registerable.send_notification(resource.devise_token, body, body)
         rescue 
         end
-        render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
+        if resource_class == User
+          redirect_to Rails.application.secrets[:user_url], jwt: jwt, status: 200
+        else
+          redirect_to Rails.application.secrets[:designer_url], jwt: jwt, status: 200
+        end
+        #render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
       else
         render json: { errors: 'Invalid Token' }, status: 404
       end
@@ -68,7 +73,12 @@ module Registerable
         resource.update_reset_details!
         jwt = Auth.issue(resource: resource.id)
         NotificationsMailer.password_change(resource).deliver
-        render json: { message: 'Valid password reset token', jwt: jwt }, status: 200
+        #render json: { message: 'Valid password reset token', jwt: jwt }, status: 200
+        if resource_class == User
+          redirect_to Rails.application.secrets[:user_url], jwt: jwt, status: 200
+        else
+          redirect_to Rails.application.secrets[:designer_url], jwt: jwt, status: 200
+        end
       else
         render json: { errors: 'resource_class not found or invalid token' }, status: 404
       end
