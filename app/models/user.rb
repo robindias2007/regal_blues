@@ -67,6 +67,10 @@ class User < ApplicationRecord
     # .order("similarity(email, #{ActiveRecord::Base.connection.quote(query)}) DESC")
   end
 
+  def orders_requests_present?
+    orders.present? || requests.present?
+  end
+
   def live_orders?
     # TODO: Update this
     orders.present?
