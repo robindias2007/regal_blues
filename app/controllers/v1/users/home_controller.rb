@@ -5,9 +5,9 @@ class V1::Users::HomeController < V1::Users::BaseController
 
   def mobile
     if current_user.present?
-      render_orders_requests
+      #render_orders_requests
     # else
-    #   orders_or_requests_or_recommendations
+    orders_or_requests_or_recommendations
     else
       render_top_designers
     end
@@ -16,11 +16,16 @@ class V1::Users::HomeController < V1::Users::BaseController
   private
 
   def orders_or_requests_or_recommendations
-    if current_user.live_orders?
-      render_orders
-      # render json: { message: 'Not implemented' }, status: 501
-    elsif current_user.requests_but_no_orders?
-      render_requests
+    # if current_user.live_orders?
+    #   render_orders
+    #   # render json: { message: 'Not implemented' }, status: 501
+    # elsif current_user.requests_but_no_orders?
+    #   render_requests
+    # elsif current_user.no_requests_or_orders?
+    #   render_recos
+    # end
+    if current_user.orders_requests_present?
+      render_orders_requests
     elsif current_user.no_requests_or_orders?
       render_recos
     end
