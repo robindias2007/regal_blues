@@ -9,7 +9,7 @@ module Registerable
                                                send_reset_password_instructions reset_password]
 
     def create
-      resource = resource_class.new(resource_params)
+      resource = resource_class.new(resource_params) 
       if resource.save
         jwt = Auth.issue(resource: resource.id)
         render json: { message: "#{resource_class.name} created successfully", jwt: jwt }, status: 201
@@ -33,9 +33,9 @@ module Registerable
         resource.mark_as_confirmed!
         jwt = Auth.issue(resource: resource.id)
         begin
-          body = "Your email has been verified and your account is active now."
+          body = "Account Verification successful"
           NotificationsMailer.send_confirmed_email(resource).deliver
-          resource.notifications.create(body: body, notificationable_type: resource.class.name, notificationable_id: resource.id)
+          # resource.notifications.create(body: body, notificationable_type: resource.class.name, notificationable_id: resource.id)
           Registerable.send_notification(resource.devise_token, body, body)
         rescue 
         end
@@ -128,11 +128,11 @@ module Registerable
     end
 
     def designer_params
-      params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status, :devise_token)
+      params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status)
     end
 
     def user_params
-      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar, :devise_token)
+      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar)
     end
 
     def resource_params
