@@ -33,12 +33,13 @@ module Registerable
         resource.mark_as_confirmed!
         jwt = Auth.issue(resource: resource.id)
         begin
-          body = "Account Verification successful"
+          body = "Your email has been verified and your account is active now."
           NotificationsMailer.send_confirmed_email(resource).deliver
           # resource.notifications.create(body: body, notificationable_type: resource.class.name, notificationable_id: resource.id)
           Registerable.send_notification(resource.devise_token, body, body)
         rescue 
         end
+
         if resource_class == User
           redirect_to Rails.application.secrets[:user_url], status: 301
         else

@@ -219,17 +219,15 @@ class Order < ApplicationRecord
   def send_mail
     NotificationsMailer.under_qc(self).deliver_later
     begin
-      body = "Your order has reached QC"
+      body = "Your Order <%= self.order_id %> has been delivered by the <%= self.designer.full_name %> and is under QC."
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
     end
-    
-
   end
 
   def send_shipped_mail
-    body = "Your order has been shipped"
+    body = "Your order has been shipped Your Order <%= self.order_id %> has been approved after QC and shipped to <%= self.user.full_name %>"
     NotificationsMailer.shipped_to_user(self).deliver_later
     NotificationsMailer.designer_shipped(self).deliver_later
     begin
@@ -245,7 +243,7 @@ class Order < ApplicationRecord
   def qc_reject_mail
     NotificationsMailer.rejected_in_qc(self).deliver_later
     begin
-      body = "Your order was rejected in QC"
+      body = "Your Order <%= self.order_id %> for <%= self.user.full_name %> has been rejected after QC"
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
@@ -255,11 +253,13 @@ class Order < ApplicationRecord
   def send_deliverd_mail
     NotificationsMailer.product_deliverd(self).deliver_later
     begin
-      body = "Product Delivered"
+      alert = "Product Delivered"
+      body = "Your Order <%= self.order_id %> has been successfully delivered to <%= self.user.full_name %>"
+      body_d = 
       self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body, body) 
-      Order.new.send_notification(self.user.devise_token, body, body)
+      Order.new.send_notification(self.designer.devise_token, alert, body) 
+      Order.new.send_notification(self.user.devise_token, alert, body)
     rescue
     end
   end
@@ -268,12 +268,12 @@ class Order < ApplicationRecord
     NotificationsMailer.order_accept(self).deliver_later
     NotificationsMailer.give_measurement(self).deliver_later unless self.order_measurement.present?
     begin
-      body = "Awaiting Designer Confirmation"
-      body_u = "Measurements Pending"
-      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
+      body_d = "Your offer for <%= self.offer_quotation.offer.request.name %> has been accepted by <%= self.user.full_name %>. Please confirm the order."
+      body_u = "Your measurements are pending for Order  <%= self.order_id %>. <%= self.designer.full_name %> cannot start production until you give measurements."
+      self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
       self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body, body)
-      Order.new.send_notification(self.user.devise_token, body, body) unless self.order_measurement.present?
+      Order.new.send_notification(self.designer.devise_token, body_d, body_d)
+      Order.new.send_notification(self.user.devise_token, body_u, body_u) unless self.order_measurement.present?
     rescue
     end
   end

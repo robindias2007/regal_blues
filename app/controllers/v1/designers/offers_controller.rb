@@ -8,14 +8,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     offer = current_designer.offers.build(offer_params)
     if offer.save
       offer.update_shipping_price
-      # TODO: Send a notification to the user and the support team
-      begin
-        body = "You have a new offer"
-        NotificationsMailer.new_offer(offer).deliver_later
-        offer.request.user.notifications.create(body: body, notificationable_type: "Offer", notificationable_id: offer.id)
-        send_notification(offer.request.user.devise_token, body, body)
-      rescue
-      end
+      notify_new_offer(offer)
       render json: { message: 'Offer saved successfully' }, status: 201
     else
       render json: { errors: offer.errors.messages }, status: 400
@@ -49,5 +42,15 @@ class V1::Designers::OffersController < V1::Designers::BaseController
 
   def offer_by_designer_present?
     Offer.exists?(designer: current_designer, request_id: params[:offer][:request_id])
+  end
+
+  def notify_new_offer(offer)
+    begin
+      body = "You have a new offer You have a new offer for your <%= offer.request.name %> by <%= offer.designer.full_name %>"
+      NotificationsMailer.new_offer(offer).deliver_later
+      offer.request.user.notifications.create(body: body, notificationable_type: "Offer", notificationable_id: offer.id)
+      send_notification(offer.request.user.devise_token, body, body)
+    rescue
+    end
   end
 end
