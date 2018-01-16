@@ -9,7 +9,7 @@ module Registerable
                                                send_reset_password_instructions reset_password]
 
     def create
-      resource = resource_class.new(resource_params) 
+      resource = resource_class.new(resource_params)
       if resource.save
         jwt = Auth.issue(resource: resource.id)
         render json: { message: "#{resource_class.name} created successfully", jwt: jwt }, status: 201
@@ -127,11 +127,11 @@ module Registerable
     end
 
     def designer_params
-      params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status)
+      params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status, :devise_token)
     end
 
     def user_params
-      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar)
+      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar, :devise_token)
     end
 
     def resource_params
