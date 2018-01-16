@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.default_url_options = {
-    host: 'custumise.com'
+    host: ENV['APPLICATION_BASE_URL']
 }
 
 Rails.application.routes.draw do
