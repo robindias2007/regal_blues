@@ -39,7 +39,8 @@ module Registerable
           Registerable.send_notification(resource.devise_token, body, body)
         rescue 
         end
-        render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
+        # render json: { message: "#{resource_class.name} confirmed successfully", jwt: jwt }, status: 200
+        redirect_to root_url
       else
         render json: { errors: 'Invalid Token' }, status: 404
       end
