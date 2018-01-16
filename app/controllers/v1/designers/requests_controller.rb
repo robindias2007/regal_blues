@@ -31,10 +31,11 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def mark_involved
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
-      NotificationsMailer.interested(@request_designer, 48).deliver_later
-      NotificationsMailer.interested(@request_designer, 24).deliver_later(wait: 24.hour)
-      NotificationsMailer.interested(@request_designer, 12).deliver_later(wait: 12.hour)
+      notify_involved(@request_designer)
       begin
+        NotificationsMailer.interested(@request_designer, 48).deliver_later
+        NotificationsMailer.interested(@request_designer, 24).deliver_later(wait: 24.hour)
+        NotificationsMailer.interested(@request_designer, 12).deliver_later(wait: 12.hour)
         body = "48 hrs left to send quote for the request"
         @request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: @request_designer.request.id)
         send_notification(@request_designer.designer.devise_token, body, body)
@@ -84,5 +85,17 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
 
   def invalid_option_for_involved
     render json: { error: 'This designer has already marked this request as involved' }, status: 400
+  end
+
+  def notify_involved(request_designer)
+    begin
+      NotificationsMailer.interested(request_designer, 48).deliver_later
+      NotificationsMailer.interested(request_designer, 24).deliver_later(wait: 24.hour)
+      NotificationsMailer.interested(request_designer, 12).deliver_later(wait: 12.hour)
+      body = "You have shown your interest in <%= request_designer.request.name %> by <%= request_designer.request.user.full_name %>. You have 48 hrs to quote for the same."
+      request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: @request_designer.request.id)
+      send_notification(request_designer.designer.devise_token, body, body)
+    rescue
+    end
   end
 end

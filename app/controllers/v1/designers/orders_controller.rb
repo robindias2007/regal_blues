@@ -17,26 +17,10 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.all_options_selected?
       order.designer_confirms!
-      # TODO: Notify the user
-      NotificationsMailer.order_confirm(order).deliver_later
-      begin
-        body = "Your order is confirmed"
-        order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-        send_notification(order.user.devise_token, body, body)
-      rescue
-      end
+      notify_confirm(order)
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
-      NotificationsMailer.order_cancel(order.user, order).deliver_later
-      NotificationsMailer.order_cancel(order.designer, order).deliver_later
-      begin
-        body = "Order Cancelled"
-        order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-        order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-        send_notification(order.user.devise_token, body, body)
-        send_notification(order.designer.devise_token, body, body)
-      rescue
-      end
+      notify_cancel(order)
       render json: {
         errors:  order.errors,
         message: 'Not all the orders are selected by the user or the order has not been paid yet'
@@ -53,13 +37,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
-      NotificationsMailer.fabric_unavailable(order).deliver_later
-      begin
-        body = "Fabric of your choice is unavailable"
-        order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-        send_notification(order.user.devise_token, body, body)
-      rescue
-      end
+      notify_fabric_unavailable(order)
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
     else
@@ -91,13 +69,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def give_more_options
     order = current_designer.orders.find(params[:id])
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
-      NotificationsMailer.more_option(order).deliver_later
-      begin
-        body = "Awaiting more options on your offer"
-        order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-        send_notification(order.designer.devise_token, body, body)
-      rescue
-      end
+      notify_more_option(order)
       order.designer_gives_more_options!
       render json: order, serializer: V1::Designers::OrderShowSerializer
     else
@@ -128,5 +100,50 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def find_image_by(order_id, gallery_id, image_id)
     find_gallery_for(order_id, gallery_id).find(image_id)
+  end
+
+  def notify_confirm(order)
+    begin
+      NotificationsMailer.order_confirm(order).deliver_later
+      body = "Your order with order id <%= order.order_id %> has been accepted by <%= order.designer.full_name%>."
+      order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
+      send_notification(order.user.devise_token, body, body)
+    rescue
+    end
+  end
+
+  def notify_cancel(order)
+    begin
+      body_u = "Your Order with id<%= order.order_id %> has been cancelled. Money would be refunded in 7 working days."
+      body_d = "Your Order with id <%= order.order_id %> has been cancelled by <%= order.user.full_name%>"
+      NotificationsMailer.order_cancel(order.user, order).deliver_later
+      NotificationsMailer.order_cancel(order.designer, order).deliver_later
+      order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
+      order.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: order.id)
+      send_notification(order.user.devise_token, "Order Cancelled", body_u)
+      send_notification(order.designer.devise_token, "Order Cancelled", body_d)
+    rescue
+    end 
+  end
+
+  def notify_fabric_unavailable(order)
+    begin
+      body = "<%= order.designer.full_name %> ran out of the fabric you selected for Order <%= order.order_id %>. Please select one from the existing."
+      NotificationsMailer.fabric_unavailable(order).deliver_later
+      order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
+      send_notification(order.user.devise_token, body, body)
+    rescue
+    end
+  end
+
+  def notify_more_option(order)
+    begin
+      alert = "Awaiting more options on your offer"
+      body = "Your offer for <%= order.offer_quotation.offer.request.name%> has been accepted by <%= order.user.full_name %>. <%= order.user.full_name %> has asked for more option. Send more options"
+      NotificationsMailer.more_option(order).deliver_later
+      order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
+      send_notification(order.designer.devise_token, alert, body)
+    rescue
+    end
   end
 end

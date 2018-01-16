@@ -15,12 +15,7 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
   def update
     op = current_user.order_payments.find(params[:id])
     if op.update(op_update_params)
-      begin
-        body = "Payment Successful"
-        current_user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: op.order_id)
-        send_notification(current_user.devise_token, body, body)
-      rescue
-      end
+      notify_payment_success(op)
       render json: { message: 'Order Payment successfully updated' }, status: 200
     else
       render json: { errors: op.errors }, status: 400
@@ -35,5 +30,15 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
 
   def op_update_params
     params.require(:order_payment).permit(:payment_id, :success, extra: {})
+  end
+
+  def notify_payment_success(op)
+   begin
+      alert = "Payment Successful"
+      body = "Your payment was successful for the offer by <%= op.order.designer.full_name %> for <%= op.order.offer_quotation.offer.request.name %>"
+      current_user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: op.order_id)
+      send_notification(current_user.devise_token, alert, body)
+    rescue
+    end 
   end
 end

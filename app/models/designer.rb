@@ -117,6 +117,5 @@ class Designer < ApplicationRecord
       Designer.new.send_notification(self.devise_token, "Welcome", body)
     rescue
     end
-     
   end
 end
