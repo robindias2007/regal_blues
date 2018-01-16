@@ -2,7 +2,7 @@
 
 class V1::Users::OrdersSerializer < ActiveModel::Serializer
   attributes :id, :designer_name, :item_type, :project, :price, :timeline, :status_logged_at, :image, :status,
-    :order_id, :designer_avatar
+    :order_id, :designer_avatar, :shipping_price
 
   def designer_name
     object.designer.designer_store_info.display_name
@@ -22,6 +22,10 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
 
   def price
     object.offer_quotation.price
+  end
+
+  def shipping_price
+    object.offer_quotation.shipping_price
   end
 
   def timeline
