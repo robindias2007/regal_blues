@@ -8,7 +8,7 @@ class RegistrationsMailer < ApplicationMailer
   #
   def confirmation(user)
     @user = user
-    @path = "#{ENV['APPLICATION_BASE_URL']}" + user.class.name.downcase.pluralize
+    @path = "#{ENV['APPLICATION_BASE_URL']}#{user.class.name.downcase.pluralize}"
     @token = user.confirmation_token
     # mail to: user.email, subject: 'Thank you for signing up. Please confirm to continue! | Regal Blues'
     mail to: user.email, subject: 'Email verification pending'
@@ -16,7 +16,7 @@ class RegistrationsMailer < ApplicationMailer
 
   def password(user)
     @user = user
-    @path = "#{ENV['APPLICATION_BASE_URL']}" + user.class.name.downcase.pluralize
+    @path = "#{ENV['APPLICATION_BASE_URL']}#{user.class.name.downcase.pluralize}"
     @token = user.reset_password_token
     # mail to: user.email, subject: 'Password reset instructions | Regal Blues'
     mail to: user.email, subject: 'Reset your Password'
