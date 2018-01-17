@@ -268,8 +268,8 @@ class Order < ApplicationRecord
     NotificationsMailer.order_accept(self).deliver_later
     NotificationsMailer.give_measurement(self).deliver_later unless self.order_measurement.present?
     begin
-      body_d = "Your offer for <%= self.offer_quotation.offer.request.name %> has been accepted by <%= self.user.full_name %>. Please confirm the order."
-      body_u = "Your measurements are pending for Order  <%= self.order_id %>. <%= self.designer.full_name %> cannot start production until you give measurements."
+      body_d = "Your offer for #{self.offer_quotation.offer.request.name} has been accepted by #{ self.user.full_name}. Please confirm the order."
+      body_u = "Your measurements are pending for Order  #{self.order_id}. #{self.designer.full_name} cannot start production until you give measurements."
       self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
       self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body_d, body_d)
