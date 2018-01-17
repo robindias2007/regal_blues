@@ -65,7 +65,7 @@ module Registerable
     end
 
     def send_reset_password_instructions
-      resource = resource_class.find_for_auth(reset_password_params[:login])
+      resource = resource_class.find_for_auth(reset_password_params[:login] || resend_confirmation_params[:email])
       formatted_response_if(resource,
         ['Reset password instructions sent successfully', 200], ['resource_class not found or invalid email', 404]) do
         resource.send(:send_reset_password_instructions)
@@ -160,7 +160,7 @@ module Registerable
     end
 
     def resend_confirmation_params
-      params.permit(:email)
+      params.permit(:email) 
     end
 
     def reset_password_params
