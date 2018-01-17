@@ -42,7 +42,7 @@ class Request < ApplicationRecord
     self.request_designers.each do |request_designer|
       NotificationsMailer.new_request(self.user, request_designer.designer).deliver_later
       begin
-        body = "You have a new request by <%= self.user.full_name %>"
+        body = "You have a new request by #{ self.user.full_name }"
         request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: self.id)
         Request.new.send_notification(request_designer.designer.devise_token, body, body)
       rescue        
