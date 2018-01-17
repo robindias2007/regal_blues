@@ -2,7 +2,7 @@ class NotificationsMailer < ApplicationMailer
 
 	def send_email(user)
 		@user = user
-		@path = "#{ENV['APPLICATION_BASE_URL']}#{user.class.name.downcase.pluralize}"
+		@path = "#{ENV['USER_APPLICATION_URL']}#{user.class.name.downcase.pluralize}"
     	@token = user.confirmation_token
 		mail to: user.email, subject: 'Welcome to Custumise! We are glad to have you here'
 	end
