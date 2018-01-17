@@ -29,7 +29,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def index
-    requests = current_user.requests.order(created_at: :desc).limit(20)
+    requests = current_user.requests.order(updated_at: :desc).limit(20)
     render json: requests, each_serializer: V1::Users::RequestsSerializer
   end
 
