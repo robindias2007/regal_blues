@@ -95,7 +95,7 @@ class Order < ApplicationRecord
     state :rejected_by_qc, after_enter: :update_datetime, after_commit: :qc_reject_mail
     # User Path: More Options + User Agrees
     state :user_awaiting_more_options, after_enter: :update_datetime
-    state :designer_gave_more_options, after_enter: :update_datetime
+    state :designer_gave_more_options, after_enter: :update_datetime, after_commit: :new_option
     state :user_selected_options, after_enter: :update_datetime
     # User Path: More Options + User Cancels / Fabric Unavailable + User Cancels
     state :user_cancelled, after_enter: :update_datetime
@@ -273,7 +273,18 @@ class Order < ApplicationRecord
       self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
       self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body_d, body_d)
-      Order.new.send_notification(self.user.devise_token, body_u, body_u) unless self.order_measurement.present?
+      # Order.new.send_notification(self.user.devise_token, body_u, body_u) unless self.order_measurement.present?
+    rescue
+    end
+  end
+
+
+  def new_option
+    begin
+      NotificationsMailer.new_option(self).deliver_later
+      body = "You have new options for Order #{ self.order_id } by #{ self.user.full_name }. Please select new options."
+      self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.order.id)
+      Order.new.send_notification(self.user.devise_token, body, body)
     rescue
     end
   end

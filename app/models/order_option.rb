@@ -8,7 +8,7 @@ class OrderOption < ApplicationRecord
 
   validate :not_more_than_one_option
 
-  after_create :more_options_show
+  # after_create :more_options_show
 
   def not_more_than_one_option
     errors.add(:order_id, "Can't select more than one option") if (image_id.present? && more_options.present?) ||

@@ -20,7 +20,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       notify_confirm(order)
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }
     else
-      notify_cancel(order)
+      # notify_cancel(order)
       render json: {
         errors:  order.errors,
         message: 'Not all the orders are selected by the user or the order has not been paid yet'
@@ -112,19 +112,19 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     end
   end
 
-  def notify_cancel(order)
-    begin
-      body_u = "Your Order with id #{order.order_id} has been cancelled. Money would be refunded in 7 working days."
-      body_d = "Your Order with id #{order.order_id} has been cancelled by #{ order.user.full_name }"
-      NotificationsMailer.order_cancel(order.user, order).deliver_later
-      NotificationsMailer.order_cancel(order.designer, order).deliver_later
-      order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
-      order.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.user.devise_token, "Order Cancelled", body_u)
-      send_notification(order.designer.devise_token, "Order Cancelled", body_d)
-    rescue
-    end 
-  end
+  # def notify_cancel(order)
+  #   begin
+  #     body_u = "Your Order with id #{order.order_id} has been cancelled. Money would be refunded in 7 working days."
+  #     body_d = "Your Order with id #{order.order_id} has been cancelled by #{ order.user.full_name }"
+  #     NotificationsMailer.order_cancel(order.user, order).deliver_later
+  #     NotificationsMailer.order_cancel(order.designer, order).deliver_later
+  #     order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
+  #     order.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: order.id)
+  #     send_notification(order.user.devise_token, "Order Cancelled", body_u)
+  #     send_notification(order.designer.devise_token, "Order Cancelled", body_d)
+  #   rescue
+  #   end 
+  # end
 
   def notify_fabric_unavailable(order)
     begin

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class V1::Users::OrdersController < V1::Users::BaseController
+  include PushNotification
+
   def index
     orders = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
                   .order(updated_at: :desc)
@@ -72,6 +74,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     if order.may_user_cancels_the_order?
       # PaymentGateway.cancel(order)
       order.user_cancels_the_order!
+      notify_cancel(order)
       render json: { message: 'Your order has been cancelled. We will process the refund soon' }, status: 200
     else
       render json: { errors: 'You cannot cancel the order at this stage', state: order.status }, status: 400
@@ -127,5 +130,19 @@ class V1::Users::OrdersController < V1::Users::BaseController
 
   def more_options_present?
     params[:order][:order_options_attributes].any? { |oo| oo[:more_options] == true }
+  end
+
+  def notify_cancel(order)
+    begin
+      body_u = "Your Order with id #{order.order_id} has been cancelled. Money would be refunded in 7 working days."
+      body_d = "Your Order with id #{order.order_id} has been cancelled by #{ order.user.full_name }"
+      NotificationsMailer.order_cancel(order.user, order).deliver_later
+      NotificationsMailer.order_cancel(order.designer, order).deliver_later
+      order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
+      order.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: order.id)
+      send_notification(order.user.devise_token, "Order Cancelled", body_u)
+      send_notification(order.designer.devise_token, "Order Cancelled", body_d)
+    rescue
+    end 
   end
 end
