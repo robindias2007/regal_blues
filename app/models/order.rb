@@ -219,7 +219,7 @@ class Order < ApplicationRecord
   def send_mail
     NotificationsMailer.under_qc(self).deliver_later
     begin
-      body = "Your Order <%= self.order_id %> has been delivered by the <%= self.designer.full_name %> and is under QC."
+      body = "Your Order #{ self.order_id } has been delivered by the #{ self.designer.full_name } and is under QC."
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
@@ -227,7 +227,7 @@ class Order < ApplicationRecord
   end
 
   def send_shipped_mail
-    body = "Your order has been shipped Your Order <%= self.order_id %> has been approved after QC and shipped to <%= self.user.full_name %>"
+    body = "Your order has been shipped Your Order #{ self.order_id } has been approved after QC and shipped to #{ self.user.full_name }"
     NotificationsMailer.shipped_to_user(self).deliver_later
     NotificationsMailer.designer_shipped(self).deliver_later
     begin
@@ -243,7 +243,7 @@ class Order < ApplicationRecord
   def qc_reject_mail
     NotificationsMailer.rejected_in_qc(self).deliver_later
     begin
-      body = "Your Order <%= self.order_id %> for <%= self.user.full_name %> has been rejected after QC"
+      body = "Your Order #{ self.order_id } for #{ self.user.full_name } has been rejected after QC"
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
@@ -254,7 +254,7 @@ class Order < ApplicationRecord
     NotificationsMailer.product_deliverd(self).deliver_later
     begin
       alert = "Product Delivered"
-      body = "Your Order <%= self.order_id %> has been successfully delivered to <%= self.user.full_name %>"
+      body = "Your Order #{ self.order_id } has been successfully delivered to #{ self.user.full_name }"
       body_d = 
       self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
