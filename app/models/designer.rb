@@ -110,7 +110,7 @@ class Designer < ApplicationRecord
   end
 
   def send_welcome_email
-    NotificationsMailer.send_email(self).deliver_later
+    NotificationsMailer.send_email(self).deliver
     begin
       body = "Welcome to Custumise. Happy to have you onboard"
       self.notifications.create(body: body,  notificationable_type: "Designer", notificationable_id: self.id)
