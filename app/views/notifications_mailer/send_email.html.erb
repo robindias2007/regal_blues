@@ -26,6 +26,10 @@ Dear <%= @user.full_name %>,<br><br>
 
 	5.Having some issue? Just contact the designer through the chat or our support team. We will help you with all your needs.<br><br>
 
+	Click the link below to verify your account and get started.<br><br>
+
+	<a href="<%= @path %>/confirm/<%= @token %>">Click Here</a>
+
 	For any information or feedback, email us at connect.custumise.com<br><br>
 <% else %>
 	Welcome to Custumise. Happy to have you onboard.<br><br>
