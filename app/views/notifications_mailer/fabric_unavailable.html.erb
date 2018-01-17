@@ -1,6 +1,7 @@
-Dear <%= @order.user.full_name %><br><br>
+Dear <%= @order.user.full_name %>,<br><br>
 
-<%= @order.designer.full_name %> ran out of the fabric you selected for order with order id <%= @order.order_id %>. Please login to your profile and select another fabric from the existing list or the new fabrics that designer might have sent.<br>
+Designer <%= @order.designer.full_name %> ran out of the fabric you had selected for order id <%= @order.order_id %>. Please login to our app and select another fabric from the existing list or the new fabrics that the designer might have sent.<br>
 
-Regards<br>
-Team Custumise
+Regards,<br>
+Team Custumise<br>
+support@custumise.com

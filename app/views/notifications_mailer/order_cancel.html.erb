@@ -1,8 +1,8 @@
-Dear <%= @resource.full_name %><br><br>
+Dear <%= @resource.full_name %>,<br><br>
 <% if @resource.class.name == "User" %>
-	Your order has been successfully cancelled for order with order id <%= @order.id %>. We will refund your money within 7 working days. Please login to your profile and check the updated status for your order.<br><br>
+	Your order id <%= @order.id %> has been successfully cancelled. We will refund your money within 7-10 working days.<br><br>
 <% elsif @resource.class.name == "Designer"%>
-	Your order with order id <%= @order.id %> has been cancelled by <%= @order.user.full_name%>.<br><br>
+	Your order id <%= @order.id %> has been cancelled by user <%= @order.user.full_name%>.<br><br>
 <% end %>
 
 Regards<br>

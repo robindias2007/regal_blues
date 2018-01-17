@@ -1,19 +1,21 @@
 <% if @resource.class.name == "Designer" %>
-	Dear <%= @resource.full_name %><br><br>
-	Your account verification is successful. You can now add products to your inventory, accept customer requests and send offers. Please login to your account and start selling.<br><br>
+	Dear <%= @resource.full_name %>,<br><br>
+	Your account verification is successful. You can now add products to your inventory, accept customer requests and send offers.<br><br>
 
 	Thank you<br><br>
 
-	Regards<br>
-	Team Custumise
+	Regards,<br>
+	Team Custumise<br>
+	designers@custumise.com
 <% elsif @resource.class.name == "User"%>
-	Dear <%= @resource.full_name %><br><br>
-	Your account verification is successful. You can now send outfit requests, receive offers from designers and custumise existing products. Please login to your profile and get started.<br><br>
+	Dear <%= @resource.full_name %>,<br><br>
+	Your account verification is successful. You can now create outfit requests, receive offers from designers and custumise existing outfits. Please login to our app and get started.<br><br>
 
 	Thank you<br><br>
 
-	Regards<br>
-	Team Custumise
+	Regards,<br>
+	Team Custumise<br>
+	support@custumise.com
 <% else %>
 	Your email has been verified and your account is active now.
 <% end %>

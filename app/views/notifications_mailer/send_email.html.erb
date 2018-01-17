@@ -1,36 +1,40 @@
 Dear <%= @user.full_name %>,<br><br>
 
 <% if @user.class.name == "Designer" %>
-	Welcome on board! Thank you for signing up with Custumise and becoming a part of our endeavour to make custom made outfits a part of every woman’s wardrobe. You can now setup your store and add your products. A few simple tips before you get started.<br>
+	Welcome on board! Thank you for signing up with Custumise and becoming a part of our endeavour to make custum made outfits a part of every woman’s wardrobe. You can now setup your store and add your products. A few simple tips before you get started.<br>
 	1.Try to upload multiple images for the garments like front, side and detail zoom in.<br>
 	2.Give a detailed description about the product in terms of styling, fabric and work.<br>
-	3.Also provide any additional information like dry clean only, do not iron on print etc<br><br>
+	3.Also provide any additional information like dry clean only, do not iron on print etc.<br><br>
 
 	<a href="<%= @path %>/confirm/<%= @token %>">Click here</a> to verify your account and get started.<br><br>
 
-	For any information or feedback, email us at connect.custumise.com<br><br>
+	For any information or feedback, email us at designer@custumise.com<br><br>
 
 <% elsif @user.class.name == "User"%>
-	Welcome on board! Thank you for signing up with Custumise. You are only a few steps away from your very own custom made outfit. A few simple tips before you get started on how easy it is to use the Custumise App.<br><br>
+	Welcome on board! Thank you for signing up with Custumise. 
 
-	1.Create a request by uploading a picture/s of something similar to what you’re looking for. Write a short description and your budget estimate.<br>
-
-	2.The designers will send you multiple options based on your request and budget.<br>
-
-	3.Pick an offer that you like and confirm order by paying online.<br>
-
-	4.You will have the desired outfit delivered to you right at your doorstep.<br>
-
-	5.Having some issue? Just contact the designer through the chat or our support team. They will get back to you shortly.<br><br>
 	<a href="<%= @path %>/confirm/<%= @token %>">Click here</a> to verify your account and get started.<br><br>
+
+
+	A few simple tips before you get started on the Custumise App.<br><br>
+
+	1.Create a request by uploading picture(s) of an outfit similar to what you’re looking for. You can also search for trending outifts on our app and create a request. Please provide detailed requirements as our designers love to hear all your preferences.<br>
+
+	2.Multiple designers will send you different options.<br>
+
+	3.Pick an offer that you like and confirm order by paying online. Provide measurements once the designer has also confirmed the order.<br>
+
+	4.You will have the custumised outfit delivered to you right at your doorstep.<br>
+
+	5.You can chat with us all throughout the custumise journey.<br><br>
 
 	For any information, email us at support@custumise.com<br><br>
 <% else %>
 	Welcome to Custumise. Happy to have you onboard.<br><br>
 <% end %>
 
-Thank you<br><br>
-Regards<br>
+
+Regards,<br>
 Team Custumise
 
 
