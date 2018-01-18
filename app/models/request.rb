@@ -39,10 +39,12 @@ class Request < ApplicationRecord
   end
 
   def send_request_mail
+    body = "You have a new request by #{ self.user.full_name }"
+    message = "New Request -  You have a new request #{self.name} by user #{self.user.full_name}."
     self.request_designers.each do |request_designer|
       NotificationsMailer.new_request(self.user, request_designer.designer).deliver_later
       begin
-        body = "You have a new request by #{ self.user.full_name }"
+        SmsService.send_message_notification(request_designer.designer.mobile_number, message)
         request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: self.id)
         Request.new.send_notification(request_designer.designer.devise_token, body, body)
       rescue        

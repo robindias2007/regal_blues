@@ -139,7 +139,9 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def notify_more_option(order)
     begin
       alert = "Awaiting more options on your offer"
-      body = "Your offer for #{ order.offer_quotation.offer.request.name } has been accepted by #{ order.user.full_name }. #{ order.user.full_name } has asked for more option. Send more options"
+      body = "Your offer for #{ order.offer_quotation.offer.request.name } has been accepted by #{ order.user.full_name }. #{ order.user.full_name } has asked for more option. Send more options."
+      message = "Awaiting Options - Please send options for order id #{order.order_id} for request #{order.offer_quotation.offer.request.name} by user #{order.user.full_name} immediately."
+      SmsService.send_message_notification(order.designer.mobile_number, message)
       NotificationsMailer.more_option(order).deliver_later
       order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
       send_notification(order.designer.devise_token, alert, body)

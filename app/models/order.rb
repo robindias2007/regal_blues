@@ -227,10 +227,13 @@ class Order < ApplicationRecord
   end
 
   def send_shipped_mail
-    body = "Your order has been shipped Your Order #{ self.order_id } has been approved after QC and shipped to #{ self.user.full_name }"
-    NotificationsMailer.shipped_to_user(self).deliver_later
-    NotificationsMailer.designer_shipped(self).deliver_later
     begin
+      body = "Your order has been shipped Your Order #{ self.order_id } has been approved after QC and shipped to #{ self.user.full_name }"
+      message = "Product Shipped -  Your order id #{self.order_id} for user #{self.user.full_name} has passed QC."
+      NotificationsMailer.shipped_to_user(self).deliver_later
+      NotificationsMailer.designer_shipped(self).deliver_later
+      SmsService.send_message_notification(self.user.mobile_number, message)
+
       self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.user.devise_token, body, body)
 
@@ -241,9 +244,11 @@ class Order < ApplicationRecord
   end
 
   def qc_reject_mail
-    NotificationsMailer.rejected_in_qc(self).deliver_later
     begin
       body = "Your Order #{ self.order_id } for #{ self.user.full_name } has been rejected after QC"
+      message = "Rejected in QC - Your order id #{self.order_id} for request #{self.offer_quotation.offer.request.name} by user #{ self.user.full_name } has failed quality check."
+      NotificationsMailer.rejected_in_qc(self).deliver_later
+      SmsService.send_message_notification(self.designer.mobile_number, message)
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body, body)
     rescue
@@ -270,6 +275,8 @@ class Order < ApplicationRecord
     begin
       body_d = "Your offer for #{self.offer_quotation.offer.request.name} has been accepted by #{ self.user.full_name}. Please confirm the order."
       body_u = "Your measurements are pending for Order  #{self.order_id}. #{self.designer.full_name} cannot start production until you give measurements."
+      message = "Awaiting Confirmation -  Please confirm order id #{self.order_id} for request #{self.offer_quotation.offer.request.name} by user #{self.user.full_name} immediately."
+      SmsService.send_message_notification(self.designer.mobile_number, message)
       self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
       self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body_d, body_d)
