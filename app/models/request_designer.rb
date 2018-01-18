@@ -18,6 +18,11 @@ class RequestDesigner < ApplicationRecord
     public_send(attr) == true ? update(:"#{attr}" => false) : update(:"#{attr}" => true)
   end
 
+  def penalty_msg
+    message = "Quote Penalty  - You have missed the 48 hours deadline for submitting offer for request #{self.request.name} by user #{self.request.user.full_name}."
+    SmsService.send_message_notification(self.designer.mobile_number, message)
+  end
+
   private
 
   def max_four_involved
