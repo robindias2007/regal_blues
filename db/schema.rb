@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118085845) do
+ActiveRecord::Schema.define(version: 20180118115303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -312,7 +312,7 @@ ActiveRecord::Schema.define(version: 20180118085845) do
   create_table "picks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "cat_name"
     t.string "keywords"
-    t.string "images"
+    t.string "images", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
