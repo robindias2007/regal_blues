@@ -15,6 +15,11 @@ class SmsService
     sns.publish(phone_number: number, message: msg_body(otp))
   end
 
+  def self.send_message_notification(number, message)
+    # number = "+917803827212"
+    sns.publish(phone_number: number, message: message)    
+  end
+
   def self.sns
     client = Aws::SNS::Client.new(region:            'us-east-1', # Don't change the region
                                   access_key_id:     Rails.application.secrets[:aws_access_key_id],
