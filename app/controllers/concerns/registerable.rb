@@ -9,6 +9,7 @@ module Registerable
                                                send_reset_password_instructions reset_password]
 
     def create
+      delete_extra_user_params if resource_class == User
       resource = resource_class.new(resource_params) 
       if resource.save
         jwt = Auth.issue(resource: resource.id)
@@ -145,6 +146,10 @@ module Registerable
 
     def current_resource
       public_send("current_#{resource_class.name.downcase}")
+    end
+
+    def delete_extra_user_params
+      params.delete :registration; params.delete :format; params.delete :country_code
     end
 
     def designer_params
