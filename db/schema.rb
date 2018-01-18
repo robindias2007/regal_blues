@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118100321) do
+ActiveRecord::Schema.define(version: 20180118085845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20180118100321) do
   end
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "support_chat_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "sender_id"
@@ -52,7 +51,6 @@ ActiveRecord::Schema.define(version: 20180118100321) do
     t.text "conversationable_id"
     t.string "conversationable_type"
     t.index ["receiver_type", "receiver_id"], name: "index_conversations_on_receiver_type_and_receiver_id"
-    t.index ["support_chat_id"], name: "index_conversations_on_support_chat_id"
   end
 
   create_table "designer_categorizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -146,21 +144,6 @@ ActiveRecord::Schema.define(version: 20180118100321) do
     t.index ["email"], name: "index_designers_on_email", unique: true
     t.index ["mobile_number"], name: "index_designers_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_designers_on_reset_password_token", unique: true
-  end
-
-  create_table "explore_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "category_name"
-    t.string "keywords"
-    t.string "images"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "exploreds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "category_name"
-    t.string "keywords"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "external_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -329,9 +312,9 @@ ActiveRecord::Schema.define(version: 20180118100321) do
   create_table "picks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "cat_name"
     t.string "keywords"
+    t.string "images"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatars", default: [], array: true
   end
 
   create_table "product_infos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -433,13 +416,6 @@ ActiveRecord::Schema.define(version: 20180118100321) do
     t.index ["name"], name: "index_sub_categories_on_name", unique: true
   end
 
-  create_table "sub_categories_tests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "super_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "image", default: "", null: false
@@ -539,19 +515,19 @@ ActiveRecord::Schema.define(version: 20180118100321) do
     t.datetime "reset_password_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified", default: false
     t.text "bio"
-    t.boolean "verified", default: true
     t.text "devise_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["mobile_number"], name: "index_users_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["verified"], name: "index_users_on_verified", where: "verified"
   end
 
   add_foreign_key "addresses", "users"
   add_foreign_key "categories", "super_categories"
-  add_foreign_key "conversations", "support_chats"
   add_foreign_key "designer_categorizations", "designers"
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
@@ -587,6 +563,8 @@ ActiveRecord::Schema.define(version: 20180118100321) do
   add_foreign_key "requests", "sub_categories"
   add_foreign_key "requests", "users"
   add_foreign_key "sub_categories", "categories"
+  add_foreign_key "support_chats", "designers"
+  add_foreign_key "support_chats", "users"
   add_foreign_key "user_favorite_designers", "designers"
   add_foreign_key "user_favorite_designers", "users"
   add_foreign_key "user_favorite_products", "products"

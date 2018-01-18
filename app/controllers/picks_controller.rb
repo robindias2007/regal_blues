@@ -4,11 +4,6 @@ class PicksController < ApplicationController
   # GET /picks
   def index
     @picks = Pick.all
-    if @picks.present?
-      render json: @picks
-    else
-      render json: { message: 'No picks found!' }, status: 404
-    end
   end
 
   # GET /picks/1
@@ -58,6 +53,6 @@ class PicksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def pick_params
-      params.require(:pick).permit(:cat_name, :keywords, {avatars:[]})
+      params.require(:pick).permit(:cat_name, :keywords, {images: []})
     end
 end
