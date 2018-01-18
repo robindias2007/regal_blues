@@ -52,13 +52,13 @@ class Offer < ApplicationRecord
   end
 
   def update_shipping_price
-    if self.request.address.country == "India"
+    if self.request.address.country == "India" || self.request.address.country == "india"
       self.offer_quotations.each do |oq|
         oq.update(shipping_price: 500)
       end
     else
       self.offer_quotations.each do |oq|
-        oq.update(shipping_price: 500)
+        oq.update(shipping_price: 1400)
       end
     end
   end
