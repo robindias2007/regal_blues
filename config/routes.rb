@@ -5,6 +5,7 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
+  resources :picks
   mount ActionCable.server => '/cable'
 
   devise_for :supports
