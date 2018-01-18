@@ -8,6 +8,7 @@ class PicksController < ApplicationController
       render json: @picks
     else
       render json: { message: "Picks not found" }, status: 404
+    end
   end
 
   # GET /picks/1
