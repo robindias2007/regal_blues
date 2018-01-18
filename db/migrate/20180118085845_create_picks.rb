@@ -3,7 +3,6 @@ class CreatePicks < ActiveRecord::Migration[5.1]
     create_table :picks, id: :uuid do |t|
       t.string :cat_name
       t.string :keywords
-      t.string :images
 
       t.timestamps
     end

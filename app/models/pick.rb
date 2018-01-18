@@ -1,3 +1,3 @@
 class Pick < ApplicationRecord
-	mount_uploaders :images, ImageUploader
+	# mount_uploader :avatar, AvatarUploader
 end
