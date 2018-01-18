@@ -4,6 +4,10 @@ class PicksController < ApplicationController
   # GET /picks
   def index
     @picks = Pick.all
+    if @picks.present?
+      render json: @picks
+    else
+      render json: { message: "Picks not found" }, status: 404
   end
 
   # GET /picks/1
