@@ -33,9 +33,27 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def index
-    requests = current_user.requests.order(updated_at: :desc).limit(20)
+    #requests = current_user.requests.order(updated_at: :desc).limit(20)
+
+    order_name_array = Array.new     
+    request_name_array = Array.new
+    new_requests = Array.new
+
+    order_s = current_user.orders.order(created_at: :desc).each do |f|
+      order_name_array.push(f.offer_quotation.offer.request.name)
+    end
+
+    request_s = current_user.requests.order(updated_at: :desc).each do |f|
+      request_name_array.push(f.name)
+    end
+    
+    (request_name_array - order_name_array).each do |f|
+      new_requests.push(Request.where(name:f))
+    end
+    requests = new_requests.compact
     if requests.present?
       render json: requests, each_serializer: V1::Users::RequestsSerializer
+      #render json: { requests: request_resource(requests) }
     else
       render json: { message: 'No requests found!' }, status: 404
     end
