@@ -16,7 +16,7 @@ class SmsService
   end
 
   def self.send_message_notification(number, message)
-    number = "+917803827212"
+    # number = "+917803827212"
     sns.publish(phone_number: number, message: message)    
   end
 
