@@ -25,7 +25,11 @@ class V1::Users::RequestsController < V1::Users::BaseController
 
   def designers
     designers = Designer.find_for_category(params[:category_id])
-    render json: designers, each_serializer: V1::Users::RequestDesignerSerializer
+    if designers.present?
+      render json: designers, each_serializer: V1::Users::RequestDesignerSerializer
+    else
+      render json: { message: 'No designers found!' }, status: 404
+    end
   end
 
   def index

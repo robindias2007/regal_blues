@@ -83,12 +83,11 @@ class V1::Users::HomeController < V1::Users::BaseController
     order_array.push(ord2)
     order_array.push(ord3)
 
-
     #Removing the null values from an array
     requests_json_array = request_array.compact
     orders_json_array = order_array.compact
     
-    render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array), recos: [], top_designers: [] }
+    render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array), recos: [], top_designers: [], user: current_user }
   end
 
   def render_orders
