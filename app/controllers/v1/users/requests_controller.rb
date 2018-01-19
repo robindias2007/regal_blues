@@ -55,7 +55,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
     if requests.present?
       #render json: requests, each_serializer: V1::Users::RequestsSerializer
       #render json: { requests: request_resource(requestss) }
-      render json: { requests: request_resource(requests)) }
+      render json: { requests: request_resource(requests) }
     else
       render json: { message: 'No requests found!' }, status: 404
     end
