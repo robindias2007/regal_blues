@@ -29,7 +29,7 @@ class V1::Users::OrdersSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    request&.timeline
+    "#{request&.timeline - 2} weeks"
   end
 
   def status_logged_at

@@ -38,7 +38,7 @@ class V1::Designers::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    request&.timeline
+    "#{request&.timeline - 2} weeks"
   end
 
   def shipping_address
