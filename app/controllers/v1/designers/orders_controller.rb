@@ -105,7 +105,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def notify_confirm(order)
     begin
       NotificationsMailer.order_confirm(order).deliver_later
-      body = "Your order with order id #{order.order_id} has been accepted by #{order.designer.full_name}."
+      body = "Your order with order id #{order.order_id} has been accepted by #{order.designer.full_name}, please give your measurements immediately for designer to start work on your order."
       order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
       send_notification(order.user.devise_token, body, "", extra_data(order))
     rescue
