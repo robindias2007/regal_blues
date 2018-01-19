@@ -30,7 +30,11 @@ class V1::Users::RequestsController < V1::Users::BaseController
 
   def index
     requests = current_user.requests.order(updated_at: :desc).limit(20)
-    render json: requests, each_serializer: V1::Users::RequestsSerializer
+    if requests.present?
+      render json: requests, each_serializer: V1::Users::RequestsSerializer
+    else
+      render json: { message: 'No requests found!' }, status: 404
+    end
   end
 
   def show

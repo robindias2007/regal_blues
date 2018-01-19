@@ -4,10 +4,13 @@ class V1::Users::OrdersController < V1::Users::BaseController
   include PushNotification
 
   def index
-    orders = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
-                  .order(updated_at: :desc)
-    render json: orders, each_serializer: V1::Users::OrdersSerializer,
-      meta: first_instance_of(orders.order(created_at: :desc))
+    orders = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user).order(updated_at: :desc)
+    if orders.present?
+      render json: orders, each_serializer: V1::Users::OrdersSerializer, meta: first_instance_of(orders.order(created_at: :desc))
+    else
+      render json: { message: 'No orders found!' }, status: 404
+    end
+
   end
 
   def show
