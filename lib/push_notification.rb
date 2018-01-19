@@ -1,6 +1,7 @@
 module PushNotification
-	def send_notification(token, alert, data)
+	def send_notification(token, alert, data, extra_data={})
 		require 'houston'
+    # token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"
 		if token.present?
 			apn = Houston::Client.development
 			path = Rails.root.join("public","Development_APNS_Certificate.pem")
@@ -12,7 +13,7 @@ module PushNotification
 	    notification.sound = "sosumi.aiff"
 	    notification.category = "INVITE_CATEGORY"
 	    notification.content_available = true
-	    notification.custom_data = {data: data}
+	    notification.custom_data = {data: data, extraData: extra_data}
 	    apn.push(notification)
 	  end
 	end

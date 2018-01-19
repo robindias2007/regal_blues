@@ -221,7 +221,7 @@ class Order < ApplicationRecord
     begin
       body = "Your Order #{ self.order_id } has been delivered by the #{ self.designer.full_name } and is under QC."
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body, body)
+      Order.new.send_notification(self.designer.devise_token, body, " ", extra_data)
     rescue
     end
   end
@@ -235,10 +235,10 @@ class Order < ApplicationRecord
       SmsService.send_message_notification(self.user.mobile_number, message)
 
       self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.user.devise_token, body, body)
+      Order.new.send_notification(self.user.devise_token, body, "", extra_data)
 
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body, body)
+      Order.new.send_notification(self.designer.devise_token, body, "", extra_data)
     rescue
     end
   end
@@ -250,7 +250,7 @@ class Order < ApplicationRecord
       NotificationsMailer.rejected_in_qc(self).deliver_later
       SmsService.send_message_notification(self.designer.mobile_number, message)
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body, body)
+      Order.new.send_notification(self.designer.devise_token, body, "", extra_data)
     rescue
     end
   end
@@ -260,11 +260,10 @@ class Order < ApplicationRecord
     begin
       alert = "Product Delivered"
       body = "Your Order #{ self.order_id } has been successfully delivered to #{ self.user.full_name }"
-      body_d = 
       self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, alert, body) 
-      Order.new.send_notification(self.user.devise_token, alert, body)
+      Order.new.send_notification(self.designer.devise_token, alert, body, extra_data) 
+      Order.new.send_notification(self.user.devise_token, alert, body, extra_data)
     rescue
     end
   end
@@ -279,7 +278,7 @@ class Order < ApplicationRecord
       SmsService.send_message_notification(self.designer.mobile_number, message)
       self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
       self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body_d, body_d)
+      Order.new.send_notification(self.designer.devise_token, body_d, "", extra_data)
       # Order.new.send_notification(self.user.devise_token, body_u, body_u) unless self.order_measurement.present?
     rescue
     end
@@ -301,6 +300,10 @@ class Order < ApplicationRecord
   def generate_order_id
     return if order_id.present?
     self.order_id = generate_order_id_token
+  end
+
+  def extra_data
+    return {type: "Order", id: self.id} rescue " "
   end
 
   def generate_order_id_token

@@ -114,7 +114,8 @@ class User < ApplicationRecord
     # RegistrationsMailer.confirmation(self).deliver
     begin
       self.notifications.create(body: "Welcome to Custumise!", notificationable_type: "User", notificationable_id: self.id)
-      User.new.send_notification(self.devise_token, "Welcome", "Welcome to Custumise. Happy to have you onboard")
+      extra_data = {type: "User", id: self.id}
+      User.new.send_notification(self.devise_token, "Welcome", "Welcome to Custumise. Happy to have you onboard", extra_data)
     rescue
     end
   end

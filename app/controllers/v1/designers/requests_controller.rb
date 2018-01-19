@@ -32,17 +32,6 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
       notify_involved(@request_designer)
-      begin
-        NotificationsMailer.interested(@request_designer, 48).deliver_later
-        NotificationsMailer.interested(@request_designer, 24).deliver_later(wait: 24.hour)
-        NotificationsMailer.interested(@request_designer, 12).deliver_later(wait: 12.hour)
-        body = "48 hrs left to send quote for the request"
-        @request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: @request_designer.request.id)
-        send_notification(@request_designer.designer.devise_token, body, body)
-      rescue
-      end
-      
-      NotificationsMailer.penalty(@request_designer).deliver_later(wait: 48.hour)
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
     else
       render json: { errors: @request_designer.errors }, status: 400
@@ -92,9 +81,13 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
       NotificationsMailer.interested(request_designer, 48).deliver_later
       NotificationsMailer.interested(request_designer, 24).deliver_later(wait: 24.hour)
       NotificationsMailer.interested(request_designer, 12).deliver_later(wait: 12.hour)
+      NotificationsMailer.penalty(@request_designer).deliver_later(wait: 48.hour)
+
       body = "You have shown your interest in #{ request_designer.request.name } by #{ request_designer.request.user.full_name }. You have 48 hrs to quote for the same."
-      request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: @request_designer.request.id)
-      send_notification(request_designer.designer.devise_token, body, body)
+      extra_data = {type: "Request", id: request_designer.request.id}
+      request_designer.delay(run_at: 2880.minutes.from_now).penalty_msg
+      request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: request_designer.request.id)
+      send_notification(request_designer.designer.devise_token, body, "", extra_data)
     rescue
     end
   end

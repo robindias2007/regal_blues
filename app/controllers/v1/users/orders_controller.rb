@@ -137,13 +137,14 @@ class V1::Users::OrdersController < V1::Users::BaseController
       body_u = "Your Order with id #{order.order_id} has been cancelled. Money would be refunded in 7 working days."
       body_d = "Your Order with id #{order.order_id} has been cancelled by #{ order.user.full_name }"
       message = "Order Cancelled - Your order id #{order.order_id} for user #{ order.user.full_name } has been cancelled."
+      extra_data = {type: "Order", id: order.id}
       NotificationsMailer.order_cancel(order.user, order).deliver_later
       NotificationsMailer.order_cancel(order.designer, order).deliver_later
-      SmsService.send_message_notification(order.designer.mobile_number, message)
       order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
       order.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.user.devise_token, "Order Cancelled", body_u)
-      send_notification(order.designer.devise_token, "Order Cancelled", body_d)
+      send_notification(order.user.devise_token, "Order Cancelled", body_u, extra_data)
+      send_notification(order.designer.devise_token, "Order Cancelled", body_d, extra_data)
+      SmsService.send_message_notification(order.designer.mobile_number, message)
     rescue
     end 
   end

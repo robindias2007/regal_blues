@@ -59,7 +59,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     begin
       body = "Awaiting more options on your offer"
       order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.designer.devise_token, body, body)
+      send_notification(order.designer.devise_token, body, "", extra_data(order))
     rescue  
     end
     
@@ -107,7 +107,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       NotificationsMailer.order_confirm(order).deliver_later
       body = "Your order with order id #{order.order_id} has been accepted by #{order.designer.full_name}."
       order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.user.devise_token, body, body)
+      send_notification(order.user.devise_token, body, "", extra_data(order))
     rescue
     end
   end
@@ -131,7 +131,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       body = "#{order.designer.full_name} ran out of the fabric you selected for Order #{ order.order_id }. Please select one from the existing."
       NotificationsMailer.fabric_unavailable(order).deliver_later
       order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.user.devise_token, body, body)
+      send_notification(order.user.devise_token, body, "", extra_data(order))
     rescue
     end
   end
@@ -143,15 +143,20 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       alert = "Awaiting more options on your offer"
       body = "Your offer for #{ order.offer_quotation.offer.request.name } has been accepted by #{ order.user.full_name }. #{ order.user.full_name } has asked for more option. Send more options."
       body_u = "You have new options for Order #{order.order_id} by #{order.user.full_name}. Please select new options."
+
       message = "Awaiting Options - Please send options for order id #{order.order_id} for request #{order.offer_quotation.offer.request.name} by user #{order.user.full_name} immediately."
       
       SmsService.send_message_notification(order.designer.mobile_number, message)
       
       order.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
       order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.designer.devise_token, alert, body)
-      send_notification(order.user.devise_token, body_u, "")
+      send_notification(order.designer.devise_token, alert, body, extra_data(order))
+      send_notification(order.user.devise_token, body_u, "", extra_data(order))
     rescue
     end
+  end
+
+  def extra_data(order)
+    return {type: "Order", id: order.id} rescue ""
   end
 end

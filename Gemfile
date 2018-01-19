@@ -81,6 +81,7 @@ gem 'houston', '~> 2.2', '>= 2.2.3'
 gem 'will_paginate'
 
 gem 'dotenv-rails'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'bullet'
