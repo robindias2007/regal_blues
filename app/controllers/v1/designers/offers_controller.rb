@@ -47,9 +47,10 @@ class V1::Designers::OffersController < V1::Designers::BaseController
   def notify_new_offer(offer)
     begin
       body = "You have a new offer for your #{offer.request.name} by #{offer.designer.full_name}"
+      extra_data = {type: "Offer", id: offer.id}
       NotificationsMailer.new_offer(offer).deliver_later
       offer.request.user.notifications.create(body: body, notificationable_type: "Offer", notificationable_id: offer.id)
-      send_notification(offer.request.user.devise_token, body, " ")
+      send_notification(offer.request.user.devise_token, body, "", extra_data)
     rescue
     end
   end

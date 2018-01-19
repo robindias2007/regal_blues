@@ -35,9 +35,10 @@ module Registerable
         jwt = Auth.issue(resource: resource.id)
         begin
           body = "Your email has been verified and your account is active now."
+          extra_data = {type: resource.class.name, id: resource.id}
           NotificationsMailer.send_confirmed_email(resource).deliver
           resource.notifications.create(body: body, notificationable_type: resource.class.name, notificationable_id: resource.id)
-          Registerable.send_notification(resource.devise_token, body, body)
+          Registerable.send_notification(resource.devise_token, body, "", extra_data)
         rescue 
         end
 
