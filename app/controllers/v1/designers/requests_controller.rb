@@ -87,7 +87,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
 
       body = "You have shown your interest in #{ request_designer.request.name } by #{ request_designer.request.user.full_name }. You have 48 hrs to quote for the same."
       extra_data = {type: "Request", id: request_designer.request.id}
-      request_designer.delay(run_at: 2.minutes.from_now).penalty_msg
+      request_designer.penalty_msg
       request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: request_designer.request.id)
       send_notification(request_designer.designer.devise_token, body, "", extra_data)
     rescue
