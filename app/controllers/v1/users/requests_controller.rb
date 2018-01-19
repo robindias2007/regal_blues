@@ -51,7 +51,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
       new_requests.push(Request.where(name:f))
     end
     requestss = new_requests.compact
-    if requests.present?
+    if requestss.present?
       #render json: requests, each_serializer: V1::Users::RequestsSerializer
       render json: { requests: request_resource(requestss) }
     else
