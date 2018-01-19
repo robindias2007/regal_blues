@@ -23,6 +23,12 @@ class RequestDesigner < ApplicationRecord
     SmsService.send_message_notification(self.designer.mobile_number, message)
   end
 
+  def quote_msg(time)
+    time = 48-time
+    message = "Time Remaining for quotation - You have #{time} hours remaining to send quotation for request #{self.request.name} by user #{self.request.user.full_name}."
+    SmsService.send_message_notification(self.designer.mobile_number, message)
+  end
+
   private
 
   def max_four_involved
