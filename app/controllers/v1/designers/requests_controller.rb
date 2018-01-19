@@ -31,7 +31,6 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def mark_involved
     return invalid_option_for_involved if @request_designer.involved == true
     if @request_designer.update(involved: true)
-    #@request_designer = RequestDesigner.last
       notify_involved(@request_designer)
       render json: { message: 'Request has been successfully updated as involved' }, status: 200
     else
