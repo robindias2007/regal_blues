@@ -51,19 +51,16 @@ class V1::Users::RequestsController < V1::Users::BaseController
       new_requests.push(Request.where(name:f))
     end
     requests = new_requests.compact
-
-    if requests.present?
-      #render json: requests, each_serializer: V1::Users::RequestsSerializer
-      #render json: { requests: request_resource(requestss) }
-      render json: { requests: request_resource(requests) }
+    filtered_requests = []
+    requests.each do |req|
+      filtered_requests << req.first
+    end
+    if filtered_requests.present?
+      render json: filtered_requests, each_serializer: V1::Users::RequestsSerializer
+      #render json: { requests: request_resource(requests) }
     else
       render json: { message: 'No requests found!' }, status: 404
     end
-  end
-
-  def request_resource(requests)
-    rq_options = { each_serializer: V1::Users::RequestsSerializer }
-    ActiveModelSerializers::SerializableResource.new(requests, rq_options)
   end
 
   def show
