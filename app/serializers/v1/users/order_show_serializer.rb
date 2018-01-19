@@ -29,7 +29,7 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    request&.timeline
+    "#{request&.timeline - 2} weeks"
   end
 
   def paid_price

@@ -21,7 +21,7 @@ class V1::Designers::OrdersSerializer < ActiveModel::Serializer
   end
 
   def timeline
-    request&.timeline
+    "#{request&.timeline - 2} weeks"
   end
 
   def created_at
