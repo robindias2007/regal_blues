@@ -5,13 +5,13 @@ namespace :db do
 
   task populate: :environment do
     # Don't change the order
-    create_all_categories
-    create_designers
-    create_products
+    # create_all_categories
+    # create_designers
+    # create_products
     # create_users
-    # create_addresses_for_users
-    # create_requests
-    create_offers
+    create_addresses_for_users
+    create_requests
+    #create_offers
     create_orders
   end
 
@@ -159,7 +159,7 @@ namespace :db do
       puts "Creating requests for #{user.username}"
       (1..5).to_a.sample.times do
         Request.create!(request_attrs(user))
-        # associate_designers_to req
+        associate_designers_to req
       end
     end
   end
@@ -181,12 +181,12 @@ namespace :db do
     }
   end
 
-  # def associate_designers_to(req)
-  #   (1..10).to_a.sample.times do
-  #     designer = Designer.where.not(id: req.request_designers.pluck(:designer_id)).sample
-  #     req.request_designers.create!(designer: designer)
-  #   end
-  # end
+  def associate_designers_to(req)
+    (1..10).to_a.sample.times do
+      designer = Designer.where.not(id: req.request_designers.pluck(:designer_id)).sample
+      req.request_designers.create!(designer: designer)
+    end
+  end
 
   def create_offers
     requests = RequestDesigner.all
