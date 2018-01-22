@@ -16,6 +16,7 @@ class SmsService
   end
 
   def self.send_message_notification(number, message)
+    number = "+917803827212" #ankit, This number is used for testing purpose
     sns.publish(phone_number: number, message: message)
   end
 
@@ -23,7 +24,7 @@ class SmsService
     client = Aws::SNS::Client.new(region:            'us-east-1', # Don't change the region
                                   access_key_id:     ENV['AWS_ACCESS_KEY'],
                                   secret_access_key: ENV['AWS_SECRET_KEY'])
-    client.set_sms_attributes(attributes: { 'DefaultSMSType' => 'Transactional', 'DefaultSenderID' => 'AM1DOS' })
+    client.set_sms_attributes(attributes: { 'DefaultSMSType' => 'Transactional', 'DefaultSenderID' => 'CUSTUMISE'})
     client
   end
 end
