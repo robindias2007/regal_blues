@@ -16,8 +16,6 @@ class SmsService
   end
 
   def self.send_message_notification(number, message)
-    number = "+917803827212" #ankit, This number is used for testing purpose
-    # number = "+918103257148"  # This number is used for testing purpose
     sns.publish(phone_number: number, message: message)
   end
 
