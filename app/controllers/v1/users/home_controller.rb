@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+  
 class V1::Users::HomeController < V1::Users::BaseController
   skip_before_action :authenticate, only: :mobile
 
@@ -7,9 +7,11 @@ class V1::Users::HomeController < V1::Users::BaseController
     if current_user.present?
       #render_orders_requests
     # else
-    orders_or_requests_or_recommendations
+      orders_or_requests_or_recommendations
     else
       render_top_designers
+    else
+      render json: { message: 'No orders, requests or products found!' }, status: 404
     end
   end
 
