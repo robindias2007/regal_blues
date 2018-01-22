@@ -10,7 +10,6 @@ class V1::Users::OrdersController < V1::Users::BaseController
     ord1.each do |ord|
       orders << ord
     end
-    debugger
     if orders.present?
       render json: orders, each_serializer: V1::Users::OrdersSerializer, meta: first_instance_of(orders)
     else
