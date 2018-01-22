@@ -86,7 +86,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
 
       body = "You have shown your interest in #{ request_designer.request.name } by #{ request_designer.request.user.full_name }. You have 48 hrs to quote for the same."
       extra_data = {type: "Request", id: request_designer.request.id}
-      request_designer.delay(run_at: 48.hours.from_now).penalty_msg
+      request_designer.penalty_msg
       timer.each do |time|
         request_designer.delay(run_at: time.hours.from_now).quote_msg(time)
       end
