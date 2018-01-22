@@ -5,7 +5,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
 
   def index
     ord = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
-    ord1 = ord.where(status:"measurements_given").sort {|x,y| y[:updated_at]<=>x[:updated_at]} + ord.where(status:"designer_gave_more_options").sort {|x,y| y[:updated_at]<=>x[:updated_at]} + ord.where.not(status:["measurements_given", "designer_gave_more_options"]).order(updated_at: :desc) 
+    ord1 = (ord.where(status:"measurements_given") rescue nil) + (ord.where(status:"designer_gave_more_options") rescue nil) + (ord.where.not(status:["measurements_given", "designer_gave_more_options"]).order(updated_at: :desc) rescue nil) 
     orders = []
     ord1.each do |ord|
       orders << ord

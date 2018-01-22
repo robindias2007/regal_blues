@@ -55,6 +55,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
     requests.each do |req|
       filtered_requests << req.first
     end
+    
     if filtered_requests.present?
       render json: filtered_requests, each_serializer: V1::Users::RequestsSerializer
       #render json: { requests: request_resource(requests) }
