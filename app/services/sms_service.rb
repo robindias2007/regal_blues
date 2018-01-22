@@ -23,7 +23,7 @@ class SmsService
     client = Aws::SNS::Client.new(region:            'us-east-1', # Don't change the region
                                   access_key_id:     ENV['AWS_ACCESS_KEY'],
                                   secret_access_key: ENV['AWS_SECRET_KEY'])
-    client.set_sms_attributes(attributes: { 'DefaultSMSType' => 'Transactional', 'DefaultSenderID' => 'AM1DOS' })
+    client.set_sms_attributes(attributes: { 'DefaultSMSType' => 'Transactional', 'DefaultSenderID' => 'CUSTUMISE'})
     client
   end
 end
