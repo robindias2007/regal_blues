@@ -13,7 +13,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     if orders.present?
       render json: orders, each_serializer: V1::Users::OrdersSerializer, meta: first_instance_of(orders.order(created_at: :desc))
     else
-      render json: { message: 'No orders found!' }, status: 404
+      render json: { message: 'No orders found!!' }, status: 404
     end
 
   end
