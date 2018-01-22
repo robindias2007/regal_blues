@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class V1::Users::OfferShowSerializer < ActiveModel::Serializer
-  attributes :id, :designer_name, :item_type, :prices, :shipping_price, :sent_on, :store_avatar, :project, :max_budget,
-    :quotations, :status
+  attributes :id, :designer_id, :designer_name, :item_type, :prices, :shipping_price, :sent_on, :store_avatar, :project, :max_budget,
+    :quotations, :request_first_image, :status
+
+  def designer_id
+    object.designer.id
+  end
 
   def designer_name
     object.designer.designer_store_info.display_name
@@ -43,6 +47,10 @@ class V1::Users::OfferShowSerializer < ActiveModel::Serializer
   def status
     object.request.status
   end
+
+  def request_first_image
+    object.request.request_images.first
+  end  
 
   def quotations
     object.offer_quotations.order(created_at: :desc).map do |quote|
