@@ -11,7 +11,7 @@ module Authenticable
 
     validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'please provide valid email' }
     validates :password, length: { minimum: 8 }, if: -> { password.present? }
-    validates :mobile_number, uniqueness: true, allow_nil: true, length: { in: 10..14 }
+    #validates :mobile_number, uniqueness: true, allow_nil: true, length: { in: 10..14 }
 
     before_save :downcase_reqd_attrs
     before_create :generate_confirmation_instructions
