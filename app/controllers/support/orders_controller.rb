@@ -4,6 +4,10 @@ class Support::OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
+  def index
+  	@orders = Order.all.order(updated_at: :desc)
+  end
+
   private
 
   def search_params

@@ -1,0 +1,46 @@
+<div class="vertical-spacer-5"></div>
+<div class="row">
+  <h5 class="center">Orders</h5>
+
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="2" class="center">Order ID</th>
+        <th colspan="1" class="center">User</th>
+        <th colspan="1" class="center">Request Name</th>
+        <th colspan="1" class="center">Designer Name</th>
+        <th colspan="1" class="center">Designer Email</th>
+        <th colspan="1" class="center">Order Created</th>
+        <th colspan="1" class="center">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.order(created_at: :desc).each do |order| %>
+        <tr>
+          <td colspan="2" class="center"><%= order.order_id %></td>
+
+          <td colspan="1" class="center"><%= order.user.username %></td>
+
+          <td colspan="1" class="center"><%= order.offer_quotation.offer.request.name %></td>
+
+          <td colspan="1" class="center"><%= order.designer.full_name %></td>
+
+          <td colspan="1" class="center">
+            <%= order.designer.email %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= order.created_at.strftime('%d %B %Y') %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= order.status %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
