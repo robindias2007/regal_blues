@@ -60,9 +60,13 @@ module Registerable
 
     def resend_confirmation
       resource = resource_class.find_for_auth(resend_confirmation_params[:email])
-      formatted_response_if(resource,
-        ['Confirmation instructions resent successfully', 200], ['User not found', 404]) do
-        resource.send(:send_confirmation_email)
+      if resource.confirmation_token.nil?
+        render json: { message: 'email already verified' }, status: 200
+      else
+        formatted_response_if(resource,
+          ['Confirmation instructions resent successfully', 200], ['User not found', 404]) do
+          resource.send(:send_confirmation_email)
+        end
       end
     end
 
