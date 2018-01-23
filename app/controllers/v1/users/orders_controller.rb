@@ -5,7 +5,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
 
   def index
     ord = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
-    orders = ord.where(status:"designer_confirmed").order(updated_at: :desc) + ord.where(status:"designer_gave_more_options").order(updated_at: :desc) + ord.where.not(status:["designer_confirmed","designer_gave_more_options"])
+    orders = ord.where(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc) + ord.where.not(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
     #debugger
     # orders = []
     # ord1.each do |ord|
