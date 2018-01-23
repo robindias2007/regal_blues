@@ -28,8 +28,8 @@ class User < ApplicationRecord
   has_many :conversations, as: :conversationable
   has_many :notifications, as: :resourceable
 
-  validates :full_name, :username, :email, :gender, :mobile_number, presence: true
-  validates :username, :email, :mobile_number, uniqueness: { case_sensitive: false }
+  validates :full_name, :username, :email, presence: true
+  validates :username, :email, uniqueness: { case_sensitive: false }
   
   # At least one alphabetic character (the [a-z] in the middle).
   # Does not begin or end with an underscore (the (?!_) and (?<!_) at the beginning and end.
