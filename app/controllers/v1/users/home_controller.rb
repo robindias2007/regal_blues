@@ -112,7 +112,8 @@ class V1::Users::HomeController < V1::Users::BaseController
   def render_top_designers
     # TODO: Design an algorithm to quickly calculate the ratings of a designer
     top_designers = Designer.includes(:designer_store_info, :sub_categories).order('RANDOM()').limit(6)
-    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [] }
+    picks = Pick.where(cat_name:"Lehenga")
+    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks }
   end
 
   def td_resource(top_designers)
