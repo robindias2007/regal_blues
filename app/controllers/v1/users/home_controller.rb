@@ -89,7 +89,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     
     picks = Pick.all
 
-    render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array), recos: [], top_designers: [], user: current_user, explore: picks }
+    render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array), recos: [], user: current_user, explore: picks }
   end
 
   def render_orders
