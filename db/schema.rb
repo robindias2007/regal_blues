@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118115303) do
+ActiveRecord::Schema.define(version: 20180123114116) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "btree_gin"
   enable_extension "pg_trgm"
-  enable_extension "pgcrypto"
 
   create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "country", default: "", null: false
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20180118115303) do
   end
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "support_chat_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "sender_id"
@@ -52,7 +51,21 @@ ActiveRecord::Schema.define(version: 20180118115303) do
     t.text "conversationable_id"
     t.string "conversationable_type"
     t.index ["receiver_type", "receiver_id"], name: "index_conversations_on_receiver_type_and_receiver_id"
-    t.index ["support_chat_id"], name: "index_conversations_on_support_chat_id"
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "designer_categorizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -522,14 +535,12 @@ ActiveRecord::Schema.define(version: 20180118115303) do
     t.text "devise_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["mobile_number"], name: "index_users_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "addresses", "users"
   add_foreign_key "categories", "super_categories"
-  add_foreign_key "conversations", "support_chats"
   add_foreign_key "designer_categorizations", "designers"
   add_foreign_key "designer_categorizations", "sub_categories"
   add_foreign_key "designer_finance_infos", "designers"
