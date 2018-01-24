@@ -269,17 +269,15 @@ class Order < ApplicationRecord
   end
 
   def send_notifications
-    NotificationsMailer.order_accept(self).deliver_later
-    NotificationsMailer.give_measurement(self).deliver_later unless self.order_measurement.present?
     begin
+      self.delay(run_at: 24.hours.from_now).measurement_pending_notifications
+      NotificationsMailer.order_accept(self).deliver_later
       body_d = "Your offer for #{self.offer_quotation.offer.request.name} has been accepted by #{ self.user.full_name}. Please confirm the order."
-      body_u = "Your measurements are pending for Order  #{self.order_id}. #{self.designer.full_name} cannot start production until you give measurements."
+
       message = "Awaiting Confirmation -  Please confirm order id #{self.order_id} for request #{self.offer_quotation.offer.request.name} by user #{self.user.full_name} immediately."
       SmsService.send_message_notification(self.designer.mobile_number, message)
       self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
-      self.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: self.id)
       Order.new.send_notification(self.designer.devise_token, body_d, "", extra_data)
-      # Order.new.send_notification(self.user.devise_token, body_u, body_u) unless self.order_measurement.present?
     rescue
     end
   end
@@ -303,16 +301,17 @@ class Order < ApplicationRecord
     end
   end
 
+  def measurement_pending_notifications
+    unless self.measurements_given?
+      self.delay(run_at: 24.hours.from_now).measurement_pending_notifications
 
-  # def new_option
-  #   begin
-  #     NotificationsMailer.new_option(self).deliver_later
-  #     body = "You have new options for Order #{ self.order_id } by #{ self.user.full_name }. Please select new options."
-  #     self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.order.id)
-  #     Order.new.send_notification(self.user.devise_token, body, body)
-  #   rescue
-  #   end
-  # end
+      body = "Your measurements are pending for Order  #{self.order_id}. #{self.designer.full_name} cannot start production until you give measurements."
+
+      NotificationsMailer.give_measurement(self).deliver
+      Order.new.send_notification(self.user.devise_token, body, " ", extra_data)
+      self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
+    end
+  end  
 
   private
 
@@ -331,4 +330,13 @@ class Order < ApplicationRecord
       break token unless Order.find_by(order_id: token)
     end
   end
+
+  def user_name
+    return self.user.full_name rescue " "
+  end
+
+  def request_name
+    return self.offer_quotation.offer.request.name rescue " "
+  end
+
 end
