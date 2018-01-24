@@ -284,6 +284,25 @@ class Order < ApplicationRecord
     end
   end
 
+  def user_asked_more_option
+    unless self.designer_gave_more_options?
+      self.delay(run_at: 24.hours.from_now).user_asked_more_option
+      user_name = self.user.full_name
+      request_name = self.offer_quotation.offer.request.name
+
+      alert = "Awaiting more options on your offer"
+
+      body = "Your offer for #{request_name} has been accepted by #{user_name}. #{user_name} has asked for more option. Send more options."
+
+      message = "Awaiting Options - Please send options for order id #{self.order_id} for request #{request_name} by user #{user_name} immediately."
+
+      NotificationsMailer.more_option(self).deliver
+      SmsService.send_message_notification(self.designer.mobile_number, message)
+      Order.new.send_notification(self.designer.devise_token, alert, body, extra_data)
+      self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
+    end
+  end
+
 
   # def new_option
   #   begin

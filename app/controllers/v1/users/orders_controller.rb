@@ -69,8 +69,8 @@ class V1::Users::OrdersController < V1::Users::BaseController
     order = current_user.orders.find(params[:order][:order_id])
     return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable?
     return bad_selection if more_options_present?
-    NotificationsMailer.more_option(order).deliver_later if more_options_present?
     if order.update(submit_options_params)
+      notify_more_option(order)
       order.user_selects_options!
       render json: { message: 'Options have been updated' }, status: 201
     else
@@ -88,6 +88,10 @@ class V1::Users::OrdersController < V1::Users::BaseController
     else
       render json: { errors: 'You cannot cancel the order at this stage', state: order.status }, status: 400
     end
+  end
+
+  def notify_more_option(order)
+    order.delay(run_at: 24.hours.from_now).user_asked_more_option
   end
 
   private
