@@ -114,7 +114,8 @@ class V1::Users::HomeController < V1::Users::BaseController
   def render_recos
     # TODO: Design a recommendation engine
     recos = Product.includes(designer: :designer_store_info).order('RANDOM()').limit(6)
-    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] }
+     picks = Pick.where(cat_name:"Lehenga")
+    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks }
   end
 
   def render_top_designers
