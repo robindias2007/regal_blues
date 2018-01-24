@@ -78,20 +78,12 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
 
   def notify_involved(request_designer)
     begin
-      timer = [12, 24, 36]
-      NotificationsMailer.interested(request_designer, 48).deliver_later
-      NotificationsMailer.interested(request_designer, 24).deliver_later(wait: 24.hour)
-      NotificationsMailer.interested(request_designer, 12).deliver_later(wait: 12.hour)
-      NotificationsMailer.penalty(@request_designer).deliver_later(wait: 48.hour)
-
-      body = "You have shown your interest in #{ request_designer.request.name } by #{ request_designer.request.user.full_name }. You have 48 hrs to quote for the same."
-      extra_data = {type: "Request", id: request_designer.request.id}
+      #hours, minutes
+      timer = [24, 36]
       request_designer.delay(run_at: 48.hours.from_now).penalty_msg
       timer.each do |time|
         request_designer.delay(run_at: time.hours.from_now).quote_msg(time)
       end
-      request_designer.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: request_designer.request.id)
-      send_notification(request_designer.designer.devise_token, body, "", extra_data)
     rescue
     end
   end

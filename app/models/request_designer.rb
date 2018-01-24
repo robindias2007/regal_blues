@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RequestDesigner < ApplicationRecord
+  include PushNotification
+
   MAX_DESIGNERS_INVOLVED = 4
 
   belongs_to :request
@@ -19,14 +21,32 @@ class RequestDesigner < ApplicationRecord
   end
 
   def penalty_msg
-    message = "Quote Penalty  - You have missed the 48 hours deadline for submitting offer for request #{self.request.name} by user #{self.request.user.full_name}."
-    SmsService.send_message_notification(self.designer.mobile_number, message)
+    unless self.request.offers.where(designer_id: self.designer_id).present?
+      message = "Quote Penalty  - You have missed the 48 hours deadline for submitting offer for request #{self.request.name} by user #{self.request.user.full_name}."
+
+      body = "You failed to quote for #{self.request.name} by #{self.request.user.full_name} after showing interest. You would be charged 500 in your next order as penalty."
+
+      self.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: self.request.id)
+
+      SmsService.send_message_notification(self.designer.mobile_number, message)
+      NotificationsMailer.penalty(self).deliver
+      RequestDesigner.new.send_notification(self.designer.devise_token, body, " ", extra_data)
+    end
   end
 
   def quote_msg(time)
-    time = 48-time
-    message = "Time Remaining for quotation - You have #{time} hours remaining to send quotation for request #{self.request.name} by user #{self.request.user.full_name}."
-    SmsService.send_message_notification(self.designer.mobile_number, message)
+    unless self.request.offers.where(designer_id: self.designer_id).present?
+      time = 48-time
+
+      message = "Time Remaining for quotation - You have #{time} hours remaining to send quotation for request #{self.request.name} by user #{self.request.user.full_name}."
+
+      body = "You have shown your interest in #{ self.request.name } by #{ self.request.user.full_name }. You have #{time} hrs to quote for the same."
+
+      SmsService.send_message_notification(self.designer.mobile_number, message)
+      NotificationsMailer.interested(self, time).deliver
+      RequestDesigner.new.send_notification(self.designer.devise_token, body, " ", extra_data)
+      self.designer.notifications.create(body: body, notificationable_type: "Request", notificationable_id: self.request.id)
+    end
   end
 
   private
@@ -41,6 +61,10 @@ class RequestDesigner < ApplicationRecord
 
   def request_designer_params
     params.permit(:email, :password, :full_name, :mobile_number, :location, :avatar, :live_status)
+  end
+
+  def extra_data
+    return {type: "Request", id: self.request.id} rescue " "
   end
 
 end
