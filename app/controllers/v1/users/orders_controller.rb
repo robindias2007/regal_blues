@@ -58,6 +58,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     return invalid_key_error unless valid_key?
     om = order.build_order_measurement(measurement_params)
     if om.save
+      order.notify_time_reminder
       order.give_measurements!
       render json: { message: 'Measurements have been saved' }, status: 201
     else

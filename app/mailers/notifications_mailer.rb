@@ -116,4 +116,12 @@ class NotificationsMailer < ApplicationMailer
 		@request_designer = request_designer
 		mail to: request_designer.designer.email, subject: 'You have received a penalty'
 	end
+
+  def time_reminder(order, time, time_unit)
+    @order = order
+    @time = time
+    @time_unit = time_unit
+    subject = time.to_s + " " + time_unit + " " +"left to complete the order"
+    mail to: order.designer.email, subject: subject
+  end
 end

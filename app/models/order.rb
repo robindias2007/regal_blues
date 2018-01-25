@@ -355,6 +355,34 @@ class Order < ApplicationRecord
     end
   end
 
+  def notify_time_reminder
+    unless self.shipped_to_qc?
+      timeline = self.offer_quotation.offer.request.timeline rescue 4
+      tl = timeline - 2
+
+      tl.times do |time|
+        self.delay(run_at: time.weeks.from_now).remind_time(time, tl, "weeks")
+      end
+
+      all_day = tl*7
+      day3 = (tl*7) - 3
+      day1 = (tl*7) - 1
+      self.delay(run_at: day3.days.from_now).remind_time(day3, all_day, "day's")
+      self.delay(run_at: day1.days.from_now).remind_time(day1, all_day, "day")
+    end
+  end
+
+  def remind_time(time, deadline, time_unit)
+    remaining_time = deadline - time
+
+    message = "Time Reminder -  You have #{remaining_time} #{time_unit} remaining to complete the order id #{self.order_id} for user #{user_name}"
+    
+    NotificationsMailer.time_reminder(self, remaining_time, time_unit).deliver
+    SmsService.send_message_notification(self.designer.mobile_number, message)
+    Order.new.send_notification(self.designer.devise_token, message, "", extra_data)
+    self.designer.notifications.create(body: message, notificationable_type: "Order", notificationable_id: self.id)
+  end
+
   private
 
   def generate_order_id
