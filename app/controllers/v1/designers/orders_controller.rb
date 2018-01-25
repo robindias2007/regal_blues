@@ -69,7 +69,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
   def give_more_options
     order = current_designer.orders.find(params[:id])
     if order.user_awaiting_more_options? && order.offer_quotation.update(give_more_options_params)
-      notify_more_option(order)
+      order.delay(run_at: 24.hours.from_now).notify_designer_gave_new_options
       order.designer_gives_more_options!
       render json: order, serializer: V1::Designers::OrderShowSerializer
     else
@@ -108,18 +108,6 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
       body = "Your order with order id #{order.order_id} has been accepted by #{order.designer.full_name}, please give your measurements immediately for designer to start work on your order."
       order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
       send_notification(order.user.devise_token, body, "", extra_data(order))
-    rescue
-    end
-  end
-  
-  def notify_more_option(order)
-    NotificationsMailer.new_option(order).deliver_later
-    begin
-      alert = "Awaiting more options on your offer"
-      body_u = "You have new options for Order #{order.order_id} by #{order.user.full_name}. Please select new options."
-      
-      order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.user.devise_token, body_u, "", extra_data(order))
     rescue
     end
   end

@@ -328,6 +328,22 @@ class Order < ApplicationRecord
     end
   end
 
+  def notify_designer_gave_new_options
+    begin
+      unless self.user_selected_options? || self.user_cancelled?
+        self.delay(run_at: 24.hours.from_now).notify_designer_gave_new_options
+
+        alert = "Awaiting more options on your offer"
+        body = "You have new options for Order #{self.order_id} by #{user_name}. Please select new options."
+      
+        NotificationsMailer.new_option(self).deliver
+        self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
+        Order.new.send_notification(self.user.devise_token, body, "", extra_data)
+      end
+    rescue
+    end
+  end
+
   private
 
   def generate_order_id
