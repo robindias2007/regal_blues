@@ -37,7 +37,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
-      notify_fabric_unavailable(order)
+      order.delay(run_at: 24.hours.from_now).notify_fu
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
     else
@@ -111,31 +111,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     rescue
     end
   end
-
-  # def notify_cancel(order)
-  #   begin
-  #     body_u = "Your Order with id #{order.order_id} has been cancelled. Money would be refunded in 7 working days."
-  #     body_d = "Your Order with id #{order.order_id} has been cancelled by #{ order.user.full_name }"
-  #     NotificationsMailer.order_cancel(order.user, order).deliver_later
-  #     NotificationsMailer.order_cancel(order.designer, order).deliver_later
-  #     order.user.notifications.create(body: body_u, notificationable_type: "Order", notificationable_id: order.id)
-  #     order.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: order.id)
-  #     send_notification(order.user.devise_token, "Order Cancelled", body_u)
-  #     send_notification(order.designer.devise_token, "Order Cancelled", body_d)
-  #   rescue
-  #   end 
-  # end
-
-  def notify_fabric_unavailable(order)
-    begin
-      body = "#{order.designer.full_name} ran out of the fabric you selected for Order #{ order.order_id }. Please select one from the existing."
-      NotificationsMailer.fabric_unavailable(order).deliver_later
-      order.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
-      send_notification(order.user.devise_token, body, "", extra_data(order))
-    rescue
-    end
-  end
-
+  
   def notify_more_option(order)
     NotificationsMailer.new_option(order).deliver_later
     begin

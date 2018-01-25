@@ -311,7 +311,22 @@ class Order < ApplicationRecord
       Order.new.send_notification(self.user.devise_token, body, " ", extra_data)
       self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
     end
-  end  
+  end
+
+  def notify_fu
+    begin
+      unless self.user_selected_options? || self.user_cancelled?
+        self.delay(run_at: 24.hours.from_now).notify_fu
+
+        body = "#{self.designer.full_name} ran out of the fabric you selected for Order #{self.order_id}. Please select one from the existing."
+
+        NotificationsMailer.fabric_unavailable(self).deliver
+        self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
+        Order.new.send_notification(self.user.devise_token, body, "", extra_data)
+      end
+    rescue
+    end
+  end
 
   private
 
