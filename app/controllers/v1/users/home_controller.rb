@@ -115,14 +115,14 @@ class V1::Users::HomeController < V1::Users::BaseController
     # TODO: Design a recommendation engine
     recos = Product.includes(designer: :designer_store_info).order('RANDOM()').limit(6)
      picks = Pick.where(cat_name:"Lehenga")
-    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks }
+    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: current_user}
   end
 
   def render_top_designers
     # TODO: Design an algorithm to quickly calculate the ratings of a designer
     top_designers = Designer.includes(:designer_store_info, :sub_categories).order('RANDOM()').limit(6)
     picks = Pick.where(cat_name:"Lehenga")
-    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks }
+    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks, user: current_user }
   end
 
   def td_resource(top_designers)
