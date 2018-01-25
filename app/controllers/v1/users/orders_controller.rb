@@ -114,6 +114,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     # payment = PaymentGateway.pay(params[:gateway], order)
     # if payment.successfull?
     order.pay!
+    order.delay(run_at: 24.hours.from_now).notify_paid
     render json: { message: 'Order has been created successfully', order_id: order.id }
     # else
     #   render json: { errors: ['Order has been saved but payment could not be completed'] }, status: 400

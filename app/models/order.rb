@@ -271,13 +271,6 @@ class Order < ApplicationRecord
   def send_notifications
     begin
       self.delay(run_at: 24.hours.from_now).measurement_pending_notifications
-      NotificationsMailer.order_accept(self).deliver_later
-      body_d = "Your offer for #{self.offer_quotation.offer.request.name} has been accepted by #{ self.user.full_name}. Please confirm the order."
-
-      message = "Awaiting Confirmation -  Please confirm order id #{self.order_id} for request #{self.offer_quotation.offer.request.name} by user #{self.user.full_name} immediately."
-      SmsService.send_message_notification(self.designer.mobile_number, message)
-      self.designer.notifications.create(body: body_d, notificationable_type: "Order", notificationable_id: self.id)
-      Order.new.send_notification(self.designer.devise_token, body_d, "", extra_data)
     rescue
     end
   end
@@ -339,6 +332,24 @@ class Order < ApplicationRecord
         NotificationsMailer.new_option(self).deliver
         self.user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: order.id)
         Order.new.send_notification(self.user.devise_token, body, "", extra_data)
+      end
+    rescue
+    end
+  end
+
+  def notify_paid
+    begin
+      unless self.designer_confirmed?
+        self.delay(run_at: 24.hours.from_now).notify_paid
+
+        message = "Awaiting Confirmation -  Please confirm order id #{self.order_id} for request #{request_name} by user #{user_name} immediately."
+
+        body = "Your offer for #{request_name} has been accepted by #{user_name}. Please confirm the order."
+
+        NotificationsMailer.order_accept(self).deliver
+        SmsService.send_message_notification(self.designer.mobile_number, message)
+        Order.new.send_notification(self.designer.devise_token, body, "", extra_data)
+        self.designer.notifications.create(body: body, notificationable_type: "Order", notificationable_id: self.id)
       end
     rescue
     end
