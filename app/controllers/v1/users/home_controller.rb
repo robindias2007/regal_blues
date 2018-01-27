@@ -98,7 +98,7 @@ class V1::Users::HomeController < V1::Users::BaseController
 
 
     # render json: { requests: request_resource(request_offers), orders:order_resource(orders), rest_orders: order_resource(rest_orders) ,  rest_requests: request_resource(rest_requests)  ,recos: [], user: current_user, explore:picks}
-     render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array),recos: [], user: current_user, explore:[]}
+     render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array),recos: [], user: current_user}
   end
 
   def render_orders
