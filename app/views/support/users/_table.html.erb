@@ -22,7 +22,7 @@
         <th colspan="1" class="center">Chat</th>
         <th colspan="1" class="center">Message Count</th>
         <th colspan="1" class="center">Unread</th>
-        <th colspan="1" class="center">Conversation Create</th>
+        <th colspan="1" class="center">Initiate Chat</th>
     </thead>
     <tbody>
       <% users.each do |user| %>
@@ -71,11 +71,16 @@
           </td>
 
           <td colspan="1" class="center">
-            <%= form_for(Conversation.new), :url => '/users/conversations', :html => {:method => :post} do |f| %>
-              <% f.hidden_field :receiver_id , value:user.id %>
-              <% f.hidden_field :receiver_type , value:"support" %>
-              <%= f.submit %>
-            <% end %>
+            <% if Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.present? %>
+            <% else %>
+              <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
+                <%= f.hidden_field :receiver_id , value:user.id %>
+                <%= f.hidden_field :receiver_type , value:"support" %>
+                <%= f.hidden_field :conversationable_id , value:user.id %>
+                <%= f.hidden_field :conversationable_type , value:"User" %>
+                <%= f.submit "Initiate Chat" %>
+              <% end %>
+          <% end %>
           </td>
 
         </tr>

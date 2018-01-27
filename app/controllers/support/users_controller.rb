@@ -3,6 +3,7 @@
 class Support::UsersController < ApplicationController
   def index
     @users = User.order(full_name: :asc).all
+    @conversation = Conversation.new
   end
 
   def show
@@ -16,8 +17,8 @@ class Support::UsersController < ApplicationController
   end
 
   def create
-    conversation = current_support.conversations.find_or_create_by(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
-    if conversation
+    conversation = Conversation.new(conversation_params)
+    if conversation.save
       redirect_to support_users_path
     else
       redirect_to support_users_path
@@ -25,6 +26,10 @@ class Support::UsersController < ApplicationController
   end
 
   private
+
+  def conversation_params
+    params.require(:conversation).permit(:receiver_id, :receiver_type,:conversationable_id, :conversationable_type)
+  end
 
   def search_params
     params.require(:search).permit(:query)[:query].split('(').last.tr(')', '')

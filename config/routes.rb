@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         patch :approve
         patch :reject
       end
+      post 'supports/conversations' => 'users#create', as: :support_conversation
       resources :orders, only: %i[show], as: :support_orders  
     end
   end
