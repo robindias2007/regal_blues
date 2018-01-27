@@ -97,7 +97,7 @@ class NotificationsMailer < ApplicationMailer
 		@message = msg
 		@resource = resource
 		@sender = sender
-		mail to: resource.email, subject: 'You have a new message'
+		mail to: resource.email, subject: 'You have a new chat message'
 	end
 
 	def give_measurement(order)
