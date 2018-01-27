@@ -40,11 +40,17 @@
 
           <td colspan="2" class="center">
             <%= form_for order, :url => support_orders_path(order), method: :get do |f| %>
-              <%= f.submit 'Ship_To_QC', name:"commit" %>
-              <%= f.submit 'Delivered_To_QC', name:"commit" %>
-              <%= f.submit 'In_QC', name:"commit" %>
-              <%= f.submit 'Ship_To_User', name:"commit" %>
-              <%= f.submit 'Deliver_To_User', name:"commit" %>
+              <% if order.status == "designer_confirmed" || order.status == "measurements_given" || order.status == "user_selected_options" %>
+                <%= f.submit 'Ship_To_QC', name:"commit" %>
+              <% elsif order.status == "shipped_to_qc" %>
+                <%= f.submit 'Delivered_To_QC', name:"commit" %>
+              <% elsif order.status == "delivered_to_qc" %>
+                <%= f.submit 'In_QC', name:"commit" %>
+              <% elsif order.status == "in_qc" %>
+                <%= f.submit 'Ship_To_User', name:"commit" %>
+              <% elsif order.status == "shipped_to_user" %>
+                <%= f.submit 'Deliver_To_User', name:"commit" %>
+              <% end %>
               <%= f.submit 'Reject', name:"commit" %>
             <% end %>
           </td>
