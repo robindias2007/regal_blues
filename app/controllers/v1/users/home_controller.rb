@@ -32,72 +32,73 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests
-    # order_name_array = Array.new     
-    # request_name_array = Array.new
-    # new_requests = Array.new
+    order_name_array = Array.new     
+    request_name_array = Array.new
+    new_requests = Array.new
 
-    # orders = current_user.orders.order(created_at: :desc).limit(3).each do |f|
-    #   order_name_array.push(f.offer_quotation.offer.request.name)
-    # end
+    orders = current_user.orders.order(created_at: :desc).limit(3).each do |f|
+      order_name_array.push(f.offer_quotation.offer.request.name)
+    end
 
-    # requests = current_user.requests.order(updated_at: :desc).each do |f|
-    #   request_name_array.push(f.name)
-    # end
+    requests = current_user.requests.order(updated_at: :desc).each do |f|
+      request_name_array.push(f.name)
+    end
     
-    # (request_name_array - order_name_array).each do |f|
-    #   new_requests.push(Request.where(name:f))
-    # end
+    (request_name_array - order_name_array).each do |f|
+      new_requests.push(Request.where(name:f))
+    end
 
-    # #Combination of Order and Requests which is not an order and sorting based on created_at 
-    # ord_req = (orders + new_requests.flatten.sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
+    #Combination of Order and Requests which is not an order and sorting based on created_at 
+    ord_req = (orders + new_requests.flatten.sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
     
-    # if (ord_req.first.name.present? rescue nil)
-    #   req1 = ord_req.first rescue nil 
-    # end
-    # if (ord_req.second.name.present? rescue nil)
-    #   req2 = ord_req.second rescue nil
-    # end
-    # if (ord_req.third.name.present? rescue nil)
-    #   req3 = ord_req.third rescue nil
-    # end
+    if (ord_req.first.name.present? rescue nil)
+      req1 = ord_req.first rescue nil 
+    end
+    if (ord_req.second.name.present? rescue nil)
+      req2 = ord_req.second rescue nil
+    end
+    if (ord_req.third.name.present? rescue nil)
+      req3 = ord_req.third rescue nil
+    end
 
-    # if (ord_req.first.designer_id.present? rescue nil)
-    #   ord1 = ord_req.first rescue nil 
-    # end
-    # if (ord_req.second.designer_id.present? rescue nil)
-    #   ord2 = ord_req.second rescue nil
-    # end
-    # if (ord_req.third.designer_id.present? rescue nil)
-    #   ord3 = ord_req.third rescue nil
-    # end
+    if (ord_req.first.designer_id.present? rescue nil)
+      ord1 = ord_req.first rescue nil 
+    end
+    if (ord_req.second.designer_id.present? rescue nil)
+      ord2 = ord_req.second rescue nil
+    end
+    if (ord_req.third.designer_id.present? rescue nil)
+      ord3 = ord_req.third rescue nil
+    end
 
-    # #Pushing each req into an array
-    # request_array = Array.new
-    # request_array.push(req1)
-    # request_array.push(req2)
-    # request_array.push(req3)
+    #Pushing each req into an array
+    request_array = Array.new
+    request_array.push(req1)
+    request_array.push(req2)
+    request_array.push(req3)
 
-    # #Pushing each order into an array
-    # order_array = Array.new
-    # order_array.push(ord1)
-    # order_array.push(ord2)
-    # order_array.push(ord3)
+    #Pushing each order into an array
+    order_array = Array.new
+    order_array.push(ord1)
+    order_array.push(ord2)
+    order_array.push(ord3)
 
-    # #Removing the null values from an array
-    # requests_json_array = request_array.compact
-    # orders_json_array = order_array.compact
+    #Removing the null values from an array
+    requests_json_array = request_array.compact
+    orders_json_array = order_array.compact
     
-    picks = Pick.all
-    request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
-    all_req = current_user.requests.order(updated_at: :desc)
-    rest_requests = (all_req - request_offers).to_a
-    requests = request_offers + rest_requests
-    ord = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
-    orders = ord.where(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
-    rest_orders = ord.where.not(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
+    # picks = Pick.all
+    # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
+    # all_req = current_user.requests.order(updated_at: :desc)
+    # rest_requests = (all_req - request_offers).to_a
+    # requests = request_offers + rest_requests
+    # ord = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
+    # orders = ord.where(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
+    # rest_orders = ord.where.not(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
 
 
-    render json: { requests: request_resource(request_offers), orders:order_resource(orders), rest_orders: order_resource(rest_orders) ,  rest_requests: request_resource(rest_requests)  ,recos: [], user: current_user, explore:picks}
+    # render json: { requests: request_resource(request_offers), orders:order_resource(orders), rest_orders: order_resource(rest_orders) ,  rest_requests: request_resource(rest_requests)  ,recos: [], user: current_user, explore:picks}
+     render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array),recos: [], user: current_user, explore:picks}
   end
 
   def render_orders
