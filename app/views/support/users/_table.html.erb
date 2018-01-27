@@ -69,10 +69,7 @@
           <td colspan="1" class="center">
             <%= (Support.as_json(user).pluck(:unread_message_count) + user.as_request_json.pluck(:unread_message_count) + user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } %>  
           </td>
-          <!-- <td colspan="1" class="center">
-            <%= Conversation.where(conversationable_id:user).first.messages.where(read:false) %>
-          </td> -->
-
+          
           <td colspan="1" class="center">
             <% if Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.present? %>
             <% else %>
