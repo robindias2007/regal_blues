@@ -59,16 +59,14 @@
           </td>
 
           <td colspan="1" class="center">
-            <% if Support.as_json(user).pluck(:message_count) == [nil]  %>
-              0
+            <% if (Support.as_json(user).pluck(:message_count) + user.as_request_json.pluck(:message_count) + user.as_order_json.pluck(:message_count)).inject(0){|sum,x| sum + x } == 0  %>
             <% else %>
               <%= (Support.as_json(user).pluck(:message_count) + user.as_request_json.pluck(:message_count) + user.as_order_json.pluck(:message_count)).inject(0){|sum,x| sum + x } %>
             <% end %>
           </td>
 
           <td colspan="1" class="center">
-            <% if Support.as_json(user).pluck(:unread_message_count) == [nil]  %>
-              0
+            <% if (Support.as_json(user).pluck(:unread_message_count) + user.as_request_json.pluck(:unread_message_count) + user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } == 0  %>
             <% else %>
               <%= (Support.as_json(user).pluck(:unread_message_count) + user.as_request_json.pluck(:unread_message_count) + user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } %>
             <% end %>  
