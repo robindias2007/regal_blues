@@ -22,6 +22,7 @@
         <th colspan="1" class="center">Chat</th>
         <th colspan="1" class="center">Message Count</th>
         <th colspan="1" class="center">Unread</th>
+        <th colspan="1" class="center">Conversation Create</th>
     </thead>
     <tbody>
       <% users.each do |user| %>
@@ -68,6 +69,15 @@
           <td colspan="1" class="center">
             <%= (Support.as_json(user).pluck(:unread_message_count) + user.as_request_json.pluck(:unread_message_count) + user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } %>  
           </td>
+
+          <td colspan="1" class="center">
+            <%= form_for(Conversation.new), :url => '/users/conversations', :html => {:method => :post} do |f| %>
+              <% f.hidden_field :receiver_id , value:user.id %>
+              <% f.hidden_field :receiver_type , value:"support" %>
+              <%= f.submit %>
+            <% end %>
+          </td>
+
         </tr>
       <% end %>
     </tbody>

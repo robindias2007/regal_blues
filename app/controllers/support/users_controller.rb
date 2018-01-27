@@ -15,6 +15,15 @@ class Support::UsersController < ApplicationController
     
   end
 
+  def create
+    conversation = current_support.conversations.find_or_create_by(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
+    if conversation
+      redirect_to support_users_path
+    else
+      redirect_to support_users_path
+    end
+  end
+
   private
 
   def search_params
