@@ -99,7 +99,7 @@
       <div class="col s1"></div>
       <div class="col s10">
       	<br><br><br>
-				<% Conversation.find(@convo_id.id).messages.order(created_at: :desc).each do |f| %>
+				<% Conversation.find(@convo_id.id).messages).each do |f| %>
 					
 					<% if f.sender_id == current_support.id %>
 						<% if f.body.present? %>
