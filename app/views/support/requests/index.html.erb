@@ -14,8 +14,8 @@
         <th colspan="1" class="center">Number of Offers</th>
         <th colspan="1" class="center">Approve</th>
         <th colspan="1" class="center">Reject</th>
-        <th colspan="1" class="center">Request Chat</th>
-        <th colspan="1" class="center">General</th> 
+        <!-- <th colspan="1" class="center">Request Chat</th>
+        <th colspan="1" class="center">General</th>  -->
       </tr>
     </thead>
     <tbody>
@@ -57,7 +57,7 @@
           <% end %>
           </td>
 
-          <td colspan="1" class="center">
+<!--           <td colspan="1" class="center">
             <% if Conversation.where(receiver_id:request.id,conversationable_type: "User").first.present? %>
               <%= link_to "Request Chat",
               chat_path(Conversation.where(receiver_id:request.id,conversationable_type: "User").first.id), 
@@ -86,7 +86,7 @@
                 <%= f.submit "General" , class:"waves-effect waves-light btn" %>
               <% end %>
             <% end %>
-          </td>
+          </td> -->
 
           <!-- <td colspan="1" class="center"> 
             <%= link_to 'Chat',
