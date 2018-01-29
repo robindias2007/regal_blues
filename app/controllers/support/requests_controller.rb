@@ -3,7 +3,7 @@
 class Support::RequestsController < ApplicationController
   def index
     @requests = Request.includes(:address, :request_designers, :offers, :sub_category).order(created_at: :desc).all
-    #@conversation = Conversation.new
+    @conversation = Conversation.new
   end
 
   def chat
