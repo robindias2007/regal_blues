@@ -42,8 +42,7 @@ class Support::RequestsController < ApplicationController
 
     @request_image = RequestImage.new
     request_image = RequestImage.new(request_image_params) rescue nil
-    if params[:commit] == "Image Creation"
-      @request_image.update(image:params[:request_image][:image], request_id:params[:request_image][:request_id], color:params[:request_image][:color], serial_number:1)
+    if request_image.save
       redirect_to support_request_path(request)
     end
   end
