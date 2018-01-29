@@ -11,6 +11,9 @@
         <p class="card-stats-title">Order Username:
           <b><%= @order.user.username %></b>
         </p>
+        <p class="card-stats-title">Order Unique ID:
+          <b><%= @order.order_id %></b>
+        </p>
         <p class="card-stats-title">Status:
           <b><%= @order.status.humanize %></b>
         </p>
@@ -59,7 +62,7 @@
         <% end %>
         <p class="card-stats-title">
           <% OrderOption.where(order_id:@order).each do |p| %>  
-            <a data-fancybox="gallery" href="<%= p.image.image_url rescue nil %>"><img src="<%= p.image.image_url rescue nil %>" id="thumb"></a>
+              <a data-fancybox="gallery" href="<%= p.image.image_url rescue nil %>"><img src="<%= p.image.image_url rescue nil %>" id="thumb"></a>
           <% end %>
         </p>
 

@@ -5,24 +5,25 @@
   <table class="highlight">
     <thead>
       <tr>
-        <th colspan="2" class="center">Order ID</th>
+        <th colspan="2" class="center">Request Name</th>  
+        <th colspan="1" class="center">Order ID</th>
         <th colspan="1" class="center">User</th>
-        <th colspan="1" class="center">Request Name</th>
         <th colspan="1" class="center">Designer Name</th>
         <th colspan="1" class="center">Designer Email</th>
         <th colspan="1" class="center">Order Created</th>
         <th colspan="1" class="center">Status</th>
         <th colspan="2" class="center">Update Order</th>
+        <th colspan="2" class="center">Reject Order</th>
       </tr>
     </thead>
     <tbody>
-      <% @orders.order(created_at: :desc).each do |order| %>
+      <% @orders.each do |order| %>
         <tr>
-          <td colspan="2" class="center"><%= order.order_id %></td>
+          <td colspan="2" class="center"><%= link_to order.offer_quotation.offer.request.name, support_show_order_path(order) %></td> 
+
+          <td colspan="1" class="center"><%= order.order_id %></td>
 
           <td colspan="1" class="center"><%= order.user.username %></td>
-
-          <td colspan="1" class="center"><%= order.offer_quotation.offer.request.name %></td>
 
           <td colspan="1" class="center"><%= order.designer.full_name %></td>
 
@@ -35,25 +36,29 @@
           </td>
 
           <td colspan="1" class="center">
-            <%= order.status %>
+            <%= order.status.humanize %>
           </td>
 
           <td colspan="2" class="center">
-            <%= form_for order, :url => support_orders_path(order), method: :get do |f| %>
-              <% if order.status == "designer_confirmed" || order.status == "measurements_given" || order.status == "user_selected_options" %>
-                <%= f.submit 'Ship_To_QC', name:"commit" %>
-              <% elsif order.status == "shipped_to_qc" %>
-                <%= f.submit 'Delivered_To_QC', name:"commit" %>
-              <% elsif order.status == "delivered_to_qc" %>
-                <%= f.submit 'In_QC', name:"commit" %>
-              <% elsif order.status == "in_qc" %>
-                <%= f.submit 'Ship_To_User', name:"commit" %>
-              <% elsif order.status == "shipped_to_user" %>
-                <%= f.submit 'Deliver_To_User', name:"commit" %>
-              <% end %>
-              <%= f.submit 'Reject', name:"commit" %>
-            <% end %>
+            <% unless order.status == "started" || order.status == "paid" || order.status == "user_awaiting_more_options" || order.status == "designer_confirmed" || order.status == "  user_selected_options" || order.status == "designer_selected_fabric_unavailable" || order.status == "designer_gave_more_options" %>
+              <%= form_for order, :url => support_orders_path(order), method: :get do |f| %>
+                <% if order.status == "measurements_given" %>
+                  <%= f.submit 'Ship_To_QC', name:"commit" %>
+                <% elsif order.status == "shipped_to_qc" %>
+                  <%= f.submit 'Delivered_To_QC', name:"commit" %>
+                <% elsif order.status == "delivered_to_qc" %>
+                  <%= f.submit 'In_QC', name:"commit" %>
+                <% elsif order.status == "in_qc" %>
+                  <%= f.submit 'Ship_To_User', name:"commit" %>
+                <% elsif order.status == "shipped_to_user" %>
+                  <%= f.submit 'Deliver_To_User', name:"commit" %>
+                <% end %>
           </td>
+            <td colspan="1" class="center">
+                <%= f.submit 'Reject', name:"commit" %>
+              <% end %>
+            <% end %>
+            </td>
 
         </tr>
       <% end %>
