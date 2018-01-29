@@ -2,18 +2,17 @@
 
 class Support::UsersController < ApplicationController
   def index
-    @users = User.order(full_name: :asc).all
+    @users = User.order(created_at: :desc).all
     @conversation = Conversation.new
   end
 
   def show
-
     @user = if params[:query]
               User.search_for(search_params)
             else
               User.find(params[:id])
             end
-    
+
   end
 
   def create

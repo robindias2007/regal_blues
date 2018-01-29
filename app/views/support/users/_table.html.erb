@@ -59,10 +59,16 @@
           </td>
 
           <td colspan="1" class="center">
-            <% if (Support.as_json(user).pluck(:message_count) + user.as_request_json.pluck(:message_count) + user.as_order_json.pluck(:message_count)).inject(0){|sum,x| sum + x } == 0  %>
+            <% (Support.as_json(user).pluck(:message_count) + user.as_request_json.pluck(:message_count) + user.as_order_json.pluck(:message_count)).inject(0){|sum,x| sum + x } == 0  %>
+              <% a =  Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.id rescue nil %>
+              <% b = user. %>
+              <% c =  %>
+              <%= Conversation.where(id:a).first.messages.count  rescue nil %>
+            <!--  
             <% else %>
               <%= (Support.as_json(user).pluck(:message_count) + user.as_request_json.pluck(:message_count) + user.as_order_json.pluck(:message_count)).inject(0){|sum,x| sum + x } %>
             <% end %>
+            -->
           </td>
 
           <td colspan="1" class="center">
