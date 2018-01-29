@@ -36,14 +36,12 @@
         <p class="card-stats-title">Size:
           <b><%= @request.size.upcase %></b>
         </p>
-        <%= form_for @request, :url => support_request_path(@request), method: :get do |f| %>
+        <p class="card-stats-title">Description:          
+          <%= form_for @request, :url => support_request_path(@request), method: :get do |f| %>
           <%= f.text_field :description, value:@request.description %>
-          <%= f.file_field :image %>          
           <%= f.submit "Update" %>
-        <% end %>
-        <!-- <p class="card-stats-title">Description:
-          <b><%= @request.description %></b>
-        </p> -->
+          <% end %>
+        </p>
         <p class="card-stats-title">Shipping address:
           <b><%= @request.address.formatted_address %></b>
         </p>
@@ -62,6 +60,17 @@
     </div>
   </div>
 </div>
+
+
+
+<%= form_for @request_image, :url => support_request_path(@request), method: :get do |f| %>
+  <%= f.file_field :image %>
+  <%= f.hidden_field :request_id, value:@request.id %>
+  <%= f.hidden_field :color , value:"ffffff" %>
+  <%= f.hidden_field :serial_number , value:1 %>
+  <%= f.submit "Image Creation" %>
+<% end %>
+
 
 <% if (@request.offers.size > 0) %>
 
