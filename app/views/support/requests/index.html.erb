@@ -14,8 +14,8 @@
         <th colspan="1" class="center">Number of Offers</th>
         <th colspan="1" class="center">Approve</th>
         <th colspan="1" class="center">Reject</th>
-        <th colspan="1" class="center">Request Chat</th>
-        <th colspan="1" class="center">General</th> 
+        <!-- <th colspan="1" class="center">Request Chat</th>
+        <th colspan="1" class="center">General</th>  -->
       </tr>
     </thead>
     <tbody>
@@ -57,39 +57,6 @@
           <% end %>
           </td>
 
-          <td colspan="1" class="center">
-            <% if Conversation.where(receiver_id:request.id,conversationable_type: "User").first.present? %>
-              <%= link_to "Request",
-              chat_path(Conversation.where(receiver_id:request.id,conversationable_type: "User").first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            <% else %>
-              <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
-                <%= f.hidden_field :receiver_id , value:request.id %>
-                <%= f.hidden_field :receiver_type , value:"requests" %>
-                <%= f.hidden_field :conversationable_id , value:request.user.id %>
-                <%= f.hidden_field :conversationable_type , value:"User" %>
-                <%= f.submit "Request" , class:"waves-effect waves-light btn" %>
-              <% end %>
-            <% end %>
-          </td>
-
-          <td colspan="1" class="center">
-            <% if Conversation.where(receiver_type:"support", conversationable_id:request.user, conversationable_type: "User" ).first.present? %>
-              <%= link_to "General",
-              chat_path(Conversation.where(receiver_type:"support", conversationable_id:request.user, conversationable_type: "User" ).first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            <% else %>
-              <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
-                <%= f.hidden_field :receiver_id , value:current_support.id %>
-                <%= f.hidden_field :receiver_type , value:"support" %>
-                <%= f.hidden_field :conversationable_id , value:request.user.id %>
-                <%= f.hidden_field :conversationable_type , value:"User" %>
-                <%= f.submit "General" , class:"waves-effect waves-light btn" %>
-              <% end %>
-            <% end %>
-          </td>
 
           <!-- <td colspan="1" class="center"> 
             <%= link_to 'Chat',
