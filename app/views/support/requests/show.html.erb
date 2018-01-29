@@ -37,8 +37,8 @@
           <b><%= @request.size.upcase %></b>
         </p>
         <%= form_for @request, :url => support_requests_path(@request), method: :get do |f| %>
-          <%= f.text_field :description %>
-          <%= f.submit %>
+          <%= f.text_field :description, value:@request.description %>
+          <%= f.submit "Update" %>
         <% end %>
         <!-- <p class="card-stats-title">Description:
           <b><%= @request.description %></b>
