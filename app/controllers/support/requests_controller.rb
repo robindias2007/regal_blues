@@ -34,14 +34,10 @@ class Support::RequestsController < ApplicationController
 
   def show
     @request = Request.find(params[:id])
-    if @request.save
-      debugger
-      if params[:commit] == "Update"
-        @request.update(description:params[:description])
-        redirect_to '/requests/#{@request}'
-      else
-        @request = Request.find(params[:id])
-      end
+    request = Request.find(params[:id]) rescue nil
+    if params[:commit] == "Update"
+      request.update(description:params[:request][:description])
+      redirect_to support_request_path(request)
     end
   end
 
