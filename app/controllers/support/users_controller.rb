@@ -18,9 +18,9 @@ class Support::UsersController < ApplicationController
   def create
     conversation = Conversation.new(conversation_params)
     if conversation.save
-      redirect_to support_users_path
+      redirect_to request.referrer
     else
-      redirect_to support_users_path
+      redirect_to request.referrer
     end
   end
 
