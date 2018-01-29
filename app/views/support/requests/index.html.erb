@@ -66,7 +66,7 @@
             <% else %>
               <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
                 <%= f.hidden_field :receiver_id , value:request.id %>
-                <%= f.hidden_field :receiver_type , value:"request" %>
+                <%= f.hidden_field :receiver_type , value:"requests" %>
                 <%= f.hidden_field :conversationable_id , value:request.user.id %>
                 <%= f.hidden_field :conversationable_type , value:"User" %>
                 <%= f.submit "Request" , class:"waves-effect waves-light btn" %>
