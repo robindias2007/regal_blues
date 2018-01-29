@@ -72,7 +72,7 @@
 
 
 <%= form_for @request_image, :url => support_request_path(@request), method: :get do |f| %>
-  <%= f.file_field :image %>
+  <%= f.file_field :image, value:"data:image/jpeg;base64,#{@request_image.image}" %>
   <%= f.hidden_field :request_id, value:@request.id %>
   <%= f.hidden_field :color , value:"ffffff" %>
   <%= f.hidden_field :serial_number , value:1 %>
