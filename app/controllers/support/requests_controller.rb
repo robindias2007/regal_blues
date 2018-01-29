@@ -36,14 +36,15 @@ class Support::RequestsController < ApplicationController
     @request = Request.find(params[:id])
     request = Request.find(params[:id]) rescue nil
     if params[:commit] == "Update"
-      request.update(description:params[:request][:description])
+      request.update(description:params[:request][:description], max_budget:params[:request][:max_budget])
       redirect_to support_request_path(request)
     end
 
     @request_image = RequestImage.new
-    request_image = RequestImage.where(request_id:params[:id]).first rescue nil
+    request_image = RequestImage.new(request_image_params) rescue nil
     if params[:commit] == "Image Creation"
-      request_image.update(image:params[:request_image][:image], request_id:params[:request_image][:request_id], color:params[:request_image][:color], serial_number:1)
+      debugger
+      @request_image.update(image:params[:request_image][:image], request_id:params[:request_image][:request_id], color:params[:request_image][:color], serial_number:1)
       redirect_to support_request_path(request)
     end
   end
@@ -67,5 +68,9 @@ class Support::RequestsController < ApplicationController
   private
   def message_params
     params.require(:message).permit(:body, :attachment, :conversation_id)
+  end
+
+  def request_image_params
+    params.require(:request_image).permit(:image, :request_id, :color, :serial_number)
   end
 end

@@ -35,17 +35,21 @@
         </p>
         <p class="card-stats-title">Size:
           <b><%= @request.size.upcase %></b>
-        </p>
-        <p class="card-stats-title">Description:          
-          <%= form_for @request, :url => support_request_path(@request), method: :get do |f| %>
-          <%= f.text_field :description, value:@request.description %>
+        </p>          
+        <%= form_for @request, :url => support_request_path(@request), method: :get do |f| %>
+          <p class="card-stats-title">Description:
+            <%= f.text_field :description, value:@request.description %>
+          </p>
+          <p class="card-stats-title">Budget:
+            <%= f.text_field :max_budget, value:@request.max_budget %>
+          </p>
           <%= f.submit "Update" %>
-          <% end %>
-        </p>
+        <% end %>
+        
         <p class="card-stats-title">Shipping address:
           <b><%= @request.address.formatted_address %></b>
         </p>
-        <p class="card-stats-title">Budget:
+        <p class="card-stats-title">
           <b><%= @request.max_budget&.round %></b>
         </p>
         <p class="card-stats-title">Offers Count:
@@ -55,11 +59,7 @@
           <b><%= RequestDesigner.joins(designer: :designer_store_info).where(request: @request).pluck(:display_name).to_sentence %></b>
         </p>
         <b>Request Image:</b>
-        <p class="card-stats-title">
-          <% @request.request_images.each do |req_image| %>
-            <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
-          <% end %>
-        </p>
+        
       </div>
     </div>
   </div>
@@ -134,11 +134,7 @@
                 <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&').strip %></b></li>
               <% end %>
               <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
-                <p class="card-stats-title">
-                  <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
-                     <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
-                  <% end %>
-                </p>
+                
               <% end %>
             </ul>
           </div>
