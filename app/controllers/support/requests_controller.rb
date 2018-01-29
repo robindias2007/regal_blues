@@ -44,6 +44,7 @@ class Support::RequestsController < ApplicationController
     request_image = RequestImage.new(request_image_params) rescue nil
     if request_image.present?
       if request_image.save
+        request_image.update(image:params[:request_image][:image]) 
         redirect_to support_request_path(request)
       end
     end
