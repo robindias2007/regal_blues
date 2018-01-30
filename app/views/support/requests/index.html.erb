@@ -7,7 +7,7 @@
       <tr>
         <th colspan="2" class="center">Name</th>
         <th colspan="1" class="center">User</th>
-        <th colspan="1" class="center">Status</th>
+        <th colspan="1" class="center">Budget</th>
         <th colspan="1" class="center">Timeline for User</th>
         <th colspan="1" class="center">Sub Category</th>
         <th colspan="1" class="center">Number of Designers</th>
@@ -25,7 +25,7 @@
 
           <td colspan="1" class="center"><%= link_to request.user.full_name, support_user_path(request.user) %></td>
 
-          <td colspan="1" class="center"><%= request.status.humanize %></td>
+          <td colspan="1" class="center"><%= request.max_budget&.round %></td>
 
           <td colspan="1" class="center"><%= "#{request.timeline} weeks" %></td>
 
