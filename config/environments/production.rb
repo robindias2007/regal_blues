@@ -101,11 +101,11 @@ Rails.application.configure do
 
   # GMAIL
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'smtp.sendgrid.net',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'noreplyhere@custumise.com',
-    password:             'Mumbai78!',
+    user_name:            'apikey',
+    password:             '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',
     authentication:       :login,
     enable_starttls_auto: true
   }
