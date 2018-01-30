@@ -23,6 +23,6 @@ class V1::Users::RegistrationsController < V1::Users::BaseController
   private
 
   def update_params
-    params.require(:user).permit(:full_name, :gender, :avatar, :bio)
+    params.require(:user).permit(:full_name, :gender, :avatar, :bio, :mobile_number)
   end
 end
