@@ -39,17 +39,16 @@ class Support::RequestsController < ApplicationController
       request.update(description:params[:request][:description], max_budget:params[:request][:max_budget])
       redirect_to support_request_path(request)
     end
-
-    @request_image = RequestImage.new
-    request_image = RequestImage.new(request_image_params) rescue nil
-    if request_image.present?
-      if request_image.save
-        data = Base64.encode64(params[:request_image][:image])
-        image = 'data:image/jpeg;base64,' + data
-        request_image.update(image:image) 
-        redirect_to support_request_path(request)
-      end
-    end
+    # @request_image = RequestImage.new
+    # request_image = RequestImage.new(request_image_params) rescue nil
+    # if request_image.present?
+    #   if request_image.save
+    #     data = Base64.encode64(params[:request_image][:image])
+    #     image = 'data:image/jpeg;base64,' + data
+    #     request_image.update(image:image) 
+    #     redirect_to support_request_path(request)
+    #   end
+    # end
   end
 
   def approve
