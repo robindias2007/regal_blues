@@ -59,7 +59,10 @@
           <b><%= RequestDesigner.joins(designer: :designer_store_info).where(request: @request).pluck(:display_name).to_sentence %></b>
         </p>
         <b>Request Image:</b>
-        
+        <p class="card-stats-title">
+          <% @request.request_images.each do |req_image| %>
+            <a data-fancybox="gallery" href="<%= req_image.image_url %>"><img src="<%= req_image.image_url %>" id="thumb"></a>
+          <% end %>
         </p>
       </div>
     </div>
@@ -135,7 +138,11 @@
                 <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&').strip %></b></li>
               <% end %>
               <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
-                
+                <p class="card-stats-title">
+                  <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
+                     <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+                  <% end %>
+                </p>
               <% end %>
             </ul>
           </div>
