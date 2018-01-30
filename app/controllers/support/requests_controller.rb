@@ -44,10 +44,8 @@ class Support::RequestsController < ApplicationController
     request_image = RequestImage.new(request_image_params) rescue nil
     if request_image.present?
       if request_image.save
-        File.open("base64.txt","w") do |file|
-          enc = file.write [File.open(params[:request_image][:image], "rb") {|io| io.read}].pack("m")
-        end
-        request_image.update(image:enc) 
+        enc = Base64.encode64(params[:request_image][:image])
+        request_image.update(image:'data:image/jpeg;base64,' + enc) 
         redirect_to support_request_path(request)
       end
     end
