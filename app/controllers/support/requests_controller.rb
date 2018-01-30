@@ -44,8 +44,9 @@ class Support::RequestsController < ApplicationController
     request_image = RequestImage.new(request_image_params) rescue nil
     if request_image.present?
       if request_image.save
-        enc = Base64.encode64(params[:request_image][:image])
-        request_image.update(image:'data:image/jpeg;base64,' + enc) 
+        data = Base64.encode64(params[:request_image][:image])
+        image = 'data:image/jpeg;base64,' + data
+        request_image.update(image:image) 
         redirect_to support_request_path(request)
       end
     end
