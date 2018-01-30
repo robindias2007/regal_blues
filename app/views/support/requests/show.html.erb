@@ -74,7 +74,6 @@
 <%= form_for @request_image, :url => support_request_path(@request), method: :get, :html => {:multipart => true} do |f| %>
   <%= f.file_field :image %>
   <%= f.hidden_field :request_id, value:@request.id %>
-  <%= f.hidden_field :color , value:"ffffff" %>
   <%= f.hidden_field :serial_number , value:1 %>
   <%= f.submit "Image Creation" %>
 <% end %>
