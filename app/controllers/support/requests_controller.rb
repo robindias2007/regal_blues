@@ -37,6 +37,7 @@ class Support::RequestsController < ApplicationController
     request = Request.find(params[:id]) rescue nil
     if params[:commit] == "Update"
       request.update(description:params[:request][:description], max_budget:params[:request][:max_budget])
+      flash[:success] = "Updated"
       redirect_to support_request_path(request)
     end
     # @request_image = RequestImage.new
