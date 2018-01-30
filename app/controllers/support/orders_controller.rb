@@ -5,7 +5,8 @@ class Support::OrdersController < ApplicationController
   end
 
   def index
-  	@orders = Order.order(created_at: :desc).all
+    @conversation = Conversation.new
+    @orders = Order.order(created_at: :desc).all
     @order = Order.find(params[:format]) rescue nil
       if params[:commit] == 'Ship_To_QC'         # it checks if the user has clicked publish the it updates the form with publish
         @order.update(status:"shipped_to_qc")
