@@ -35,7 +35,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def index
     #requests = current_user.requests.order(updated_at: :desc).limit(20)
 
-    r1 = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
+    r1 = current_user.requests.where.not(status:"unapproved").includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     r2 = current_user.requests.order(updated_at: :desc)
     r3 = (r2 - r1)
     requests = r1 + r3
