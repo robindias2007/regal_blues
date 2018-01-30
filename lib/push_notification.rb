@@ -3,8 +3,8 @@ module PushNotification
 		require 'houston'
     # token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"
 		if token.present?
-			apn = Houston::Client.production
-			path = Rails.root.join("public","Production_APNS_Certificate.pem")
+			apn = Houston::Client.development
+			path = Rails.root.join("public","Development_APNS_Certificate.pem")
 	    apn.certificate = File.read(path)
 	    token = token
 	    notification = Houston::Notification.new(device: token)
@@ -22,8 +22,8 @@ module PushNotification
 		require 'houston'
 		# token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"
 		if token.present?
-			apn = Houston::Client.production
-			path = Rails.root.join("public","Production_APNS_Certificate.pem")
+			apn = Houston::Client.development
+			path = Rails.root.join("public","Development_APNS_Certificate.pem")
 			apn.certificate = File.read(path)
 			token = token
 	    notification = Houston::Notification.new(device: token)
