@@ -1,4 +1,6 @@
-class NotificationsMailer < ApplicationMailer
+class NotificationsMailer < ActionMailer::Base
+    # default :from => 'Team@Custumise'
+    default :from => '"Team Custumise" <support@custumise.com>'
 
 	def send_email(user)
 		@user = user
