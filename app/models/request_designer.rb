@@ -36,9 +36,7 @@ class RequestDesigner < ApplicationRecord
 
   def quote_msg(time)
     unless self.request.offers.where(designer_id: self.designer_id).present?
-      # time = 48-time
-      time = 4-time # for testing
-
+      time = 48-time
 
       message = "Time Remaining for quotation - You have #{time} hours remaining to send quotation for request #{self.request.name} by user #{self.request.user.full_name}."
 

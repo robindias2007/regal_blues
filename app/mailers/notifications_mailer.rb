@@ -111,8 +111,7 @@ class NotificationsMailer < ActionMailer::Base
 		@time = time
 		@request_designer = request_designer
 		subject = time.to_s + " "+ "hrs left to send quote for the request"
-		# mail to: request_designer.designer.email, subject: subject
-    mail to: 'ashishyuvasoft184@gmail.com', subject: subject # for testing 
+		mail to: request_designer.designer.email, subject: subject
 	end
 
 	def penalty(request_designer)
