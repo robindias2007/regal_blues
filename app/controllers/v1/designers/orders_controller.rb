@@ -37,7 +37,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
     order = current_designer.orders.find(params[:id])
     if order.paid? && order.offer_quotation.update!(fabric_unavailable_params)
       order.fabric_unavailable!
-      order.delay(run_at: 24.hours.from_now).notify_fu
+      order.notify_fu
       render json: { message: 'Order has been marked as fabric unavailable and updated with new fabric. \
         User will be notified of the same.' }
     else
