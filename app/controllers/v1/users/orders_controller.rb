@@ -50,7 +50,6 @@ class V1::Users::OrdersController < V1::Users::BaseController
   def measurement_tags
     order = current_user.orders.find(params[:id])
     measurement_tags = order.offer_quotation.offer_measurements.first.data
-    debugger
     tags = measurement_tags["tags"].map(&:titlecase)
     new_tags = MeasurementTag.where(name:tags)
     render json: {all_tags: measurement_tags, predefined_tags: new_tags}
