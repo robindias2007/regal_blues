@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131055040) do
+ActiveRecord::Schema.define(version: 20180131081638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -183,6 +183,14 @@ ActiveRecord::Schema.define(version: 20180131055040) do
     t.boolean "disabled", default: false, null: false
     t.boolean "new", default: false, null: false
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
+  end
+
+  create_table "measurement_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.string "measurement_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
