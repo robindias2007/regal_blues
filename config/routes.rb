@@ -5,6 +5,20 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
+  get 'measurement_tags/new'
+
+  get 'measurement_tags/create'
+
+  get 'measurement_tags/update'
+
+  get 'measurement_tags/edit'
+
+  get 'measurement_tags/destroy'
+
+  get 'measurement_tags/show'
+
+  get 'measurement_tags/index'
+
   resources :picks
   mount ActionCable.server => '/cable'
 
@@ -56,6 +70,9 @@ Rails.application.routes.draw do
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
 
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
+
+  resources :measurement_tags
+  #get '/measurement_tags' => 'measurement_tags#index'
 
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''

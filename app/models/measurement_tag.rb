@@ -1,0 +1,2 @@
+class MeasurementTag < ApplicationRecord
+end
