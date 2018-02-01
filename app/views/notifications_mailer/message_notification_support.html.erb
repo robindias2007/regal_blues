@@ -1,0 +1,16 @@
+Dear <%= @resource.full_name %>,<br><br>
+
+<% if @type == "support_general"%>
+	You have new message from <%= @sender.full_name %>.<br><br>
+<% elsif @type == "requests"%>
+	You have new message from <%= @sender.full_name %> for request <%= @type_name%>.<br><br>
+<% elsif @type == "orders"%>
+	You have new message from <%= @sender.full_name %> for order <%= @type_name %>.<br><br>
+<% elsif @type == "offers"%>
+	You have new message from <%= @sender.full_name %> for offer from designer <%= @offer_designer_name %> for request <%= @type_name %>.<br><br>
+<% else %>
+	You have a new message in Custumise chat. Please go to our app to check the message.<br><br>
+<% end %>
+
+Regards,<br>
+Team Custumise
