@@ -12,8 +12,8 @@ module PushNotification
 	    notification.badge = 1
 	    notification.sound = "sosumi.aiff"
 	    notification.category = "INVITE_CATEGORY"
-	    notification.content_available = true
-	    notification.custom_data = {data: data, extraData: extra_data}
+	    # notification.content_available = true
+	    notification.custom_data = {extraData: extra_data}
 	    apn.push(notification)
 	  end
 	end
