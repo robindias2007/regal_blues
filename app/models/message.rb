@@ -37,7 +37,7 @@ class Message < ApplicationRecord
   	if sender.present?
   		if sender.class.name == "Designer" || sender.class.name == "User"
 	  		Support.all.each do |sup|
-	  			NotificationsMailer.message_notification(sup, self, sender).deliver_later
+	  			NotificationsMailer.message_notification_support(sup, self, sender, type, type_name, offer_designer_name).deliver_later
 	  			begin
 	  				Message.new.msg_notification(sup.devise_token, self)
 	  			rescue
@@ -51,6 +51,38 @@ class Message < ApplicationRecord
   			end
 	  	end
   	end
+  end
+
+  def type
+    typ = self.conversation.receiver_type rescue ""
+  end
+
+  def offer_designer_name
+    typ = type
+    id = self.conversation.receiver_id
+    if typ == "offers"
+      designer_name = OfferQuotation.find(id).offer.designer.full_name rescue " "
+    else
+      designer_name = " "
+    end
+    return designer_name
+  end
+
+  def type_name
+    typ = type
+    id = self.conversation.receiver_id
+    if typ == "support_general"
+      name = Support.find(id).full_name rescue " "
+    elsif typ == "requests"
+      name = Request.find(id).name
+    elsif typ == "orders"
+      name = Order.find(id).order_id rescue " "
+    elsif typ == "offers"
+      name = OfferQuotation.find(id).offer.request.name rescue " "
+    else
+      name = ""
+    end
+    return name
   end
 end
 
