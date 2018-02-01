@@ -19,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @requests.order(created_at: :desc).each do |request| %>
+      <% @requests.each do |request| %>
         <tr>
           <td colspan="2" class="center"><%= link_to request.name, support_request_path(request) %></td>
 
