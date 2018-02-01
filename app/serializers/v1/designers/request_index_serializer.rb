@@ -54,7 +54,7 @@ class V1::Designers::RequestIndexSerializer < ActiveModel::Serializer
   end
 
   def can_quote
-    (request_designer&.involved == true) && (request_designer.updated_at < (Time.zone.now - 48.hours))
+    (request_designer&.involved == true) && (request_designer.updated_at < (Time.zone.now - 96.hours))
   end
 
   def request_designer
