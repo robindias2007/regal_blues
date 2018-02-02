@@ -25,7 +25,7 @@
     </thead>
     <tbody>
       <% users.each do |user| %>
-        <% a =  @convo.where(conversationable_id:user).first %>
+        <% con =  @convo.where(conversationable_id:user).first %>
         <tr id="js-data-row">
           <td colspan="4" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
 
@@ -52,9 +52,9 @@
           </td>
 
           <td colspan="1" class="center">
-            <% if a.present? %>
+            <% if con.present? %>
               <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(a.id), 
+              chat_path(con.id), 
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
             <% else %>
