@@ -20,8 +20,8 @@
         <th colspan="1" class="center">Requests made</th>
         <th colspan="1" class="center">Orders made</th>
         <th colspan="1" class="center">Chat</th>
-        <!-- <th colspan="1" class="center">Message Count</th>
-        <th colspan="1" class="center">Unread</th>-->
+        <th colspan="1" class="center">Message Count</th>
+        <th colspan="1" class="center">Unread</th>
     </thead>
     <tbody>
       <% users.each do |user| %>
@@ -67,7 +67,14 @@
               <% end %>
             <% end %>
           </td>
-  
+          
+          <td colspan="1" class="center">
+            <%= con.messages.count rescue nil %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= con.messages.where(read:false).count rescue nil %>
+          </td>    
         </tr>
       <% end %>
     </tbody>

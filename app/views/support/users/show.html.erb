@@ -173,7 +173,7 @@
               </td>
               <td colspan="1" class="center">
                 <%= link_to image_tag("chat.png", width:"30x30"),
-                chat_path(Conversation.where(receiver_id:request[:id],conversationable_type: "User").first.id), 
+                chat_path(@convo.where(receiver_id:request[:id]).first.id), 
                 :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
                 %>
               </td>
@@ -216,6 +216,7 @@
       </thead>
       <tbody>
         <% @user.as_order_json.sort {|x,y| y[:unread_message_count]<=>x[:unread_message_count]}.each do |order| %>
+          <% ord = Order.find(order[:id]) %>
           <tr>
             <td colspan="4" class="center"><%= link_to Order.find(order[:id]).offer_quotation.offer.request.name, support_show_order_path(order) %></td> 
 
@@ -223,18 +224,18 @@
 
             <td colspan="1" class="center"><%= order[:status].humanize %></td>
 
-            <td colspan="1" class="center"><%= Order.find(order[:id]).designer.designer_store_info.display_name %></td>
+            <td colspan="1" class="center"><%= ord.designer.designer_store_info.display_name %></td>
 
-            <td colspan="1" class="center"><%= Order.find(order[:id]).offer_quotation.price %></td>
+            <td colspan="1" class="center"><%= ord.offer_quotation.price %></td>
 
             <td colspan="1" class="center"><%= order[:created_at].strftime('%d %B %Y') %></td>
 
             <td colspan="1" class="center">
-              <%= Order.find(order[:id]).offer_quotation.offer.request.address.formatted_address %>
+              <%= ord.offer_quotation.offer.request.address.formatted_address %>
             </td>
             <td colspan="1" class="center">
               <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(Conversation.where(receiver_id:order[:id],conversationable_type: "User").first.id), 
+              chat_path(@convo.where(receiver_id:order[:id]).first.id), 
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
               %>
             </td>

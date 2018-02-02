@@ -36,6 +36,8 @@ class Support::RequestsController < ApplicationController
 
 
   def show
+    @convo_user = Conversation.where(conversationable_type: "User")
+    @convo_des = Conversation.where(conversationable_type: "Designer")
     @request = Request.find(params[:id])
     request = Request.find(params[:id]) rescue nil
     if params[:commit] == "Update"
