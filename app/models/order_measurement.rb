@@ -2,7 +2,7 @@
 
 class OrderMeasurement < ApplicationRecord
   belongs_to :order
-
+  
   validates :data, presence: true
   validate :validate_key
   validate :validate_tag_size
@@ -14,7 +14,8 @@ class OrderMeasurement < ApplicationRecord
 
   def validate_tags
     errors.add(:data, 'key for the hash is not valid#tags_measurement') if
-      order.offer_quotation.offer_measurements.first.data.fetch('tags').map(&:titlecase).sort != data.fetch('measurements').keys.map(&:titlecase).sort
+
+      order.offer_quotation.offer_measurements.first.data.fetch('tags').map(&:titlecase).sort != data.fetch('measurements').map(&:titlecase).keys.sort
   end
 
   def validate_tag_size
@@ -30,3 +31,4 @@ class OrderMeasurement < ApplicationRecord
     data.fetch('measurements').keys.each(&:titleize)
   end
 end
+

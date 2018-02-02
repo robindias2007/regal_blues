@@ -78,6 +78,6 @@ class Offer < ApplicationRecord
 
   def time_expired_to_create_offer?
     rd = RequestDesigner.find_by(designer: designer, request: request)
-    (rd.involved == true) && (rd.updated_at < (Time.zone.now - 48.hours))
+    (rd.involved == true) && (rd.updated_at < (Time.zone.now - 96.hours))
   end
 end

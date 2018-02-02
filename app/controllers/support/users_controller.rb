@@ -3,7 +3,8 @@
 class Support::UsersController < ApplicationController
   def index
     @users = User.order(created_at: :desc).all
-    @conversation = Conversation.new
+    @conversation = Conversation.new  
+    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" ) 
   end
 
   def show

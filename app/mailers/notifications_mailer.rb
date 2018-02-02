@@ -102,6 +102,16 @@ class NotificationsMailer < ActionMailer::Base
 		mail to: resource.email, subject: 'You have a new chat message'
 	end
 
+  def message_notification_support(resource, msg, sender, type, type_name, offer_designer_name)
+    @message = msg
+    @resource = resource
+    @sender = sender
+    @type = type
+    @type_name = type_name
+    @offer_designer_name = offer_designer_name
+    mail to: resource.email, subject: 'You have a new chat message'
+  end
+
 	def give_measurement(order)
 		@order = order
 		mail to: order.user.email, subject: 'Measurements Pending'

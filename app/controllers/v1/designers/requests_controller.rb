@@ -80,7 +80,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
     begin
       #hours, minutes
       timer = [24, 36]
-      request_designer.delay(run_at: 48.hours.from_now).penalty_msg
+      request_designer.delay(run_at: 96.hours.from_now).penalty_msg
       timer.each do |time|
         request_designer.delay(run_at: time.hours.from_now).quote_msg(time)
       end
