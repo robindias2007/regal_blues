@@ -17,7 +17,7 @@ class Support::RequestsController < ApplicationController
   end
 
   def chat_post
-    conversation = Conversation.find(params[:id])
+    conversation = Conversation.find(params[:id])    
     @message = conversation.messages.new(message_params)
     @message.sender_id = current_support.id
     if @message.save!

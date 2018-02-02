@@ -53,36 +53,13 @@
 
           <td colspan="1" class="center">
             <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.id), 
+              chat_path(@convo.where(conversationable_id:user).first.id), 
               :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
             %>
           </td>
 
-          <td colspan="1" class="center">
-            <% a =  Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.id rescue nil %>
-            <%= Conversation.where(id:a).first.messages.count  rescue nil %>
-          </td>
-
-          <td colspan="1" class="center">
-            <% if (Support.as_json(user).pluck(:unread_message_count) + user.as_request_json.pluck(:unread_message_count) + user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } == 0  %>
-            <% else %>
-              <%= (Support.as_json(user).pluck(:unread_message_count) + user.as_request_json.pluck(:unread_message_count) + user.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x } %>
-            <% end %>  
-          </td>
-          
-          <td colspan="1" class="center">
-            <% if Conversation.where(receiver_type:"support", conversationable_id:user, conversationable_type: "User" ).first.present? %>
-            <% else %>
-              <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
-                <%= f.hidden_field :receiver_id , value:current_support.id %>
-                <%= f.hidden_field :receiver_type , value:"support" %>
-                <%= f.hidden_field :conversationable_id , value:user.id %>
-                <%= f.hidden_field :conversationable_type , value:"User" %>
-                <%= f.submit "Initiate Chat" , class:"waves-effect waves-light btn" %>
-              <% end %>
-          <% end %>
-          </td>
-
+          <td colspan="1" class="center"></td>
+          <td colspan="1" class="">  
         </tr>
       <% end %>
     </tbody>
