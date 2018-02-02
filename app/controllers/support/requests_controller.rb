@@ -2,9 +2,11 @@
 
 class Support::RequestsController < ApplicationController
   def index
-    req = Request.includes(:address, :request_designers, :offers, :sub_category).order(created_at: :desc)
+    req = Request.order(created_at: :desc)
     @requests = req.where(status:"active") + req.where(status:"pending") + req.where(status:"unapproved")
     @conversation = Conversation.new
+    @convo = Conversation.where(conversationable_type: "User")
+    @convo_gen =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
   end
 
   def chat
@@ -34,6 +36,8 @@ class Support::RequestsController < ApplicationController
 
 
   def show
+    @convo_user = Conversation.where(conversationable_type: "User")
+    @convo_des = Conversation.where(conversationable_type: "Designer")
     @request = Request.find(params[:id])
     request = Request.find(params[:id]) rescue nil
     if params[:commit] == "Update"
