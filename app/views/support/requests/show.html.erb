@@ -126,13 +126,13 @@
               <% offquo.offer_measurements.each do |offmeas| %>
                 <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&').strip %></b></li>
               <% end %>
-              <% offquo.offer_quotation_galleries.each do |offgall| %>
-                <p class="card-stats-title">
+              <li class="collection-item">
+                <% offquo.offer_quotation_galleries.each do |offgall| %>
                   <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
-                     <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+                    <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
                   <% end %>
-                </p>
-              <% end %>
+                <% end %>
+              </li>
             </ul>
           </div>
         <% end %>
