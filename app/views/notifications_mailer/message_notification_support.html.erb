@@ -1,6 +1,6 @@
 Dear <%= @resource.full_name %>,<br><br>
 
-<% if @type == "support_general"%>
+<% if @type == "support_general" || @type == "support"%>
 	You have new message from <%= @sender.full_name %>.<br><br>
 <% elsif @type == "requests"%>
 	You have new message from <%= @sender.full_name %> for request <%= @type_name%>.<br><br>
