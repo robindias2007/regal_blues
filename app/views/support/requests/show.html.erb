@@ -85,10 +85,8 @@
       <tbody>
         <tr>
           <% @request.offers.each do |off| %>
-            <% Designer.where(id:off.designer_id).each do |des_name| %>
-              <td colspan="4" class="center"><%= des_name.full_name  %></td>
-              <td colspan="1" class="center" id="offer_quote"><%=  OfferQuotation.where(offer_id:off).count %></td>
-            <% end %>
+            <td colspan="4" class="center"><%= off.designer.full_name  %></td>
+            <td colspan="1" class="center" id="offer_quote"><%=  off.offer_quotations.count %></td>
           <% end %>
         </tr>
       </tbody>
@@ -105,16 +103,16 @@
   <ul class="collapsible" data-collapsible="expandable">
     <li>
       <% @request.offers.each do |off| %>
-        <% OfferQuotation.where(offer_id:off).each do |offquo| %> 
+        <% off.offer_quotations.each do |offquo| %> 
           <div class="collapsible-header active">
             
             <a href="#">Quote Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%= link_to 'User Chat',
-            chat_path(Conversation.where(receiver_id:offquo,conversationable_type: "User").first.id), 
+            chat_path(@convo_user.where(receiver_id:offquo).first.id), 
             :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
             %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%= link_to 'Designer Chat',
-            chat_path(Conversation.where(receiver_id:offquo,conversationable_type: "Designer").first.id), 
+            chat_path(@convo_des.where(receiver_id:offquo).first.id), 
             :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
             %>
           </div>
@@ -125,10 +123,10 @@
               <li class="collection-item">Description: <b><%= offquo.description %></b></li>
               <li class="collection-item">Designer Note: <b><%= offquo.designer_note %></b></li> 
               <li class="collection-item">Shipping Price: <b><%= offquo.shipping_price %></b></li> 
-              <% OfferMeasurement.where(offer_quotation_id:offquo).each do |offmeas| %>
+              <% offquo.offer_measurements.each do |offmeas| %>
                 <li class="collection-item">Offer Measurement: <b><%= offmeas.data.map{|k,v| "#{k}=#{v}"}.join('&').strip %></b></li>
               <% end %>
-              <% OfferQuotationGallery.where(offer_quotation_id:offquo).each do |offgall| %>
+              <% offquo.offer_quotation_galleries.each do |offgall| %>
                 <p class="card-stats-title">
                   <% Image.where(imageable_id:offgall).each do |gallery_image| %>            
                      <a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>

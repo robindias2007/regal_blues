@@ -13,7 +13,7 @@ class Support::UsersController < ApplicationController
             else
               User.find(params[:id])
             end
-
+    @convo = Conversation.where(conversationable_type: "User")
   end
 
   def create
