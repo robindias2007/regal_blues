@@ -9,7 +9,7 @@ Dear <%= @resource.full_name %>,<br><br>
 <% elsif @type == "offers"%>
 	You have new message from <%= @sender.full_name %> for offer from designer <%= @offer_designer_name %> for request <%= @type_name %>.<br><br>
 <% else %>
-	You have a new message in Custumise chat. Please go to our app to check the message.<br><br>
+	You have new message from <%= @sender.full_name %>.<br><br>
 <% end %>
 
 Regards,<br>
