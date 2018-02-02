@@ -11,7 +11,7 @@ class OfferQuotation < ApplicationRecord
   has_one :order, dependent: :destroy
 
   validates :price, :description, presence: true
-  validates :description, length: { in: 4..480 }
+  validates :description, length: { in: 4..960 }
   validates :price, numericality: true
   validate  :max_one_measurement
 

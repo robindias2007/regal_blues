@@ -79,7 +79,7 @@ class V1::Designers::RequestsController < V1::Designers::BaseController
   def notify_involved(request_designer)
     begin
       #hours, minutes
-      timer = [24, 36]
+      timer = [48, 72, 84]
       request_designer.delay(run_at: 96.hours.from_now).penalty_msg
       timer.each do |time|
         request_designer.delay(run_at: time.hours.from_now).quote_msg(time)
