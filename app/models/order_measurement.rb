@@ -2,7 +2,7 @@
 
 class OrderMeasurement < ApplicationRecord
   belongs_to :order
-
+  
   validates :data, presence: true
   validate :validate_key
   validate :validate_tag_size
