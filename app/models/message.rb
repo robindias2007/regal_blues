@@ -39,14 +39,14 @@ class Message < ApplicationRecord
 	  		Support.all.each do |sup|
 	  			NotificationsMailer.message_notification_support(sup, self, sender, type, type_name, offer_designer_name).deliver_later
 	  			begin
-	  				Message.new.msg_notification(sup.devise_token, self)
+	  				Message.new.msg_notification(sup.devise_token, self, "You have a new chat message")
 	  			rescue
 	  			end
 	  		end
 	  	elsif sender.class.name == "Support"
 	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver_later
 	  		begin
-	  			Message.new.msg_notification(self.conversation.conversationable.devise_token, self)
+	  			Message.new.msg_notification(self.conversation.conversationable.devise_token, self, alert)
   			rescue
   			end
 	  	end
@@ -83,6 +83,26 @@ class Message < ApplicationRecord
       name = ""
     end
     return name
+  end
+
+  def alert
+    typ = type
+    id = self.conversation.receiver_id
+    if typ == "support_general" || typ == "support"
+      msg = "You have new message from support." rescue " "
+    elsif typ == "requests"
+      req_name = Request.find(id).name rescue " "
+      msg = "You have new message for request #{req_name}."
+    elsif typ == "orders"
+      order_id = Order.find(id).order_id rescue " "
+      msg = "You have new message for order #{order_id}."
+    elsif typ == "offers"
+      req_name = OfferQuotation.find(id).offer.request.name rescue " "
+      msg = "You have new message for an offer from designer #{offer_designer_name} for request #{req_name}."
+    else
+      msg = "You have new message from support"
+    end
+    return msg
   end
 end
 
