@@ -104,13 +104,15 @@ class V1::Users::HomeController < V1::Users::BaseController
 
   def render_orders
     orders = current_user.orders.order(created_at: :desc).limit(3)
-    render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [] }
+    support_id = Support.first.id
+    render json: { orders: order_resource(orders), requests: [], recos: [], top_designers: [], support: support_id }
   end
 
 
   def render_requests
     requests = current_user.requests.order(created_at: :desc).limit(3)
-    render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [] }
+    support_id = Support.first.id
+    render json: { requests: request_resource(requests), recos: [], top_designers: [], orders: [], support: support_id }
   end
 
   def render_recos
@@ -125,7 +127,8 @@ class V1::Users::HomeController < V1::Users::BaseController
     # TODO: Design an algorithm to quickly calculate the ratings of a designer
     top_designers = Designer.includes(:designer_store_info, :sub_categories).order('RANDOM()').limit(6)
     picks = Pick.where(cat_name:"Lehenga")
-    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks }
+    support_id = Support.first.id
+    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks, support: support_id }
   end
 
   def td_resource(top_designers)
