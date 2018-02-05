@@ -45,6 +45,21 @@
 
 <div class="vertical-spacer-5"></div>
 
+<div class="row">
+  <%= simple_form_for :search, url: support_request_search_path, method: :get do |f| %>
+    <div class="col s11">
+      <%= f.input :query, input_html: { placeholder: 'Search for requests. Enter Request Name', autocomplete: 'off', class: 'autocomplete', id: 'js-order-autocomplete' }, label: false %>
+    </div>
+    <div class="col s1">
+      <button class="btn-floating waves-effect waves-light center">
+        <i class="material-icons prefix">search</i>
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<div class="vertical-spacer-5"></div>
+
 <% if @data %>
   <div class="row">
     <% @data.each do |key, value|  %>
