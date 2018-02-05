@@ -115,9 +115,9 @@
               <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
                 <%= f.hidden_field :receiver_id , value:offquo.id %>
                 <%= f.hidden_field :receiver_type , value:"offer_quotations" %>
-                <%= f.hidden_field :conversationable_id , value:user.id %>
+                <%= f.hidden_field :conversationable_id , value:@request.user.id %>
                 <%= f.hidden_field :conversationable_type , value:"User" %>
-                <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
+                <%= f.submit "Initiate User Chat" %>
               <% end %>
             <% end %>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
