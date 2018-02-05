@@ -5,19 +5,7 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
-  get 'measurement_tags/new'
-
-  get 'measurement_tags/create'
-
-  get 'measurement_tags/update'
-
-  get 'measurement_tags/edit'
-
-  get 'measurement_tags/destroy'
-
-  get 'measurement_tags/show'
-
-  get 'measurement_tags/index'
+  resources :measurement_tags
 
   resources :picks
   mount ActionCable.server => '/cable'
@@ -110,6 +98,7 @@ Rails.application.routes.draw do
       post 'update-password', to: 'registrations#update_password'
       post 'update-mobile-number', to: 'registrations#update_mobile_number'
       post 'update_devise_token', to: 'registrations#update_devise_token'
+      post 'update_membership', to: 'registrations#update_membership'
       get 'resend-otp', to: 'registrations#resend_otp'
       post 'verify-otp', to: 'registrations#verify_otp'
       get 'me', to: 'registrations#show'
