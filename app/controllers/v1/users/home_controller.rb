@@ -88,6 +88,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     orders_json_array = order_array.compact
     
     picks = Pick.all
+    support_id = Support.first.id
     # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     # all_req = current_user.requests.order(updated_at: :desc)
     # rest_requests = (all_req - request_offers).to_a
@@ -98,7 +99,7 @@ class V1::Users::HomeController < V1::Users::BaseController
 
 
     # render json: { requests: request_resource(request_offers), orders:order_resource(orders), rest_orders: order_resource(rest_orders) ,  rest_requests: request_resource(rest_requests)  ,recos: [], user: current_user, explore:picks}
-     render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array),recos: [], user: current_user}
+     render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array),recos: [], user: current_user, support: support_id}
   end
 
   def render_orders
@@ -115,8 +116,9 @@ class V1::Users::HomeController < V1::Users::BaseController
   def render_recos
     # TODO: Design a recommendation engine
     recos = Product.includes(designer: :designer_store_info).order('RANDOM()').limit(6)
-     picks = Pick.where(cat_name:"Lehenga")
-    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: current_user}
+    picks = Pick.where(cat_name:"Lehenga")
+    support_id = Support.first.id
+    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: current_user, support: support_id}
   end
 
   def render_top_designers
