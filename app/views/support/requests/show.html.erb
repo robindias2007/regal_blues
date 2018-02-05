@@ -107,10 +107,20 @@
           <div class="collapsible-header active">
             
             <a href="#">Quote Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%= link_to 'User Chat',
-            chat_path(@convo_user.where(receiver_id:offquo).first.id), 
-            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
-            %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <% if @convo_user.where(receiver_id:offquo).first.present? %>
+              <%= link_to 'User Chat',
+              chat_path(@convo_user.where(receiver_id:offquo).first.id), 
+              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil %>
+            <% else %>
+              <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
+                <%= f.hidden_field :receiver_id , value:offquo.id %>
+                <%= f.hidden_field :receiver_type , value:"offer_quotations" %>
+                <%= f.hidden_field :conversationable_id , value:user.id %>
+                <%= f.hidden_field :conversationable_type , value:"User" %>
+                <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
+              <% end %>
+            <% end %>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%= link_to 'Designer Chat',
             chat_path(@convo_des.where(receiver_id:offquo).first.id), 
             :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
