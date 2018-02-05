@@ -4,7 +4,8 @@ class Support::SearchController < ApplicationController
   def users
     @user = User.search_for(search_params)
     if @user.present?
-      render json: User.search_for(search_params)
+      #render json: User.search_for(search_params)
+      redirect_to support_user_path(@user.id)
     else
       render json: { message: "No users found with this email or name" }
     end
@@ -13,7 +14,8 @@ class Support::SearchController < ApplicationController
   def designers
     @designer = Designer.search_for(search_params)
     if @designer.present?
-      render json: Designer.search_for(search_params)
+      #render json: Designer.search_for(search_params)
+      redirect_to support_designer_path(@designer.id)
     else
       render json: { message: "No designers found with this email or name" }
     end
@@ -22,7 +24,8 @@ class Support::SearchController < ApplicationController
   def orders
     @order = Order.find_by(order_id: params[:search][:query])
     if @order.present?
-      render json: Order.find_by(order_id: params[:search][:query])
+      #render json: Order.find_by(order_id: params[:search][:query])
+      redirect_to support_show_order_path(@order)
     else
       render json: { message: "Order not found" }
     end
@@ -31,7 +34,8 @@ class Support::SearchController < ApplicationController
   def requests  
     @request = Request.find_by(name: params[:search][:query])
     if @request.present?
-      render json: Request.find_by(name: params[:search][:query])
+      #render json: Request.find_by(name: params[:search][:query])
+      redirect_to support_request_path(@request)
     else
       render json: { message: "Request not found" }
     end
