@@ -2,9 +2,13 @@
 
 class Support::UsersController < ApplicationController
   def index
-    @users = User.order(created_at: :desc).all
-    @conversation = Conversation.new  
-    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" ) 
+    if current_support.role == "admin"
+      @users = User.order(created_at: :desc).all
+      @conversation = Conversation.new  
+      @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" ) 
+    else
+      redirect_to root_url
+    end
   end
 
   def show

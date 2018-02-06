@@ -18,6 +18,10 @@ module Authenticable
     # after_create :send_confirmation_email
     # :send_otp
 
+    def support?
+      current_support
+    end
+
     def confirmed?
       confirmed_at.present?
     end

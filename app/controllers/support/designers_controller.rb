@@ -2,9 +2,13 @@
 
 class Support::DesignersController < ApplicationController
   def index
-    @designers = Designer.order(full_name: :asc).all
-    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "Designer" )
-    @conversation = Conversation.new
+    if current_support.role == "admin"
+      @designers = Designer.order(full_name: :asc).all
+      @convo =  Conversation.where(receiver_type:"support", conversationable_type: "Designer" )
+      @conversation = Conversation.new
+    else
+      redirect_to root_url
+    end
   end
 
   def show
