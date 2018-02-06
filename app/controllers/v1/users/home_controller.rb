@@ -157,11 +157,6 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   private
-
-  def serialization_for(list, serializer)
-    ActiveModelSerializers::SerializableResource.new(list,
-      each_serializer: serializer)
-  end
   
   def profile_serializer(current_user)
     ActiveModelSerializers::SerializableResource.new(current_user,
