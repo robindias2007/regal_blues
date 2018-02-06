@@ -97,9 +97,14 @@ class V1::Users::HomeController < V1::Users::BaseController
     # orders = ord.where(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
     # rest_orders = ord.where.not(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
 
-
     # render json: { requests: request_resource(request_offers), orders:order_resource(orders), rest_orders: order_resource(rest_orders) ,  rest_requests: request_resource(rest_requests)  ,recos: [], user: current_user, explore:picks}
-     render json: { requests: request_resource(requests_json_array), orders:order_resource(orders_json_array),recos: [], user: current_user, support: support_id}
+     render json: { 
+      requests: request_resource(requests_json_array), 
+      orders:order_resource(orders_json_array),
+      recos: [],
+      user: profile_serializer(current_user), 
+      support: support_id
+    }
   end
 
   def render_orders
@@ -120,7 +125,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     recos = Product.includes(designer: :designer_store_info).order('RANDOM()').limit(6)
     picks = Pick.where(cat_name:"Lehenga")
     support_id = Support.first.id
-    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: current_user, support: support_id}
+    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: profile_serializer(current_user), support: support_id}
   end
 
   def render_top_designers
@@ -149,5 +154,16 @@ class V1::Users::HomeController < V1::Users::BaseController
   def order_resource(orders)
     order_options = { each_serializer: V1::Users::OrdersSerializer }
     ActiveModelSerializers::SerializableResource.new(orders, order_options)
+  end
+
+  private
+
+  def serialization_for(list, serializer)
+    ActiveModelSerializers::SerializableResource.new(list,
+      each_serializer: serializer)
+  end
+  
+  def profile_serializer(current_user)
+    serialization_for(current_user, V1::Users::ProfileSerializer)
   end
 end
