@@ -120,17 +120,13 @@ module Registerable
     end
 
     def update_membership
-      if current_resource.start_date.present?
+      if current_resource.membership_start_date.present?
         current_resource.update(redeem: params[:redeem])
-        render json: { message: 'Membership Updated' }, status: 200
+        render json: { message: 'Redeem Updated' }, status: 200
       else
-        current_resource.update(start_date: DateTime.now)
+        current_resource.update(membership_start_date: DateTime.now)
+        render json: { message: 'Start Date Updated' }, status: 200
       end
-      # if current_resource && current_resource&.update(start_date: params[:start_date], redeem:params[:redeem])
-      #   render json: { message: 'Membership Updated' }, status: 200
-      # else
-      #   render json: { errors: current_resource.errors, message: ['Something went wrong'] }, status: 400
-      # end
     end
 
     def update_devise_token
