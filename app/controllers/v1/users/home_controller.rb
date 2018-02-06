@@ -164,6 +164,7 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
   
   def profile_serializer(current_user)
-    serialization_for(current_user, V1::Users::ProfileSerializer)
+    ActiveModelSerializers::SerializableResource.new(current_user,
+      each_serializer: V1::Users::ProfileSerializer)
   end
 end
