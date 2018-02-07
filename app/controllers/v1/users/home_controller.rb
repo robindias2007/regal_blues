@@ -88,7 +88,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     orders_json_array = order_array.compact
     
     picks = Pick.all
-    support_id = Support.first.id
+    support_id = Support.first.common_id
     # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     # all_req = current_user.requests.order(updated_at: :desc)
     # rest_requests = (all_req - request_offers).to_a
