@@ -6,7 +6,7 @@ class V1::Users::ExploreController < V1::Users::BaseController
   def mobile
     categories = SubCategory.order(name: :asc)
     top_three = categories.sample(3)
-    designers = Designer.order('RANDOM()').limit(6)
+    designers = Designer.where(gold:true).order(created_at: :asc).limit(6)
 
     render json: {
       categories: categories_serializer(categories),

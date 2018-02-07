@@ -114,6 +114,7 @@ class Order < ApplicationRecord
     # Action: Confirm
     event :designer_confirms do
       transitions from: :paid, to: :designer_confirmed, gaurd: :all_options_selected?
+      transitions from: :user_selected_options, to: :designer_confirmed, gaurd: :all_options_selected?
     end
 
     # Actor: User

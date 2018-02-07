@@ -119,6 +119,16 @@ module Registerable
       end
     end
 
+    def update_membership
+      if current_resource.membership_start_date.present?
+        current_resource.update(redeem: params[:redeem])
+        render json: { message: 'Redeem Updated' }, status: 200
+      else
+        current_resource.update(membership_start_date: DateTime.now)
+        render json: { message: 'Start Date Updated' }, status: 200
+      end
+    end
+
     def update_devise_token
       devise_token = current_resource.update(devise_token: params[:devise_token])
       if devise_token
@@ -162,7 +172,7 @@ module Registerable
     end
 
     def user_params
-      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar)
+      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar, :membership_start_date, :redeem)
     end
 
     def resource_params

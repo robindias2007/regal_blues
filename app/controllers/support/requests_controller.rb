@@ -36,6 +36,7 @@ class Support::RequestsController < ApplicationController
 
 
   def show
+    @conversation = Conversation.new
     @convo_user = Conversation.where(conversationable_type: "User")
     @convo_des = Conversation.where(conversationable_type: "Designer")
     @request = Request.find(params[:id])

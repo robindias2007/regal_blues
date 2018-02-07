@@ -22,7 +22,7 @@ class RequestDesigner < ApplicationRecord
 
   def penalty_msg
     unless self.request.offers.where(designer_id: self.designer_id).present?
-      message = "Quote Penalty  - You have missed the 48 hours deadline for submitting offer for request #{self.request.name} by user #{self.request.user.full_name}."
+      message = "Quote Penalty  - You have missed the 96 hours deadline for submitting offer for request #{self.request.name} by user #{self.request.user.full_name}."
 
       body = "You failed to quote for #{self.request.name} by #{self.request.user.full_name} after showing interest. You would be charged 500 in your next order as penalty."
 
@@ -36,7 +36,7 @@ class RequestDesigner < ApplicationRecord
 
   def quote_msg(time)
     unless self.request.offers.where(designer_id: self.designer_id).present?
-      time = 48-time
+      time = 96-time
 
       message = "Time Remaining for quotation - You have #{time} hours remaining to send quotation for request #{self.request.name} by user #{self.request.user.full_name}."
 
