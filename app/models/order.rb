@@ -83,9 +83,9 @@ class Order < ApplicationRecord
   aasm column: 'status' do
     # Happy Path
     state :started, initial: true, after_enter: :update_datetime
-    state :paid, after_enter: :update_datetime
     state :designer_confirmed, after_enter: :update_datetime
     state :measurements_given, after_enter: :update_datetime
+    state :paid, after_enter: :update_datetime
     state :in_production, after_enter: :update_datetime
     state :shipped_to_qc, after_enter: :update_datetime, after_commit: :send_mail
     state :delivered_to_qc, after_enter: :update_datetime
@@ -107,15 +107,16 @@ class Order < ApplicationRecord
     # Actor: User
     # Actions: Pay
     event :pay do
-      transitions from: :started, to: :paid
+      #transitions from: :started, to: :paid
+      transitions from: :started, to: :designer_confirmed  
     end
 
     # Actor: Designer
     # Action: Confirm
-    event :designer_confirms do
-      transitions from: :paid, to: :designer_confirmed, gaurd: :all_options_selected?
-      #transitions from: :user_selected_options, to: :designer_confirmed, gaurd: :all_options_selected?
-    end
+    # event :designer_confirms do
+    #   transitions from: :paid, to: :designer_confirmed, gaurd: :all_options_selected?
+    #   #transitions from: :user_selected_options, to: :designer_confirmed, gaurd: :all_options_selected?
+    # end
 
     # Actor: User
     # Action: Give Measurements
@@ -169,7 +170,7 @@ class Order < ApplicationRecord
     # Actor: User
     # Action: More Options (Take this from Order Options rather than having an option)
     event :user_asks_more_options do
-      transitions from: :paid, to: :user_awaiting_more_options
+      transitions from: :designer_confirmed, to: :user_awaiting_more_options
     end
 
     # Actor: Designer
