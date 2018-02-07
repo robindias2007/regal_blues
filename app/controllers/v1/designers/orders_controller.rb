@@ -15,7 +15,7 @@ class V1::Designers::OrdersController < V1::Designers::BaseController
 
   def confirm
     order = current_designer.orders.find(params[:id])
-    if (order.paid? || order.user_selected_options? ) && order.all_options_selected?
+    if order.paid? && order.all_options_selected?
       order.designer_confirms!
       notify_confirm(order)
       render json: { message: 'Order has been marked as confirmed. User will be notified of the same.' }

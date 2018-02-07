@@ -114,7 +114,7 @@ class Order < ApplicationRecord
     # Action: Confirm
     event :designer_confirms do
       transitions from: :paid, to: :designer_confirmed, gaurd: :all_options_selected?
-      transitions from: :user_selected_options, to: :designer_confirmed, gaurd: :all_options_selected?
+      #transitions from: :user_selected_options, to: :designer_confirmed, gaurd: :all_options_selected?
     end
 
     # Actor: User
@@ -181,7 +181,7 @@ class Order < ApplicationRecord
     # Actor: User
     # Action: Choose from existing options / Designer Pick (Make sure no more_options boolean is true in order options)
     event :user_selects_options do
-      transitions from: :designer_gave_more_options, to: :user_selected_options
+      transitions from: :designer_gave_more_options, to: :designer_confirmed
       transitions from: :designer_selected_fabric_unavailable, to: :user_selected_options
     end
 
