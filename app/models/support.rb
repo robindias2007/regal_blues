@@ -18,20 +18,23 @@ class Support < ApplicationRecord
     :recoverable, :rememberable, :trackable, :validatable
 
   def self.as_json(current_resource)
-    Support.all.collect{|support| { 
-      id: support.id,
-      common_support_id: support.common_id,
-      message_count: support.msg_count(current_resource, support),
-      unread_message_count: support.unread_msg_count(current_resource, support)
-    }}
+    return {
+      common_id: comman_support_id,
+      message_count: msg_count(current_resource),
+      unread_message_count: unread_msg_count(current_resource)
+    }
   end
 
 
-  def msg_count(res, support)
-    return res.conversations.where(receiver_id: support.id)[0].messages.count rescue 0
+  def self.msg_count(res)
+    return res.conversations.where(receiver_id: comman_support_id)[0].messages.count rescue 0
   end
 
-  def unread_msg_count(res, support)
-    return res.conversations.where(receiver_id: support.id)[0].messages.where(read: false).count rescue 0
+  def self.unread_msg_count(res)
+    return res.conversations.where(receiver_id: comman_support_id)[0].messages.where(read: false).count rescue 0
+  end
+
+  def self.comman_support_id
+    return Support.last.common_id rescue ""
   end
 end
