@@ -72,7 +72,8 @@ class Message < ApplicationRecord
     typ = type
     id = self.conversation.receiver_id
     if typ == "support_general" || typ == "support"
-      name = Support.find(id).full_name rescue " "
+      # name = Support.find(id).full_name rescue " "
+      name = "general support"
     elsif typ == "requests"
       name = Request.find(id).name
     elsif typ == "orders"
@@ -105,7 +106,3 @@ class Message < ApplicationRecord
     return msg
   end
 end
-
-
-
-

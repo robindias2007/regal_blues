@@ -20,6 +20,7 @@ class Support < ApplicationRecord
   def self.as_json(current_resource)
     Support.all.collect{|support| { 
       id: support.id,
+      common_support_id: support.common_id,
       message_count: support.msg_count(current_resource, support),
       unread_message_count: support.unread_msg_count(current_resource, support)
     }}
