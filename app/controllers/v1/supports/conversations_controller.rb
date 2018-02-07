@@ -12,7 +12,7 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
   end
 
   def create
-    conversation = current_support.conversations.find_or_create_by(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
+    conversation =  Conversation.find_by_receiver_id_and_receiver_type(params[:receiver_id], params[:receiver_type]) || current_support.conversations.create(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
     if conversation
       render json: {conversation: conversation}, status: 201
     else
