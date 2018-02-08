@@ -4,9 +4,11 @@ module Conversationable
   def create
 
     if current_resource.class.name == "Support"
-      conversation = Conversation.between(current_resource.common_id,params[:receiver_id])
+      conversations = Conversation.between(current_resource.common_id,params[:receiver_id])
+      conversation = conversations.first if conversations.present?
     else
-      conversation = Conversation.between(current_resource.id,params[:receiver_id])
+      conversations = Conversation.between(current_resource.id,params[:receiver_id])
+      conversation = conversations.first if conversations.present?
     end
 
     if !conversation.present?
