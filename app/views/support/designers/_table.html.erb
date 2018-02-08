@@ -15,6 +15,7 @@
         <th colspan="2" class="center">Mobile Number</th>
         <th colspan="1" class="center">Email</th>
         <th colspan="1" class="center">Number of products</th>
+        <th colspan="1" class="center">Number of Offers Sent</th>
         <th colspan="1" class="center">Requests Recieved</th>
         <th colspan="1" class="center">Orders Recieved</th>
         <th colspan="1" class="center">Chat</th>
@@ -43,6 +44,9 @@
             <%= designer.products.size %>
           </td>
 
+          <td colspan="1" class="center">
+            <%= designer.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).count %>
+          </td>  
           <td colspan="1" class="center">
             <%= designer.requests.size %>
           </td>

@@ -209,7 +209,7 @@
             <td colspan="1" class="center"><%= request[:created_at].strftime('%d %B %Y') %> </td>
 
             <td colspan="1" class="center">
-              <% if Offer.where(request_id:request[:id]).present? %>
+              <% if Request.find(request[:id]).offers.present? %>
                 Offer Sent
               <% else %>
                 Not Sent
