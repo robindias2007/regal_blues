@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::ProfileSerializer < ActiveModel::Serializer
-  attributes :id, :full_name, :email, :mobile_number , :bio, :location, :wishlist, :favorite_designers, :order_count, :request_count,
+  attributes :id, :full_name, :email, :mobile_number, :bio, :membership_start_date, :redeem ,:location, :wishlist, :favorite_designers, :order_count, :request_count,
     :avatar, :username, :gender, :verified, :confirmed
 
   def order_count

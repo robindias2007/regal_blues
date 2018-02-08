@@ -15,6 +15,7 @@
         <th colspan="2" class="center">Mobile Number</th>
         <th colspan="1" class="center">Email</th>
         <th colspan="1" class="center">Number of products</th>
+        <th colspan="1" class="center">Number of Offers Sent</th>
         <th colspan="1" class="center">Requests Recieved</th>
         <th colspan="1" class="center">Orders Recieved</th>
         <th colspan="1" class="center">Chat</th>
@@ -44,6 +45,9 @@
           </td>
 
           <td colspan="1" class="center">
+            <%= designer.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).count %>
+          </td>  
+          <td colspan="1" class="center">
             <%= designer.requests.size %>
           </td>
 
@@ -59,7 +63,7 @@
               %>
             <% else %>
               <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
-                <%= f.hidden_field :receiver_id , value:current_support.id %>
+                <%= f.hidden_field :receiver_id , value:current_support.common_id %>
                 <%= f.hidden_field :receiver_type , value:"support" %>
                 <%= f.hidden_field :conversationable_id , value:designer.id %>
                 <%= f.hidden_field :conversationable_type , value:"Designer" %>

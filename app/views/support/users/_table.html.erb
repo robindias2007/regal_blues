@@ -59,7 +59,7 @@
               %>
             <% else %>
               <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
-                <%= f.hidden_field :receiver_id , value:current_support.id %>
+                <%= f.hidden_field :receiver_id , value:current_support.common_id %>
                 <%= f.hidden_field :receiver_type , value:"support" %>
                 <%= f.hidden_field :conversationable_id , value:user.id %>
                 <%= f.hidden_field :conversationable_type , value:"User" %>

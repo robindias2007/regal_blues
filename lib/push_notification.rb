@@ -18,7 +18,7 @@ module PushNotification
 	  end
 	end
 
-	def msg_notification(token, msg)
+	def msg_notification(token, msg, alert)
 		require 'houston'
 		# token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"
 		if token.present?
@@ -29,7 +29,7 @@ module PushNotification
 	    notification = Houston::Notification.new(device: token)
 	    notification.badge = 1
 	    notification.sound = "default"
-	    notification.alert = {title: title(msg), body: "You have a new chat message"}
+	    notification.alert = {title: title(msg), body: alert}
 	    key = msg.conversation.receiver_type.singularize+"_id"
 	    data = msg.conversation.receiver_id
 	    extraData = {"#{key}": data, message: msg.body, type: "chat"}

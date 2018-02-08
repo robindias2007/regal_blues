@@ -1,24 +1,26 @@
 <div class="vertical-spacer-5"></div>
 
-<!-- <div class="row">
-  <% @request.request_images.each do |request_image| %>
-    <div class="col s6 m4 l3">
-      <%= image_tag request_image.image_url rescue nil %>
-    </div>
-  <% end %>
-</div> -->
-
 <div class="row">
   <div class="col s12">
     <div class="card">
       <div class="card-content">
         <h5 class="card-stats-number center" style="word-spacing:500px">
           Details 
-          <%= link_to 'Chat',
-          chat_path(Conversation.where(receiver_id:@request,conversationable_type: "User").first.id), 
-          :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-          %> 
-      </h5>
+          <% if @convo.present? %>
+            <%= link_to image_tag("chat.png", width:"30x30"),
+            chat_path(@convo.id), 
+            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+            %>
+          <% else %>
+            <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
+              <%= f.hidden_field :receiver_id , value:current_support.common_id %>
+              <%= f.hidden_field :receiver_type , value:"support" %>
+              <%= f.hidden_field :conversationable_id , value:@request.user.id %>
+              <%= f.hidden_field :conversationable_type , value:"User" %>
+              <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
+            <% end %>
+          <% end %> 
+        </h5>
 
         
         <p class="card-stats-title">Name:
@@ -105,16 +107,7 @@
       <% @request.offers.each do |off| %>
         <% off.offer_quotations.each do |offquo| %> 
           <div class="collapsible-header active">
-            
-            <a href="#">Quote Details</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%= link_to 'User Chat',
-            chat_path(@convo_user.where(receiver_id:offquo).first.id), 
-            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
-            %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <%= link_to 'Designer Chat',
-            chat_path(@convo_des.where(receiver_id:offquo).first.id), 
-            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;", id:"chatbutton" rescue nil
-            %>
+            <a href="#">Quote Details</a>
           </div>
 
           <div class="collapsible-body">
@@ -141,12 +134,6 @@
   </ul>
 </div>
   
-<!-- <script type="text/javascript">
-  
-  $("#offer_quote").click(function(){
-    $("#collapse_offer").fadeToggle();
-});
-</script> -->
 
 <style type="text/css">
   #thumb

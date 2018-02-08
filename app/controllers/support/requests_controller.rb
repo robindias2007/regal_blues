@@ -5,8 +5,7 @@ class Support::RequestsController < ApplicationController
     req = Request.order(created_at: :desc)
     @requests = req.where(status:"active") + req.where(status:"pending") + req.where(status:"unapproved")
     @conversation = Conversation.new
-    @convo = Conversation.where(conversationable_type: "User")
-    @convo_gen =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
+    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
   end
 
   def chat
@@ -21,7 +20,7 @@ class Support::RequestsController < ApplicationController
   def chat_post
     conversation = Conversation.find(params[:id])    
     @message = conversation.messages.new(message_params)
-    @message.sender_id = current_support.id
+    @message.sender_id = current_support.common_id
     if @message.save!
 
       # render json: {message: Message.as_a_json(message)}, status: 201
@@ -36,8 +35,7 @@ class Support::RequestsController < ApplicationController
 
 
   def show
-    @convo_user = Conversation.where(conversationable_type: "User")
-    @convo_des = Conversation.where(conversationable_type: "Designer")
+    @conversation = Conversation.new
     @request = Request.find(params[:id])
     request = Request.find(params[:id]) rescue nil
     if params[:commit] == "Update"
@@ -45,16 +43,7 @@ class Support::RequestsController < ApplicationController
       flash[:success] = "Updated"
       redirect_to support_request_path(request)
     end
-    # @request_image = RequestImage.new
-    # request_image = RequestImage.new(request_image_params) rescue nil
-    # if request_image.present?
-    #   if request_image.save
-    #     data = Base64.encode64(params[:request_image][:image])
-    #     image = 'data:image/jpeg;base64,' + data
-    #     request_image.update(image:image) 
-    #     redirect_to support_request_path(request)
-    #   end
-    # end
+    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User", conversationable_id:@request.user).first 
   end
 
   def approve

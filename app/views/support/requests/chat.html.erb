@@ -101,7 +101,7 @@
       	<br><br><br>
 				<% Conversation.find(@convo_id.id).messages.order(created_at: :desc).each do |f| %>
 					
-					<% if f.sender_id == current_support.id %>
+					<% if f.sender_id == current_support.common_id %>
 						<% if f.body.present? %>
 							<div class="container darker">
 								<p><%= f.body %></p>

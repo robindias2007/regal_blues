@@ -151,7 +151,21 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title" style="text-align:center">
-          CHAT : <%= (Support.as_json(@designer).pluck(:unread_message_count) + @designer.as_request_json.pluck(:unread_message_count) + @designer.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x }%>
+          CHAT : 
+          <% if @convo.present? %>
+            <%= link_to image_tag("chat.png", width:"30x30"),
+            chat_path(@convo.id), 
+            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+            %>
+          <% else %>
+            <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
+              <%= f.hidden_field :receiver_id , value:current_support.common_id %>
+              <%= f.hidden_field :receiver_type , value:"support" %>
+              <%= f.hidden_field :conversationable_id , value:@designer.id %>
+              <%= f.hidden_field :conversationable_type , value:"Designer" %>
+              <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
+            <% end %>
+          <% end %>
         </span>
       </div>
     </div>
@@ -175,9 +189,6 @@
           <th colspan="1" class="center">Status</th>
           <th colspan="1" class="center">Date</th>
           <th colspan="1" class="center">Offer Status</th>
-          <th colspan="1" class="center">Chat</th>
-          <th colspan="1" class="center">Message Count</th>
-          <th colspan="1" class="center">Unread Count</th>
         </tr>
       </thead>
       <tbody>
@@ -198,21 +209,12 @@
             <td colspan="1" class="center"><%= request[:created_at].strftime('%d %B %Y') %> </td>
 
             <td colspan="1" class="center">
-              <% if Offer.where(request_id:request[:id]).present? %>
+              <% if Request.find(request[:id]).offers.present? %>
                 Offer Sent
               <% else %>
                 Not Sent
               <% end %> 
             </td>
-
-            <td colspan="1" class="center">
-              <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(Conversation.where(receiver_id:request[:id],conversationable_type: "Designer").first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            </td>
-            <td colspan="1" class="center"><%= request[:message_count] %></td>
-            <td colspan="1" class="center"><%= request[:unread_message_count] %>
           </tr>
         <% end %>
       </tbody>
@@ -239,9 +241,6 @@
           <th colspan="1" class="center">Price</th>
           <th colspan="1" class="center">Ordered On</th>
           <th colspan="1" class="center">Shipping Address</th>
-          <th colspan="1" class="center">Chat</th>
-          <th colspan="1" class="center">Message Count</th>
-          <th colspan="1" class="center">Unread Count</th>
         </tr>
       </thead>
       <tbody>
@@ -262,14 +261,6 @@
             <td colspan="1" class="center">
               <%= Order.find(order[:id]).offer_quotation.offer.request.address.formatted_address %>
             </td>
-            <td colspan="1" class="center">
-              <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(Conversation.where(receiver_id:order[:id], conversationable_type: "Designer").first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            </td>
-            <td colspan="1" class="center"><%= order[:message_count] %></td>
-            <td colspan="1" class="center"><%= order[:unread_message_count] %></td>
           </tr>
         <% end %>
       </tbody>

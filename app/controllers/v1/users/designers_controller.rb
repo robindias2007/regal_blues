@@ -17,11 +17,11 @@ class V1::Users::DesignersController < V1::Users::BaseController
 
   def conditional_render(min_order, max_order)
     if min_order.present?
-      Designer.where(gold:true).min_order_greater_than(min_order)
+      Designer.where(gold:true).order(created_at: :asc).min_order_greater_than(min_order)
     elsif max_order.present?
-      Designer.where(gold:true).max_order_greater_than(max_order)
+      Designer.where(gold:true).order(created_at: :asc).max_order_greater_than(max_order)
     else
-      Designer.where(gold:true).included_releated_associations.all
+      Designer.where(gold:true).order(created_at: :asc).included_releated_associations.all
     end.order_alphabetically
   end
 end

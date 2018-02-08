@@ -1,22 +1,13 @@
 # frozen_string_literal: true
 
 class V1::Designers::ConversationsController < V1::Designers::BaseController
-
+  include Conversationable
   def index
     conversations = current_designer.conversations
     if conversations.present?
       render json: {conversation: {support_general: conversations.where(receiver_type: "support_general"), offers: conversations.where(receiver_type: "offers"), orders: conversations.where(receiver_type: "orders"), requests: conversations.where(receiver_type: "requests")}}, status: 201
     else
       render json: { errors: " No conversation found" }, status: 400
-    end
-  end
-
-  def create
-    conversation = current_designer.conversations.find_or_create_by(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
-    if conversation
-      render json: {conversation: conversation}, status: 201
-    else
-      render json: { errors: conversation.errors }, status: 400
     end
   end
 
