@@ -114,7 +114,21 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title" style="text-align:center">
-          CHAT :%>
+          CHAT : 
+          <% if @conv_find.present? %>
+            <%= link_to image_tag("chat.png", width:"30x30"),
+            chat_path(@conv_find.id), 
+            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+            %>
+          <% else %>
+            <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
+              <%= f.hidden_field :receiver_id , value:current_support.id %>
+              <%= f.hidden_field :receiver_type , value:"support" %>
+              <%= f.hidden_field :conversationable_id , value:@user.id %>
+              <%= f.hidden_field :conversationable_type , value:"User" %>
+              <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
+            <% end %>
+          <% end %>
         </span>
       </div>
     </div>
