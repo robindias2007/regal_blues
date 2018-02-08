@@ -19,6 +19,11 @@ class Conversation < ApplicationRecord
   end
   # mount_base64_uploader :attachment, ImageUploader
 
+
+  scope :between, -> (sender_id,receiver_id) do
+    where("(conversations.conversationable_id = ? AND conversations.receiver_id =?) OR (conversations.conversationable_id = ? AND conversations.receiver_id =?)", sender_id,receiver_id, receiver_id, sender_id)
+  end
+
   private
 
   # def either_message_or_attachment
