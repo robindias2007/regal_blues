@@ -2,21 +2,13 @@
 
 # class V1::Users::ConversationsController < V1::Users::BaseController
 class V1::Supports::ConversationsController < V1::Supports::BaseController
+  include Conversationable
   def index
     conversations = current_support.conversations
     if conversations.present?
       render json: {conversation: {order_level: conversations.where(receiver_type: "order_level"), support_on_general: conversations.where(receiver_type: "support_on_general"), request: conversations.where(receiver_type: "request"), offers: conversations.where(receiver_type: "offers")}}, status: 201
     else
       render json: { errors: "No conversation found" }, status: 400
-    end
-  end
-
-  def create
-    conversation =  Conversation.find_by_receiver_id_and_receiver_type(params[:receiver_id], params[:receiver_type]) || current_support.conversations.create(receiver_id: params[:receiver_id], receiver_type: params[:receiver_type])
-    if conversation
-      render json: {conversation: conversation}, status: 201
-    else
-      render json: { errors: conversation.errors }, status: 400
     end
   end
 
