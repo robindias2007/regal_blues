@@ -9,6 +9,8 @@ class Support::DesignersController < ApplicationController
 
   def show
     @designer = Designer.find(params[:id])
+    @conversation = Conversation.new
+    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "Designer", conversationable_id:@designer).first 
   end
 
   def show_product_details

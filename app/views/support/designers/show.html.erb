@@ -152,6 +152,20 @@
       <div class="card-content">
         <span class="card-title" style="text-align:center">
           CHAT : 
+          <% if @convo.present? %>
+            <%= link_to image_tag("chat.png", width:"30x30"),
+            chat_path(@convo.id), 
+            :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
+            %>
+          <% else %>
+            <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
+              <%= f.hidden_field :receiver_id , value:current_support.common_id %>
+              <%= f.hidden_field :receiver_type , value:"support" %>
+              <%= f.hidden_field :conversationable_id , value:@designer.id %>
+              <%= f.hidden_field :conversationable_type , value:"Designer" %>
+              <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
+            <% end %>
+          <% end %>
         </span>
       </div>
     </div>
@@ -204,15 +218,6 @@
                 Not Sent
               <% end %> 
             </td>
-
-            <td colspan="1" class="center">
-              <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(Conversation.where(receiver_id:request[:id],conversationable_type: "Designer").first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            </td>
-            <td colspan="1" class="center"><%= request[:message_count] %></td>
-            <td colspan="1" class="center"><%= request[:unread_message_count] %>
           </tr>
         <% end %>
       </tbody>
@@ -262,14 +267,6 @@
             <td colspan="1" class="center">
               <%= Order.find(order[:id]).offer_quotation.offer.request.address.formatted_address %>
             </td>
-            <td colspan="1" class="center">
-              <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(Conversation.where(receiver_id:order[:id], conversationable_type: "Designer").first.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
-            </td>
-            <td colspan="1" class="center"><%= order[:message_count] %></td>
-            <td colspan="1" class="center"><%= order[:unread_message_count] %></td>
           </tr>
         <% end %>
       </tbody>
