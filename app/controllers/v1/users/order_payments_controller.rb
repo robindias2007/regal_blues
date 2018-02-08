@@ -34,7 +34,7 @@ class V1::Users::OrderPaymentsController < V1::Users::BaseController
 
   def notify_payment_success(op)
    begin
-      body = "Your payment was successful for the offer by #{ op.order.designer.full_name } for #{ op.order.offer_quotation.offer.request.name }"
+      body = "Your payment was successful for the offer by #{ op.order.designer.full_name } for #{ op.order.offer_quotation.offer.request.name }, please provide measurements."
       extra_data = {type: "Order", id: op.order_id}
       current_user.notifications.create(body: body, notificationable_type: "Order", notificationable_id: op.order_id)
       send_notification(current_user.devise_token, body, " ", extra_data)
