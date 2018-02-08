@@ -151,7 +151,7 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title" style="text-align:center">
-          CHAT : <%= (Support.as_json(@designer).pluck(:unread_message_count) + @designer.as_request_json.pluck(:unread_message_count) + @designer.as_order_json.pluck(:unread_message_count)).inject(0){|sum,x| sum + x }%>
+          CHAT : 
         </span>
       </div>
     </div>
