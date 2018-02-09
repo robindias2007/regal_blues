@@ -59,9 +59,7 @@
             <% @convo_support = @convo.where(conversationable_id:order.user).first %>
             <% if @convo_support.present? %>
               <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(@convo_support.id), 
-              :onclick=>"window.open(this.href,'chat', 'height=500, width=500');return false;" rescue nil
-              %>
+              chat_path(@convo_support.id), :target => "_blank"%>
             <% else %>
               <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
                 <%= f.hidden_field :receiver_id , value:current_support.common_id %>
