@@ -77,7 +77,25 @@
 
 
 		</style>
-		
+		<script type="text/javascript">
+   	// Function To update read only if the window is focussed
+	  	var focused = true;
+
+			window.onfocus = function() {
+			focused = true;
+   		//document.title = "FOCUSED";		
+			$("#conversation_section").load(document.URL +  ' #conversation_section');// a function which will load data from other file after x seconds
+		  setInterval('autoRefresh_div()', 5000); // refresh div after 10 secs
+
+		  // window.scrollTo(0,document.body.scrollHeight); // Go to the bottom of the page when opening window
+			};
+
+			window.onblur = function() {
+			focused = false;
+   		//document.title = "NOT FOCUSED";
+			};
+
+		</script>
 
 		
 	</head>
