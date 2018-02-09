@@ -18,7 +18,7 @@
 <div class="row">
   <%= simple_form_for :search, url: support_designer_search_path, method: :get do |f| %>
     <div class="col s11">
-      <%= f.input :query, input_html: { placeholder: 'Search for designers by username or email', autocomplete: 'off', class: 'autocomplete', id: 'js-designer-autocomplete' }, label: false %>
+      <%= f.input :query, input_html: { placeholder: 'Search for designers by full name or email', autocomplete: 'off', class: 'autocomplete', id: 'js-designer-autocomplete' }, label: false %>
     </div>
     <div class="col s1">
       <button class="btn-floating waves-effect waves-light center">
