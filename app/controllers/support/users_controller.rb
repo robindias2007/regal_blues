@@ -22,7 +22,7 @@ class Support::UsersController < ApplicationController
   end
 
   def create
-    conversations = Conversation.between(current_resource.common_id,params[:conversation][:conversationable_id])
+    conversations = Conversation.between(current_support.common_id,params[:conversation][:conversationable_id])
     conversation = conversations.first if conversations.present?
     
     if !conversation.present?
