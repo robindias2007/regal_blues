@@ -2,7 +2,8 @@
 
 class Support::SearchController < ApplicationController
   def users
-    @user = User.search_for(search_params)
+    #@user = User.search_for(search_params)
+    @user = User.find_by(username: params[:search][:query])  || User.find_by(email: params[:search][:query])
     if @user.present?
       #render json: User.search_for(search_params)
       redirect_to support_user_path(@user.id)
@@ -12,7 +13,8 @@ class Support::SearchController < ApplicationController
   end
 
   def designers
-    @designer = Designer.search_for(search_params)
+    #@designer = Designer.search_for(search_params)
+    @designer = Designer.find_by(full_name: params[:search][:query])  || Designer.find_by(email: params[:search][:query])
     if @designer.present?
       #render json: Designer.search_for(search_params)
       redirect_to support_designer_path(@designer.id)
