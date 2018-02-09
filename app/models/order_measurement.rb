@@ -30,3 +30,4 @@ class OrderMeasurement < ApplicationRecord
     data.fetch('measurements').keys.each(&:titleize)
   end
 end
+
