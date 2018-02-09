@@ -22,12 +22,22 @@ class Support::UsersController < ApplicationController
   end
 
   def create
-    conversation = Conversation.new(conversation_params)
-    if conversation.save
-      redirect_to request.referrer
-    else
-      redirect_to request.referrer
+    if current_support
+      conversations = Conversation.between(current_resource.common_id,params[:conversation][:conversationable_id])
+      conversation = conversations.first if conversations.present?
     end
+
+    if !conversation.present? 
+        conversation = Conversation.new(conversation_params)
+        if conversation.save
+          redirect_to request.referrer
+        else
+          redirect_to request.referrer
+        end
+    else
+      redirect_to root_url
+    end
+    
   end
 
   private
