@@ -6,7 +6,7 @@ module Registerable
 
   included do
     skip_before_action :authenticate, only: %i[create confirm resend_confirmation people
-                                               send_reset_password_instructions reset_password]
+                                               send_reset_password_instructions reset_password update_devise_token]
 
     def create
       delete_extra_user_params if resource_class == User
@@ -130,19 +130,22 @@ module Registerable
     end
 
     def update_devise_token
-      if current_resource.class.name == "User"
-        devise_token = current_resource.update(devise_token: params[:devise_token])
-        push_token = current_resource.push_token
-        if push_token.present?
-          push_token.update(token: params[:devise_token])
+      if current_resource
+        if current_resource.class.name == "User"
+          devise_token = current_resource.update(devise_token: params[:devise_token])
+          push_token = current_resource.push_token
+          if push_token.present?
+            push_token.update(token: params[:devise_token])
+          else
+            push_token = current_resource.build_push_token(token: params[:devise_token])
+            push_token.save
+          end
         else
-          push_token = current_resource.build_push_token(token: params[:devise_token])
-          push_token.save
+          devise_token = current_resource.update(devise_token: params[:devise_token])
         end
       else
-        devise_token = current_resource.update(devise_token: params[:devise_token])
+        devise_token = PushToken.create(token: params[:devise_token])
       end
-
       if devise_token
         render json: { message: 'devise token updated' }, status: 200
       else
