@@ -27,6 +27,7 @@ class User < ApplicationRecord
 
   has_many :conversations, as: :conversationable
   has_many :notifications, as: :resourceable
+  has_one :push_token
 
   validates :full_name, :username, :email, presence: true
   validates :username, :email, uniqueness: { case_sensitive: false }

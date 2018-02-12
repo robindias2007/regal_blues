@@ -130,7 +130,19 @@ module Registerable
     end
 
     def update_devise_token
-      devise_token = current_resource.update(devise_token: params[:devise_token])
+      if current_resource.class.name == "User"
+        devise_token = current_resource.update(devise_token: params[:devise_token])
+        push_token = current_resource.push_token
+        if push_token.present?
+          push_token.update(token: params[:devise_token])
+        else
+          push_token = current_resource.build_push_token(token: params[:devise_token])
+          push_token.save
+        end
+      else
+        devise_token = current_resource.update(devise_token: params[:devise_token])
+      end
+
       if devise_token
         render json: { message: 'devise token updated' }, status: 200
       else
