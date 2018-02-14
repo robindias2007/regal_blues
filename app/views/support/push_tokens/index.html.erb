@@ -1,0 +1,7 @@
+<h3>Push Notification</h3>
+<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
+	<%= f.text_area :body, class: "materialize-textarea" %>
+	<%= f.hidden_field :resourceable_type, value:"User" %>
+	<%= f.hidden_field :notificationable_type, value:"Support" %>
+	<%= f.submit "Submit", class: "waves-effect waves-light btn" %>
+<% end %>

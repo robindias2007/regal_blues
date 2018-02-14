@@ -1,6 +1,14 @@
 <div class="navbar-fixed">
   <nav>
     <div class="nav-wrapper">
+      <ul class="collapsible hide-on-large-only">
+        <li ><a class="collapsible-header"><i class="material-icons">menu</i></a>
+        <div class="collapsible-body">
+          <ul>
+            <%= render 'shared/navlinks' %>      
+          </ul>
+        </div>
+      </ul>
       <div class="push-center">
         <% if support_signed_in? %>
           <%= link_to 'Home', support_root_path, class: 'brand-logo' %>
@@ -16,3 +24,29 @@
     </div>
   </nav>
 </div>
+
+<style type="text/css">
+  @media screen and (max-width: 769px) {
+    .collapsible
+    {
+      border:none;
+      margin:  0;
+    }
+
+    .collapsible-header
+    {
+      background: none;
+      padding: 0rem;
+    }
+
+    .collapsible-body
+    {
+      width: 40%;
+      border: none;
+    }
+    nav ul li.active
+    {
+      background: #37284d;
+    }
+  }
+</style>
