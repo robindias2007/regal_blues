@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180207093343) do
+ActiveRecord::Schema.define(version: 20180212065838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -369,6 +369,13 @@ ActiveRecord::Schema.define(version: 20180207093343) do
     t.index ["selling_price"], name: "index_products_on_selling_price", using: :gin
     t.index ["sku"], name: "index_products_on_sku", unique: true
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
+  end
+
+  create_table "push_tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "token"
+    t.text "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "request_chats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

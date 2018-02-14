@@ -31,6 +31,6 @@ class V1::Users::ProfileSerializer < ActiveModel::Serializer
   end
 
   def confirmed
-    object.confirmed?
+    true
   end
 end
