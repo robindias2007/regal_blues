@@ -60,9 +60,11 @@ Rails.application.routes.draw do
 
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
 
-  resources :measurement_tags
-  #get '/measurement_tags' => 'measurement_tags#index'
+  get '/push_token' => 'support/push_tokens#index'
+  post '/push_token' => 'support/push_tokens#create', as: :push_create
 
+  resources :measurement_tags
+  
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
   #   scope module: :support do
