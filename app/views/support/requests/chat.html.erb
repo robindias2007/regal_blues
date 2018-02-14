@@ -160,7 +160,7 @@
 			    <%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 			  		<div class="col s9">
 			  			<br>
-			  			<%= f.text_field :body, width:"100" %>
+			  			<%= f.text_area :body, class: "materialize-textarea" %>
 			    		<%= f.file_field :attachment %>
 			    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
 			  		</div>
