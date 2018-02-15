@@ -65,8 +65,8 @@ Rails.application.routes.draw do
 
   resources :measurement_tags
   
-  get '/event' => 'events#index'
-  post '/event' => 'events#create'  
+  resources :events, only: %i[index create]
+
 
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
