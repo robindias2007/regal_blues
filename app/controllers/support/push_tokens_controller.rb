@@ -7,7 +7,8 @@ class Support::PushTokensController < ApplicationController
   	@notification = Notification.new
   end
 
-  def data_for_push
+  # PUSH NOTIFICATION FOR ALL USERS
+  def all_data_for_push
 		push_array = Array.new
   	@users = User.where.not(devise_token:nil).each do |f|
 			push_array.push(f.devise_token)
@@ -21,9 +22,9 @@ class Support::PushTokensController < ApplicationController
   def create
   	@notification = Notification.new(notification_params)
   	if @notification.save!(validate:false)
-  		data_for_push
-  		@push_array.each do |f|
-  			send_notification(f, @notification.body, "", "")
+  		#all_data_for_push
+      PushToken.where(user_id:nil).pluck(:token).each do |f|
+  		  send_notification(f, @notification.body, "", "")
   		end
   		flash[:success] == "Done"
   		redirect_to push_token_path
