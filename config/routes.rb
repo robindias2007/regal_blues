@@ -65,6 +65,9 @@ Rails.application.routes.draw do
 
   resources :measurement_tags
   
+  get '/event' => 'events#index'
+  post '/event' => 'events#create'  
+
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
   #   scope module: :support do

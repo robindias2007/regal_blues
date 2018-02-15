@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212065838) do
+ActiveRecord::Schema.define(version: 20180215104941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -160,6 +160,23 @@ ActiveRecord::Schema.define(version: 20180212065838) do
     t.index ["email"], name: "index_designers_on_email", unique: true
     t.index ["mobile_number"], name: "index_designers_on_mobile_number", unique: true
     t.index ["reset_password_token"], name: "index_designers_on_reset_password_token", unique: true
+  end
+
+  create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "resource_type"
+    t.string "username"
+    t.string "param1"
+    t.string "param2"
+    t.string "param3"
+    t.string "param4"
+    t.string "param5"
+    t.string "param6"
+    t.string "param7"
+    t.string "param8"
+    t.string "param9"
+    t.string "param10"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "external_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -490,8 +507,8 @@ ActiveRecord::Schema.define(version: 20180212065838) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "devise_token"
-    t.string "role"
     t.string "common_id"
+    t.string "role"
     t.index ["confirmation_token"], name: "index_supports_on_confirmation_token", unique: true
     t.index ["email"], name: "index_supports_on_email", unique: true
     t.index ["reset_password_token"], name: "index_supports_on_reset_password_token", unique: true
