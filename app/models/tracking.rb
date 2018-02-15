@@ -1,2 +1,0 @@
-class Tracking < ApplicationRecord
-end
