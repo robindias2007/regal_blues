@@ -22,6 +22,6 @@ class EventsController < ApplicationController
 	private
 
 	def event_params
-		params.require(:event).permit(:resource_type, :username, :param1, :param2, :param3, :param4, :param5, :param6, :param7, :param8, :param9 , :param10)
+		params.require(:event).permit(:resource_type, :username, :event_name, :param1, :param2, :param3, :param4, :param5, :param6, :param7, :param8, :param9 , :param10)
 	end	
 end
