@@ -10,7 +10,11 @@ class V1::Users::RequestsController < V1::Users::BaseController
       # RequestDesignerService.notify_about request
       render json: { message: 'Request saved successfully' }, status: 201
     else
-      render json: { errors: request.errors.messages }, status: 400
+      #render json: { errors: request.errors.messages }, status: 400
+      render json: {
+        status: 400,
+        message: request.errors.messages,
+      }.to_json
     end
   end
 

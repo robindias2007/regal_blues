@@ -122,7 +122,7 @@
 					<% if f.sender_id == current_support.common_id %>
 						<% if f.body.present? %>
 							<div class="container darker">
-								<p><%= f.body %></p>
+								<p><%= f.body.gsub("\n", "<br />").html_safe %></p>
 								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
 							</div>
 						<% end %>
@@ -134,7 +134,7 @@
 					<% else %>
 						<% if f.body.present? %>
 							<div class="container" style="width:80%;float:left;background:#ffe3a4;margin-top: 10px;word-wrap:break-word;">
-								<p style=""><%= f.body %></p>
+								<p style=""><%= f.body.gsub("\n", "<br />").html_safe %></p>
 								<span class="time-right"><%= f.created_at.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')).strftime("%d/%m/%Y %H:%M:%S%p") %></span>
 							</div>
 						<% end %>

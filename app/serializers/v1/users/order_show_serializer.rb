@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::OrderShowSerializer < ActiveModel::Serializer
-  attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :timeline, :paid_price,:shipping_price,
+  attributes :id, :request_id, :request_image, :designer_name, :designer_avatar, :category, :category_measurement_image, :timeline, :paid_price,:shipping_price,
     :project, :designer_note, :added_notes, :selections, :measurements, :status_log, :new_options, :order_id
 
   def request_id
@@ -26,6 +26,10 @@ class V1::Users::OrderShowSerializer < ActiveModel::Serializer
 
   def category
     request.sub_category.name
+  end
+
+  def category_measurement_image
+    request.sub_category.measurement_image
   end
 
   def timeline
