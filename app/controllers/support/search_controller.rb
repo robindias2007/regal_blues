@@ -3,7 +3,8 @@
 class Support::SearchController < ApplicationController
   def users
     #@user = User.search_for(search_params)
-    @user = User.find_by(username: params[:search][:query])  || User.find_by(email: params[:search][:query])
+    search = params[:search][:query]
+    @user = User.find_by(username:search)  || User.find_by(email:search) || User.find_by(full_name:search)
     if @user.present?
       #render json: User.search_for(search_params)
       redirect_to support_user_path(@user.id)
