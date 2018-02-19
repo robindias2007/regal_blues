@@ -33,7 +33,7 @@ module V1
       end
 
       def collection
-        products = object.products.order(created_at: :desc).limit(4)
+        products = object.products.order(selling_price: :desc).limit(4)
         products.map do |product|
           ActiveModelSerializers::SerializableResource.new(product,
             serializer: V1::Users::ProductsSerializer).as_json
