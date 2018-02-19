@@ -21,7 +21,7 @@ class V1::Users::ProductsController < V1::Users::BaseController
     if params[:sort].present?
       sort_products(products)
     else
-      render json:            products.order(created_at: :desc),
+      render json:            products.order(selling_price: :desc),
              each_serializer: V1::Users::ProductsSerializer, meta: max_and_min_price_of(products)
     end
   end
