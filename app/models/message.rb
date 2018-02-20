@@ -46,8 +46,8 @@ class Message < ApplicationRecord
 	  	elsif sender.class.name == "Support"
 	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver_later
 	  		begin
-	  			#Message.new.msg_notification(self.conversation.conversationable.devise_token, self, alert)
-          Message.new.support_msg_notification(self.conversation.conversationable.devise_token, self, alert)
+	  			Message.new.msg_notification(self.conversation.conversationable.devise_token, self, alert)
+          #Message.new.support_msg_notification(self.conversation.conversationable.devise_token, self, alert)
         rescue
   			end
 	  	end
