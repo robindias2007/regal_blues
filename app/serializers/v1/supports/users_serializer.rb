@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Supports::UsersSerializer < ActiveModel::Serializer
-  attributes :id, :full_name, :username,  :conversation_id, :support_id
+  attributes :id, :full_name, :username,  :conversation_id
 
   def conversation_id
   	if object.conversations.present?
@@ -10,11 +10,6 @@ class V1::Supports::UsersSerializer < ActiveModel::Serializer
   		""
   	end
   end
-
-  def support_id
-  	Support.first.common_id
-  end
-
 
 end
 

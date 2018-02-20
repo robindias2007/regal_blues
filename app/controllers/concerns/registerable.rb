@@ -140,6 +140,10 @@ module Registerable
             push_token = current_resource.build_push_token(token: params[:devise_token])
             push_token.save
           end
+        elsif current_resource.class.name == "Support"
+          current_support.devise_token = params[:devise_token]
+          current_support.save(validate:false)
+          devise_token = current_support.devise_token
         else
           devise_token = current_resource.update(devise_token: params[:devise_token])
         end
