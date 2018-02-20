@@ -33,6 +33,9 @@
         <p class="card-stats-title">Username:
           <b><%= link_to @request.user.username, support_user_path(@request.user) %></b>
         </p>
+        <p class="card-stats-title">Mobile:
+          <b><%= @request.user.mobile_number %></b>
+        </p>
         <p class="card-stats-title">Size:
           <b><%= @request.size.upcase %></b>
         </p>          
