@@ -13,8 +13,8 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
   end
 
   def user_conversation
-    user = User.all
-    render json: user, serializer: V1::Supports::UserSerializer
+    users = User.all.includes(:conversations).order(updated_at: :desc)
+    render json: users, each_serializer: V1::Supports::UsersSerializer
   end
 
   def chat_type
