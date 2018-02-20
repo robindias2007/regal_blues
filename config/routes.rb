@@ -44,7 +44,7 @@ Rails.application.routes.draw do
         collection do
           post :chat_type
           post :fetch_conversation
-          get :user_conversation
+          get :init_data
         end
         member do
           resources :messages, only: %i[index create update]
