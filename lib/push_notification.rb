@@ -20,7 +20,7 @@ module PushNotification
 
 	def support_msg_notification(token, msg, alert)
 		require 'houston'
-		# token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"
+		token = "A39D1B9ADCFAA74D793268503DEC09A53BC6F232444D8ED4E1BED104F7AD942E"
 		if token.present?
 			apn = Houston::Client.development
 			path = Rails.root.join("public","Support_Certificate.pem")
