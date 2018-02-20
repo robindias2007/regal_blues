@@ -40,15 +40,15 @@ class Message < ApplicationRecord
 	  			NotificationsMailer.message_notification_support(sup, self, sender, type, type_name, offer_designer_name).deliver_later
 	  			begin
             Message.new.msg_notification(sup.devise_token, self, "You have a new chat message")
-            Message.new.support_msg_notification(sup.devise_token, self, "You have a new chat message from user1")
           rescue
 	  			end
 	  		end
+        Message.new.support_msg_notification(Support.first.devise_token, self, "You have a new chat message from user1")
+
 	  	elsif sender.class.name == "Support"
 	  		NotificationsMailer.message_notification(self.conversation.conversationable, self, sender).deliver_later
 	  		begin
 	  			Message.new.msg_notification(self.conversation.conversationable.devise_token, self, alert)
-          Message.new.support_msg_notification(self.conversation.conversationable.devise_token, self, "You have a new chat message from user2")
         rescue
   			end
 	  	end
