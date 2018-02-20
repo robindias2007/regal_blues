@@ -12,6 +12,11 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
     end
   end
 
+  def user_conversation
+    users = User.all.includes(:conversations).order(updated_at: :desc)
+    render json: users, each_serializer: V1::Supports::UsersSerializer
+  end
+
   def chat_type
     if params[:request_id].present?
       conversations = Request.find(params[:request_id]).user.conversations
