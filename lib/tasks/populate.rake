@@ -7,7 +7,7 @@ namespace :db do
     # Don't change the order
     # create_all_categories
     # create_designers
-    # create_products
+    create_products
     # create_users
     # create_addresses_for_users
     # create_requests
@@ -83,22 +83,21 @@ namespace :db do
     end
   end
 
-  def create_products
+def create_products
     puts 'Creating products'
-    Designer.all.each do |designer|
-      puts "Creating products for #{designer.full_name}"
-      10.times do
-        product = Product.create!(product_attrs(designer))
-        attach_images_for product
-        create_info_for product
-      end
+    designer = Designer.where(email:"testdesignercustumise@gmail.com").first
+    puts "Creating products for #{designer.full_name}"
+    50.times do
+      product = Product.create!(product_attrs(designer))
+      attach_images_for product
+      create_info_for product
     end
   end
 
   def product_attrs(designer)
     {
       name: Faker::Commerce.unique.product_name, description: Faker::Lorem.paragraph,
-      selling_price: Faker::Commerce.price + 100, designer: designer, sub_category: designer.sub_categories.sample
+      selling_price: 100000, designer: designer, sub_category: designer.sub_categories.sample
     }
   end
 

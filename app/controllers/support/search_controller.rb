@@ -3,8 +3,8 @@
 class Support::SearchController < ApplicationController
   def users
     #@user = User.search_for(search_params)
-    search = params[:search][:query]
-    @user = User.find_by(username:search)  || User.find_by(email:search) || User.find_by(full_name:search)
+    search = params[:search][:query].downcase
+    @user = User.find_by('lower(full_name) = lower(?)', search)  || User.find_by('lower(email) = lower(?)', search) || User.find_by('lower(username) = lower(?)', search)
     if @user.present?
       #render json: User.search_for(search_params)
       redirect_to support_user_path(@user.id)
@@ -15,7 +15,8 @@ class Support::SearchController < ApplicationController
 
   def designers
     #@designer = Designer.search_for(search_params)
-    @designer = Designer.find_by(full_name: params[:search][:query])  || Designer.find_by(email: params[:search][:query])
+    search = params[:search][:query].downcase
+    @designer = Designer.find_by('lower(full_name) = lower(?)', search)  || Designer.find_by('lower(email) = lower(?)', search)
     if @designer.present?
       #render json: Designer.search_for(search_params)
       redirect_to support_designer_path(@designer.id)
