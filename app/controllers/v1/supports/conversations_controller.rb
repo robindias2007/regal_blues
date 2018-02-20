@@ -12,6 +12,11 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
     end
   end
 
+  def user_conversation
+    user = User.all
+    render json: user, serializer: V1::Supports::UserSerializer
+  end
+
   def chat_type
     if params[:request_id].present?
       conversations = Request.find(params[:request_id]).user.conversations
