@@ -1,0 +1,32 @@
+<div class="row">
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="1" class="center">Designer Name</th>
+        <th colspan="1" class="center">Request Name</th>
+        <th colspan="1" class="center">Category</th>
+        <th colspan="1" class="center">No. of Quotations</th>
+        <th colspan="1" class="center">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @offers.each do |offer| %>
+        <tr id="js-data-row">  
+          <td colspan="1" class="center">
+            <%= link_to offer.designer.full_name, support_designer_path(offer.designer) %>
+          </td>
+          <td colspan="1" class="center">
+            <%= link_to offer.request.name.titleize, support_request_path(offer.request) %>
+          </td>
+          <td colspan="1" class="center">
+            <%= offer.request.sub_category.name %>
+          </td>
+          <td colspan="1" class="center">
+            <%= link_to offer.offer_quotations.count, support_offer_path(offer) %>
+          </td> 
+          <td colspan="1" class="center"><%= offer.created_at.strftime('%d %B %Y') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
