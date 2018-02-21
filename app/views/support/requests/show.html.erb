@@ -73,6 +73,13 @@
   </div>
 </div>
 
+<%= form_for @request_image, :url => request_images_path, :html => {:method => :post} do |f| %>
+  <%= f.hidden_field :request_id, value:@request.id %>
+  <%= f.hidden_field :serial_number, value:1  %>
+  <%= f.file_field :image %>
+  <%= f.submit "Submit" %>
+<% end %>
+
 
 <% if (@request.offers.size > 0) %>
 

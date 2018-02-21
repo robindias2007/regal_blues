@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
   get '/chat/:id' => 'support/requests#chat', as: :chat
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
+  post '/request_images' => 'support/requests#request_images'
 
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
 
