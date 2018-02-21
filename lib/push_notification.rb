@@ -18,6 +18,26 @@ module PushNotification
 	  end
 	end
 
+	def support_msg_notification(token, msg, alert)
+		require 'houston'
+		#token = "A39D1B9ADCFAA74D793268503DEC09A53BC6F232444D8ED4E1BED104F7AD942E"
+		if token.present?
+			apn = Houston::Client.development
+			path = Rails.root.join("public","Support_Certificate.pem")
+			apn.certificate = File.read(path)
+			token = token
+	    notification = Houston::Notification.new(device: token)
+	    notification.badge = 1
+	    notification.sound = "default"
+	    notification.alert = {title: title(msg), body: alert}
+	    key = msg.conversation.receiver_type.singularize+"_id"
+	    data = msg.conversation.receiver_id
+	    extraData = {"#{key}": data, message: msg.body, type: "chat"}
+	    notification.custom_data = {extraData: extraData}
+	    apn.push(notification)
+		end
+	end
+
 	def msg_notification(token, msg, alert)
 		require 'houston'
 		# token = "811F650030353BE23A2072C7D892831BD7B0F43C994E8208781ABA848CA40F32"

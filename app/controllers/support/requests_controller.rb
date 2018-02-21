@@ -19,8 +19,6 @@ class Support::RequestsController < ApplicationController
     @convo_id = Conversation.find(params[:id])
     @message = Message.new()
     update_read_count = Conversation.find(@convo_id.id).messages.update_all(read:true)
-    # request_id = Request.find(params[:id]).id
-    # @convo_id = Request.find(request_id).user.conversations
   end
 
   def chat_post
@@ -28,20 +26,18 @@ class Support::RequestsController < ApplicationController
     @message = conversation.messages.new(message_params)
     @message.sender_id = current_support.common_id
     if @message.save!
-
-      # render json: {message: Message.as_a_json(message)}, status: 201
-      #render json: {message: message}, status: 201
-      @message.update_attributes(body:params[:message][:body], conversation_id:params[:message][:conversation_id], attachment:params[:message][:attachment])
-      redirect_to chat_path(params[:message][:conversation_id])
-      else
+      conversation.update(updated_at:DateTime.now)
+      redirect_to chat_path(@message.conversation_id)
+    else
+      flash[:notice] = "Chat Not Processed"
       redirect_to root_url
-      #render json: {message: message.errors}, status: 400
     end
   end
 
 
   def show
     @conversation = Conversation.new
+    @request_image = RequestImage.new
     @request = Request.find(params[:id])
     request = Request.find(params[:id]) rescue nil
     if params[:commit] == "Update"
@@ -66,6 +62,16 @@ class Support::RequestsController < ApplicationController
 
   def show_request_quo
     @request = Request.find(params[:id])
+  end
+
+  def request_images
+    request_image = RequestImage.new(request_image_params)
+    if request_image.save!
+      flash[:success] = "Image Uploaded"
+      redirect_to request.referer
+    else
+      redirect_to support_requests_path
+    end
   end
 
   private

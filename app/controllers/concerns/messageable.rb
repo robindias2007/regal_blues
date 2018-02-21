@@ -22,6 +22,7 @@ module Messageable
 		message = conversation.messages.new(message_params)
     if current_resource.class.name  == "Support"
 		  message.sender_id = current_resource.common_id
+		  conversation.update(updated_at:DateTime.now)
     else
       message.sender_id = current_resource.id
     end

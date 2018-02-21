@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       post 'supports/conversations' => 'users#create', as: :support_conversation
       resources :orders, only: %i[index], as: :support_orders  
       resources :orders, only: %i[show], as: :support_show_orders  
+      resources :offers, only: %i[index show], as: :support_offers  
     end
   end
 
@@ -44,7 +45,7 @@ Rails.application.routes.draw do
         collection do
           post :chat_type
           post :fetch_conversation
-          get :user_conversation
+          get :init_data
         end
         member do
           resources :messages, only: %i[index create update]
@@ -58,6 +59,7 @@ Rails.application.routes.draw do
 
   get '/chat/:id' => 'support/requests#chat', as: :chat
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
+  post '/request_images' => 'support/requests#request_images'
 
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
 

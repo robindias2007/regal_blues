@@ -12,9 +12,12 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
     end
   end
 
-  def user_conversation
+  def init_data
     users = User.all.includes(:conversations).order(updated_at: :desc)
-    render json: users, each_serializer: V1::Supports::UsersSerializer
+    render json: {
+      users: users_serializer(users),
+      support_id: Support.first.common_id 
+      }
   end
 
   def chat_type
@@ -51,6 +54,15 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
 
   def conversation_params
     params.require(:conversation).permit(:receiver_id, :receiver_type, :sender_id)
+  end
+
+  def serialization_for(list, serializer)
+    ActiveModelSerializers::SerializableResource.new(list,
+      each_serializer: serializer)
+  end
+
+  def users_serializer(users)
+    serialization_for(users, V1::Supports::UsersSerializer)
   end
 
   def request_conditional_offers
