@@ -6,7 +6,7 @@ class Notification < ApplicationRecord
 
   def publish_mass
     PushToken.where(user_id:nil).pluck(:token).each do |f|
-      send_notification(f, self.body, "", "")
+      send_notification("548F5C9EA58072206BEF2B9AAB4A6C882A55315FCA49EC9D31A79FEBA3FFF0AA", self.body, "", "")
     end
   end
 end
