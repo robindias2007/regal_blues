@@ -9,4 +9,16 @@ class Notification < ApplicationRecord
       send_notification(f, self.body, "", "")
     end
   end
+
+  def close_request
+    arr = []
+    Event.where(event_name:"CLOSE_REQUEST").pluck(:username).each do |f|
+      arr << User.find_by(username:f)
+    end
+    close_request = arr.compact.map(&:devise_token)
+    close_request.each do |f|
+      send_notification(f, self.body, "", "")
+    end
+  end
+
 end

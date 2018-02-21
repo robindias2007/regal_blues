@@ -21,9 +21,14 @@ class Support::PushTokensController < ApplicationController
 
   def create
   	@notification = Notification.new(notification_params)
-  	if   @notification.save!(validate:false)
-      @notification.delay.publish_mass
-  		#all_data_for_push
+  	if  @notification.save!(validate:false)
+      debugger
+      if params[:commit] == "USER ID NULL"
+        @notification.delay.publish_mass
+  		elsif params[:commit] == "CLOSE REQUEST"
+        @notification.delay.close_request   
+      end  
+      #all_data_for_push
       #   PushToken.where(user_id:nil).pluck(:token).each do |f|
   		#   send_notification(f, @notification.body, "", "")
   		# end
