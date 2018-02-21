@@ -40,7 +40,7 @@ class Message < ApplicationRecord
 	  			NotificationsMailer.message_notification_support(sup, self, sender, type, type_name, offer_designer_name).deliver_later
 	  			begin
             Message.new.msg_notification(sup.devise_token, self, "You have a new chat message")
-            Message.new.support_msg_notification(sup.devise_token, self, "You have a new chat message from user")
+            Message.new.support_msg_notification(Support.first.devise_token, self, "You have a new chat message from user")
           rescue
 	  			end
 	  		end
