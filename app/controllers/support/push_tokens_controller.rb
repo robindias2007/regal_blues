@@ -5,6 +5,9 @@ class Support::PushTokensController < ApplicationController
     
   def index
   	@notification = Notification.new
+    # if params[:event].present?
+    #   @events = Event.where('created_at >= ?', params[:event])
+    # end  
   end
 
   # PUSH NOTIFICATION FOR ALL USERS
@@ -22,17 +25,13 @@ class Support::PushTokensController < ApplicationController
   def create
   	@notification = Notification.new(notification_params)
   	if  @notification.save!(validate:false)
-      debugger
       if params[:commit] == "USER ID NULL"
-        @notification.delay.publish_mass
+        @notification.delay.user_nil
   		elsif params[:commit] == "CLOSE REQUEST"
-        @notification.delay.close_request   
+        @notification.delay.close_request(@notification)   
       end  
       #all_data_for_push
-      #   PushToken.where(user_id:nil).pluck(:token).each do |f|
-  		#   send_notification(f, @notification.body, "", "")
-  		# end
-  		flash[:success] == "Done"
+      flash[:success] == "Done"
   		redirect_to push_token_path
   	else
   		redirect_to root_url
@@ -42,7 +41,7 @@ class Support::PushTokensController < ApplicationController
   private
 
   def notification_params
-  	params.require(:notification).permit(:body, :resourceable_type, :notificationable_type)
+  	params.require(:notification).permit(:body, :resourceable_type, :notificationable_type, :created_at)
   end
 
 end

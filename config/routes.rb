@@ -65,6 +65,7 @@ Rails.application.routes.draw do
 
   get '/push_token' => 'support/push_tokens#index'
   post '/push_token' => 'support/push_tokens#create', as: :push_create
+  
 
   resources :measurement_tags
   
