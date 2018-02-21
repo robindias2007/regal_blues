@@ -1,34 +1,34 @@
 <h4 class="center">Push Notification</h4>
-<br><br>
+<br>
 <div class="row" style="border:1px solid black">
-	<br><h5 class="center">User ID Null</h5><br>	
+	<h5 class="center">User ID Null</h5>	
+	<div class="col m2"></div>
 	<div class="col m8">
-		
 		<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
+			<label>Message Body</label>
 			<%= f.text_area :body, class: "materialize-textarea", required:true %>
 			<%= f.hidden_field :resourceable_type, value:"User" %>
 			<%= f.hidden_field :notificationable_type, value:"Support" %>
-	</div>
-	<div class="col m4">
-		<%= f.submit "USER ID NULL", class: "waves-effect waves-light btn" %>
+			<%= f.submit "USER ID NULL", class: "waves-effect waves-light btn" %>
 		<% end %>
-	</div>
-</div>
-<br><br>
-<div class="row" style="border:1px solid black">
-	<br><h5 class="center">Close Request Event Name</h5><br>
-	<div class="col m5">
-		<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
-			<%= f.text_area :body, class: "materialize-textarea", required:true %>
-			<%= f.hidden_field :resourceable_type, value:"User" %>
-			<%= f.hidden_field :notificationable_type, value:"Support" %>
-	</div>
-	<div class="col m3">
 		<br>
-		<%= f.date_field :created_at, required:true %>
 	</div>
-	<div class="col m4">
-		<%= f.submit "CLOSE REQUEST", class: "waves-effect waves-light btn" %>
+	<div class="col m2"></div>
+</div>
+<br>
+<div class="row" style="border:1px solid black">
+	<h5 class="center">Close Request Event Name</h5>
+	<div class="col m2"></div>
+	<div class="col 8">
+		<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
+			<label>Message Body</label>
+			<%= f.text_area :body, class: "materialize-textarea", required:true %>
+			<%= f.hidden_field :resourceable_type, value:"User" %>
+			<%= f.hidden_field :notificationable_type, value:"Support" %>
+			<%= f.date_field :created_at, required:true %>
+			<%= f.submit "CLOSE REQUEST", class: "waves-effect waves-light btn" %>
 		<% end %>
+	<br>
 	</div>
+	<div class="col m2"></div>
 </div>
