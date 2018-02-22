@@ -33,7 +33,8 @@ module PushNotification
 	    key = msg.conversation.receiver_type.singularize+"_id"
 	    data = msg.conversation.receiver_id
 	    conversation_id = msg.conversation.id
-	    extraData = {"#{key}": data, message: msg.body, type: "chat", conversation_id:conversation_id}
+	    full_name = User.where(id:msg.conversation.conversationable_id).first.full_name
+	    extraData = {"#{key}": data, message: msg.body, type: "chat", conversation_id:conversation_id, full_name:full_name }
 	    notification.custom_data = {extraData: extraData}
 	    apn.push(notification)
 		end
