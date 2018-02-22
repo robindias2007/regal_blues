@@ -28,7 +28,8 @@
           <b><%= @user.bio ? @user.bio : 'No bio' %></b>
         </p>
         <p class="card-stats-title">User Behaviour:<br>
-          <%= check_box_tag 'hot' , @user.id, @user.hot %><label for="hot">Hot?</label>
+
+          <%= check_box_tag 'hot',  @user.id, @user.hot %><label for="hot">Hot?</label>
           <%= check_box_tag 'cold' , @user.id, @user.cold %><label for="cold">Cold?</label>
           <%= check_box_tag 'warm' , @user.id, @user.warm %><label for="warm">Warm?</label>
         </p>

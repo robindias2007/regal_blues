@@ -19,7 +19,7 @@ class Support::UsersController < ApplicationController
             end
     @conversation = Conversation.new
     @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User", conversationable_id:@user).first 
-    if params[:cold].present?
+    if params[:hot].present?
       debugger
       user = User.find(params[:id])
       user.update(cold:true)
