@@ -9,12 +9,14 @@
         <p class="card-stats-title">Full Name:
           <b><%= @designer.full_name rescue nil %></b>
         </p>
-        <p class="card-stats-title">Email:
-          <b><%= @designer.email rescue nil %></b>
-        </p>
-        <p class="card-stats-title">Mobile:
-          <b><%= @designer.mobile_number rescue nil %></b>
-        </p>
+        <% if current_support.role == "admin" %>
+          <p class="card-stats-title">Email:
+            <b><%= @designer.email rescue nil %></b>
+          </p>
+          <p class="card-stats-title">Mobile:
+            <b><%= @designer.mobile_number rescue nil %></b>
+          </p>
+        <% end %>
         <p class="card-stats-title">Location:
           <b><%= @designer.location rescue nil %></b>
         </p>

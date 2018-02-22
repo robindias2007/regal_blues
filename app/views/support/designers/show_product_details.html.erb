@@ -30,12 +30,14 @@
         <p class="card-stats-title">Designer Name:
           <b><%= @product.designer.full_name rescue nil %></b>
         </p>
-        <p class="card-stats-title">Designer Email:
-          <b><%= @product.designer.email rescue nil %></b>
-        </p>
-        <p class="card-stats-title">Designer Mobile:
-          <b><%= @product.designer.mobile_number rescue nil %></b>
-        </p>
+        <% if current_support.role == "admin" %>
+          <p class="card-stats-title">Designer Email:
+            <b><%= @product.designer.email rescue nil %></b>
+          </p>
+          <p class="card-stats-title">Designer Mobile:
+            <b><%= @product.designer.mobile_number rescue nil %></b>
+          </p>
+        <% end %>
         <p class="card-stats-title">Designer Store Name:
           <b><%= @product.designer.designer_store_info.display_name rescue nil %></b>
         </p>
