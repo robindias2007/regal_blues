@@ -9,12 +9,14 @@
         <p class="card-stats-title">Name:
           <b><%= @user.full_name %></b>
         </p>
-        <p class="card-stats-title">Email:
-          <b><%= @user.email %></b>
-        </p>
-        <p class="card-stats-title">Mobile:
-          <b><%= @user.mobile_number %></b>
-        </p>
+        <% if current_support.role == "admin" %>
+          <p class="card-stats-title">Email:
+            <b><%= @user.email %></b>
+          </p>
+          <p class="card-stats-title">Mobile:
+            <b><%= @user.mobile_number %></b>
+          </p>
+        <% end %>
         <p class="card-stats-title">Username:
           <b><%= @user.username %></b>
         </p>
