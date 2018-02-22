@@ -22,8 +22,8 @@ module PushNotification
 		require 'houston'
 		#token = "A39D1B9ADCFAA74D793268503DEC09A53BC6F232444D8ED4E1BED104F7AD942E"
 		if token.present?
-			apn = Houston::Client.development
-			path = Rails.root.join("public","Development_Support_Certificate.pem")
+			apn = Houston::Client.production
+			path = Rails.root.join("public","Production_Support_Certificate.pem")
 			apn.certificate = File.read(path)
 			token = token
 	    notification = Houston::Notification.new(device: token)
