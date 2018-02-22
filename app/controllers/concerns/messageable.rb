@@ -27,9 +27,7 @@ module Messageable
     end
 
 		if message.save
-			if current_resource.class.name  == "Support"
-				conversation.update(updated_at:DateTime.now)
-			end
+			conversation.update(updated_at:DateTime.now)
 			# render json: {message: Message.as_a_json(message)}, status: 201
 			render json: {message: message}, status: 201
 		else
