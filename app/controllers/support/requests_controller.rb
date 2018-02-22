@@ -27,6 +27,7 @@ class Support::RequestsController < ApplicationController
     @message.sender_id = current_support.common_id
     if @message.save!
       conversation.update(updated_at:DateTime.now)
+      conversation.conversationable.update(updated_at:DateTime.now)
       redirect_to chat_path(@message.conversation_id)
     else
       flash[:notice] = "Chat Not Processed"

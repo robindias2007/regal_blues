@@ -28,6 +28,7 @@ module Messageable
 
 		if message.save
 			conversation.update(updated_at:DateTime.now)
+			conversation.conversationable.update(updated_at:DateTime.now)
 			# render json: {message: Message.as_a_json(message)}, status: 201
 			render json: {message: message}, status: 201
 		else
