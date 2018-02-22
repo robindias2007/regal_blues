@@ -15,12 +15,12 @@
         <th colspan="1" class="center">Number of Offers</th>
         <th colspan="1" class="center">Approve</th>
         <th colspan="1" class="center">Reject</th>
-        <th colspan="1" class="center">General</th>
+        <!-- <th colspan="1" class="center">General</th> -->
       </tr>
     </thead>
     <tbody>
       <% @requests.each do |request| %>
-        <% conv_support = @convo.where(conversationable_id:request.user).first %>
+        <%#<% conv_support = @convo.where(conversationable_id:request.user).first %>
         <tr>
           <td colspan="2" class="center"><%= link_to request.name, support_request_path(request) %></td>
 
@@ -58,21 +58,6 @@
               <i class="material-icons" data-id=<%= request.id %>>block</i>
             </div>
           <% end %>
-          </td>
-
-          <td colspan="1" class="center">
-            <% if conv_support.present? %>
-              <%= link_to image_tag("chat.png", width:"30x30"),
-              chat_path(conv_support.id), :target => "_blank"%>
-            <% else %>
-              <%= form_for @conversation, :url => support_conversation_path, :html => {:method => :post} do |f| %>
-                <%= f.hidden_field :receiver_id , value:current_support.common_id %>
-                <%= f.hidden_field :receiver_type , value:"support" %>
-                <%= f.hidden_field :conversationable_id , value:request.user.id %>
-                <%= f.hidden_field :conversationable_type , value:"User" %>
-                <%= f.submit "Initiate" , class:"waves-effect waves-light btn" %>
-              <% end %>
-            <% end %>
           </td>
 
         </tr>
