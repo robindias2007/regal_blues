@@ -32,7 +32,7 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
   end
 
   def top_query_suggestions
-    suggestions = %W[Bridal #{"Fashion week"} #{"Couture Week"} #{"For Kids"} 2017 Wedding Designer Simple Plain ]
+    suggestions = %W[Bridal #{"Fashion week"} #{"Couture Week"} Pakistani #{"For Kids"} 2017 Wedding Designer Simple Plain ]
     render json: { data: suggestions }
   end
 end
