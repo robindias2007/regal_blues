@@ -19,6 +19,16 @@ class Support::UsersController < ApplicationController
             end
     @conversation = Conversation.new
     @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User", conversationable_id:@user).first 
+    if params[:cold].present?
+      debugger
+      user = User.find(params[:id])
+      user.update(cold:true)
+    end
+  end
+
+  def update
+    user = User.find(params[:id])
+    debugger 
   end
 
   def create
