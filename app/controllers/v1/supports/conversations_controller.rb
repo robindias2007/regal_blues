@@ -13,12 +13,32 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
   end
 
   def init_data
-    users = User.all.includes(:conversations).order(updated_at: :desc)
+    user_zero_messages = []
+    user_no_conversations = []
+    user_convo_messages = []
+    User.all.each do |f|
+      if f.conversations.first.present? && (f.conversations.first.messages.count == 0)
+        user_zero_messages << f
+      elsif f.conversations.empty?
+        user_no_conversations << f
+      elsif f.conversations.first.present? && (f.conversations.first.messages.count > 0)
+        user_convo_messages << f
+      end 
+    end
+    users_conversation_sorting = user_convo_messages.sort {|x,y| y[:updated_at]<=>x[:updated_at]}
+    users = users_conversation_sorting + user_zero_messages + user_no_conversations
     render json: {
       users: users_serializer(users),
       support_id: Support.first.common_id 
       }
   end
+
+  # def init_data(users)
+  #   render json: {
+  #     users: users_serializer(users),
+  #     support_id: Support.first.common_id 
+  #     }
+  # end
 
   def chat_type
     if params[:request_id].present?
