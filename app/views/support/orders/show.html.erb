@@ -47,12 +47,14 @@
         <p class="card-stats-title">Designer Name:
           <b><%= @order.designer.full_name %></b>
         </p>
-        <p class="card-stats-title">Designer Email:
-          <b><%= @order.designer.email %></b>
-        </p>
-        <p class="card-stats-title">Designer Mobile:
-          <b><%= @order.designer.mobile_number %></b>
-        </p>
+        <% if current_support.role == "admin" %>
+          <p class="card-stats-title">Designer Email:
+            <b><%= @order.designer.email %></b>
+          </p>
+          <p class="card-stats-title">Designer Mobile:
+            <b><%= @order.designer.mobile_number %></b>
+          </p>
+        <% end %>
         <p class="card-stats-title">Designers Store:
           <b><%= @order.designer.designer_store_info.display_name %></b>
         </p>
