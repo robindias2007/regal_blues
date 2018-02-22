@@ -2,7 +2,7 @@
 
 class Support::OffersController < ApplicationController
   def index
-    @offers = Offer.all
+    @offers = Offer.all.order(created_at: :desc)
   end
 
   def show

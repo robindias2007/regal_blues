@@ -22,12 +22,12 @@ module Messageable
 		message = conversation.messages.new(message_params)
     if current_resource.class.name  == "Support"
 		  message.sender_id = current_resource.common_id
-		  conversation.update(updated_at:DateTime.now)
     else
       message.sender_id = current_resource.id
     end
 
 		if message.save
+			conversation.update(updated_at:DateTime.now)
 			# render json: {message: Message.as_a_json(message)}, status: 201
 			render json: {message: message}, status: 201
 		else

@@ -7,8 +7,8 @@ class Support::RequestsController < ApplicationController
     if current_support.role == "admin"
       req = Request.order(created_at: :desc)
       @requests = req.where(status:"active") + req.where(status:"pending") + req.where(status:"unapproved")
-      @conversation = Conversation.new
-      @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
+      # @conversation = Conversation.new
+      # @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
     else
       redirect_to root_url
     end
