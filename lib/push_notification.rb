@@ -10,7 +10,7 @@ module PushNotification
 	    notification = Houston::Notification.new(device: token)
 	    notification.alert = alert
 	    notification.badge = 1
-	    notification.sound = "sosumi.aiff"
+	    notification.sound = "default"
 	    notification.category = "INVITE_CATEGORY"
 	    # notification.content_available = true
 	    notification.custom_data = {extraData: extra_data}
