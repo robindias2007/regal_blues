@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216113446) do
+ActiveRecord::Schema.define(version: 20180223080639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -448,6 +448,9 @@ ActiveRecord::Schema.define(version: 20180216113446) do
     t.uuid "address_id"
     t.string "status"
     t.string "origin"
+    t.boolean "hot"
+    t.boolean "cold"
+    t.boolean "warm"
     t.index ["address_id"], name: "index_requests_on_address_id"
     t.index ["name"], name: "index_requests_on_name", using: :gin
     t.index ["origin"], name: "index_requests_on_origin", using: :gin
@@ -572,6 +575,9 @@ ActiveRecord::Schema.define(version: 20180216113446) do
     t.text "devise_token"
     t.datetime "membership_start_date"
     t.boolean "redeem", default: false
+    t.boolean "hot"
+    t.boolean "cold"
+    t.boolean "warm"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

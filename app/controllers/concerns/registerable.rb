@@ -191,7 +191,7 @@ module Registerable
     end
 
     def user_params
-      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar, :membership_start_date, :redeem)
+      params.permit(:email, :password, :full_name, :mobile_number, :username, :gender, :avatar, :membership_start_date, :redeem, :hot, :cold, :warm)
     end
 
     def resource_params

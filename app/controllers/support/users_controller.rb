@@ -21,6 +21,17 @@ class Support::UsersController < ApplicationController
     @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User", conversationable_id:@user).first 
   end
 
+  def update
+    user = User.find(params[:id])
+    if params[:user][:hot] == "1"
+      user.update(hot:true, cold:false, warm:false)
+    elsif params[:user][:cold] == "1"
+      user.update(hot:false, cold:true, warm:false)
+    elsif params[:user][:warm] == "1"
+      user.update(hot:false, cold:false, warm:true)        
+    end
+  end
+
   def create
     conversations = Conversation.between(current_support.common_id,params[:conversation][:conversationable_id])
     conversation = conversations.first if conversations.present?
