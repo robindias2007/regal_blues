@@ -49,9 +49,9 @@
             <%= f.text_field :max_budget, value:@request.max_budget %>
           </p>
           <p class="card-stats-title fixed">Request Behaviour:<br>
-            <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot">Hot?</label><br>
-            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold">Cold?</label><br>
-            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm">Warm?</label><br>
+            <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot" style="color:green">Hot?</label><br>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label><br>
           </p><br>
           <%= f.submit %>
           <br><br>

@@ -32,9 +32,9 @@
         <p class="card-stats-title fixed">User Behaviour:<br>
 
           <%= form_for @user, :url => support_user_path(@user), remote: true do |f| %>
-            <%= f.check_box :hot, id:"hot", class: "product-list" %><label for="hot">Hot?</label>
-            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold">Cold?</label>
-            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm">Warm?</label>
+            <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot" style="color:green">Hot?</label><br>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label><br>
             <%= f.submit %>
           <% end %>
           
