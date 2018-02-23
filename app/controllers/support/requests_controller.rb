@@ -39,13 +39,19 @@ class Support::RequestsController < ApplicationController
     @conversation = Conversation.new
     @request_image = RequestImage.new
     @request = Request.find(params[:id])
-    request = Request.find(params[:id]) rescue nil
-    if params[:commit] == "Update"
-      request.update(description:params[:request][:description], max_budget:params[:request][:max_budget])
-      flash[:success] = "Updated"
-      redirect_to support_request_path(request)
-    end
     @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User", conversationable_id:@request.user).first 
+  end
+
+  def update
+    request = Request.find(params[:id])
+    request.update(description:params[:request][:description], max_budget:params[:request][:max_budget])
+    if params[:request][:hot] == "1"
+      request.update(hot:true, cold:false, warm:false)
+    elsif params[:request][:cold] == "1"
+      request.update(hot:false, cold:true, warm:false)
+    elsif params[:request][:warm] == "1"
+      request.update(hot:false, cold:false, warm:true)        
+    end
   end
 
   def approve

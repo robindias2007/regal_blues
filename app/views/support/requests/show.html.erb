@@ -39,14 +39,19 @@
         <p class="card-stats-title">Size:
           <b><%= @request.size.upcase %></b>
         </p>          
-        <%= form_for @request, :url => support_request_path(@request), method: :get do |f| %>
+        <%= form_for @request, :url => support_request_path(@request) do |f| %>
           <p class="card-stats-title">Description:
             <%= f.text_field :description, value:@request.description %>
           </p>
           <p class="card-stats-title">Budget:
             <%= f.text_field :max_budget, value:@request.max_budget %>
           </p>
-          <%= f.submit "Update" %>
+          <p class="card-stats-title fixed">Request Behaviour:<br><br>
+            <%= f.check_box :hot, id:"hot", class: "product-list" %><label for="hot">Hot?</label>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold">Cold?</label>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm">Warm?</label>
+          </p>
+          <%= f.submit %>
           <br><br>
         <% end %>
         
@@ -153,3 +158,10 @@
     text-align: right;
   }
 </style>
+
+<script type="text/javascript">
+   //Near checkboxes
+  $('.product-list').click(function() {
+      $(this).siblings('input:checkbox').prop('checked', false);
+  });
+</script>

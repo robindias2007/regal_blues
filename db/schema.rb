@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180222072454) do
+ActiveRecord::Schema.define(version: 20180223080639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -448,6 +448,9 @@ ActiveRecord::Schema.define(version: 20180222072454) do
     t.uuid "address_id"
     t.string "status"
     t.string "origin"
+    t.boolean "hot"
+    t.boolean "cold"
+    t.boolean "warm"
     t.index ["address_id"], name: "index_requests_on_address_id"
     t.index ["name"], name: "index_requests_on_name", using: :gin
     t.index ["origin"], name: "index_requests_on_origin", using: :gin

@@ -27,11 +27,15 @@
         <p class="card-stats-title">Bio:
           <b><%= @user.bio ? @user.bio : 'No bio' %></b>
         </p>
-        <p class="card-stats-title">User Behaviour:<br>
+        <p class="card-stats-title fixed">User Behaviour:<br>
 
-          <%= check_box_tag 'hot',  @user.id, @user.hot %><label for="hot">Hot?</label>
-          <%= check_box_tag 'cold' , @user.id, @user.cold %><label for="cold">Cold?</label>
-          <%= check_box_tag 'warm' , @user.id, @user.warm %><label for="warm">Warm?</label>
+          <%= form_for @user, :url => support_user_path(@user), remote: true do |f| %>
+            <%= f.check_box :hot, id:"hot", class: "product-list" %><label for="hot">Hot?</label>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold">Cold?</label>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm">Warm?</label>
+            <%= f.submit %>
+          <% end %>
+          
         </p>
       </div>
     </div>
@@ -252,5 +256,12 @@
   {
     height: 140px;
   }
-
+  
 </style>
+
+<script type="text/javascript">
+   //Near checkboxes
+  $('.product-list').click(function() {
+      $(this).siblings('input:checkbox').prop('checked', false);
+  });
+</script>
