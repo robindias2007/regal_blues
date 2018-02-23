@@ -33,20 +33,27 @@
         <p class="card-stats-title">Username:
           <b><%= link_to @request.user.username, support_user_path(@request.user) %></b>
         </p>
-        <p class="card-stats-title">Mobile:
-          <b><%= @request.user.mobile_number %></b>
-        </p>
+        <% if current_support.role == "admin" %>
+          <p class="card-stats-title">Mobile:
+            <b><%= @request.user.mobile_number %></b>
+          </p>
+        <% end %>
         <p class="card-stats-title">Size:
           <b><%= @request.size.upcase %></b>
         </p>          
-        <%= form_for @request, :url => support_request_path(@request), method: :get do |f| %>
+        <%= form_for @request, :url => support_request_path(@request) do |f| %>
           <p class="card-stats-title">Description:
             <%= f.text_field :description, value:@request.description %>
           </p>
           <p class="card-stats-title">Budget:
             <%= f.text_field :max_budget, value:@request.max_budget %>
           </p>
-          <%= f.submit "Update" %>
+          <p class="card-stats-title fixed">Request Behaviour:<br>
+            <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot" style="color:green">Hot?</label><br>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label><br>
+          </p><br>
+          <%= f.submit %>
           <br><br>
         <% end %>
         
@@ -152,4 +159,32 @@
   {
     text-align: right;
   }
+  #hot:checked + label:before{
+  border-right: 2px solid green; /* You need to change the colour here */
+  border-bottom: 2px solid green; /* And here */
+  }
+  #cold:checked + label:before{
+  border-right: 2px solid red; /* You need to change the colour here */
+  border-bottom: 2px solid red; /* And here */
+  }
+
+  /*#hot[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after
+  {
+    border: 2px solid green;
+  }
+  #cold[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after
+  {
+    border: 2px solid red;
+  }
+  #warm[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after
+  {
+    border: 2px solid yellow;
+  }*/
 </style>
+
+<script type="text/javascript">
+   //Near checkboxes
+  $('.product-list').click(function() {
+      $(this).siblings('input:checkbox').prop('checked', false);
+  });
+</script>

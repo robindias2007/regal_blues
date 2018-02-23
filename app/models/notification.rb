@@ -10,10 +10,22 @@ class Notification < ApplicationRecord
     	end
  		end
 
-	  def close_request(notification)
+  	def close_request(notification)
 	    @events = Event.where('created_at >= ?', notification.created_at)
 	    arr = []
 	    @events.where(event_name:"CLOSE_REQUEST").pluck(:username).each do |f|
+	      arr << User.find_by(username:f)
+	    end
+	    close_request = arr.compact.map(&:devise_token)
+	    close_request.uniq.each do |f|
+	      send_notification(f, self.body, "", "")
+	    end
+	  end
+
+	  def submit_request(notification)
+	    @events = Event.where('created_at >= ?', notification.created_at)
+	    arr = []
+	    @events.where(event_name:"SUBMIT_REQUEST").pluck(:username).each do |f|
 	      arr << User.find_by(username:f)
 	    end
 	    close_request = arr.compact.map(&:devise_token)

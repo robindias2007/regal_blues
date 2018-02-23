@@ -14,8 +14,10 @@
       <tr>
         <th colspan="4" class="center">Full Name</th>
         <th colspan="2" class="center">Username</th>
-        <th colspan="2" class="center">Mobile Number</th>
-        <th colspan="1" class="center">Email</th>
+        <% if current_support.role == "admin" %>
+          <th colspan="2" class="center">Mobile Number</th>
+          <th colspan="1" class="center">Email</th>
+        <% end %>
         <th colspan="1" class="center">Gender</th>
         <th colspan="1" class="center">Requests made</th>
         <th colspan="1" class="center">Orders made</th>
@@ -32,12 +34,13 @@
           <td colspan="2" class="center">
             <%= user.username %>
           </td>
+          <% if current_support.role == "admin" %>
+            <td colspan="2" class="center"><%= user.mobile_number %></td>
 
-          <td colspan="2" class="center"><%= user.mobile_number %></td>
-
-          <td colspan="1" class="center">
-            <%= user.email %>
-          </td>
+            <td colspan="1" class="center">
+              <%= user.email %>
+            </td>
+          <% end %>
 
           <td colspan="1" class="center">
             <%= user.gender %>

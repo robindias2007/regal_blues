@@ -17,7 +17,7 @@
 </div>
 <br>
 <div class="row" style="border:1px solid black">
-	<h5 class="center">Close Request Event Name</h5>
+	<h5 class="center">Close Request</h5>
 	<div class="col m2"></div>
 	<div class="col 8">
 		<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
@@ -27,6 +27,23 @@
 			<%= f.hidden_field :notificationable_type, value:"Support" %>
 			<%= f.date_field :created_at, required:true %>
 			<%= f.submit "CLOSE REQUEST", class: "waves-effect waves-light btn" %>
+		<% end %>
+	<br>
+	</div>
+	<div class="col m2"></div>
+</div>
+<br>
+<div class="row" style="border:1px solid black">
+	<h5 class="center">Submit Request</h5>
+	<div class="col m2"></div>
+	<div class="col 8">
+		<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
+			<label>Message Body</label>
+			<%= f.text_area :body, class: "materialize-textarea", required:true %>
+			<%= f.hidden_field :resourceable_type, value:"User" %>
+			<%= f.hidden_field :notificationable_type, value:"Support" %>
+			<%= f.date_field :created_at, required:true %>
+			<%= f.submit "SUBMIT REQUEST", class: "waves-effect waves-light btn" %>
 		<% end %>
 	<br>
 	</div>
