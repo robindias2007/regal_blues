@@ -29,7 +29,9 @@ Rails.application.routes.draw do
       post 'supports/conversations' => 'users#create', as: :support_conversation
       resources :orders, only: %i[index], as: :support_orders  
       resources :orders, only: %i[show], as: :support_show_orders  
-      resources :offers, only: %i[index show update], as: :support_offers  
+      resources :offers, only: %i[index show], as: :support_offers  
+      post 'offer_quotation/:offer_id' => 'offers#create_quotation', as: :support_offer_quotation
+      patch 'offer_quotation/:offer_id' => 'offers#update_quotation', as: :support_offer_update 
     end
   end
 
@@ -60,6 +62,8 @@ Rails.application.routes.draw do
   get '/chat/:id' => 'support/requests#chat', as: :chat
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
   post '/request_images' => 'support/requests#request_images'
+
+  post '/gallery_images' => 'support/offers#gallery_images'
 
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
 
