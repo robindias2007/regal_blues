@@ -23,12 +23,14 @@
 					</p>
 					<b><h5><u>Galleries:</u></h5></b>
 					<% offquo.offer_quotation_galleries.each do |offgall| %>  	
-					  	<p class="card-stats-title"><%= offgall.name %></p>
-					  	<p class="card-stats-title">
-					  		<% offgall.images.each do |gallery_image| %>            
-					      		<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
-					  		<% end %>
-					  	</p>
+				  	<p class="card-stats-title"><%= offgall.name %></p>
+				  	<p class="card-stats-title">
+				  		<% offgall.images.each do |gallery_image| %>            
+				      		<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+				  		<% end %> 	
+				  	</p>
+				  	<%= form_for @image do |f|  %>
+				  	<% end %>
 					<% end %>
 					</div>
 			</div>

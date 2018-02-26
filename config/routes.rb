@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       post 'supports/conversations' => 'users#create', as: :support_conversation
       resources :orders, only: %i[index], as: :support_orders  
       resources :orders, only: %i[show], as: :support_show_orders  
-      resources :offers, only: %i[index show], as: :support_offers  
+      resources :offers, only: %i[index show update], as: :support_offers  
     end
   end
 
