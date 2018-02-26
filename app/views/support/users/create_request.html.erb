@@ -1,0 +1,59 @@
+<h4 class="center">Create Request For <%= @user.full_name.capitalize %></h4>
+
+<%= form_for Request.new, :url => support_requests_path(@user) do |f| %>
+  <%= f.hidden_field :user_id, value:@user.id %>
+  <%= f.label :Request_Name %>
+  <%= f.text_field :name %>
+  <br>
+  <%= f.label :Size %> 
+  <%= f.collection_select :size, ['xs-s', 's-m', 'm-l', 'l-xl', 'xl-xxl'], :to_s, :to_s, class: "browser-default" %>
+  <br>
+  <%= f.label :Budget %>
+  <%= f.text_field :max_budget %>
+  <br>
+  <%= f.label :Description %>
+  <%= f.text_area :description, class: "materialize-textarea" %>
+  <br>
+  <%= f.label :Address %><br>
+  <% if @user.addresses.present? %>
+    <%= f.collection_select :address_id, @user.addresses, :id, :formatted_address, class: "browser-default" %>
+  <% else %>
+    <%= f.fields_for :addresses do |ff| %>
+      <%= f.label :Street_Address %>
+      <%= ff.text_field :street_address %>
+      <br>
+      <%= f.label :Nickname %>
+      <%= ff.text_field :nickname %>
+      <br>
+      <%= f.label :City %>
+      <%= ff.text_field :city %>
+      <br>
+      <%= f.label :State %>
+      <%= ff.text_field :state %>
+      <br>
+      <%= f.label :Country %>
+      <%= ff.text_field :country %>
+      <br>
+      <%= f.label :Pincode %>
+      <%= ff.text_field :pincode %>
+    <% end %>
+  <% end %>
+  <br>
+  <%= f.label :Category %>
+  <%= f.collection_select :sub_category_id, SubCategory.all, :id, :name, class: "browser-default" %>
+  <br><br>
+  <%= f.fields_for :request_image do |req_img| %>
+    <%= f.hidden_field :serial_no, value:1 %>
+    <%= req_img.file_field :image, multiple: true %>
+  <% end %>
+ 	<br><br>
+  <%= f.hidden_field :designer_id, value:Designer.first.id %>
+  <%= f.submit "Submit Request", class: "waves-effect waves-light btn"%>
+  <br><br>
+<% end %>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+   $('select').attr("class", "browser-default")
+  });
+</script>

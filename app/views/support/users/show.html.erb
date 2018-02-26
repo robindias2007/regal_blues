@@ -1,5 +1,4 @@
 <div class="vertical-spacer-5"></div>
-
 <!-- Profile -->
 <div class="row">
   <div class="col s12 m6 l6">
@@ -143,7 +142,18 @@
       </div>
     </div>
   </div>
+  <div class="col s12 m6">
+    <div class="card">
+      <br>
+      <div class="center">
+        <%= link_to "Create Request For This User", support_create_request_path(@user), class:"waves-effect waves-light btn"  %>
+      </div>  
+      <br>
+    </div>
+  </div>
+
 </div>
+
 
 <!-- Requests List -->
 <% if @user.requests.present? %>
@@ -274,4 +284,5 @@
   $('.product-list').click(function() {
       $(this).siblings('input:checkbox').prop('checked', false);
   });
+
 </script>

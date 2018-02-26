@@ -11,6 +11,10 @@ class Support::UsersController < ApplicationController
     end
   end
 
+  def create_request
+    @user = User.find(params[:id])
+  end
+
   def show
     @user = if params[:query]
               User.search_for(search_params)

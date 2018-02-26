@@ -1,4 +1,21 @@
-
+<!-- <div class="card">
+	<h5>New Quotation</h5>
+	<%= form_for @offer_quotation, :url => support_offer_quotation_path(@offer.id) do |f| %>
+		<%= f.label :price %>
+		<%= f.text_field :price  %><br>
+		<%= f.label :description %>
+		<%= f.text_field :description %><br>
+		<%= f.hidden_field :offer_id, value:@offer.id %>
+		<%= f.fields_for :offer_quotation_gallery do |ff| %>
+			<%= ff.label :gallery_name %>
+			<%= ff.text_field :name  %><br>
+			<%= ff.fields_for :image do |image| %>
+				<%= image.file_field :image %><br>
+			<% end %>
+		<% end %>
+		<%= f.submit %>
+	<% end %>
+</div> -->
 <% @offer_quotations.each_with_index do |offquo, index| %>
 	<div class="row">
 		<div class="col s12">

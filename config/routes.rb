@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       get 'search/designer-suggestions', to: 'search#designers_suggestions'
       resources :users, only: %i[index show update], as: :support_users
       resources :designers, only: %i[index show], as: :support_designers
-      resources :requests, only: %i[index show update], as: :support_requests do
+      resources :requests, only: %i[index show update create], as: :support_requests do
         patch :approve
         patch :reject
       end
@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   get '/push_token' => 'support/push_tokens#index'
   post '/push_token' => 'support/push_tokens#create', as: :push_create
   
+  get '/users/create_request/:id' => 'support/users#create_request', as: :support_create_request  
 
   resources :measurement_tags
   
