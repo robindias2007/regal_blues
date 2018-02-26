@@ -3,6 +3,7 @@
     <thead>
       <tr>
         <th colspan="1" class="center">Designer Name</th>
+        <th colspan="1" class="center">User Username</th>
         <th colspan="1" class="center">Request Name</th>
         <th colspan="1" class="center">Category</th>
         <th colspan="1" class="center">No. of Quotations</th>
@@ -14,6 +15,9 @@
         <tr id="js-data-row">  
           <td colspan="1" class="center">
             <%= link_to offer.designer.full_name, support_designer_path(offer.designer) %>
+          </td>
+          <td colspan="1" class="center">
+            <%= link_to offer.request.user.username, support_user_path(offer.request.user) %>
           </td>
           <td colspan="1" class="center">
             <%= link_to offer.request.name.titleize, support_request_path(offer.request) %>

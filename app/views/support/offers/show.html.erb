@@ -1,4 +1,21 @@
-
+<!-- <div class="card">
+	<h5>New Quotation</h5>
+	<%= form_for @offer_quotation, :url => support_offer_quotation_path(@offer.id) do |f| %>
+		<%= f.label :price %>
+		<%= f.text_field :price  %><br>
+		<%= f.label :description %>
+		<%= f.text_field :description %><br>
+		<%= f.hidden_field :offer_id, value:@offer.id %>
+		<%= f.fields_for :offer_quotation_gallery do |ff| %>
+			<%= ff.label :gallery_name %>
+			<%= ff.text_field :name  %><br>
+			<%= ff.fields_for :image do |image| %>
+				<%= image.file_field :image %><br>
+			<% end %>
+		<% end %>
+		<%= f.submit %>
+	<% end %>
+</div> -->
 <% @offer_quotations.each_with_index do |offquo, index| %>
 	<div class="row">
 		<div class="col s12">
@@ -7,15 +24,18 @@
 					<div class="row">
 						<div class="col s12" style="text-align:center;"><h5><b>Quotation <%= index + 1 %></b></h5></div>
 					</div>
-					<p class="card-stats-title">Price:
-						<b><%= offquo.price %></b>
-					</p>
-					<p class="card-stats-title">Description:
-						<b><%= offquo.description %></b>
-					</p>
-					<p class="card-stats-title">Designer Note:
-						<b><%= offquo.designer_note %></b>
-					</p>
+					<%= form_for offquo, :url => support_offer_update_path(@offer) do |f| %>
+						<p class="card-stats-title">Price:
+							<b><%= f.text_field :price %></b>
+						</p>
+						<p class="card-stats-title">Description:
+							<b><%= f.text_field :description %></b>
+						</p>
+						<p class="card-stats-title">Designer Note:
+							<b><%= f.text_field :designer_note %></b>
+						</p>
+						<%= f.submit "Update Quotation" %>
+					<% end %>
 					<p class="card-stats-title">Offer Measurement:
 				  	<% offquo.offer_measurements.each do |offmeas| %>
 				  		<b><%= offmeas.data["tags"].map(&:titlecase) %></b>
@@ -23,14 +43,20 @@
 					</p>
 					<b><h5><u>Galleries:</u></h5></b>
 					<% offquo.offer_quotation_galleries.each do |offgall| %>  	
-					  	<p class="card-stats-title"><%= offgall.name %></p>
-					  	<p class="card-stats-title">
-					  		<% offgall.images.each do |gallery_image| %>            
-					      		<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
-					  		<% end %>
-					  	</p>
-					<% end %>
-					</div>
+				  	<p class="card-stats-title"><%= offgall.name %></p>
+				  	<p class="card-stats-title">
+				  		<% offgall.images.each do |gallery_image| %>            
+				      	<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
+				  		<% end %> 	
+				  	</p>
+				  	<%= form_for @image, :url => gallery_images_path, :html => {:method => :post} do |f| %>
+						  <%= f.hidden_field :imageable_id, value:offgall.id %>
+						  <%= f.hidden_field :imageable_type, value:"OfferQuotationGallery" %>
+						  <%= f.file_field :image %>
+						  <%= f.submit "Update Gallery" %>
+						<% end %>
+				  <% end %>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       get 'search/designer-suggestions', to: 'search#designers_suggestions'
       resources :users, only: %i[index show update], as: :support_users
       resources :designers, only: %i[index show], as: :support_designers
-      resources :requests, only: %i[index show update], as: :support_requests do
+      resources :requests, only: %i[index show update create], as: :support_requests do
         patch :approve
         patch :reject
       end
@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       resources :orders, only: %i[index], as: :support_orders  
       resources :orders, only: %i[show], as: :support_show_orders  
       resources :offers, only: %i[index show], as: :support_offers  
+      post 'offer_quotation/:offer_id' => 'offers#create_quotation', as: :support_offer_quotation
+      patch 'offer_quotation/:offer_id' => 'offers#update_quotation', as: :support_offer_update 
     end
   end
 
@@ -61,11 +63,14 @@ Rails.application.routes.draw do
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
   post '/request_images' => 'support/requests#request_images'
 
+  post '/gallery_images' => 'support/offers#gallery_images'
+
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
 
   get '/push_token' => 'support/push_tokens#index'
   post '/push_token' => 'support/push_tokens#create', as: :push_create
   
+  get '/users/create_request/:id' => 'support/users#create_request', as: :support_create_request  
 
   resources :measurement_tags
   

@@ -14,6 +14,26 @@ class Support::RequestsController < ApplicationController
     end
   end
 
+  def create
+    request = User.find(params[:request][:user_id]).requests.build(request_params)
+    unless request.user.addresses.present?
+      a = params[:request][:addresses]
+      address = request.user.addresses.create!(street_address:a[:street_address], nickname:a[:street_address],city:a[:city], state:a[:state], country:a[:country], pincode:a[:pincode])  
+      request.update(address_id:address.id)
+    end
+    if request.save!
+      params[:request][:request_image][:image].each do |f|
+        request.request_images.create!(image:f, serial_number:1)  
+      end
+     
+      request.request_designers.create!(request_id:request.id, designer_id:params[:request][:designer_id])
+      # RequestDesignerService.notify_about request
+      render json: { message: 'Request saved successfully' }, status: 201
+    else
+      render json: { errors: request.errors.messages }, status: 400
+    end
+  end
+
   def chat
     @skip_header = true;
     @convo_id = Conversation.find(params[:id])
@@ -88,6 +108,16 @@ class Support::RequestsController < ApplicationController
 
   def request_image_params
     params.require(:request_image).permit(:image, :request_id, :color, :serial_number)
+  end
+
+  def request_params
+    params.require(:request).permit(:user_id, :name, :size, :min_budget, :max_budget, :timeline, :address_id, :origin,
+      :description, :sub_category_id, request_images_attributes:    %i[image color description serial_number],
+      request_designers_attributes: [:designer_id])
+  end
+
+  def request_designers_params
+    params.require(:request).permit(request_designers_attributes: [:designer_id])
   end
 
 
