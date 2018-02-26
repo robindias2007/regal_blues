@@ -28,7 +28,8 @@ class Support::RequestsController < ApplicationController
      
       request.request_designers.create!(request_id:request.id, designer_id:params[:request][:designer_id])
       # RequestDesignerService.notify_about request
-      render json: { message: 'Request saved successfully' }, status: 201
+      redirect_to request.referer
+      flash[:success] = "Request Successfully Created"
     else
       render json: { errors: request.errors.messages }, status: 400
     end
