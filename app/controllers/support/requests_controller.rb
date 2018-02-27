@@ -32,8 +32,8 @@ class Support::RequestsController < ApplicationController
           request.request_designers.create!(request_id:request.id, designer_id:f)
         end
       end
-      request.send_request_mail
       # RequestDesignerService.notify_about request
+      request.send_request_mail
       redirect_to support_requests_path
       flash[:success] = "Request Successfully Created"
     else
