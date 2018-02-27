@@ -26,7 +26,7 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
       end 
     end
     users = user_convo_messages.map{|i| i.id}
-    users_conversation_sorting = User.where(id:users)
+    users_conversation_sorting = User.where(id:users, updated_at:7.days.ago..Time.now).order(updated_at: :desc)
     users = users_conversation_sorting
     render json: {
       users: users_serializer(users),
