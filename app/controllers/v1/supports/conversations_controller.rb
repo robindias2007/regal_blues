@@ -12,34 +12,37 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
     end
   end
 
-  def init_data
-    # user_zero_messages = []
-    # user_no_conversations = []
-    user_convo_messages = []
-    User.all.each do |f|
-      # if f.conversations.first.present? && (f.conversations.first.messages.count == 0)
-      #   user_zero_messages << f
-      # elsif f.conversations.empty?
-      #   user_no_conversations << f
-      if f.conversations.first.present? && (f.conversations.first.messages.count > 0)
-        user_convo_messages << f
-      end 
-    end
-    users = user_convo_messages.map{|i| i.id}
-    users_conversation_sorting = User.where(id:users, updated_at:7.days.ago..Time.now).order(updated_at: :desc)
-    users = users_conversation_sorting
-    render json: {
-      users: users_serializer(users),
-      support_id: Support.first.common_id 
-      }
-  end
-
-  # def init_data(users)
+  # def init_data
+  #   user_zero_messages = []
+  #   user_no_conversations = []
+  #   user_convo_messages = []
+  #   User.all.each do |f|
+  #     if f.conversations.first.present? && (f.conversations.first.messages.count == 0)
+  #       user_zero_messages << f
+  #     elsif f.conversations.empty?
+  #       user_no_conversations << f
+  #     elsif f.conversations.first.present? && (f.conversations.first.messages.count > 0)
+  #       user_convo_messages << f
+  #     end 
+  #   end
+  #   users = user_convo_messages.map{|i| i.id}
+  #   users_conversation_sorting = User.where(id:users, updated_at:7.days.ago..Time.now).order(updated_at: :desc)
+  #   users = users_conversation_sorting
   #   render json: {
   #     users: users_serializer(users),
   #     support_id: Support.first.common_id 
   #     }
   # end
+
+  def init_data
+    convo_id = Message.where(updated_at:7.days.ago..Time.now).pluck(:conversation_id).uniq
+    user_id = Conversation.where(id:convo_id).pluck(:conversationable_id)
+    users = User.where(id:user_id).order(updated_at: :desc)
+    render json: {
+      users: users_serializer(users),
+      support_id: Support.first.common_id 
+      }
+  end
 
   def chat_type
     if params[:request_id].present?
