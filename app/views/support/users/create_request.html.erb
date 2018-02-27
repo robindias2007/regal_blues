@@ -48,6 +48,7 @@
   <% end %>
  	<br><br>
   <div>
+    <%= f.label :Select_Designer %>
     <%= f.fields_for :request_designer do |req_des| %>
       <%= req_des.collection_select :designer_id, Designer.all.order(:full_name),:id,:full_name, :include_blank => 'All Designers' %>                                                     
     <% end %>
