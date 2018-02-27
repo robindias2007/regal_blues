@@ -28,7 +28,7 @@ class Support::RequestsController < ApplicationController
       params[:request][:request_designer][:designer_id].join(',').gsub(/,*\s+/,',').split(',').each do |f|   
         request.request_designers.create!(request_id:request.id, designer_id:f)
       end
-      request.delay.send_request_mail
+      request.send_request_mail
       # RequestDesignerService.notify_about request
       redirect_to support_requests_path
       flash[:success] = "Request Successfully Created"
