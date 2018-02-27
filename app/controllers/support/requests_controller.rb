@@ -25,6 +25,7 @@ class Support::RequestsController < ApplicationController
       params[:request][:request_image][:image].each do |f|
         request.request_images.create!(image:f, serial_number:1)  
       end
+      debugger
       params[:request][:request_designer][:designer_id].join(',').gsub(/,*\s+/,',').split(',').each do |f|   
         request.request_designers.create!(request_id:request.id, designer_id:f)
       end
