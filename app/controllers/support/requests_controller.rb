@@ -25,8 +25,12 @@ class Support::RequestsController < ApplicationController
       params[:request][:request_image][:image].each do |f|
         request.request_images.create!(image:f, serial_number:1)  
       end
-      params[:request][:request_designer][:designer_id].join(',').gsub(/,*\s+/,',').split(',').each do |f|   
-        request.request_designers.create!(request_id:request.id, designer_id:f)
+      if params[:request][:request_designer][:designer_id].present?
+        request.request_designers.create!(request_id:request.id, designer_id:params[:request][:request_designer][:designer_id])
+      else
+        Designer.all.pluck(:id).each do |f|   
+          request.request_designers.create!(request_id:request.id, designer_id:f)
+        end
       end
       request.send_request_mail
       # RequestDesignerService.notify_about request
