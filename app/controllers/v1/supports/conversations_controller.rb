@@ -13,15 +13,15 @@ class V1::Supports::ConversationsController < V1::Supports::BaseController
   end
 
   def init_data
-    user_zero_messages = []
-    user_no_conversations = []
+    # user_zero_messages = []
+    # user_no_conversations = []
     user_convo_messages = []
     User.all.each do |f|
-      if f.conversations.first.present? && (f.conversations.first.messages.count == 0)
-        user_zero_messages << f
-      elsif f.conversations.empty?
-        user_no_conversations << f
-      elsif f.conversations.first.present? && (f.conversations.first.messages.count > 0)
+      # if f.conversations.first.present? && (f.conversations.first.messages.count == 0)
+      #   user_zero_messages << f
+      # elsif f.conversations.empty?
+      #   user_no_conversations << f
+      if f.conversations.first.present? && (f.conversations.first.messages.count > 0)
         user_convo_messages << f
       end 
     end
