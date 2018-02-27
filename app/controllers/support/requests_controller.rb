@@ -25,10 +25,11 @@ class Support::RequestsController < ApplicationController
       params[:request][:request_image][:image].each do |f|
         request.request_images.create!(image:f, serial_number:1)  
       end
-     
-      request.request_designers.create!(request_id:request.id, designer_id:params[:request][:designer_id])
+      params[:request][:request_designer][:designer_id].join(',').gsub(/,*\s+/,',').split(',').each do |f|   
+        request.request_designers.create!(request_id:request.id, designer_id:f)
+      end
       # RequestDesignerService.notify_about request
-      redirect_to request.referer
+      redirect_to support_requests_path
       flash[:success] = "Request Successfully Created"
     else
       render json: { errors: request.errors.messages }, status: 400

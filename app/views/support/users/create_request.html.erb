@@ -47,7 +47,9 @@
     <%= req_img.file_field :image, multiple: true %>
   <% end %>
  	<br><br>
-  <%= f.hidden_field :designer_id, value:Designer.first.id %>
+  <%= f.fields_for :request_designer do |req_des| %>
+    <%= req_des.hidden_field :designer_id, :multiple => true, value:Designer.pluck(:id) %>
+  <% end %>
   <%= f.submit "Submit Request", class: "waves-effect waves-light btn"%>
   <br><br>
 <% end %>
