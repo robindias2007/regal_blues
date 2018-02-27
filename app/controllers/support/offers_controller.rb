@@ -45,11 +45,8 @@ class Support::OffersController < ApplicationController
   private
 
   def offer_quotation_params
-    params.require(:offer_quotation).permit(:price, :description, :request_id, :designer_note, :offer_id, offer_quotation_galleries_attributes: offer_quotation_galleries_attributes)
-  end
-
-  def offer_quotation_galleries_attributes
-    [:name , :offer_id, images_attributes: %i[image description]]
+    params.require(:offer_quotation).permit(:price, :description, :request_id, :designer_note, :offer_id
+      , offer_quotation_galleries_attributes: [:name , :offer_id, images_attributes: %i[image description] ])
   end
 
   def gallery_image_params
