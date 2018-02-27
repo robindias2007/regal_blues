@@ -12,18 +12,19 @@ class Support::OffersController < ApplicationController
     @image = Image.new
   end
 
-  # def create_quotation
-  #   @offer_quotation = OfferQuotation.new(offer_quotation_params)  
-  #   @offer_quotation_gallery = @offer_quotation.offer_quotation_galleries.new(name:params[:offer_quotation][:offer_quotation_gallery][:name])
-  #   @gallery_image =  @offer_quotation_gallery.images.new(image:params[:offer_quotation][:offer_quotation_gallery][:image], imageable_id:@offer_quotation_gallery.id)
-  #   debugger
-  #   if @offer_quotation.save! && @offer_quotation_gallery.save! && @gallery_image.save!
-  #     @gallery_image.update()
-  #     redirect_to request.referrer
-  #   else
-  #     redirect_to root_url
-  #   end
-  # end
+  def create_quotation
+    offer_quotation = OfferQuotation.new(offer_quotation_params)  
+    if offer_quotation.save! 
+      offer_gall = params[:offer_quotation][:offer_quotation_gallery]
+      debugger
+      offer_quotation.offer_quotation_galleries.create!(name:offer_gall[:name])
+      offer_gall[:image].each do |f|
+        offer_quotation.offer_quotation_galleries.first.images.create!(image:f)
+      end
+    else
+      redirect_to root_url
+    end
+  end
 
   def update_quotation
     offer_quotation = OfferQuotation.find_by(offer_id:params[:offer_id])

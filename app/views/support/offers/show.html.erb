@@ -1,4 +1,4 @@
-<!-- <div class="card">
+<div class="card">
 	<h5>New Quotation</h5>
 	<%= form_for @offer_quotation, :url => support_offer_quotation_path(@offer.id) do |f| %>
 		<%= f.label :price %>
@@ -10,12 +10,12 @@
 			<%= ff.label :gallery_name %>
 			<%= ff.text_field :name  %><br>
 			<%= ff.fields_for :image do |image| %>
-				<%= image.file_field :image %><br>
+				<%= image.file_field :image, multiple: true %><br>
 			<% end %>
 		<% end %>
 		<%= f.submit %>
 	<% end %>
-</div> -->
+</div>
 <% @offer_quotations.each_with_index do |offquo, index| %>
 	<div class="row">
 		<div class="col s12">
