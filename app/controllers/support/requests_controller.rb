@@ -25,9 +25,13 @@ class Support::RequestsController < ApplicationController
       params[:request][:request_image][:image].each do |f|
         request.request_images.create!(image:f, serial_number:1)  
       end
-      debugger
-      params[:request][:request_designer][:designer_id].join(',').gsub(/,*\s+/,',').split(',').each do |f|   
-        request.request_designers.create!(request_id:request.id, designer_id:f)
+      b = params[:request][:request_designer][:designer_id]
+      if b.present?
+        request.request_designers.create!(request_id:request.id, designer_id:b)
+      else
+        Designer.all.pluck(:id).each do |f|   
+          request.request_designers.create!(request_id:request.id, designer_id:f)
+        end
       end
       # RequestDesignerService.notify_about request
       redirect_to support_requests_path
