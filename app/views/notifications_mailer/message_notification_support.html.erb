@@ -1,7 +1,7 @@
 Dear <%= @resource.full_name %>,<br><br>
 
 <% if @type == "support_general" || @type == "support"%>
-	You have new message from <%= @sender.full_name %> with username <%= @sender.username %>.<br><br>
+	You have new message from <%= @sender.full_name %> with username <%= @sender.username %>. <br><br> <%= @message.body %><br><br>
 <% elsif @type == "requests"%>
 	You have new message from <%= @sender.full_name %> for request <%= @type_name%>.<br><br>
 <% elsif @type == "orders"%>
