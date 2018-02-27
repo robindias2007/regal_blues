@@ -8,7 +8,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
     offer = current_designer.offers.build(offer_params)
     if offer.save
       offer.update_shipping_price
-      delay.notify_new_offer(offer)
+      notify_new_offer(offer)
       render json: { message: 'Offer saved successfully' }, status: 201
     else
       render json: { errors: offer.errors.messages }, status: 400
