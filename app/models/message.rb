@@ -92,7 +92,7 @@ class Message < ApplicationRecord
     typ = type
     id = self.conversation.receiver_id
     if typ == "support_general" || typ == "support"
-      msg = "You have new message from support." rescue " "
+      msg = "You have new message from support. #{self.body}"  rescue " "
     elsif typ == "requests"
       req_name = Request.find(id).name rescue " "
       msg = "You have new message for request #{req_name}."
