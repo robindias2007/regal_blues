@@ -25,7 +25,6 @@ class Support::RequestsController < ApplicationController
       params[:request][:request_image][:image].each do |f|
         request.request_images.create!(image:f, serial_number:1)  
       end
-      debugger
       if params[:request][:request_designer][:designer_id].present?
         request.request_designers.create!(request_id:request.id, designer_id:params[:request][:request_designer][:designer_id])
       else

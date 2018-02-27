@@ -52,8 +52,7 @@
       <%= req_des.collection_select :designer_id, Designer.all.order(:full_name),:id,:full_name, :include_blank => 'All Designers' %>                                                     
     <% end %>
   </div>
-  
-
+  <br><br>
   <%= f.submit "Submit Request", class: "waves-effect waves-light btn"%>
   <br><br>
 <% end %>
