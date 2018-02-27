@@ -49,8 +49,7 @@
  	<br><br>
   <div>
     <%= f.fields_for :request_designer do |req_des| %>
-      <%= req_des.collection_select :designer_id, Designer.all.order(:full_name),:id,:full_name, 
-                                                           , {:include_blank => 'Some text here'} %>                                                     
+      <%= req_des.collection_select :designer_id, Designer.all.order(:full_name),:id,:full_name, :include_blank => 'All Designers' %>                                                     
     <% end %>
   </div>
   
