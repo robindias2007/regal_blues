@@ -2,7 +2,7 @@
 
 class Support::OffersController < ApplicationController
   def index
-    @offers = Offer.all.order(created_at: :desc)
+    @offers = Offer.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
   end
 
   def show

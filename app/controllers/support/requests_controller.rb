@@ -6,9 +6,8 @@ class Support::RequestsController < ApplicationController
   def index
     if current_support.role == "admin"
       req = Request.order(created_at: :desc)
-      @requests = req.where(status:"active") + req.where(status:"pending") + req.where(status:"unapproved")
-      # @conversation = Conversation.new
-      # @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
+      requests = (req.where(status:"active") + req.where(status:"pending") + req.where(status:"unapproved")).map{|i| i.id}
+      @requests = Request.where(id: requests).paginate(:page => params[:page], :per_page => 100)
     else
       redirect_to root_url
     end
