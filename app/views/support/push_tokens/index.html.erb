@@ -1,6 +1,22 @@
 <h4 class="center">Push Notification</h4>
 <br>
 <div class="row" style="border:1px solid black">
+	<h5 class="center">ALL USERS( Users + PushToken Table)</h5>	
+	<div class="col m2"></div>
+	<div class="col m8">
+		<%= form_for @notification, :url => push_create_path, :html => {:method => :post} do |f|  %>
+			<label>Message Body</label>
+			<%= f.text_area :body, class: "materialize-textarea", required:true %>
+			<%= f.hidden_field :resourceable_type, value:"User" %>
+			<%= f.hidden_field :notificationable_type, value:"Support" %>
+			<%= f.submit "ALL USERS", class: "waves-effect waves-light btn" %>
+		<% end %>
+		<br>
+	</div>
+	<div class="col m2"></div>
+</div>
+<br>
+<div class="row" style="border:1px solid black">
 	<h5 class="center">User ID Null</h5>	
 	<div class="col m2"></div>
 	<div class="col m8">
