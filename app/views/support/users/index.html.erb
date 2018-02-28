@@ -4,8 +4,8 @@
 
 <div class="row">
   <% if @users.present? %>
-    <%= render 'table', users: @users %>
-      <% else %>
+   	<%= render 'table', users: @users %>
+  <% else %>
     <h4>No users present in the database</h4>
   <% end %>
 </div>

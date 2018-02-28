@@ -3,7 +3,7 @@
 class Support::UsersController < ApplicationController
   def index
     if current_support.role == "admin"
-      @users = User.order(created_at: :desc).all
+      @users = User.order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
       # @conversation = Conversation.new  
       # @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" ) 
     else
