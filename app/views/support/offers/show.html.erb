@@ -1,5 +1,8 @@
-<!-- <div class="card">
-	<h5>New Quotation</h5>
+
+<br><button class="waves-effect waves-light btn quotation_button">Click Here To Create a New Quotation</button><br>
+<div class="card" id="quotation" style="display:none">
+	<br>
+	<h4 class="center">New Quotation</h4>
 	<%= form_for @offer_quotation, :url => support_offer_quotation_path(@offer.id) do |f| %>
 		<%= f.label :price %>
 		<%= f.text_field :price  %><br>
@@ -10,12 +13,15 @@
 			<%= ff.label :gallery_name %>
 			<%= ff.text_field :name  %><br>
 			<%= ff.fields_for :image do |image| %>
-				<%= image.file_field :image %><br>
+				<%= image.file_field :image, multiple: true %><br>
 			<% end %>
 		<% end %>
-		<%= f.submit %>
+		<br>
+		<%= f.submit "Create", class: "waves-effect waves-light btn" %>
 	<% end %>
-</div> -->
+	<br>
+</div>
+
 <% @offer_quotations.each_with_index do |offquo, index| %>
 	<div class="row">
 		<div class="col s12">
@@ -61,3 +67,9 @@
 		</div>
 	</div>
 <% end %>
+
+<script type="text/javascript">
+	$(".quotation_button").click(function(){
+    $("#quotation").toggle();
+	});
+</script>

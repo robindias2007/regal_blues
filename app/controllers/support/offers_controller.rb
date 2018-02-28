@@ -12,18 +12,19 @@ class Support::OffersController < ApplicationController
     @image = Image.new
   end
 
-  # def create_quotation
-  #   @offer_quotation = OfferQuotation.new(offer_quotation_params)  
-  #   @offer_quotation_gallery = @offer_quotation.offer_quotation_galleries.new(name:params[:offer_quotation][:offer_quotation_gallery][:name])
-  #   @gallery_image =  @offer_quotation_gallery.images.new(image:params[:offer_quotation][:offer_quotation_gallery][:image], imageable_id:@offer_quotation_gallery.id)
-  #   debugger
-  #   if @offer_quotation.save! && @offer_quotation_gallery.save! && @gallery_image.save!
-  #     @gallery_image.update()
-  #     redirect_to request.referrer
-  #   else
-  #     redirect_to root_url
-  #   end
-  # end
+  def create_quotation
+    offer_quotation = OfferQuotation.new(offer_quotation_params)  
+    if offer_quotation.save! 
+      offer_gall = params[:offer_quotation][:offer_quotation_gallery]
+      offer_quotation.offer_quotation_galleries.create!(name:offer_gall[:name])
+      offer_gall[:image][:image].each do |f|
+        offer_quotation.offer_quotation_galleries.first.images.create!(image:f)
+      end
+      redirect_to support_offer_path(offer_quotation.offer_id)
+    else
+      redirect_to root_url
+    end
+  end
 
   def update_quotation
     offer_quotation = OfferQuotation.find_by(offer_id:params[:offer_id])
@@ -44,11 +45,7 @@ class Support::OffersController < ApplicationController
   private
 
   def offer_quotation_params
-    params.require(:offer_quotation).permit(:price, :description, :request_id, :designer_note, :offer_id, offer_quotation_galleries_attributes: offer_quotation_galleries_attributes)
-  end
-
-  def offer_quotation_galleries_attributes
-    [:name , :offer_id, images_attributes: %i[image description]]
+    params.require(:offer_quotation).permit(:price, :description, :request_id, :designer_note, :offer_id, offer_quotation_galleries_attributes: [:name ], images_attributes: %i[image] )
   end
 
   def gallery_image_params
