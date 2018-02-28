@@ -17,7 +17,7 @@ class Support::PushTokensController < ApplicationController
       elsif params[:commit] == "SUBMIT REQUEST"
         @notification.delay.submit_request(@notification)
       elsif params[:commit] == "ALL USERS"    
-        @notification.all_users
+        @notification.delay.all_users
       end  
       flash[:success] == "Done"
   		redirect_to push_token_path
