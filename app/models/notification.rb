@@ -36,7 +36,6 @@ class Notification < ApplicationRecord
 
 	  def all_users
 	  	all_users = (User.pluck(:devise_token) + PushToken.pluck(:token)).compact.uniq
-	  	debugger
 	  	all_users.each do |f|
 	  		send_notification(f, self.body, "", "")
 	  	end
