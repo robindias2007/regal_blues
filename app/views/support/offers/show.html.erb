@@ -44,7 +44,10 @@
 					<% end %>
 					<p class="card-stats-title">Offer Measurement:
 				  	<% offquo.offer_measurements.each do |offmeas| %>
-				  		<b><%= offmeas.data["tags"].map(&:titlecase) %></b>
+				  		<%= form_for offmeas, :url => support_offer_update_path(@offer)  do |f| %>
+				  			<b><%= f.text_field :data %></b>
+				  			<%= f.submit "Update Measurement" %>
+				  		<% end %>
 				  	<% end %>
 					</p>
 					<b><h5><u>Galleries:</u></h5></b>

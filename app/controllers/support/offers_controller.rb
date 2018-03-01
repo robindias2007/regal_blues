@@ -28,7 +28,13 @@ class Support::OffersController < ApplicationController
 
   def update_quotation
     offer_quotation = OfferQuotation.find_by(offer_id:params[:offer_id])
-    offer_quotation.update(offer_quotation_params)
+    if params[:commit] == "Update Measurement"
+      a = offer_quotation.offer_measurements.first
+      a.data = JSON.parse params[:offer_measurement][:data].gsub('=>', ':')
+      a.save!
+    else
+      offer_quotation.update(offer_quotation_params)
+    end
   end
 
   def gallery_images
