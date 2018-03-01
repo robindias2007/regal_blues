@@ -27,6 +27,7 @@ class Support::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
+    user.update(support_notes:params[:user][:support_notes])
     if params[:user][:hot] == "1"
       user.update(hot:true, cold:false, warm:false)
     elsif params[:user][:cold] == "1"

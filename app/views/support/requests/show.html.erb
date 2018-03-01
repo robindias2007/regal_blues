@@ -53,6 +53,9 @@
             <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
             <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label><br>
           </p><br>
+          <p class="card-stats-title">Support Notes:
+            <%= f.text_area :support_notes , class: "materialize-textarea" %>
+          </p>
           <%= f.submit %>
           <br><br>
         <% end %>

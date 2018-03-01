@@ -28,12 +28,16 @@
         <p class="card-stats-title">Bio:
           <b><%= @user.bio ? @user.bio : 'No bio' %></b>
         </p>
-        <p class="card-stats-title fixed">User Behaviour:<br>
+        <p class="card-stats-title fixed">
 
           <%= form_for @user, :url => support_user_path(@user), remote: true do |f| %>
+            <p class="card-stats-title"><b>Support Notes:</b>
+              <%= f.text_area :support_notes , class: "materialize-textarea" %>
+            </p>
+            User Behaviour:<br>
             <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot" style="color:green">Hot?</label><br>
             <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
-            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label><br>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label><br><br>
             <%= f.submit %>
           <% end %>
           

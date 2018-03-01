@@ -71,7 +71,8 @@ class Support::RequestsController < ApplicationController
 
   def update
     request = Request.find(params[:id])
-    request.update(description:params[:request][:description], max_budget:params[:request][:max_budget])
+    req = params[:request]
+    request.update(description:req[:description], max_budget:req[:max_budget], support_notes:req[:support_notes])
     if params[:request][:hot] == "1"
       request.update(hot:true, cold:false, warm:false)
     elsif params[:request][:cold] == "1"
