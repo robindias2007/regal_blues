@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301101204) do
+ActiveRecord::Schema.define(version: 20180305060044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -40,6 +40,26 @@ ActiveRecord::Schema.define(version: 20180301101204) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
     t.index ["super_category_id"], name: "index_categories_on_super_category_id"
+  end
+
+  create_table "config_variables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "event_name"
+    t.string "param1"
+    t.string "param2"
+    t.string "param3"
+    t.string "param4"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "event_name"
+    t.datetime "time"
+    t.string "param1"
+    t.string "param2"
+    t.string "param3"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

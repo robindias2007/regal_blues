@@ -89,6 +89,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     
     picks = Pick.all
     support_id = Support.first.common_id
+    configurations = ConfigVariable.all
     # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     # all_req = current_user.requests.order(updated_at: :desc)
     # rest_requests = (all_req - request_offers).to_a
@@ -103,7 +104,8 @@ class V1::Users::HomeController < V1::Users::BaseController
       orders:order_resource(orders_json_array),
       recos: [],
       user: profile_serializer(current_user), 
-      support: support_id
+      support: support_id,
+      configurations: configurations
     }
   end
 
@@ -125,7 +127,8 @@ class V1::Users::HomeController < V1::Users::BaseController
     recos = Product.includes(designer: :designer_store_info).order('RANDOM()').limit(6)
     picks = Pick.where(cat_name:"Lehenga")
     support_id = Support.first.common_id
-    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: profile_serializer(current_user), support: support_id}
+    configurations = ConfigVariable.all
+    render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: profile_serializer(current_user), support: support_id, configurations: configurations}
   end
 
   def render_top_designers

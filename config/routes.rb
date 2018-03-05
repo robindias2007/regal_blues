@@ -5,7 +5,8 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
-  resources :measurement_tags
+  resources :config_variables
+  
 
   resources :picks
   mount ActionCable.server => '/cable'

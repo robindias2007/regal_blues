@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Event name:</strong>
+  <%= @config_variable.event_name %>
+</p>
+
+<p>
+  <strong>Param1:</strong>
+  <%= @config_variable.param1 %>
+</p>
+
+<p>
+  <strong>Param2:</strong>
+  <%= @config_variable.param2 %>
+</p>
+
+<p>
+  <strong>Param3:</strong>
+  <%= @config_variable.param3 %>
+</p>
+
+<p>
+  <strong>Param4:</strong>
+  <%= @config_variable.param4 %>
+</p>
+
+<%= link_to 'Edit', edit_config_variable_path(@config_variable) %> |
+<%= link_to 'Back', config_variables_path %>

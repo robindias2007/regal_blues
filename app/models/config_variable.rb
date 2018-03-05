@@ -1,0 +1,2 @@
+class ConfigVariable < ApplicationRecord
+end

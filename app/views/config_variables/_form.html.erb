@@ -1,0 +1,15 @@
+<%= simple_form_for(@config_variable) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :event_name %>
+    <%= f.input :param1 %>
+    <%= f.input :param2 %>
+    <%= f.input :param3 %>
+    <%= f.input :param4 %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

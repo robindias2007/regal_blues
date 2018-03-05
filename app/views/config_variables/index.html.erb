@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Config Variables</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event name</th>
+      <th>Param1</th>
+      <th>Param2</th>
+      <th>Param3</th>
+      <th>Param4</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @config_variables.each do |config_variable| %>
+      <tr>
+        <td><%= config_variable.event_name %></td>
+        <td><%= config_variable.param1 %></td>
+        <td><%= config_variable.param2 %></td>
+        <td><%= config_variable.param3 %></td>
+        <td><%= config_variable.param4 %></td>
+        <td><%= link_to 'Show', config_variable %></td>
+        <td><%= link_to 'Edit', edit_config_variable_path(config_variable) %></td>
+        <td><%= link_to 'Destroy', config_variable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Config Variable', new_config_variable_path %>
