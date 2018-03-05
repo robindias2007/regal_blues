@@ -51,6 +51,7 @@ class V1::Designers::OffersController < V1::Designers::BaseController
       NotificationsMailer.new_offer(offer).deliver_later
       offer.request.user.notifications.create(body: body, notificationable_type: "Offer", notificationable_id: offer.id)
       send_notification(offer.request.user.devise_token, body, "", extra_data)
+      SmsService.send_message_notification(offer.request.user.mobile_number, body)
     rescue
     end
   end
