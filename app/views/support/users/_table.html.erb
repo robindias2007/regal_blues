@@ -13,30 +13,28 @@
   <table class="highlight">
     <thead>
       <tr>
-        <th colspan="4" class="center">Full Name</th>
-        <th colspan="2" class="center">Username</th>
+        <th colspan="1" class="center">Full Name</th>
+        <th colspan="1" class="center">Username</th>
         <% if current_support.role == "admin" %>
-          <th colspan="2" class="center">Mobile Number</th>
+          <th colspan="1" class="center">Mobile Number</th>
           <th colspan="1" class="center">Email</th>
         <% end %>
         <th colspan="1" class="center">Gender</th>
         <th colspan="1" class="center">Requests made</th>
         <th colspan="1" class="center">Orders made</th>
-        <!-- <th colspan="1" class="center">Chat</th> -->
-        <!-- <th colspan="1" class="center">Message Count</th>
-        <th colspan="1" class="center">Unread</th> -->
+        <th colspan="2" class="right">Behaviour</th>
+        <th colspan="1" class="center">Update</th>
     </thead>
     <tbody>
       <% users.each do |user| %>
-        <%# <% con =  @convo.where(conversationable_id:user).first %>
         <tr id="js-data-row">
-          <td colspan="4" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
+          <td colspan="1" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
 
-          <td colspan="2" class="center">
+          <td colspan="1" class="center">
             <%= user.username %>
           </td>
           <% if current_support.role == "admin" %>
-            <td colspan="2" class="center"><%= user.mobile_number %></td>
+            <td colspan="1" class="center"><%= user.mobile_number %></td>
 
             <td colspan="1" class="center">
               <%= user.email %>
@@ -54,11 +52,33 @@
           <td colspan="1" class="center">
             <%= user.orders.size %>
           </td>
-
-            
+          <td colspan="2" class="right">
+            <%= form_for user, :url => support_user_path(user), remote: true do |f| %>
+            <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot" style="color:green">Hot?</label><br>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label>
+          </td>
+          <td colspan="1" class="center">
+              <%= f.submit %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 <%= will_paginate users %>
+
+<style type="text/css">
+  
+  #hot:checked + label:before{
+  border-right: 2px solid green; /* You need to change the colour here */
+  border-bottom: 2px solid green; /* And here */
+  }
+  #cold:checked + label:before{
+  border-right: 2px solid red; /* You need to change the colour here */
+  border-bottom: 2px solid red; /* And here */
+  }
+  
+</style>
+
