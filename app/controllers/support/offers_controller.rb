@@ -55,6 +55,6 @@ class Support::OffersController < ApplicationController
   end
 
   def gallery_image_params
-    params.require(:image).permit(:image, :imageable_id, :imageable_type)
+    params.require(:image).permit(:image, :imageable_id, :imageable_type, :description, :serial_number)
   end
 end

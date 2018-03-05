@@ -61,6 +61,8 @@
 				  	<%= form_for @image, :url => gallery_images_path, :html => {:method => :post} do |f| %>
 						  <%= f.hidden_field :imageable_id, value:offgall.id %>
 						  <%= f.hidden_field :imageable_type, value:"OfferQuotationGallery" %>
+						  <%= f.hidden_field :description, value:"GalleryImage" %>
+						  <%= f.hidden_field :serial_number, value:1 %>
 						  <%= f.file_field :image %>
 						  <%= f.submit "Update Gallery" %>
 						<% end %>
