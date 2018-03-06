@@ -105,7 +105,8 @@ class V1::Users::HomeController < V1::Users::BaseController
       recos: [],
       user: profile_serializer(current_user), 
       support: support_id,
-      configurations: configurations
+      configurations: configurations,
+      explore: picks
     }
   end
 
