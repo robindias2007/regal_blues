@@ -90,10 +90,12 @@ class V1::Users::HomeController < V1::Users::BaseController
     picks = Pick.all
     support_id = Support.first.common_id
     if current_user.requests.present?
-      if a = ConfigVariable.where(event_name:"home_custom_search")
-        a.first.param2 = nil
-        configurations = a + ConfigVariable.where.not(event_name:"home_custom_search") 
-      end
+      a = ConfigVariable.where(event_name:"home_custom_search")
+      a.first.param2 = nil
+      array = Array.new
+      array.push(a.first)
+
+      configurations = array + ConfigVariable.where.not(event_name:"home_custom_search") 
     else
       configurations = ConfigVariable.all
     end
