@@ -87,7 +87,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     requests_json_array = request_array.compact
     orders_json_array = order_array.compact
     
-    picks = Pick.where(cat_name:"Lehenga")
+    picks = Pick.where(cat_name:nil)
     support_id = Support.first.common_id
     if current_user.requests.present?
       a = ConfigVariable.where(event_name:"home_custom_search")
