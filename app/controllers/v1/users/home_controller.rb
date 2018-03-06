@@ -89,7 +89,12 @@ class V1::Users::HomeController < V1::Users::BaseController
     
     picks = Pick.all
     support_id = Support.first.common_id
-    configurations = ConfigVariable.all
+    
+    if current_user.requests.present?
+      configurations = ConfigVariable.where.not(event_name:"home_custom_search")
+    else
+      configurations = ConfigVariable.all
+    end  
     # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     # all_req = current_user.requests.order(updated_at: :desc)
     # rest_requests = (all_req - request_offers).to_a
