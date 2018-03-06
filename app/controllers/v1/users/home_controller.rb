@@ -89,12 +89,14 @@ class V1::Users::HomeController < V1::Users::BaseController
     
     picks = Pick.all
     support_id = Support.first.common_id
-    
     if current_user.requests.present?
-      configurations = ConfigVariable.where.not(event_name:"home_custom_search")
+      if a = ConfigVariable.where(event_name:"home_custom_search")
+        a.first.param2 = nil
+        configurations = a + ConfigVariable.where.not(event_name:"home_custom_search") 
+      end
     else
       configurations = ConfigVariable.all
-    end  
+    end
     # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     # all_req = current_user.requests.order(updated_at: :desc)
     # rest_requests = (all_req - request_offers).to_a
@@ -171,5 +173,10 @@ class V1::Users::HomeController < V1::Users::BaseController
   def profile_serializer(current_user)
     ActiveModelSerializers::SerializableResource.new(current_user,
       each_serializer: V1::Users::ProfileSerializer)
+  end
+
+  def config_serializer(configurations)
+    ActiveModelSerializers::SerializableResource.new(configurations,
+      each_serializer: V1::Users::ConfigVariableSerializer)
   end
 end
