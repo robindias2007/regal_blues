@@ -137,7 +137,8 @@ class V1::Users::HomeController < V1::Users::BaseController
     top_designers = Designer.includes(:designer_store_info, :sub_categories).order('RANDOM()').limit(6)
     picks = Pick.where(cat_name:"Lehenga")
     support_id = Support.first.common_id
-    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks, support: support_id }
+    configurations = ConfigVariable.all
+    render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks, support: support_id ,configurations: configurations}
   end
 
   def td_resource(top_designers)
