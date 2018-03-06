@@ -9,7 +9,7 @@ module PushNotification
 	    token = token
 	    notification = Houston::Notification.new(device: token)
 	    notification.alert = {title: "Custumise", body: alert}
-	    notification.badge = 1
+	    notification.badge = 0
 	    notification.sound = "default"
 	    notification.category = "INVITE_CATEGORY"
 	    # notification.content_available = true
@@ -27,7 +27,7 @@ module PushNotification
 			apn.certificate = File.read(path)
 			token = token
 	    notification = Houston::Notification.new(device: token)
-	    notification.badge = 1
+	    notification.badge = 0
 	    notification.sound = "default"
 	    notification.alert = {title: title(msg), body: alert}
 	    key = msg.conversation.receiver_type.singularize+"_id"
@@ -49,7 +49,7 @@ module PushNotification
 			apn.certificate = File.read(path)
 			token = token
 	    notification = Houston::Notification.new(device: token)
-	    notification.badge = 1
+	    notification.badge = 0
 	    notification.sound = "default"
 	    notification.alert = {title: title(msg), body: alert}
 	    key = msg.conversation.receiver_type.singularize+"_id"
