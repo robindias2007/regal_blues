@@ -14,6 +14,7 @@
   <%= f.label :Description %>
   <%= f.text_area :description, class: "materialize-textarea", required:true %>
   <br>
+  <%= f.hidden_field :timeline, value:6 %>
   <%= f.label :Address %><br>
   <% if @user.addresses.present? %>
     <%= f.collection_select :address_id, @user.addresses, :id, :formatted_address, class: "browser-default" %>
