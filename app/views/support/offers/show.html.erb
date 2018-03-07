@@ -52,7 +52,13 @@
 					</p>
 					<b><h5><u>Galleries:</u></h5></b>
 					<% offquo.offer_quotation_galleries.each do |offgall| %>  	
-				  	<p class="card-stats-title"><%= offgall.name %></p>
+				  	<p class="card-stats-title">
+				  		<%= form_for offgall, :url => support_offer_update_path(offgall)  do |f| %>
+				  			<%= f.text_field :name %>
+				  			<%= f.submit "Name Update" %>
+				  		<% end %>
+				  		<br>		
+				  	</p>
 				  	<p class="card-stats-title">
 				  		<% offgall.images.each do |gallery_image| %>            
 				      	<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
@@ -66,7 +72,7 @@
 						  <%= f.label :caption %>
 						  <%= f.text_field :description %>
 						  <%= f.file_field :image %>
-						  <%= f.submit "Update Gallery" %>
+						  <%= f.submit "Gallery" %>
 						<% end %>
 				  <% end %>
 				</div>

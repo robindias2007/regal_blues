@@ -27,16 +27,23 @@ class Support::OffersController < ApplicationController
   end
 
   def update_quotation
-    offer_quotation = OfferQuotation.find_by(offer_id:params[:offer_id])
+    offer_quotation = OfferQuotation.find_by(offer_id:params[:offer_id]) rescue nil
+    offer_gallery = OfferQuotationGallery.find(params[:offer_id]) rescue nil
     if params[:commit] == "Update Measurement"
       a = offer_quotation.offer_measurements.first
       a.data = JSON.parse params[:offer_measurement][:data].gsub('=>', ':')
       a.save!
+      flash[:success] = "Offer Updated"
+      redirect_to support_offer_path(params[:offer_id])
+    elsif params[:commit] == "Name Update"
+      offer_gallery.update(name:params[:offer_quotation_gallery][:name]) 
+      flash[:success] = "Offer Updated"
+      redirect_to request.referer     
     else
       offer_quotation.update(offer_quotation_params)
+      flash[:success] = "Offer Updated"
+      redirect_to support_offer_path(params[:offer_id])
     end
-    flash[:success] = "Offer Updated"
-    redirect_to support_offer_path(params[:offer_id])
   end
 
   def gallery_images
