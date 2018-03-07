@@ -19,7 +19,7 @@ class Support::PushTokensController < ApplicationController
       elsif params[:commit] == "ALL USERS"    
         @notification.delay.all_users
       end  
-      flash[:success] == "Done"
+      flash[:success] == "Push Notification Sent"
   		redirect_to push_token_path
   	else
   		redirect_to root_url

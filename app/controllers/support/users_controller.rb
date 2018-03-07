@@ -34,7 +34,9 @@ class Support::UsersController < ApplicationController
       user.update(hot:false, cold:true, warm:false)
     elsif params[:user][:warm] == "1"
       user.update(hot:false, cold:false, warm:true)        
-    end
+    end     
+    flash[:success] = "User Updated"
+    redirect_to support_user_path(user)
   end
 
   def create

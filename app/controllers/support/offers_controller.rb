@@ -35,6 +35,8 @@ class Support::OffersController < ApplicationController
     else
       offer_quotation.update(offer_quotation_params)
     end
+    flash[:success] = "Offer Updated"
+    redirect_to support_offer_path(params[:offer_id])
   end
 
   def gallery_images
@@ -46,6 +48,11 @@ class Support::OffersController < ApplicationController
     else
       redirect_to support_offers_path
     end
+  end
+
+  def destroy
+    @offer = Offer.find(params[:id])
+    @offer.destroy
   end
 
   private

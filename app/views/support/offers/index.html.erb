@@ -12,6 +12,7 @@
         <th colspan="1" class="center">Category</th>
         <th colspan="1" class="center">No. of Quotations</th>
         <th colspan="1" class="center">Date</th>
+        <th colspan="1" class="center">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -33,6 +34,7 @@
             <%= link_to offer.offer_quotations.count, support_offer_path(offer) %>
           </td> 
           <td colspan="1" class="center"><%= offer.created_at.strftime('%d %B %Y') %></td>
+          <td colspan="1" class="center"><%= link_to "Delete", support_offer_path(offer), method: :delete %></td>
         </tr>
       <% end %>
     </tbody>

@@ -80,6 +80,8 @@ class Support::RequestsController < ApplicationController
     elsif params[:request][:warm] == "1"
       request.update(hot:false, cold:false, warm:true)        
     end
+    flash[:success] = "Request Updated"
+    redirect_to support_request_path(request) 
   end
 
   def approve

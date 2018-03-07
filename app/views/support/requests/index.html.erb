@@ -18,6 +18,8 @@
         <th colspan="1" class="center">Number of Offers</th>
         <th colspan="1" class="center">Approve</th>
         <th colspan="1" class="center">Reject</th>
+        <th colspan="2" class="right">Behaviour</th>
+        <th colspan="1" class="center">Update</th>
         <!-- <th colspan="1" class="center">General</th> -->
       </tr>
     </thead>
@@ -63,6 +65,17 @@
               <i class="material-icons" data-id=<%= request.id %>>block</i>
             </div>
           <% end %>
+          </td>
+
+          <td colspan="2" class="right">
+            <%= form_for request, :url => support_request_path(request), remote: true do |f| %>
+            <%= f.check_box :hot, id:"hot", class: "product-list"%><label for="hot" style="color:green">Hot?</label><br>
+            <%= f.check_box :cold, id:"cold", class: "product-list" %><label for="cold" style="color:red">Cold?</label><br>
+            <%= f.check_box :warm, id:"warm", class: "product-list"  %><label for="warm" style="color:#eaa508">Warm?</label>
+          </td>
+          <td colspan="1" class="center">
+              <%= f.submit %>
+            <% end %>
           </td>
 
         </tr>
