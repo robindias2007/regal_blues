@@ -63,6 +63,8 @@
 						  <%= f.hidden_field :imageable_type, value:"OfferQuotationGallery" %>
 						  <%= f.hidden_field :description, value:"GalleryImage" %>
 						  <%= f.hidden_field :serial_number, value:1 %>
+						  <%= f.label :caption %>
+						  <%= f.text_field :description %>
 						  <%= f.file_field :image %>
 						  <%= f.submit "Update Gallery" %>
 						<% end %>

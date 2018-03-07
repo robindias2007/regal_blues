@@ -53,6 +53,8 @@ class Support::OffersController < ApplicationController
   def destroy
     @offer = Offer.find(params[:id])
     @offer.destroy
+    redirect_to support_offers_path
+    flash[:success] = "Offer Deleted"
   end
 
   private
