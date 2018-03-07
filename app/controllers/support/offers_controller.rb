@@ -50,6 +50,11 @@ class Support::OffersController < ApplicationController
     end
   end
 
+  def destroy
+    @offer = Offer.find(params[:id])
+    @offer.destroy
+  end
+
   private
 
   def offer_quotation_params
