@@ -14,7 +14,6 @@ class Support::OffersController < ApplicationController
 
   def create_quotation
     offer_quotation = OfferQuotation.new(offer_quotation_params)  
-    debugger
     if offer_quotation.save! 
       offer_gall = params[:offer_quotation][:offer_quotation_gallery]
       offer_quotation.offer_quotation_galleries.create!(name:offer_gall[:name])
