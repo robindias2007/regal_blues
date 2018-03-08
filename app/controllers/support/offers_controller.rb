@@ -49,7 +49,6 @@ class Support::OffersController < ApplicationController
 
   def gallery_images
     image = Image.new(gallery_image_params)
-    #debugger
     if image.save!
       flash[:success] = "Image Uploaded"
       redirect_to request.referer

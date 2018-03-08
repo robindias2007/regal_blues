@@ -161,8 +161,16 @@
 			    <%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 			  		<div class="col s9">
 			  			<br>
-			  			<%= f.text_area :body, class: "materialize-textarea" %>
-			    		<%= f.file_field :attachment %>
+			    		<div class="row">
+			    			<%= f.text_area :body, class: "materialize-textarea" %>
+			    			<div class="col s6">
+			    				<%= f.label :Copy_Paste_Image %>
+			    				<%= f.text_field :attachment %>
+			    			</div>
+			    			<div class="col s6">
+			    				<%= f.file_field :attachment %>
+			    			</div>
+			    		</div>
 			    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
 			  		</div>
 			  		<div class="col s3">

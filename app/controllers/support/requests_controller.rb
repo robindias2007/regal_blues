@@ -68,7 +68,6 @@ class Support::RequestsController < ApplicationController
     end
   end
 
-
   def show
     @conversation = Conversation.new
     @request_image = RequestImage.new
