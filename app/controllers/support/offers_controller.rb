@@ -21,7 +21,6 @@ class Support::OffersController < ApplicationController
       offer_gall[:image][:image].each do |f|
         offer_quotation.offer_quotation_galleries.first.images.create!(image:f)
       end
-      debugger
       offer_quotation.offer_measurements.create!(data:{"tags"=>[params[:offer_quotation][:offer_measurement][:data]]})
       redirect_to support_offer_path(offer_quotation.offer_id)
     else
