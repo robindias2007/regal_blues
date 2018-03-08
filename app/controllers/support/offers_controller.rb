@@ -18,7 +18,7 @@ class Support::OffersController < ApplicationController
       offer_gall = params[:offer_quotation][:offer_quotation_gallery]
       offer_quotation.offer_quotation_galleries.create!(name:offer_gall[:name])
       offer_gall[:image][:image].each do |f|
-        offer_quotation.offer_quotation_galleries.first.images.create!(image:f)
+        offer_quotation.offer_quotation_galleries.first.images.create!(image:f, description:"image")
       end
       offer_quotation.offer_measurements.create!(data:{"tags"=>[params[:offer_quotation][:offer_measurement][:data]]})
       redirect_to support_offer_path(offer_quotation.offer_id)
