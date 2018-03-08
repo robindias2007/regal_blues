@@ -18,7 +18,7 @@
 		<% end %>
 		<br>
 		<%= f.fields_for :offer_measurement do |ff| %>
-			<%= ff.label :Measurements %>
+			<%= f.label :Measurements_separate_with_comma %>
 			<%= ff.text_field :data %>
 		<% end %>
 		<%= f.submit "Create", class: "waves-effect waves-light btn" %>
