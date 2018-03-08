@@ -167,6 +167,7 @@ Rails.application.routes.draw do
           get :pay
           get :measurement_tags
           post :update_measurements
+          post :update_measurements_v2
           post :submit_options
           get :cancel_order
         end

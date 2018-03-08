@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305060044) do
+ActiveRecord::Schema.define(version: 20180308110925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -304,6 +304,8 @@ ActiveRecord::Schema.define(version: 20180305060044) do
     t.uuid "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "notes"
+    t.string "image"
     t.index ["order_id"], name: "index_order_measurements_on_order_id"
   end
 

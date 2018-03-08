@@ -65,8 +65,17 @@
           <p class="card-stats-title">Order Measurement:
             <b><%= @order.order_measurement.data.map{|k,v| "#{k}=#{v}"}.join('&') %></b>
           </p>
+          <p class="card-stats-title">Notes:
+            <b><%= @order.order_measurement.notes %></b>
+          </p>
+          <% if @order.order_measurement.image_url.present? %>
+            <p class="card-stats-title">Measurement Image:<br>
+              <a data-fancybox="gallery" href="<%= @order.order_measurement.image_url %>"><img src="<%= @order.order_measurement.image_url %>" id="thumb"></a>
+            </p>
+          <% end %>  
         <% end %>
 
+        <br><br>
         <b>Request Image:</b>
         <p class="card-stats-title">
           <% @order.offer_quotation.offer.request.request_images.each do |req_image| %>
