@@ -14,12 +14,15 @@ class Support::OffersController < ApplicationController
 
   def create_quotation
     offer_quotation = OfferQuotation.new(offer_quotation_params)  
+    debugger
     if offer_quotation.save! 
       offer_gall = params[:offer_quotation][:offer_quotation_gallery]
       offer_quotation.offer_quotation_galleries.create!(name:offer_gall[:name])
       offer_gall[:image][:image].each do |f|
         offer_quotation.offer_quotation_galleries.first.images.create!(image:f)
       end
+      debugger
+      offer_quotation.offer_measurements.create!(data:{"tags"=>[params[:offer_quotation][:offer_measurement][:data]]})
       redirect_to support_offer_path(offer_quotation.offer_id)
     else
       redirect_to root_url
@@ -67,7 +70,7 @@ class Support::OffersController < ApplicationController
   private
 
   def offer_quotation_params
-    params.require(:offer_quotation).permit(:price, :description, :request_id, :designer_note, :offer_id, offer_quotation_galleries_attributes: [:name ], images_attributes: %i[image] )
+    params.require(:offer_quotation).permit(:price, :description, :request_id, :designer_note, :offer_id, offer_quotation_galleries_attributes: [:name ], images_attributes: %i[image description], offer_measurements_attributes: [data: {}]  )
   end
 
   def gallery_image_params

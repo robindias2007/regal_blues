@@ -17,6 +17,10 @@
 			<% end %>
 		<% end %>
 		<br>
+		<%= f.fields_for :offer_measurement do |ff| %>
+			<%= ff.label :Measurements %>
+			<%= ff.text_field :data %>
+		<% end %>
 		<%= f.submit "Create", class: "waves-effect waves-light btn" %>
 	<% end %>
 	<br>
@@ -69,8 +73,7 @@
 						  <%= f.hidden_field :imageable_type, value:"OfferQuotationGallery" %>
 						  <%= f.hidden_field :description, value:"GalleryImage" %>
 						  <%= f.hidden_field :serial_number, value:1 %>
-						  <%= f.label :caption %>
-						  <%= f.text_field :description %>
+						  <%= f.hidden_field :description, value:"image" %>
 						  <%= f.file_field :image %>
 						  <%= f.submit "Gallery" %>
 						<% end %>
