@@ -130,6 +130,7 @@ Rails.application.routes.draw do
 
       # Home Controller
       get 'home/mobile', to: 'home#mobile'
+      get 'home/mobile_v2', to: 'home#mobile_v2'
 
       # Sub Categories
       resources :sub_categories, only: :index, path: 'sub-categories'
