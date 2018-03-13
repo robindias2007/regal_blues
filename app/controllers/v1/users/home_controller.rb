@@ -21,7 +21,7 @@ class V1::Users::HomeController < V1::Users::BaseController
         render_recos_v2
       end
     else
-      render_external_search
+      render_external_search_v2
     end
   end
 
