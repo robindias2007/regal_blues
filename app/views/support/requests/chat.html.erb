@@ -106,7 +106,8 @@
 		    <h5><%= Request.where(id:@convo_id.receiver_id).first.name rescue nil %></h5>
 		    <h5><%= OfferQuotation.where(id:@convo_id.receiver_id).first.offer.request.name rescue nil %></h5>
 			<% else %>
-				<h5><%= User.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>
+				<% user = User.where(id:@convo_id.conversationable_id).first %>
+				<h5> Username <%= user.username %> with fullname <%= user.full_name %></h5>
 		    <h5><%= Designer.where(id:@convo_id.conversationable_id).first.full_name rescue nil %></h5>  
 			<% end %>
 		</div>
@@ -160,8 +161,17 @@
 			    <%= form_for @message, :url => chat_post_path, :html => {:method => :post} do |f| %>
 			  		<div class="col s9">
 			  			<br>
-			  			<%= f.text_area :body, class: "materialize-textarea" %>
-			    		<%= f.file_field :attachment %>
+			    		<div class="row">
+			    			<%= f.label :type_your_message_here %>
+			    			<%= f.text_area :body, class: "materialize-textarea" %>
+			    			<div class="col s6">
+			    				<%= f.label :Copy_Paste_Image %>
+			    				<%= f.text_field :attachment %>
+			    			</div>
+			    			<div class="col s6">
+			    				<%= f.file_field :attachment %>
+			    			</div>
+			    		</div>
 			    		<%= f.hidden_field :conversation_id, value:@convo_id.id %>
 			  		</div>
 			  		<div class="col s3">

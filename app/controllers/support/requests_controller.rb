@@ -5,9 +5,16 @@ class Support::RequestsController < ApplicationController
   
   def index
     if current_support.role == "admin"
-      req = Request.order(created_at: :desc)
-      requests = (req.where(status:"active") + req.where(status:"pending") + req.where(status:"unapproved")).map{|i| i.id}
-      @requests = Request.where(id: requests).order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
+      order_name_array = []     
+      Order.all.each do |f|
+        order_name_array << f.offer_quotation.offer.request.name
+      end
+      second_last = Request.where(name:order_name_array)
+      first = Request.where(id: Request.all - second_last)
+
+      requests = first.where(status:"active").order(created_at: :desc) + first.where(status:"unapproved").order(created_at: :desc) + second_last
+
+      @requests = Request.where(id:requests).order(status: :asc).order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
     else
       redirect_to root_url
     end
@@ -60,7 +67,6 @@ class Support::RequestsController < ApplicationController
       redirect_to root_url
     end
   end
-
 
   def show
     @conversation = Conversation.new

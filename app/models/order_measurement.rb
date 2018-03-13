@@ -8,6 +8,8 @@ class OrderMeasurement < ApplicationRecord
   validate :validate_tag_size
   validate :validate_tags
 
+  mount_base64_uploader :image, ImageUploader
+
   before_save :capitalize_data
 
   private

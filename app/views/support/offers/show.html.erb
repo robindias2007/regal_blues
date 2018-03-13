@@ -17,6 +17,10 @@
 			<% end %>
 		<% end %>
 		<br>
+		<%= f.fields_for :offer_measurement do |ff| %>
+			<%= f.label :Measurements_separate_with_comma %>
+			<%= ff.text_field :data %>
+		<% end %>
 		<%= f.submit "Create", class: "waves-effect waves-light btn" %>
 	<% end %>
 	<br>
@@ -52,7 +56,13 @@
 					</p>
 					<b><h5><u>Galleries:</u></h5></b>
 					<% offquo.offer_quotation_galleries.each do |offgall| %>  	
-				  	<p class="card-stats-title"><%= offgall.name %></p>
+				  	<p class="card-stats-title">
+				  		<%= form_for offgall, :url => support_offer_update_path(offgall)  do |f| %>
+				  			<%= f.text_field :name %>
+				  			<%= f.submit "Name Update" %>
+				  		<% end %>
+				  		<br>		
+				  	</p>
 				  	<p class="card-stats-title">
 				  		<% offgall.images.each do |gallery_image| %>            
 				      	<a data-fancybox="gallery" href="<%= gallery_image.image_url %>"><img src="<%= gallery_image.image_url %>" id="thumb"></a>
@@ -63,8 +73,9 @@
 						  <%= f.hidden_field :imageable_type, value:"OfferQuotationGallery" %>
 						  <%= f.hidden_field :description, value:"GalleryImage" %>
 						  <%= f.hidden_field :serial_number, value:1 %>
+						  <%= f.hidden_field :description, value:"image" %>
 						  <%= f.file_field :image %>
-						  <%= f.submit "Update Gallery" %>
+						  <%= f.submit "Gallery" %>
 						<% end %>
 				  <% end %>
 				</div>

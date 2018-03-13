@@ -69,6 +69,19 @@ class V1::Users::OrdersController < V1::Users::BaseController
     end
   end
 
+  def update_measurements_v2
+    order = current_user.orders.find(params[:id])
+    return invalid_key_error unless valid_key?
+    om = order.build_order_measurement(measurement_params)
+    if om.save
+      order.notify_time_reminder
+      order.give_measurements!
+      render json: { message: 'Measurements have been saved' }, status: 201
+    else
+      render json: { errors: om.errors, message: 'Something went wrong' }, status: 400
+    end
+  end
+
   def submit_options
     order = current_user.orders.find(params[:order][:order_id])
     return bad_order unless order.designer_gave_more_options? || order.designer_selected_fabric_unavailable?
@@ -131,7 +144,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
   end
 
   def measurement_params
-    params.permit(data: {})
+    params.permit(:notes, :image ,data: {})
   end
 
   def valid_key?
