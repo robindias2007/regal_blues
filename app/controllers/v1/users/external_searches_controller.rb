@@ -17,22 +17,12 @@ class V1::Users::ExternalSearchesController < V1::Users::BaseController
   end
 
   def search_suggestions
-    suggestions = %W[
-      #{"Indianwear 2017"}
-      #{"Indian Wedding Outfit"}
-      #{"Indian Cocktail Gown"}
-      #{"Sangeet Outfit"}
-      #{"India Fashion Week"}
-      #{"Deepika Indian Outfits"}
-      #{"Sonam Indian Outfits"}
-      #{"Bollywood Indian Fashion"}
-      #{"Bridesmaid Indian Outfits"}
-    ]
+    suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
     render json: { data: suggestions }
   end
 
   def top_query_suggestions
-    suggestions = %W[Bridal #{"Fashion week"} #{"Couture Week"} Pakistani #{"For Kids"} 2017 Wedding Designer Simple Plain ]
+    suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
     render json: { data: suggestions }
   end
 end
