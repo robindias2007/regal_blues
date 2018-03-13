@@ -18,7 +18,7 @@ class V1::Users::HomeController < V1::Users::BaseController
       if current_user.orders_requests_present?
         render_orders_requests_v2
       elsif current_user.no_requests_or_orders?
-        render_recos
+        render_recos_v2
       end
     else
       render_external_search
@@ -199,7 +199,7 @@ class V1::Users::HomeController < V1::Users::BaseController
       requests: request_resource(requests_json_array), 
       orders:order_resource(orders_json_array),
       user: profile_serializer(current_user), 
-      categories: sub_categories,
+      sub_categories: sub_categories,
       support: support_id,
       configurations: configurations,
       search_suggestions: search_suggestions,
@@ -230,6 +230,27 @@ class V1::Users::HomeController < V1::Users::BaseController
     render json: { recos: recommendation_resource(recos), top_designers: [], orders: [], requests: [] ,explore: picks , user: profile_serializer(current_user), support: support_id, configurations: configurations, configurations_all: configurations_all}
   end
 
+  def render_recos_v2
+    # TODO: Design a recommendation engine
+    recos = Product.includes(designer: :designer_store_info).order('RANDOM()').limit(6)
+    support_id = Support.first.common_id
+    configurations = ConfigVariable.all
+    sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
+    search_suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
+    top_query_suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
+    render json: 
+    { recos: recommendation_resource(recos), 
+      orders: [], 
+      requests: [], 
+      user: profile_serializer(current_user), 
+      sub_categories: sub_categories,
+      support: support_id, 
+      configurations: configurations,
+      search_suggestions: search_suggestions,
+      top_query_suggestions: top_query_suggestions
+    }
+  end
+
   def render_top_designers
     # TODO: Design an algorithm to quickly calculate the ratings of a designer
     top_designers = Designer.includes(:designer_store_info, :sub_categories).order('RANDOM()').limit(6)
@@ -240,7 +261,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     render json: { top_designers: td_resource(top_designers), recos: [], orders: [], requests: [], explore: picks, support: support_id ,configurations: configurations, configurations_all: configurations_all}
   end
 
-  def render_external_search
+  def render_external_search_v2
     support_id = Support.first.common_id
     configurations = ConfigVariable.all
     sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
@@ -249,7 +270,7 @@ class V1::Users::HomeController < V1::Users::BaseController
     render json: { 
       support: support_id,
       configurations: configurations,
-      categories: sub_categories,
+      sub_categories: sub_categories,
       search_suggestions: search_suggestions,
       top_query_suggestions: top_query_suggestions
      }
