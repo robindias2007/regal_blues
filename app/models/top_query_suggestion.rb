@@ -1,0 +1,2 @@
+class TopQuerySuggestion < ApplicationRecord
+end

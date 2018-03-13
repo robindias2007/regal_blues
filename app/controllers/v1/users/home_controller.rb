@@ -21,7 +21,7 @@ class V1::Users::HomeController < V1::Users::BaseController
         render_recos
       end
     else
-      render_top_designers
+      render_external_search
     end
   end
 
@@ -191,21 +191,19 @@ class V1::Users::HomeController < V1::Users::BaseController
     
     support_id = Support.first.common_id
     configurations = ConfigVariable.all
-    # request_offers = current_user.requests.includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
-    # all_req = current_user.requests.order(updated_at: :desc)
-    # rest_requests = (all_req - request_offers).to_a
-    # requests = request_offers + rest_requests
-    # ord = Order.includes(:user, offer_quotation: [offer: [request: :sub_category]]).where(user: current_user)
-    # orders = ord.where(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
-    # rest_orders = ord.where.not(status:["designer_confirmed","designer_gave_more_options"]).order(updated_at: :desc)
+    sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
+    search_suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
+    top_query_suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
 
-    # render json: { requests: request_resource(request_offers), orders:order_resource(orders), rest_orders: order_resource(rest_orders) ,  rest_requests: request_resource(rest_requests)  ,recos: [], user: current_user, explore:picks}
-     render json: { 
+    render json: { 
       requests: request_resource(requests_json_array), 
       orders:order_resource(orders_json_array),
       user: profile_serializer(current_user), 
+      categories: sub_categories,
       support: support_id,
       configurations: configurations,
+      search_suggestions: search_suggestions,
+      top_query_suggestions: top_query_suggestions
      }
   end
 
@@ -243,6 +241,18 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_external_search
+    support_id = Support.first.common_id
+    configurations = ConfigVariable.all
+    sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
+    search_suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
+    top_query_suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
+    render json: { 
+      support: support_id,
+      configurations: configurations,
+      categories: sub_categories,
+      search_suggestions: search_suggestions,
+      top_query_suggestions: top_query_suggestions
+     }
   end
 
   def td_resource(top_designers)
