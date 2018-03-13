@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308110925) do
+ActiveRecord::Schema.define(version: 20180313074406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -481,6 +481,13 @@ ActiveRecord::Schema.define(version: 20180308110925) do
     t.index ["user_id"], name: "index_requests_on_user_id"
   end
 
+  create_table "search_suggestions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "serial_no"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sub_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "image", default: "", null: false
@@ -488,6 +495,7 @@ ActiveRecord::Schema.define(version: 20180308110925) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "measurement_image"
+    t.integer "serial_no"
     t.index ["category_id"], name: "index_sub_categories_on_category_id"
     t.index ["name"], name: "index_sub_categories_on_name", unique: true
   end
@@ -541,6 +549,13 @@ ActiveRecord::Schema.define(version: 20180308110925) do
     t.index ["email"], name: "index_supports_on_email", unique: true
     t.index ["reset_password_token"], name: "index_supports_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_supports_on_unlock_token", unique: true
+  end
+
+  create_table "top_query_suggestions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "serial_no"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_chat_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

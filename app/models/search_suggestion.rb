@@ -1,0 +1,2 @@
+class SearchSuggestion < ApplicationRecord
+end
