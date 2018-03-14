@@ -134,8 +134,8 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests_v2
-    requests = Request.order(updated_at: :desc).limit(3)
-    orders = Order.order(updated_at: :desc).limit(3)
+    requests = current_user.requests.order(updated_at: :desc).limit(3)
+    orders = current_user.orders.order(updated_at: :desc).limit(3)
     support_id = Support.first.common_id
     configurations = ConfigVariable.all
     sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
