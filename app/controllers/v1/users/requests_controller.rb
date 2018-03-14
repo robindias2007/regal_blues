@@ -15,7 +15,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def init_data
-    categories = SubCategory.all.order(name: :asc)
+    categories = SubCategory.all.order(serial_no: :asc)
     addresses = current_user.addresses.order(nickname: :asc).limit(10)
     json = {
       categories: serialization_for(categories, V1::Users::RequestSubCategorySerializer),
