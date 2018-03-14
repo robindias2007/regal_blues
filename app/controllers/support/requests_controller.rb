@@ -4,7 +4,7 @@ class Support::RequestsController < ApplicationController
   #before_action :authenticate_support, :only => [:index]
   
   def index
-    requests = Request.where(status:"active").order(created_at: :desc) + Request.where(status:"order_confirm") + Request.where(status:"unapproved").order(created_at: :desc) 
+    requests = Request.where(status:"active").order(created_at: :desc) + Request.where(status:"unapproved").order(created_at: :desc) 
     @requests = Request.where(id:requests).order(status: :asc).order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
   end
 
