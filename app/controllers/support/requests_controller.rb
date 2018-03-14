@@ -4,15 +4,7 @@ class Support::RequestsController < ApplicationController
   #before_action :authenticate_support, :only => [:index]
   
   def index
-    order_name_array = []     
-    Order.all.each do |f|
-      order_name_array << f.offer_quotation.offer.request.name
-    end
-    second_last = Request.where(name:order_name_array)
-    first = Request.where(id: Request.all - second_last)
-
-    requests = first.where(status:"active").order(created_at: :desc) + first.where(status:"unapproved").order(created_at: :desc) + second_last
-
+    requests = Request.where(status:"active").order(created_at: :desc) + Request.where(status:"order_confirm") + Request.where(status:"unapproved").order(created_at: :desc) 
     @requests = Request.where(id:requests).order(status: :asc).order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
   end
 
