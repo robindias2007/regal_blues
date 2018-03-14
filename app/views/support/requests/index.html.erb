@@ -15,6 +15,7 @@
         <th colspan="1" class="center">Sub Category</th>
         <th colspan="1" class="center">Number of Designers</th>
         <th colspan="1" class="center">Number of Offers</th>
+        <th colspan="1" class="center">Status</th>
         <th colspan="1" class="center">Approve</th>
         <th colspan="1" class="center">Reject</th>
         <th colspan="1" class="center">Date</th>
@@ -48,7 +49,7 @@
           <td colspan="1" class="center">
             <%= request.offers.size %>
           </td>
-
+          <td colspan="1" class="center"><%= request.status %></td>
           <td colspan="1" class="center">
             <%= link_to '#approve-request', id: request.id, remote: true do %>
             <div class='btn btn-floating teal <%= approve_button?(request) %>' id="js-approve-request">

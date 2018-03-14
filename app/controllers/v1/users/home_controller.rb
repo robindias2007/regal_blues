@@ -135,77 +135,22 @@ class V1::Users::HomeController < V1::Users::BaseController
   end
 
   def render_orders_requests_v2
-    order_name_array = Array.new     
-    request_name_array = Array.new
-    new_requests = Array.new
-
-    orders = current_user.orders.order(created_at: :desc).limit(3).each do |f|
-      order_name_array.push(f.offer_quotation.offer.request.name)
-    end
-
-    requests = current_user.requests.order(updated_at: :desc).each do |f|
-      request_name_array.push(f.name)
-    end
-    
-    (request_name_array - order_name_array).each do |f|
-      new_requests.push(Request.where(name:f))
-    end
-
-    #Combination of Order and Requests which is not an order and sorting based on created_at 
-    ord_req = (orders + new_requests.flatten.sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)).sort {|x,y| y[:created_at]<=>x[:created_at]}.first(3)
-    
-    if (ord_req.first.name.present? rescue nil)
-      req1 = ord_req.first rescue nil 
-    end
-    if (ord_req.second.name.present? rescue nil)
-      req2 = ord_req.second rescue nil
-    end
-    if (ord_req.third.name.present? rescue nil)
-      req3 = ord_req.third rescue nil
-    end
-
-    if (ord_req.first.designer_id.present? rescue nil)
-      ord1 = ord_req.first rescue nil 
-    end
-    if (ord_req.second.designer_id.present? rescue nil)
-      ord2 = ord_req.second rescue nil
-    end
-    if (ord_req.third.designer_id.present? rescue nil)
-      ord3 = ord_req.third rescue nil
-    end
-
-    #Pushing each req into an array
-    request_array = Array.new
-    request_array.push(req1)
-    request_array.push(req2)
-    request_array.push(req3)
-
-    #Pushing each order into an array
-    order_array = Array.new
-    order_array.push(ord1)
-    order_array.push(ord2)
-    order_array.push(ord3)
-
-    #Removing the null values from an array
-    requests_json_array = request_array.compact
-    orders_json_array = order_array.compact
-    
+    requests = current_user.requests.order(updated_at: :desc).limit(3)
+    orders = current_user.orders.order(updated_at: :desc).limit(3)
     support_id = Support.first.common_id
     configurations = ConfigVariable.all
     sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
     search_suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
-    top_query_suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
-
+    
     render json: { 
-      requests: request_resource(requests_json_array), 
-      orders:order_resource(orders_json_array),
+      requests: request_resource(requests), 
+      orders:order_resource(orders),
       user: profile_serializer(current_user), 
       sub_categories: sub_categories,
       support: support_id,
       configurations: configurations,
-      search_suggestions: search_suggestions,
-      top_query_suggestions: top_query_suggestions
-     }
+      search_suggestions: search_suggestions
+    }
   end
 
   def render_orders
@@ -238,7 +183,6 @@ class V1::Users::HomeController < V1::Users::BaseController
     configurations = ConfigVariable.all
     sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
     search_suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
-    top_query_suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
     render json: 
     { recos: recommendation_resource(recos), 
       orders: [], 
@@ -247,8 +191,7 @@ class V1::Users::HomeController < V1::Users::BaseController
       sub_categories: sub_categories,
       support: support_id, 
       configurations: configurations,
-      search_suggestions: search_suggestions,
-      top_query_suggestions: top_query_suggestions
+      search_suggestions: search_suggestions
     }
   end
 
@@ -267,14 +210,12 @@ class V1::Users::HomeController < V1::Users::BaseController
     configurations = ConfigVariable.all
     sub_categories = SubCategory.order(serial_no: :asc).pluck(:name)
     search_suggestions = SearchSuggestion.order(serial_no: :asc).pluck(:name)
-    top_query_suggestions = TopQuerySuggestion.order(serial_no: :asc).pluck(:name)
     render json: { 
       support: support_id,
       configurations: configurations,
       sub_categories: sub_categories,
-      search_suggestions: search_suggestions,
-      top_query_suggestions: top_query_suggestions
-     }
+      search_suggestions: search_suggestions
+    }
   end
 
   def td_resource(top_designers)

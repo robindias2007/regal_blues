@@ -4,7 +4,7 @@ class V1::Users::ExploreController < V1::Users::BaseController
   skip_before_action :authenticate, only: :mobile
 
   def mobile
-    categories = SubCategory.order(name: :asc)
+    categories = SubCategory.order(serial_no: :asc)
     top_three = categories.sample(3)
     designers = Designer.where(gold:true).order(created_at: :asc).limit(6)
 

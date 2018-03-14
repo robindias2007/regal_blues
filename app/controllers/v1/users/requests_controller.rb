@@ -15,7 +15,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def init_data
-    categories = SubCategory.all.order(name: :asc)
+    categories = SubCategory.all.order(serial_no: :asc)
     addresses = current_user.addresses.order(nickname: :asc).limit(10)
     json = {
       categories: serialization_for(categories, V1::Users::RequestSubCategorySerializer),
@@ -36,10 +36,10 @@ class V1::Users::RequestsController < V1::Users::BaseController
   def index
     #requests = current_user.requests.order(updated_at: :desc).limit(20)
 
-    r1 = current_user.requests.where.not(status:"unapproved").includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
+    r1 = current_user.requests.where.not(status:["unapproved","confirmed"]).includes(:offers).where.not( :offers => { :request_id => nil } ).order(updated_at: :desc)
     r2 = current_user.requests.order(updated_at: :desc)
     r3 = (r2 - r1)
-    requests = r1 + r3
+    requests = r1 + r3.sort {|x,y| x[:status]<=>y[:status]}
     if requests.present?
       render json: requests, each_serializer: V1::Users::RequestsSerializer
       #render json: { requests: request_resource(requests) }

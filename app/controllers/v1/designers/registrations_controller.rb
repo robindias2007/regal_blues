@@ -31,7 +31,7 @@ class V1::Designers::RegistrationsController < V1::Designers::BaseController
   end
 
   def list_categories
-    categories = SubCategory.all.order(name: :asc)
+    categories = SubCategory.all.order(serial_no: :asc)
     render json: categories, each_serializer: V1::Designers::SubCategorySerializer
   end
 

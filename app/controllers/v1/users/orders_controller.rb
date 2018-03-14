@@ -28,6 +28,7 @@ class V1::Users::OrdersController < V1::Users::BaseController
     order = current_user.orders.new(order_params)
     order.designer = order.offer_quotation.offer.designer
     if order.save
+      order.offer_quotation.offer.request.update(status:"confirmed")
       pay_and_assign_status(order)
     else
       render json: { errors: order.errors }
