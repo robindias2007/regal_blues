@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resources :offers, only: %i[index show destroy], as: :support_offers  
       post 'offer_quotation/:offer_id' => 'offers#create_quotation', as: :support_offer_quotation
       patch 'offer_quotation/:offer_id' => 'offers#update_quotation', as: :support_offer_update 
+
+      resources :chats, only: %[index], as: :support_chats
     end
   end
 

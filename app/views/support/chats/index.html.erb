@@ -1,0 +1,59 @@
+<%= will_paginate @users %>
+
+<div class="row">
+  <br><br>
+  <%= simple_form_for :search, url: support_user_search_path, method: :get do |f| %>
+    <div class="col s11">
+      <%= f.input :query, input_html: { placeholder: 'Search for users by fullname or username or email', autocomplete: 'off', class: 'autocomplete', id: 'js-user-autocomplete' }, label: false %>
+    </div>
+    <div class="col s1">
+      <button class="btn-floating waves-effect waves-light center">
+        <i class="material-icons prefix">search</i>
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th colspan="1" class="center">Full Name</th>
+        <th colspan="1" class="center">Username</th>
+        <% if current_support.role == "admin" %>
+          <th colspan="1" class="center">Mobile Number</th>
+          <th colspan="1" class="center">Email</th>
+        <% end %>
+        <th colspan="1" class="center">Gender</th>
+        <th colspan="1" class="center">Chat</th>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr id="js-data-row">
+          <td colspan="1" class="center"><%= link_to user.full_name.titleize, support_user_path(user) %></td>
+
+          <td colspan="1" class="center">
+            <%= user.username %>
+          </td>
+          <% if current_support.role == "admin" %>
+            <td colspan="1" class="center"><%= user.mobile_number %></td>
+
+            <td colspan="1" class="center">
+              <%= user.email %>
+            </td>
+          <% end %>
+
+          <td colspan="1" class="center">
+            <%= user.gender %>
+          </td>
+
+          <td colspan="1" class="center">
+            <%= link_to image_tag("chat.png", width:"30x30"),
+            chat_path(user.conversations.first.id), :target => "_blank"%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= will_paginate @users %>
