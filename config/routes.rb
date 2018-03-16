@@ -158,6 +158,7 @@ Rails.application.routes.draw do
       resources :products, only: %i[index show]
 
       get 'explore/mobile', to: 'explore#mobile'
+      get 'explore/mobile_v2', to: 'explore#mobile_v2'
       get 'search/:q', to: 'search#index'
       post 'external-search/create', to: 'external_searches#create'
       get 'external-search/modal-suggestions', to: 'external_searches#search_suggestions'
