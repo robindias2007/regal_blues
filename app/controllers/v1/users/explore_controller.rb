@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class V1::Users::ExploreController < V1::Users::BaseController
-  skip_before_action :authenticate, only: :mobile
+  skip_before_action :authenticate, only: %i[mobile mobile_v2]
 
   def mobile
     categories = SubCategory.order(serial_no: :asc)
