@@ -15,6 +15,16 @@ class V1::Users::ExploreController < V1::Users::BaseController
     }
   end
 
+  def mobile_v2
+    categories = SubCategory.order(serial_no: :asc)
+    designers =  Designer.where(gold:true).order(created_at: :asc).limit(6)
+
+    render json: {
+      categories: categories_serializer(categories),
+      designers:  designers_serializer(designers)
+    }
+  end
+
   private
 
   def serialization_for(list, serializer)
