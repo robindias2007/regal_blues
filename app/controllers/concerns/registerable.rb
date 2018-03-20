@@ -20,11 +20,9 @@ module Registerable
 
       #When user signs up conversations should be created along with a message
       if resource.class.name == "User"
-        convo = Conversation.new(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:resource.id, conversationable_type:"User")    
-        convo.save!
+        convo = Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:resource.id, conversationable_type:"User")    
         body = "Welcome to Custumise, the online pret bespoke couture store. We specialize in customizing outfits to the exact preferences you have. You get access to talented designers, stylists, quality checks, payment security and exceptional customer service. Our stylists can recommend you options close to your budget, our designers will send you multiple offers and our quality check ensures your outfit is the way you dreamed. Your payment is secure with us until the outfit passes quality checks and you receive it. We are just a chat click away to help you with anything. Enjoy your Custumise journey. Thank You!"
-        message = Message.new(body:body, conversation_id:convo.id, sender_id:Support.first.common_id)
-        message.save!
+        message = Message.create(body:body, conversation_id:convo.id, sender_id:Support.first.common_id)
       end
       
     end
