@@ -60,7 +60,7 @@ class Offer < ApplicationRecord
     else
       self.request.update(updated_at:DateTime.now)
       self.offer_quotations.each do |oq|
-        oq.update(shipping_price: 1400)
+        oq.update(shipping_price: 2000)
       end
     end
   end
