@@ -27,7 +27,7 @@ class Support::RequestsController < ApplicationController
         end
       end
       # RequestDesignerService.notify_about request
-      request.send_request_mail
+      request.delay.send_request_mail
       redirect_to support_requests_path
       flash[:success] = "Request Successfully Created"
     else
