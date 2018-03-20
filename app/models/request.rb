@@ -51,5 +51,18 @@ class Request < ApplicationRecord
       rescue        
       end
     end
+    # After Creating Request Sending a message in chat
+    message_body = "Hi! We have received your request. Designers on our platform will review it and send you the offers accordingly. Thank You!"
+    if self.user.conversations.present?
+      message = Message.new(body:message_body, conversation_id:self.user.conversations.first.id, sender_id:Support.first.common_id)
+      message.save!
+      self.user.update(updated_at:DateTime.now)  
+    else
+      convo = Conversation.new(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:self.user.id, conversationable_type:"User")   
+      convo.save!
+      message = Message.new(body:message_body, conversation_id:convo.id, sender_id:Support.first.common_id)
+      message.save!
+      self.user.update(updated_at:DateTime.now)
+    end
   end
 end
