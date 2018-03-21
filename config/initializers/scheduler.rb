@@ -50,11 +50,13 @@ scheduler.cron '4 0 0 * * 1-7 Asia/Kolkata' do
 		requests.each do |f|
 			if (f.offers.first.created_at + 1.day).to_date == Date.today
 				unless f.status == "confirmed"
-					Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:f.user.id, conversationable_type:"User")		
-				end
-				body = "Hi #{f.user.full_name}! You have received a new offer for your request. Kindly login to our app, “ Account -> Manage Request” to respond to the offer. Do let us know incase you have questions regarding the same. Thank You!"
-	  		message = Message.create(body:body, conversation_id:f.user.conversations.first.id, sender_id:Support.first.common_id)
-	  		f.user.update(updated_at:DateTime.now)	
+					unless f.user.conversations.present?
+						Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:f.user.id, conversationable_type:"User")		
+					end
+					body = "Hi #{f.user.full_name}! You have received a new offer for your request. Kindly login to our app, “ Account -> Manage Request” to respond to the offer. Do let us know incase you have questions regarding the same. Thank You!"
+		  		message = Message.create(body:body, conversation_id:f.user.conversations.first.id, sender_id:Support.first.common_id)
+		  		f.user.update(updated_at:DateTime.now)
+		  	end	
 			end
 		end
 	end
@@ -68,11 +70,13 @@ scheduler.cron '6 0 0 * * 1-7 Asia/Kolkata' do
 		requests.each do |f|
 			if (f.offers.first.created_at + 3.days).to_date == Date.today
 				unless f.status == "confirmed"
-					Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:f.user.id, conversationable_type:"User")		
-				end
-				body = "Hi #{f.user.full_name}! Hope you are doing well. We had sent you the offer based on your request, but we never heard back from you. So, we wanted to know if you have any questions regarding the offer. We will be happy to help you. Thank You!"
-	  		message = Message.create(body:body, conversation_id:f.user.conversations.first.id, sender_id:Support.first.common_id)
-	  		f.user.update(updated_at:DateTime.now)	
+					unless f.user.conversations.present?
+						Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:f.user.id, conversationable_type:"User")		
+					end
+					body = "Hi #{f.user.full_name}! You have received a new offer for your request. Kindly login to our app, “ Account -> Manage Request” to respond to the offer. Do let us know incase you have questions regarding the same. Thank You!"
+		  		message = Message.create(body:body, conversation_id:f.user.conversations.first.id, sender_id:Support.first.common_id)
+		  		f.user.update(updated_at:DateTime.now)
+		  	end	
 			end
 		end
 	end
@@ -86,11 +90,13 @@ scheduler.cron '8 0 0 * * 1-7 Asia/Kolkata' do
 		requests.each do |f|
 			if (f.offers.first.created_at + 5.days).to_date == Date.today
 				unless f.status == "confirmed"
-					Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:f.user.id, conversationable_type:"User")		
-				end
-				body = "Hi #{f.user.full_name}! Hope you are doing well. We had sent you the offer based on your request, but we never heard back from you. So, we wanted to know if you have any questions regarding the offer. We will be happy to help you. Thank You!"
-	  		message = Message.create(body:body, conversation_id:f.user.conversations.first.id, sender_id:Support.first.common_id)
-	  		f.user.update(updated_at:DateTime.now)	
+					unless f.user.conversations.present?
+						Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:f.user.id, conversationable_type:"User")		
+					end
+					body = "Hi #{f.user.full_name}! You have received a new offer for your request. Kindly login to our app, “ Account -> Manage Request” to respond to the offer. Do let us know incase you have questions regarding the same. Thank You!"
+		  		message = Message.create(body:body, conversation_id:f.user.conversations.first.id, sender_id:Support.first.common_id)
+		  		f.user.update(updated_at:DateTime.now)
+		  	end	
 			end
 		end
 	end
