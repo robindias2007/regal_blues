@@ -80,6 +80,9 @@ gem 'houston', '~> 2.2', '>= 2.2.3'
 # Pagination for APi's
 gem 'will_paginate'
 
+#Cronjob or Scheduler
+gem 'rufus-scheduler' 
+
 gem 'dotenv-rails'
 gem 'delayed_job_active_record'
 
