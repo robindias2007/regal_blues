@@ -6,7 +6,7 @@ class EventsController < ApplicationController
 		if @event.save!
 			if @event.event_name == "CLOSE_REQUEST"
 				user = User.find_by(username:@event.username)
-				message_body = "Hi! We noticed that you tried placing a request on our app. In case you are having trouble submitting requests or have some questions, do let us know we are just a chat away! Thank You!"
+				message_body = "Hi! We noticed that you tried placing a request on our app. In case you are having trouble submitting requests or have some questions, do let us know we are just a chat away! We can also create a request for you, please share the reference outfit image, any color preference, budget, size, phone number and any specific preferences/changes."
 				if user.conversations.present?
 		      message = Message.create(body:message_body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
 		      user.update(updated_at:DateTime.now)  

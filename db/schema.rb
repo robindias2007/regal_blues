@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313074406) do
+ActiveRecord::Schema.define(version: 20180322091549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -474,6 +474,7 @@ ActiveRecord::Schema.define(version: 20180313074406) do
     t.boolean "cold"
     t.boolean "warm"
     t.string "support_notes"
+    t.string "urls", default: [], array: true
     t.index ["address_id"], name: "index_requests_on_address_id"
     t.index ["name"], name: "index_requests_on_name", using: :gin
     t.index ["origin"], name: "index_requests_on_origin", using: :gin

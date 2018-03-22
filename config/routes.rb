@@ -145,6 +145,8 @@ Rails.application.routes.draw do
         collection do
           get :init_data, path: 'init-data'
           get 'designers/:category_id' => :designers
+          post  :create_v2
+          post  :create_request_images_v2
         end
         member do
           resources :offers, only: %i[index show]
