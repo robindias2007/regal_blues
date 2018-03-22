@@ -8,13 +8,13 @@ class EventsController < ApplicationController
 				user = User.find_by(username:@event.username)
 				message_body = "Hi! We noticed that you tried placing a request on our app. In case you are having trouble submitting requests or have some questions, do let us know we are just a chat away! Thank You!"
 				if user.conversations.present?
-		      message = Message.create(body:message_body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
-		      user.update(updated_at:DateTime.now)  
-		    else
-		      convo = Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
-		      message = Message.create(body:message_body, conversation_id:convo.id, sender_id:Support.first.common_id)
-		      user.update(updated_at:DateTime.now)
-		    end
+			      	message = Message.delay.create(body:message_body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+			      	user.delay.update(updated_at:DateTime.now)  
+			    else
+			      convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+			      message = Message.delay.create(body:message_body, conversation_id:convo.id, sender_id:Support.first.common_id)
+			      user.delay.update(updated_at:DateTime.now)
+			    end
 			end
       render json: { message: 'Event Updated' }, status: 201
 		else
