@@ -5,21 +5,21 @@
 	<h4 class="center">New Quotation</h4>
 	<%= form_for @offer_quotation, :url => support_offer_quotation_path(@offer.id) do |f| %>
 		<%= f.label :price %>
-		<%= f.text_field :price  %><br>
+		<%= f.text_field :price, required:true %><br>
 		<%= f.label :description %>
-		<%= f.text_field :description %><br>
+		<%= f.text_field :description, required:true %><br>
 		<%= f.hidden_field :offer_id, value:@offer.id %>
 		<%= f.fields_for :offer_quotation_gallery do |ff| %>
-			<%= ff.label :gallery_name %>
-			<%= ff.text_field :name  %><br>
+			<%= ff.label :gallery_name, required:true %>
+			<%= ff.text_field :name, required:true  %><br>
 			<%= ff.fields_for :image do |image| %>
-				<%= image.file_field :image, multiple: true %><br>
+				<%= image.file_field :image, multiple: true, required:true %><br>
 			<% end %>
 		<% end %>
 		<br>
 		<%= f.fields_for :offer_measurement do |ff| %>
 			<%= f.label :Measurements_separate_with_comma %>
-			<%= ff.text_field :data %>
+			<%= ff.text_field :data, required:true %>
 		<% end %>
 		<%= f.submit "Create", class: "waves-effect waves-light btn" %>
 	<% end %>

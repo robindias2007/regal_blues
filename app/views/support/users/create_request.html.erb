@@ -21,22 +21,22 @@
   <% else %>
     <%= f.fields_for :addresses do |ff| %>
       <%= f.label :Street_Address %>
-      <%= ff.text_field :street_address %>
+      <%= ff.text_field :street_address, required:true %>
       <br>
       <%= f.label :Nickname %>
-      <%= ff.text_field :nickname %>
+      <%= ff.text_field :nickname, required:true %>
       <br>
       <%= f.label :City %>
-      <%= ff.text_field :city %>
+      <%= ff.text_field :city, required:true %>
       <br>
       <%= f.label :State %>
-      <%= ff.text_field :state %>
+      <%= ff.text_field :state, required:true %>
       <br>
       <%= f.label :Country %>
-      <%= ff.text_field :country %>
+      <%= ff.text_field :country, required:true %>
       <br>
       <%= f.label :Pincode %>
-      <%= ff.text_field :pincode %>
+      <%= ff.text_field :pincode, required:true %>
     <% end %>
   <% end %>
   <br>
