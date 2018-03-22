@@ -22,9 +22,9 @@ class V1::Users::OfferShowSerializer < ActiveModel::Serializer
 
   def shipping_price
     if object.request.address.country == "India" || object.request.address.country == "india"
-      500
+      300
     else
-      1400
+      2000
     end
   end
 
