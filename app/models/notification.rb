@@ -41,4 +41,37 @@ class Notification < ApplicationRecord
 	  	end
 	  end
 
+		# For Sending Message to the user via mobile number
+
+  	def close_request_message(notification)
+	    @events = Event.where('created_at >= ?', notification.created_at)
+	    arr = []
+	    @events.where(event_name:"CLOSE_REQUEST").pluck(:username).each do |f|
+	      arr << User.find_by(username:f)
+	    end
+	    close_request = arr.compact.map(&:mobile_number)
+	    close_request.each do |f|
+	      SmsService.send_message_notification(f, self.body)
+	    end
+	  end
+
+	  def submit_request_message(notification)
+	    @events = Event.where('created_at >= ?', notification.created_at)
+	    arr = []
+	    @events.where(event_name:"SUBMIT_REQUEST").pluck(:username).each do |f|
+	      arr << User.find_by(username:f)
+	    end
+	    close_request = arr.compact.map(&:mobile_number)
+	    close_request.each do |f|
+	      SmsService.send_message_notification(f, self.body)
+	    end
+	  end
+
+	  def all_users_message
+	  	all_users = User.all.pluck(:mobile_number)
+	  	all_users.each do |f|
+	      SmsService.send_message_notification(f, self.body)
+	  	end
+	  end
+
 end

@@ -27,6 +27,8 @@ Rails.application.routes.draw do
         patch :approve
         patch :reject
       end
+      get '/send_messages' => 'messages#index'
+      post '/send_messages' => 'messages#create'
       post 'supports/conversations' => 'users#create', as: :support_conversation
       resources :orders, only: %i[index], as: :support_orders  
       resources :orders, only: %i[show], as: :support_show_orders  
@@ -72,7 +74,7 @@ Rails.application.routes.draw do
 
   get '/push_token' => 'support/push_tokens#index'
   post '/push_token' => 'support/push_tokens#create', as: :push_create
-  
+
   get '/users/create_request/:id' => 'support/users#create_request', as: :support_create_request  
 
   resources :measurement_tags
