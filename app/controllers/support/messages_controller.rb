@@ -8,11 +8,11 @@ class Support::MessagesController < ApplicationController
   def create
     @notification = Notification.new(notification_params)
     if params[:commit] == "CLOSE REQUEST"
-      @notification.close_request_message(@notification) 
+      @notification.delay.close_request_message(@notification) 
     elsif params[:commit] == "SUBMIT REQUEST"
-      @notification.submit_request_message(@notification)
+      @notification.delay.submit_request_message(@notification)
     elsif params[:commit] == "ALL USERS"    
-      @notification.all_users_message
+      @notification.delay.all_users_message
     end
     flash[:success] == "Message Sent"
     redirect_to send_messages_path  
