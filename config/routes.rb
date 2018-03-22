@@ -5,7 +5,8 @@ Rails.application.routes.default_url_options = {
 }
 
 Rails.application.routes.draw do
-  resources :measurement_tags
+  resources :config_variables
+  
 
   resources :picks
   mount ActionCable.server => '/cable'
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
       get '/search/requests', to: 'search#requests', as: :support_request_search
       get 'search/user-suggestions', to: 'search#users_suggestions'
       get 'search/designer-suggestions', to: 'search#designers_suggestions'
-
+      
       # Generating Reports Based on the Queries 
       get 'supports/reports' => 'reports#list_reports', as: :support_reports 
       get 'supports/offer_requests' => 'reports#offer_requests'
@@ -30,15 +31,20 @@ Rails.application.routes.draw do
       get 'supports/requests_nooffers_15000' => 'reports#requests_nooffers_15000'
       get 'supports/awating_meas' => 'reports#awating_meas'
 
-      resources :users, only: %i[index show], as: :support_users
+      resources :users, only: %i[index show update], as: :support_users
       resources :designers, only: %i[index show], as: :support_designers
-      resources :requests, only: %i[index show], as: :support_requests do
+      resources :requests, only: %i[index show update create], as: :support_requests do
         patch :approve
         patch :reject
       end
       post 'supports/conversations' => 'users#create', as: :support_conversation
       resources :orders, only: %i[index], as: :support_orders  
-      resources :orders, only: %i[show], as: :support_show_orders   
+      resources :orders, only: %i[show], as: :support_show_orders  
+      resources :offers, only: %i[index show destroy], as: :support_offers  
+      post 'offer_quotation/:offer_id' => 'offers#create_quotation', as: :support_offer_quotation
+      patch 'offer_quotation/:offer_id' => 'offers#update_quotation', as: :support_offer_update 
+
+      resources :chats, only: %[index], as: :support_chats
     end
   end
 
@@ -54,6 +60,7 @@ Rails.application.routes.draw do
         collection do
           post :chat_type
           post :fetch_conversation
+          get :init_data
         end
         member do
           resources :messages, only: %i[index create update]
@@ -67,11 +74,21 @@ Rails.application.routes.draw do
 
   get '/chat/:id' => 'support/requests#chat', as: :chat
   post '/chat/:id' => 'support/requests#chat_post', as: :chat_post
+  post '/request_images' => 'support/requests#request_images'
+
+  post '/gallery_images' => 'support/offers#gallery_images'
 
   get '/designers/measurements' => 'v1/designers/offer_quotations#measurement_tags'
 
+  get '/push_token' => 'support/push_tokens#index'
+  post '/push_token' => 'support/push_tokens#create', as: :push_create
+  
+  get '/users/create_request/:id' => 'support/users#create_request', as: :support_create_request  
+
   resources :measurement_tags
-  #get '/measurement_tags' => 'measurement_tags#index'
+  
+  resources :events, only: %i[index create]
+
 
   # constraints(subdomain: 'support') do
   #   devise_for :supports, path: ''
@@ -125,6 +142,7 @@ Rails.application.routes.draw do
 
       # Home Controller
       get 'home/mobile', to: 'home#mobile'
+      get 'home/mobile_v2', to: 'home#mobile_v2'
 
       # Sub Categories
       resources :sub_categories, only: :index, path: 'sub-categories'
@@ -152,6 +170,7 @@ Rails.application.routes.draw do
       resources :products, only: %i[index show]
 
       get 'explore/mobile', to: 'explore#mobile'
+      get 'explore/mobile_v2', to: 'explore#mobile_v2'
       get 'search/:q', to: 'search#index'
       post 'external-search/create', to: 'external_searches#create'
       get 'external-search/modal-suggestions', to: 'external_searches#search_suggestions'
@@ -162,6 +181,7 @@ Rails.application.routes.draw do
           get :pay
           get :measurement_tags
           post :update_measurements
+          post :update_measurements_v2
           post :submit_options
           get :cancel_order
         end
