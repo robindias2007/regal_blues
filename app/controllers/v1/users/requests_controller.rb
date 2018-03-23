@@ -88,7 +88,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
 
   def request_v2_params
     params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id, :origin,
-      :description, :sub_category_id, :urls => [])
+      :description, :sub_category_id, :urls => [], request_images_attributes:    %i[image color description serial_number])
   end
 
   def request_images_v2_params
