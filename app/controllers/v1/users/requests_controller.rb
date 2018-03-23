@@ -14,6 +14,28 @@ class V1::Users::RequestsController < V1::Users::BaseController
     end
   end
 
+  def create_v2
+    request = current_user.requests.build(request_v2_params)
+    return no_designers_selected if params[:request][:request_designers_attributes].empty?
+    if request.save! && request.request_designers.create!(request_designers_params['request_designers_attributes'])
+      request.send_request_mail
+      current_user.update(mobile_number:params[:request][:mobile_number])
+      render json: {request_id: request.id }, status: 201
+    else
+      render json: { errors: request.errors.messages }, status: 400
+    end
+  end
+
+  def create_request_images_v2
+    request = Request.find(params[:id])
+    if request.present?
+      request.request_images.delay.create!(request_images_v2_params['request_images_attributes'])
+      render json: { message: 'Request images saved successfully' }, status: 201
+    else
+      render json: { errors: request.errors.messages }, status: 400
+    end
+  end
+
   def init_data
     categories = SubCategory.all.order(serial_no: :asc)
     addresses = current_user.addresses.order(nickname: :asc).limit(10)
@@ -59,9 +81,18 @@ class V1::Users::RequestsController < V1::Users::BaseController
     params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id, :origin,
       :description, :sub_category_id, request_images_attributes:    %i[image color description serial_number])
   end
-
+  
   def request_designers_params
     params.require(:request).permit(request_designers_attributes: [:designer_id])
+  end
+
+  def request_v2_params
+    params.require(:request).permit(:name, :size, :min_budget, :max_budget, :timeline, :address_id, :origin,
+      :description, :sub_category_id, :urls => [])
+  end
+
+  def request_images_v2_params
+    params.require(:request).permit(request_images_attributes:    %i[image color description serial_number])
   end
 
   def serialization_for(list, serializer)
