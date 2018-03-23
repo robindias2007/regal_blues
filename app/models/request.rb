@@ -38,6 +38,15 @@ class Request < ApplicationRecord
     public_send(attr) == true ? update(:"#{attr}" => false) : update(:"#{attr}" => true)
   end
 
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << column_names
+      all.each do |request|
+        csv << request.attributes.values_at(*column_names)
+      end
+    end
+  end
+
   def send_request_mail
     body = "You have a new request by #{ self.user.full_name }"
     message = "New Request -  You have a new request #{self.name} by user #{self.user.full_name}."

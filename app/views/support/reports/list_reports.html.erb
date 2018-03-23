@@ -1,0 +1,91 @@
+<h3> List of Reports: </h3>
+<br>
+
+<ul class="collection">
+  
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">Request received in last 24 hours </span>
+    <p><%= link_to "Download", '/supports/requests_24.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle">insert_chart</i>
+    <span class="title">Request received in last 48 hours</span>
+    <p><%= link_to "Download", '/supports/requests_48.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">folder</i>
+    <span class="title">All Request With No Offers 24 hours</span>
+    <p><%= link_to "Download", '/supports/no_offer_requests_24.csv' %></p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle">folder</i>
+    <span class="title">All Request With No Offers 48 hours</span>
+    <p><%= link_to "Download", '/supports/no_offer_requests_48.csv' %></p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">Users who have not responded to offers sent in ​last 24 hours</span>
+    <p><%= link_to "Download", '/supports/user_nooffer_24.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle">insert_chart</i>
+    <span class="title">Users who have not responded to offers sent in ​last 48 hours</span>
+    <p><%= link_to "Download", '/supports/user_nooffer_48.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">Requests With Awating Measurements(7 days from now)</span>
+    <p><%= link_to "Download", '/supports/awating_meas.csv' %></p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle">insert_chart</i>
+    <span class="title">List of Hot Users</span>
+    <p><%= link_to "Download", '/supports/hot_users.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">List of Warm Users</span>
+    <p><%= link_to "Download", '/supports/warm_users.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle">insert_chart</i>
+    <span class="title">List of Cold Users</span>
+    <p><%= link_to "Download", '/supports/cold_users.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">All Request With Offers</span>
+    <p><%= link_to "Download", '/supports/offer_requests.csv' %><p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">Requests With No Offers Below 10,000(15 days from now)</span>
+    <p><%= link_to "Download", '/supports/requests_nooffers_10000.csv' %></p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle">folder</i>
+    <span class="title">Requests With No Offers Between 10,000 to 15,000(15 days from now)</span>
+    <p> <%= link_to "Download", '/supports/requests_nooffers_10_15.csv' %></p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle green">insert_chart</i>
+    <span class="title">Requests With No Offers above 15,000(15 days from now)</span>
+    <p><%= link_to "Download", '/supports/requests_nooffers_15000.csv' %></p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  
+</ul>

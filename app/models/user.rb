@@ -92,6 +92,15 @@ class User < ApplicationRecord
     ["#{full_name} (#{email})", nil]
   end
 
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << column_names
+      all.each do |request|
+        csv << request.attributes.values_at(*column_names)
+      end
+    end
+  end
+
   # private
   #
   # # TODO: Update photo from https://graph.facebook.com/v2.10/id/picture?redirect=0&hieght=400&width=400
