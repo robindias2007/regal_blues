@@ -70,7 +70,7 @@ class Notification < ApplicationRecord
 	  def all_users_message
 	  	all_users = User.all.pluck(:mobile_number)
 	  	all_users.each do |f|
-	      SmsService.send_message_notification(f, self.body)
+	      SmsService.send_message_notification("+919833564323", self.body)
 	  	end
 	  end
 
