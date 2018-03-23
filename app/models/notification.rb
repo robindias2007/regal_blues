@@ -51,7 +51,7 @@ class Notification < ApplicationRecord
 	    end
 	    close_request = arr.compact.map(&:mobile_number)
 	    close_request.each do |f|
-	      SmsService.send_message_notification("+919833564323", self.body)
+	      SmsService.send_message_notification(f, self.body)
 	    end
 	  end
 
@@ -68,9 +68,9 @@ class Notification < ApplicationRecord
 	  end
 
 	  def all_users_message
-	  	all_users = User.all.pluck(:mobile_number).first(2)
+	  	all_users = User.all.pluck(:mobile_number)
 	  	all_users.each do |f|
-	      SmsService.send_message_notification("+919833564323", self.body)
+	      SmsService.send_message_notification(f, self.body)
 	  	end
 	  end
 
