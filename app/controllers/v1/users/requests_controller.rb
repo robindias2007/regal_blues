@@ -27,7 +27,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def create_request_images_v2
-    request = Request.find(params[:id])
+    request = current_user.requests.find(params[:id])
     if request.present?
       request.request_images.delay.create!(request_images_v2_params['request_images_attributes'])
       render json: { message: 'Request images saved successfully' }, status: 201
