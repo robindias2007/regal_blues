@@ -41,36 +41,55 @@ class Notification < ApplicationRecord
 	  	end
 	  end
 
-		# For Sending Message to the user via mobile number
+
+		# For Sending Message to the user via Chat
 
   	def close_request_message(notification)
 	    @events = Event.where('created_at >= ?', notification.created_at)
-	    arr = []
+	    users = []
 	    @events.where(event_name:"CLOSE_REQUEST").pluck(:username).each do |f|
-	      arr << User.find_by(username:f)
+	      users << User.find_by(username:f)
 	    end
-	    close_request = arr.compact.map(&:mobile_number)
-	    close_request.each do |f|
-	      SmsService.send_message_notification(f, self.body)
+	    users.uniq.each do |user|
+	    	if user.conversations.present?
+	      	message = Message.delay.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+	      	user.delay.update(updated_at:DateTime.now)  
+	    	else
+	      	convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+	      	message = Message.delay.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
+	      	user.delay.update(updated_at:DateTime.now)
+	    	end
 	    end
 	  end
 
 	  def submit_request_message(notification)
 	    @events = Event.where('created_at >= ?', notification.created_at)
-	    arr = []
+	    users = []
 	    @events.where(event_name:"SUBMIT_REQUEST").pluck(:username).each do |f|
-	      arr << User.find_by(username:f)
+	      users << User.find_by(username:f)
 	    end
-	    close_request = arr.compact.map(&:mobile_number)
-	    close_request.each do |f|
-	      SmsService.send_message_notification(f, self.body)
+	    users.uniq.each do |user|
+	    	if user.conversations.present?
+	      	message = Message.delay.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+	      	user.delay.update(updated_at:DateTime.now)  
+	    	else
+	      	convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+	      	message = Message.delay.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
+	      	user.delay.update(updated_at:DateTime.now)
+	    	end
 	    end
 	  end
 
 	  def all_users_message
-	  	all_users = User.all.pluck(:mobile_number)
-	  	all_users.each do |f|
-	      SmsService.send_message_notification(f, self.body)
+	  	User.all.each do |user|
+	  	  if user.conversations.present?
+	      	message = Message.delay.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+	      	user.delay.update(updated_at:DateTime.now)  
+	    	else
+	      	convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+	      	message = Message.delay.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
+	      	user.delay.update(updated_at:DateTime.now)
+	    	end
 	  	end
 	  end
 
