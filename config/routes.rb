@@ -24,12 +24,21 @@ Rails.application.routes.draw do
       
       # Generating Reports Based on the Queries 
       get 'supports/reports' => 'reports#list_reports', as: :support_reports 
+      get 'supports/requests_24' => 'reports#requests_24'
+      get 'supports/requests_48' => 'reports#requests_48'
+      get 'supports/awating_meas' => 'reports#awating_meas'
+      get 'supports/no_offer_requests_24' => 'reports#no_offer_requests_24'
+      get 'supports/no_offer_requests_48' => 'reports#no_offer_requests_48'
+      get 'supports/user_nooffer_24' => 'reports#user_nooffer_24'
+      get 'supports/user_nooffer_48' => 'reports#user_nooffer_48'
+      get 'supports/hot_users' => 'reports#hot_users'
+      get 'supports/warm_users' => 'reports#warm_users'
+      get 'supports/cold_users' => 'reports#cold_users'
       get 'supports/offer_requests' => 'reports#offer_requests'
-      get 'supports/no_offer_requests' => 'reports#no_offer_requests'
       get 'supports/requests_nooffers_10000' => 'reports#requests_nooffers_10000'
       get 'supports/requests_nooffers_10_15' => 'reports#requests_nooffers_10_15'
       get 'supports/requests_nooffers_15000' => 'reports#requests_nooffers_15000'
-      get 'supports/awating_meas' => 'reports#awating_meas'
+      
 
       resources :users, only: %i[index show update], as: :support_users
       resources :designers, only: %i[index show], as: :support_designers
