@@ -7,7 +7,7 @@
 		<%= f.label :price %>
 		<%= f.text_field :price, required:true %><br>
 		<%= f.label :description %>
-		<%= f.text_field :description, required:true %><br>
+		<%= f.text_area :description, required:true, class: "materialize-textarea" %><br>
 		<%= f.hidden_field :offer_id, value:@offer.id %>
 		<%= f.fields_for :offer_quotation_gallery do |ff| %>
 			<%= ff.label :gallery_name, required:true %>
