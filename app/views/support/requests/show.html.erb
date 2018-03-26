@@ -43,7 +43,7 @@
         </p>          
         <%= form_for @request, :url => support_request_path(@request) do |f| %>
           <p class="card-stats-title">Description:
-            <%= f.text_field :description, value:@request.description %>
+            <%= f.text_area :description, value:@request.description, class: "materialize-textarea" %>
           </p>
           <p class="card-stats-title">Budget:
             <%= f.text_field :max_budget, value:@request.max_budget %>
