@@ -16,6 +16,10 @@ class V1::Users::RequestsSerializer < ActiveModel::Serializer
   end
 
   def image
-    object.request_images.order(serial_number: :asc).first.image
+    if object.request_images.order(serial_number: :asc).first.image.present?
+      object.request_images.order(serial_number: :asc).first.image
+    else
+      nil
+    end
   end
 end
