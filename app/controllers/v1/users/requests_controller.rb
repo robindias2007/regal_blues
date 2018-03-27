@@ -22,7 +22,6 @@ class V1::Users::RequestsController < V1::Users::BaseController
       request = current_user.requests.build(request_v2_params)
       return no_designers_selected if params[:request][:request_designers_attributes].empty?
       if request.save! && request.request_designers.create!(request_designers_params['request_designers_attributes'])
-        request.delay.send_request_mail
         current_user.update(mobile_number:params[:request][:mobile_number])
         render json: {request_id: request.id }, status: 201
       else
@@ -37,6 +36,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
       params["request_images_attributes"].each do |f|
         request.request_images.create!(image:f["image"], serial_number:f["serial_number"], description:f["description"])
       end
+      request.delay.send_request_mail
       render json: { message: 'Request Images Saved Successfully' }, status: 201
     else
       render json: { errors: request.errors.messages }, status: 400
