@@ -27,7 +27,7 @@ class Support::ReportsController < ApplicationController
 		if requests.present?
 			requests.each do |f|
 				offer = f.offers.first.created_at.to_date rescue nil
-				if (offer == Date.today ) || (offer == Date.yesterday)
+				if (offer >= 24.hours.ago ) || (offer >= 48.hours.ago)
 					unless f.status == "confirmed"
 						users.push(f.user)
 					end
@@ -46,8 +46,8 @@ class Support::ReportsController < ApplicationController
 		users = Array.new
 		if requests.present?
 			requests.each do |f|
-				offer = f.offers.first.created_at.to_date rescue nil
-				if (offer == Date.today) || (offer == Date.yesterday) || ( offer == 2.days.ago)
+				offer = f.offers.first.created_at rescue nil
+				if (offer >= 24.hours.ago) || (offer >= 48.hours.ago)
 					unless f.status == "confirmed"
 						users.push(f.user)
 					end
