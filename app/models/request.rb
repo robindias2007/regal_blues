@@ -16,7 +16,7 @@ class Request < ApplicationRecord
 
   validates :name, :size, :timeline, presence: true
   # validates :request_images, :request_designers, length: { minimum: 1, maximum: 100 }
-  # validates :name, length: { in: 4..60 }, uniqueness: { case_sensitive: false, scope: :user_id }
+  validates :name, length: { in: 4..60 }, uniqueness: { case_sensitive: false, scope: :user_id }
   validates :timeline, numericality: { only_integer: true }
   validates :min_budget, numericality: true, allow_nil: true
   validates :max_budget, numericality: { greater_than_or_equal_to: 0,
