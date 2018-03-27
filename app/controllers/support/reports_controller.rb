@@ -26,7 +26,8 @@ class Support::ReportsController < ApplicationController
 		users = Array.new
 		if requests.present?
 			requests.each do |f|
-				if (f.offers.first.created_at + 1.day).to_date == Date.today
+				offer = f.offers.first.created_at.to_date rescue nil
+				if (offer == Date.today ) || (offer == Date.yesterday)
 					unless f.status == "confirmed"
 						users.push(f.user)
 					end
@@ -45,7 +46,8 @@ class Support::ReportsController < ApplicationController
 		users = Array.new
 		if requests.present?
 			requests.each do |f|
-				if (f.offers.first.created_at + 2.days).to_date == Date.today
+				offer = f.offers.first.created_at.to_date rescue nil
+				if (offer == Date.today) || (offer == Date.yesterday) || ( offer == 2.days.ago)
 					unless f.status == "confirmed"
 						users.push(f.user)
 					end
@@ -109,7 +111,7 @@ class Support::ReportsController < ApplicationController
 		req = []
 		if requests.present?
 			requests.each do |f|
-				if f.created_at.to_date == Date.today || (f.created_at + 1.day).to_date = Date.today
+				if (f.created_at.to_date == Date.today) || (f.created_at.to_date == Date.yesterday)
 					req.push(f)
 				end
 			end
@@ -126,7 +128,7 @@ class Support::ReportsController < ApplicationController
 		req = []
 		if requests.present?
 			requests.each do |f|
-				if (f.created_at + 2.days).to_date = Date.today
+				if (f.created_at.to_date == Date.today) || (f.created_at.to_date == Date.yesterday) || (f.created_at.to_date == 2.days.ago)
 					req.push(f)
 				end
 			end
