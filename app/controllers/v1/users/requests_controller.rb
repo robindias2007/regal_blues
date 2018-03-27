@@ -27,10 +27,10 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def create_request_images_v2
-    request = Request.find(params[:id])
+    request = current_user.requests.find(params[:id])
     if request.present?
       params["request_images_attributes"].each do |f|
-        request.request_images.create!(image:f["image"], serial_number:f["serial_number"], description:f["description"])
+        request.request_images.delay.create!(image:f["image"], serial_number:f["serial_number"], description:f["description"])
       end
       render json: { message: 'Request Images Saved Successfully' }, status: 201
     else
