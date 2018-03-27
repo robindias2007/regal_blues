@@ -27,7 +27,7 @@ class Support::ReportsController < ApplicationController
 		if requests.present?
 			requests.each do |f|
 				offer = f.offers.first.created_at.to_date rescue nil
-				if (offer >= 24.hours.ago ) || (offer >= 48.hours.ago)
+				if offer >= 24.hours.ago
 					unless f.status == "confirmed"
 						users.push(f.user)
 					end
