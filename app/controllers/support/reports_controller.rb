@@ -173,8 +173,6 @@ class Support::ReportsController < ApplicationController
 			 		f.request_designers.each do |ff|
 			 			if (ff.designer.full_name.include? "Custumise Gold") ||  (ff.designer.full_name.include? "Custumise")
 			 				req.push(f)
-			 			else
-			 				flash[:notice] == "No Records Found"
 			 			end
 			 		end
 			 	end
@@ -196,8 +194,6 @@ class Support::ReportsController < ApplicationController
 			 		f.request_designers.each do |ff|
 			 			if (ff.designer.full_name.include? "Custumise Gold") ||  (ff.designer.full_name.include? "Custumise")
 			 				req.push(f)
-			 			else
-			 				flash[:notice] == "No Records Found"
 			 			end
 			 		end
 			 	end
