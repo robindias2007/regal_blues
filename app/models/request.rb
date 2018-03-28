@@ -42,15 +42,31 @@ class Request < ApplicationRecord
     CSV.generate(options) do |csv|
       column_names = %w(name description max_budget created_at)
       #csv << column_names
-      csv.add_row %W[Name Description Budget #{"Request Date"} Username #{"Full Name"} #{"Sub_Category"} #{"No of Offers"} #{"No of Quotations"} #{"Date of Offer Sent"}]
+      csv.add_row %W[Name Description Budget #{"Request Date"} Username #{"Full Name"} #{"Sub_Category"} #{"No of Designers"} #{"No of Offers"} #{"No of Quotations"} #{"Date of Offer Sent"}]
       all.each do |request|
         row = request.attributes.values_at(*column_names)
         row << request.user.username
         row << request.user.full_name
         row << request.sub_category.name
-        row << request.offers.size
-        row << request.offers.first.offer_quotations.size
-        row << request.offers.first.created_at
+        row << request.request_designers.count
+        row << 
+          if request.offers.present?
+            request.offers.size
+          else
+            0
+          end
+        row << 
+          if request.offers.first.present?
+            request.offers.first.offer_quotations.size 
+          else
+            0
+          end
+        row << 
+          if request.offers.present?
+            request.offers.first.created_at 
+          else
+            0
+          end
         csv << row
       end
     end
