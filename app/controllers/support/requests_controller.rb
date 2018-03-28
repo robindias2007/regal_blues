@@ -5,7 +5,7 @@ class Support::RequestsController < ApplicationController
   
   def index
     req = Request.where(status:"active").order(created_at: :desc) + Request.where(status:"unapproved").order(created_at: :desc) 
-    requests = Request.where(id:req).order(status: :asc).order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
+    requests = Request.where(id:req).order(status: :asc).order(created_at: :desc).paginate(:page => params[:current_page], :per_page => 100)
     respond_to do |format|
       format.html {@requests = Request.where(id:req).order(status: :asc).order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)}
       format.csv do
