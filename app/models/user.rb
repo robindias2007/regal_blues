@@ -92,9 +92,9 @@ class User < ApplicationRecord
     ["#{full_name} (#{email})", nil]
   end
 
-  def self.to_csv
+  def self.to_csv(options = {})
     CSV.generate do |csv|
-      column_names = %w(full_name username mobile_number gender email verified hot cold warm support_notes)
+      column_names = %w(full_name username mobile_number email hot cold warm support_notes created_at)
       csv << column_names
       all.each do |request|
         csv << request.attributes.values_at(*column_names)

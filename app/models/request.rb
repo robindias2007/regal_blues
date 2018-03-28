@@ -40,7 +40,7 @@ class Request < ApplicationRecord
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
-      column_names = %w(name description size max_budget timeline)
+      column_names = %w(name description size max_budget timeline created_at)
       csv << column_names
       all.each do |request|
         csv << request.attributes.values_at(*column_names).insert(-1, request.user.username)
