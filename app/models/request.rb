@@ -40,10 +40,18 @@ class Request < ApplicationRecord
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
-      column_names = %w(name description size max_budget timeline created_at)
-      csv << column_names
+      column_names = %w(name description max_budget created_at)
+      #csv << column_names
+      csv.add_row %W[Name Description Budget #{"Request Date"} Username #{"Full Name"} #{"Sub_Category"} #{"No of Offers"} #{"No of Quotations"} #{"Date of Offer Sent"}]
       all.each do |request|
-        csv << request.attributes.values_at(*column_names).insert(-1, request.user.username)
+        row = request.attributes.values_at(*column_names)
+        row << request.user.username
+        row << request.user.full_name
+        row << request.sub_category.name
+        row << request.offers.size
+        row << request.offers.first.offer_quotations.size
+        row << request.offers.first.created_at
+        csv << row
       end
     end
   end
