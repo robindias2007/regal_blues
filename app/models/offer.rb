@@ -75,7 +75,12 @@ class Offer < ApplicationRecord
         row << offer.request.user.username
         row << offer.request.name
         row << offer.request.sub_category.name
-        row << offer.offer_quotations.count
+        row << 
+          if offer.offer_quotations.present?
+            offer.offer_quotations.count
+          else
+            0
+          end
         csv << row
       end
     end
