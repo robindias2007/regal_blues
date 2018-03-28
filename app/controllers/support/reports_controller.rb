@@ -159,8 +159,50 @@ class Support::ReportsController < ApplicationController
 	def requests_nooffers_15000
 		@requests = Request.where("max_budget > 15000").where(created_at: 15.days.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
 		respond_to do |format|
-      		format.csv {send_data @requests.to_csv}
-    	end
+      format.csv {send_data @requests.to_csv}
+    end
+	end
+
+	#No offer sent for request received in last 24 hours - No offers sent from Custumise or Custumise Gold
+	def no_offer_custumise_24
+		requests = Request.where(created_at: 24.hours.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
+		req = []
+		if requests.present
+			requests.each do |f|
+			 	if f.request_designers.present?
+			 		f.request_designers.each do |ff|
+			 			if (ff.designer.full_name.include? "Custumise Gold") ||  (ff.designer.full_name.include? "Custumise")
+			 				req.push(f)
+			 			end
+			 		end
+			 	end
+			end
+		end
+		@requests = Request.where(id:req)
+		respond_to do |format|
+      format.csv {send_data @requests.to_csv}
+    end
+	end
+
+	#No offer sent for request received in last 48 hours - No offers sent from Custumise or Custumise Gold
+	def no_offer_custumise_48
+		requests = Request.where(created_at: 24.hours.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
+		req = []
+		if requests.present
+			requests.each do |f|
+			 	if f.request_designers.present?
+			 		f.request_designers.each do |ff|
+			 			if (ff.designer.full_name.include? "Custumise Gold") ||  (ff.designer.full_name.include? "Custumise")
+			 				req.push(f)
+			 			end
+			 		end
+			 	end
+			end
+		end
+		@requests = Request.where(id:req)
+		respond_to do |format|
+      format.csv {send_data @requests.to_csv}
+    end
 	end
 
 end

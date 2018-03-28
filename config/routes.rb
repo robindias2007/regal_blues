@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       get 'supports/reports' => 'reports#list_reports', as: :support_reports 
       get 'supports/requests_24' => 'reports#requests_24'
       get 'supports/requests_48' => 'reports#requests_48'
+      get 'supports/no_offer_custumise_24' => 'reports#no_offer_custumise_24'
+      get 'supports/no_offer_custumise_48' => 'reports#no_offer_custumise_48'
       get 'supports/awating_meas' => 'reports#awating_meas'
       get 'supports/no_offer_requests_24' => 'reports#no_offer_requests_24'
       get 'supports/no_offer_requests_48' => 'reports#no_offer_requests_48'
@@ -38,6 +40,7 @@ Rails.application.routes.draw do
       get 'supports/requests_nooffers_10000' => 'reports#requests_nooffers_10000'
       get 'supports/requests_nooffers_10_15' => 'reports#requests_nooffers_10_15'
       get 'supports/requests_nooffers_15000' => 'reports#requests_nooffers_15000'
+
       
 
       resources :users, only: %i[index show update], as: :support_users
