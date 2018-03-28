@@ -3,9 +3,14 @@
 class Support::UsersController < ApplicationController
   def index
     if current_support.role == "admin"
-      @users = User.order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
-      # @conversation = Conversation.new  
-      # @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" ) 
+      users = User.order(created_at: :desc).paginate(:page => params[:current_page], :per_page => 100)
+      respond_to do |format|
+        format.html {@users = User.order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)}
+        format.csv do
+          send_data users.to_csv
+          @csv = true
+        end
+      end
     else
       redirect_to root_url
     end

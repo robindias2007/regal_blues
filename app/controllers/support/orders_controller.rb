@@ -7,7 +7,7 @@ class Support::OrdersController < ApplicationController
   end
 
   def index
-    @orders = Order.order(created_at: :desc).all
+    orders = Order.order(created_at: :desc).all
     @order = Order.find(params[:format]) rescue nil
     if params[:commit] == 'Ship_To_QC'         # it checks if the user has clicked publish the it updates the form with publish
       @order.update(status:"shipped_to_qc")
@@ -40,7 +40,14 @@ class Support::OrdersController < ApplicationController
       redirect_to request.referer
     end
     @conversation = Conversation.new
-    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" ) 
+    @convo =  Conversation.where(receiver_type:"support", conversationable_type: "User" )
+    respond_to do |format|
+      format.html {@orders = Order.order(created_at: :desc).all}
+      format.csv do
+        send_data orders.to_csv
+        @csv = true
+      end
+    end
   end  
 
   private

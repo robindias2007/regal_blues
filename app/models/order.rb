@@ -385,6 +385,20 @@ class Order < ApplicationRecord
     self.designer.notifications.create(body: message, notificationable_type: "Order", notificationable_id: self.id)
   end
 
+  def self.to_csv
+    CSV.generate do |csv|
+      column_names = %w(created_at order_id status)
+      csv.add_row %W[ Date #{"Order ID"} #{"Status"} #{"Request Name"} User #{"Designer Name"}]
+      all.each do |order|
+        row = order.attributes.values_at(*column_names)
+        row << order.offer_quotation.offer.request.name
+        row << order.user.username
+        row << order.designer.full_name
+        csv << row
+      end
+    end
+  end
+
   private
 
   def generate_order_id

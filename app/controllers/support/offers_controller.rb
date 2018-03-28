@@ -2,7 +2,14 @@
 
 class Support::OffersController < ApplicationController
   def index
-    @offers = Offer.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)
+    offers = Offer.all.order(created_at: :desc).paginate(:page => params[:current_page], :per_page => 100)
+    respond_to do |format|
+      format.html {@offers = Offer.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 100)}
+      format.csv do
+        send_data offers.to_csv
+        @csv = true
+      end
+    end
   end
 
   def show

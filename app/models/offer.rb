@@ -67,9 +67,16 @@ class Offer < ApplicationRecord
 
   def self.to_csv
     CSV.generate do |csv|
-      csv << column_names
+      column_names = %w(created_at)
+      csv.add_row %W[ Date #{"Designer Name"} #{"User Username"} #{"Request Name"} #{"Sub Category"} #{"No. of Quotations"}]
       all.each do |offer|
-        csv << offer.attributes.values_at(*column_names)
+        row = offer.attributes.values_at(*column_names)
+        row << offer.designer.full_name
+        row << offer.request.user.username
+        row << offer.request.name
+        row << offer.request.sub_category.name
+        row << offer.offer_quotations.count
+        csv << row
       end
     end
   end

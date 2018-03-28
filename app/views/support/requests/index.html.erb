@@ -3,6 +3,9 @@
   <h5 class="center">Requests</h5>
 
   <%= will_paginate @requests %>
+  <br>
+  <%= link_to "Download Page", support_requests_path(format: "csv", current_page: @requests.current_page ) %>
+  <br>
   <table class="highlight">
     <thead>
       <tr>

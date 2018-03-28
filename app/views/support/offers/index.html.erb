@@ -2,6 +2,8 @@
 <br>
 <%= will_paginate @offers %>
 <br>
+<%= link_to "Download Page", support_offers_path(format: "csv", current_page: @offers.current_page) %>
+<br>
 <div class="row">
   <table class="highlight"> 
     <thead>
@@ -9,7 +11,7 @@
         <th colspan="1" class="center">Designer Name</th>
         <th colspan="1" class="center">User Username</th>
         <th colspan="1" class="center">Request Name</th>
-        <th colspan="1" class="center">Category</th>
+        <th colspan="1" class="center">SubCategory</th>
         <th colspan="1" class="center">No. of Quotations</th>
         <th colspan="1" class="center">Date</th>
         <th colspan="1" class="center">Delete</th>
