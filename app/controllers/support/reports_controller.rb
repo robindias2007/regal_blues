@@ -242,7 +242,6 @@ class Support::ReportsController < ApplicationController
 	    	end
 	    else
 	    	redirect_to support_reports_path
-	    	flash[:notice] == "No Records Found"
 	    end
 	end
 
@@ -269,7 +268,6 @@ class Support::ReportsController < ApplicationController
 	    	end
 	    else
 	    	redirect_to support_reports_path
-	    	flash[:notice] == "No Records Found"
 	    end
 	end
 
