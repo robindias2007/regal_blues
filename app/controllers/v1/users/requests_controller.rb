@@ -15,7 +15,7 @@ class V1::Users::RequestsController < V1::Users::BaseController
   end
 
   def create_v2
-    a = current_user.requests.find_by(name:params[:request][:name]) rescue nil
+    a = current_user.requests.where.not(status:"confirmed").find_by(name:params[:request][:name]) rescue nil
     if a.present?
       render json: {request_id: a.id }, status: 201
     else
