@@ -178,7 +178,8 @@ class Support::ReportsController < ApplicationController
 			 	end
 			end
 		end
-		@requests = Request.where(id:req)
+		@req = req.uniq
+		@requests = Request.where(id:@req)
 		if @requests.present?
 			respond_to do |format|
 	      		format.csv {send_data @requests.to_csv}
@@ -204,7 +205,8 @@ class Support::ReportsController < ApplicationController
 			 	end
 			end
 		end
-		@requests = Request.where(id:req)
+		@req = req.uniq
+		@requests = Request.where(id:@req)
 		if @requests.present?
 			respond_to do |format|
 	      		format.csv {send_data @requests.to_csv}
