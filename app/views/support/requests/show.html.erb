@@ -93,7 +93,7 @@
 
 <% if (@request.offers.size > 0) %>
 
-  <div class="row">
+  <!-- <div class="row">
     <h5 class="center">Offers</h5>
     <table class="highlight">
       <thead>        
@@ -115,10 +115,10 @@
 
 <% else %>
   <h5>No offers yet</h5>
-<% end %>
+<% end %> -->
 
 
-
+<br><br><br>
 <div class="col s12 m6 l6", id="collapse_offer">
   <ul class="collapsible" data-collapsible="expandable">
     <li>
@@ -127,9 +127,9 @@
           <div class="collapsible-header active">
             <a href="#">Quote Details</a>
           </div>
-
           <div class="collapsible-body">
-            <ul class="collection">             
+            <ul class="collection">     
+              <li class="collection-item">Designer Name: <b><%= off.designer.full_name  %></b></li>        
               <li class="collection-item">Price: <b><%= offquo.price %></b></li>
               <li class="collection-item">Description: <b><%= offquo.description %></b></li>
               <li class="collection-item">Designer Note: <b><%= offquo.designer_note %></b></li> 
