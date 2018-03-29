@@ -8,9 +8,7 @@ class Support::ReportsController < ApplicationController
 	def requests_24
 		@requests = Request.where(created_at: 24.hours.ago..Time.now)
 		if @requests.present?
-			respond_to do |format|
-	      format.csv {send_data @requests.to_csv}
-	    end
+			
 	  else
 	  	redirect_to support_reports_path
 	  end
@@ -238,11 +236,11 @@ class Support::ReportsController < ApplicationController
 		@requests = Request.where(id:@req)
 		if @requests.present?
 			respond_to do |format|
-	      		format.csv {send_data @requests.to_csv}
-	    	end
-	    else
-	    	redirect_to support_reports_path
+	      format.csv {send_data @requests.to_csv}
 	    end
+		else
+	    redirect_to support_reports_path
+	  end
 	end
 
 	#No offer sent for request received in last 48 hours - No offers sent from Custumise or Custumise Gold
@@ -264,11 +262,11 @@ class Support::ReportsController < ApplicationController
 		@requests = Request.where(id:@req)
 		if @requests.present?
 			respond_to do |format|
-	      		format.csv {send_data @requests.to_csv}
-	    	end
-	    else
-	    	redirect_to support_reports_path
-	    end
+	      format.csv {send_data @requests.to_csv}
+	    end	
+    else
+    	redirect_to support_reports_path
+    end
 	end
 
 end
