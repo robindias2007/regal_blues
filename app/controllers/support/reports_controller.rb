@@ -167,7 +167,7 @@ class Support::ReportsController < ApplicationController
 	def no_offer_custumise_24
 		requests = Request.where(created_at: 24.hours.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
 		req = []
-		if requests.present
+		if requests.present?
 			requests.each do |f|
 			 	if f.request_designers.present?
 			 		f.request_designers.each do |ff|
@@ -179,16 +179,21 @@ class Support::ReportsController < ApplicationController
 			end
 		end
 		@requests = Request.where(id:req)
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      		format.csv {send_data @requests.to_csv}
+	    	end
+	    else
+	    	redirect_to request.referer
+	    	flash[:notice] == "No Records Found"
+	    end
 	end
 
 	#No offer sent for request received in last 48 hours - No offers sent from Custumise or Custumise Gold
 	def no_offer_custumise_48
 		requests = Request.where(created_at: 24.hours.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
 		req = []
-		if requests.present
+		if requests.present?
 			requests.each do |f|
 			 	if f.request_designers.present?
 			 		f.request_designers.each do |ff|
@@ -200,9 +205,14 @@ class Support::ReportsController < ApplicationController
 			end
 		end
 		@requests = Request.where(id:req)
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      		format.csv {send_data @requests.to_csv}
+	    	end
+	    else
+	    	redirect_to request.referer
+	    	flash[:notice] == "No Records Found"
+	    end
 	end
 
 end
