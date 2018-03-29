@@ -52,12 +52,12 @@ class Notification < ApplicationRecord
 	    end
 	    users.uniq.each do |user|
 	    	if user.conversations.present?
-	      	message = Message.delay.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
-	      	user.delay.update(updated_at:DateTime.now)  
+	      	message = Message.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+	      	user.update(updated_at:DateTime.now)  
 	    	else
-	      	convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
-	      	message = Message.delay.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
-	      	user.delay.update(updated_at:DateTime.now)
+	      	convo = Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+	      	message = Message.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
+	      	user.update(updated_at:DateTime.now)
 	    	end
 	    end
 	  end
@@ -70,12 +70,12 @@ class Notification < ApplicationRecord
 	    end
 	    users.uniq.each do |user|
 	    	if user.conversations.present?
-	      	message = Message.delay.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
-	      	user.delay.update(updated_at:DateTime.now)  
+	      	message = Message.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+	      	user.update(updated_at:DateTime.now)  
 	    	else
-	      	convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
-	      	message = Message.delay.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
-	      	user.delay.update(updated_at:DateTime.now)
+	      	convo = Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+	      	message = Message.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
+	      	user.update(updated_at:DateTime.now)
 	    	end
 	    end
 	  end
@@ -83,12 +83,12 @@ class Notification < ApplicationRecord
 	  def all_users_message
 	  	User.all.each do |user|
 	  	  if user.conversations.present?
-	      	message = Message.delay.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
-	      	user.delay.update(updated_at:DateTime.now)  
+	      	message = Message.create(body:self.body, conversation_id:user.conversations.first.id, sender_id:Support.first.common_id)
+	      	user.update(updated_at:DateTime.now)  
 	    	else
-	      	convo = Conversation.delay.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
-	      	message = Message.delay.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
-	      	user.delay.update(updated_at:DateTime.now)
+	      	convo = Conversation.create(receiver_id:Support.first.common_id, receiver_type:"support", conversationable_id:user.id, conversationable_type:"User")   
+	      	message = Message.create(body:self.body, conversation_id:convo.id, sender_id:Support.first.common_id)
+	      	user.update(updated_at:DateTime.now)
 	    	end
 	  	end
 	  end
