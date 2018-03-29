@@ -7,17 +7,25 @@ class Support::ReportsController < ApplicationController
 	#requests 24hours
 	def requests_24
 		@requests = Request.where(created_at: 24.hours.ago..Time.now)
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	#requests 48hours
 	def requests_48
 		@requests = Request.where(created_at: 48.hours.ago..Time.now)
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end	
 
 	# Users who have not responded to offers sent in ​last 24 hours
@@ -35,9 +43,13 @@ class Support::ReportsController < ApplicationController
 			end
 		end
 		@users = User.where(id:users)
-		respond_to do |format|
-      format.csv {send_data @users.to_csv}
-    end
+		if @users.present?
+			respond_to do |format|
+	      format.csv {send_data @users.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Users who have not responded to offers sent in ​last 48 hours
@@ -55,9 +67,13 @@ class Support::ReportsController < ApplicationController
 			end
 		end
 		@users = User.where(id:users)
-		respond_to do |format|
-      format.csv {send_data @users.to_csv}
-    end
+		if @users.present?
+			respond_to do |format|
+	      format.csv {send_data @users.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 
@@ -68,41 +84,61 @@ class Support::ReportsController < ApplicationController
 			order_name_array.push(order.offer_quotation.offer.request)
 		end
 		@requests = Request.where('id in (?)',order_name_array.pluck(:id))	
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	#hot users
 	def hot_users
 		@users =  User.where(hot:true)
-		respond_to do |format|
-      format.csv {send_data @users.to_csv}
-    end
+		if @users.present?
+			respond_to do |format|
+	      format.csv {send_data @users.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	#warm_users
 	def warm_users
 		@users =  User.where(warm:true)
-		respond_to do |format|
-      format.csv {send_data @users.to_csv}
-    end
+		if @users.present?
+			respond_to do |format|
+	      format.csv {send_data @users.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	#cold_users
 	def cold_users
 		@users =  User.where(cold:true)
-		respond_to do |format|
-      format.csv {send_data @users.to_csv}
-    end
+		if @users.present?
+			respond_to do |format|
+	      format.csv {send_data @users.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Requests With Offers
 	def offer_requests
 		@requests = Request.includes(:offers).where.not( :offers => { :request_id => nil } )
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Requests With No Offers 24 hours
@@ -117,9 +153,13 @@ class Support::ReportsController < ApplicationController
 			end
 		end
 		@requests = Request.where(id:req)
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Requests With No Offers 48 hours
@@ -134,33 +174,49 @@ class Support::ReportsController < ApplicationController
 			end
 		end
 		@requests = Request.where(id:req)
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Requests with no offers with budget more then 10000 15 days ago
 	def requests_nooffers_10000
 		@requests = Request.where("max_budget < 10000").where(created_at: 15.days.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Requests with no offers with budget between 10000 to 15000. 15 days ago
 	def requests_nooffers_10_15
 		@requests = Request.where(max_budget: 10000..15000).where(created_at: 15.days.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	# Requests with no offers with budget more then 15000. 15 days ago
 	def requests_nooffers_15000
 		@requests = Request.where("max_budget > 15000").where(created_at: 15.days.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
-		respond_to do |format|
-      format.csv {send_data @requests.to_csv}
-    end
+		if @requests.present?
+			respond_to do |format|
+	      format.csv {send_data @requests.to_csv}
+	    end
+	  else
+	  	redirect_to support_reports_path
+	  end
 	end
 
 	#No offer sent for request received in last 24 hours - No offers sent from Custumise or Custumise Gold
@@ -185,14 +241,14 @@ class Support::ReportsController < ApplicationController
 	      		format.csv {send_data @requests.to_csv}
 	    	end
 	    else
-	    	redirect_to request.referer
+	    	redirect_to support_reports_path
 	    	flash[:notice] == "No Records Found"
 	    end
 	end
 
 	#No offer sent for request received in last 48 hours - No offers sent from Custumise or Custumise Gold
 	def no_offer_custumise_48
-		requests = Request.where(created_at: 24.hours.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
+		requests = Request.where(created_at: 48.hours.ago..Time.now).includes(:offers).where( :offers => { :request_id => nil } )
 		req = []
 		if requests.present?
 			requests.each do |f|
@@ -212,7 +268,7 @@ class Support::ReportsController < ApplicationController
 	      		format.csv {send_data @requests.to_csv}
 	    	end
 	    else
-	    	redirect_to request.referer
+	    	redirect_to support_reports_path
 	    	flash[:notice] == "No Records Found"
 	    end
 	end
