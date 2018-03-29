@@ -9,7 +9,7 @@ class V1::Users::ProfileSerializer < ActiveModel::Serializer
   end
 
   def request_count
-    object.requests.count
+    object.requests.where(status:"active").count
   end
 
   def location
